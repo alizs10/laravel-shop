@@ -91,8 +91,8 @@
 
             <div class="sub-menu">
                 <a href="{{ route('admin.market.discount.coupon') }}">کوپن های تخفیف</a>
-                <a href="{{ route('admin.market.discount.publicDiscount') }}">تخفیف های عمومی</a>
-                <a href="{{ route('admin.market.discount.amazingDiscount') }}">تخفیف های شگفت انگیز</a>
+                <a href="{{ route('admin.market.discount.public') }}">تخفیف های عمومی</a>
+                <a href="{{ route('admin.market.discount.amazing') }}">تخفیف های شگفت انگیز</a>
             </div>
         </div>
 

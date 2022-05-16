@@ -18,7 +18,8 @@
     <div class="box-container">
         <div class="row-head">
             <h2>تخفیف های عمومی</h2>
-            <a href="{{ route('admin.market.discount.publicDiscount.create') }}" class="button button-info">ایجاد تخفیف عمومی جدید</a>
+            <a href="{{ route('admin.market.discount.public.create') }}" class="button button-info">ایجاد تخفیف
+                عمومی جدید</a>
 
         </div>
 
@@ -42,60 +43,45 @@
                     <td>کد تخفیف</td>
                     <td>میزان تخفیف</td>
                     <td>سقف تخفیف</td>
-                    <td>زمان شزوع تخفیف</td>
+                    <td>حداقل میزان سفارش</td>
+                    <td>زمان شروع تخفیف</td>
                     <td>زمان پایان تخفیف</td>
                     <td>عملیات</td>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>norooz</td>
-                    <td>25%</td>
-                    <td>30000 تومان</td>
-                    <td>1 فروردین 1401</td>
-                    <td>13 فروردین 1401</td>
-                    <td>
-                        <span>
-                            <a href="" class="button button-warning">ویرایش</a>
-                            <button type="submit" class="button button-danger">حذف</button>
-                        </span>
-                    </td>
-                </tr>
 
-                <tr>
-                    <td>2</td>
-                    <td>norooz</td>
-                    <td>25%</td>
-                    <td>30000 تومان</td>
-                    <td>1 فروردین 1401</td>
-                    <td>13 فروردین 1401</td>
-                    <td>
-                        <span>
-                            <a href="" class="button button-warning">ویرایش</a>
-                            <button type="submit" class="button button-danger">حذف</button>
-                        </span>
-                    </td>
-                </tr>
+                @foreach ($discounts as $discount)
+                    <tr>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $discount->title }}</td>
+                        <td>{{ $discount->percentage }} %</td>
+                        <td>{{ $discount->maximum_discount }} تومان</td>
+                        <td>{{ $discount->minimum_order_amount }} تومان</td>
+                        <td>{{ showPersianDate($discount->valid_from) }}</td>
+                        <td>{{ showPersianDate($discount->valid_until) }}</td>
+                        <td>
+                            <span>
+                                <a href="{{ route('admin.market.discount.public.edit', $discount->id) }}"
+                                    class="button button-warning">ویرایش</a>
+                                <form action="{{ route('admin.market.discount.public.destroy', $discount->id) }}" method="POST">
+                                    @csrf
+                                    {{ method_field('delete') }}
+                                    <button type="submit" class="button button-danger delBtn">حذف</button>
+                                </form>
+                            </span>
+                        </td>
+                    </tr>
+                @endforeach
 
-                <tr>
-                    <td>3</td>
-                    <td>norooz</td>
-                    <td>25%</td>
-                    <td>30000 تومان</td>
-                    <td>1 فروردین 1401</td>
-                    <td>13 فروردین 1401</td>
-                    <td>
-                        <span>
-                            <a href="" class="button button-warning">ویرایش</a>
-                            <button type="submit" class="button button-danger">حذف</button>
-                        </span>
-                    </td>
-                </tr>
+
 
 
             </tbody>
         </table>
 
     </div>
+@endsection
+@section('script')
+    <script type="text/javascript" src="{{ asset('admin-assets/js/ajax-destroy-data.js') }}"></script>
 @endsection

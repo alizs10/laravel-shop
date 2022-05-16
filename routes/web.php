@@ -170,11 +170,15 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
             Route::get('/coupon', [DiscountController::class, 'coupon'])->name('admin.market.discount.coupon');
             Route::get('/coupon/create', [DiscountController::class, 'couponCreate'])->name('admin.market.discount.coupon.create');
 
-            Route::get('/publicDiscount', [DiscountController::class, 'publicDiscount'])->name('admin.market.discount.publicDiscount');
-            Route::get('/publicDiscount/create', [DiscountController::class, 'publicDiscountCreate'])->name('admin.market.discount.publicDiscount.create');
+            Route::get('/public-discount', [DiscountController::class, 'publicDiscount'])->name('admin.market.discount.public');
+            Route::get('/public-discount/create', [DiscountController::class, 'publicDiscountCreate'])->name('admin.market.discount.public.create');
+            Route::post('/public-discount/store', [DiscountController::class, 'publicDiscountStore'])->name('admin.market.discount.public.store');
+            Route::get('/public-discount/{discount}/edit', [DiscountController::class, 'publicDiscountEdit'])->name('admin.market.discount.public.edit');
+            Route::put('/public-discount/{discount}/update', [DiscountController::class, 'publicDiscountUpdate'])->name('admin.market.discount.public.update');
+            Route::delete('/public-discount/{discount}/destroy', [DiscountController::class, 'publicDiscountDestroy'])->name('admin.market.discount.public.destroy');
 
-            Route::get('/amazingDiscount', [DiscountController::class, 'amazingDiscount'])->name('admin.market.discount.amazingDiscount');
-            Route::get('/amazingDiscount/create', [DiscountController::class, 'amazingDiscountCreate'])->name('admin.market.discount.amazingDiscount.create');
+            Route::get('/amazing-discount', [DiscountController::class, 'amazingDiscount'])->name('admin.market.discount.amazing');
+            Route::get('/amazing-discount/create', [DiscountController::class, 'amazingDiscountCreate'])->name('admin.market.discount.amazing.create');
         });
 
 

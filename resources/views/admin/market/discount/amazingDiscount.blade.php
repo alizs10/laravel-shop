@@ -18,7 +18,8 @@
     <div class="box-container">
         <div class="row-head">
             <h2>تخفیف های شگفت انگیز</h2>
-            <a href="{{ route('admin.market.discount.amazingDiscount.create') }}" class="button button-info">ایجاد تخفیف شگفت انگیز جدید</a>
+            <a href="{{ route('admin.market.discount.amazing.create') }}" class="button button-info">ایجاد تخفیف شگفت انگیز
+                جدید</a>
 
         </div>
 
@@ -44,58 +45,44 @@
                     <td>میزان تخفیف</td>
                     <td>زمان شزوع تخفیف</td>
                     <td>زمان پایان تخفیف</td>
+                    <td>وضعیت</td>
                     <td>عملیات</td>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>54545</td>
-                    <td>ماساژور برقی شیائومی</td>
-                    <td>25%</td>
-                    <td>1 فروردین 1401</td>
-                    <td>13 فروردین 1401</td>
-                    <td>
-                        <span>
-                            <a href="" class="button button-warning">ویرایش</a>
-                            <button type="submit" class="button button-danger">حذف</button>
-                        </span>
-                    </td>
-                </tr>
 
-                <tr>
-                    <td>2</td>
-                    <td>54545</td>
-                    <td>ماساژور برقی شیائومی</td>
-                    <td>25%</td>
-                    <td>1 فروردین 1401</td>
-                    <td>13 فروردین 1401</td>
-                    <td>
-                        <span>
-                            <a href="" class="button button-warning">ویرایش</a>
-                            <button type="submit" class="button button-danger">حذف</button>
-                        </span>
-                    </td>
-                </tr>
+                @foreach ($discounts as $discount)
+                    <tr>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $discount->product_id }}</td>
+                        <td>{{ $discount->product->name }}</td>
+                        <td>{{ $discount->percentage }} %</td>
+                        <td>{{ showPersianDate($discount->valid_from) }}</td>
+                        <td>{{ showPersianDate($discount->valid_until) }}</td>
+                        <td>{{ $discount->status == 0 ? 'غیرفعال' : 'فعال' }}</td>
+                        <td>
+                            <span>
+                                <a href="{{ route('admin.market.discount.amazing.edit', $discount->id) }}"
+                                    class="button button-warning">ویرایش</a>
+                                <form action="{{ route('admin.market.discount.amazing.destroy', $discount->id) }}"
+                                    method="POST">
+                                    @csrf
+                                    {{ method_field('delete') }}
+                                    <button type="submit" class="button button-danger delBtn">حذف</button>
+                                </form>
+                            </span>
+                        </td>
+                    </tr>
+                @endforeach
 
-                <tr>
-                    <td>3</td>
-                    <td>54545</td>
-                    <td>ماساژور برقی شیائومی</td>
-                    <td>25%</td>
-                    <td>1 فروردین 1401</td>
-                    <td>13 فروردین 1401</td>
-                    <td>
-                        <span>
-                            <a href="" class="button button-warning">ویرایش</a>
-                            <button type="submit" class="button button-danger">حذف</button>
-                        </span>
-                    </td>
-                </tr>
+
 
 
             </tbody>
         </table>
 
     </div>
+@endsection
+@section('script')
+    <script type="text/javascript" src="{{ asset('admin-assets/js/ajax-destroy-data.js') }}"></script>
 @endsection

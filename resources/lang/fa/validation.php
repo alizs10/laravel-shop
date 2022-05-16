@@ -222,6 +222,7 @@ return [
         'deliverer' => 'تحویل دهنده',
         'percentage' => "درصد تخفیف",
         'maximum_discount' => 'سقف تخفیف',
-        'minimum_order_amount' => 'حداقل مبلغ سفارش'
+        'minimum_order_amount' => 'حداقل مبلغ سفارش',
+        'product_id' => 'محصول'
     ],
 ];

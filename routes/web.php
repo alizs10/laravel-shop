@@ -119,7 +119,6 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
                 Route::post('/{product}/store', [GalleryController::class, 'store'])->name('admin.market.product.gallery.store');
                 Route::delete('/delete/{image}', [GalleryController::class, 'destroy'])->name('admin.market.product.gallery.destroy');
             });
-            
         });
 
         //brand
@@ -179,6 +178,10 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
 
             Route::get('/amazing-discount', [DiscountController::class, 'amazingDiscount'])->name('admin.market.discount.amazing');
             Route::get('/amazing-discount/create', [DiscountController::class, 'amazingDiscountCreate'])->name('admin.market.discount.amazing.create');
+            Route::post('/amazing-discount/store', [DiscountController::class, 'amazingDiscountStore'])->name('admin.market.discount.amazing.store');
+            Route::get('/amazing-discount/{discount}/edit', [DiscountController::class, 'amazingDiscountEdit'])->name('admin.market.discount.amazing.edit');
+            Route::put('/amazing-discount/{discount}/update', [DiscountController::class, 'amazingDiscountUpdate'])->name('admin.market.discount.amazing.update');
+            Route::delete('/amazing-discount/{discount}/destroy', [DiscountController::class, 'amazingDiscountDestroy'])->name('admin.market.discount.amazing.destroy');
         });
 
 

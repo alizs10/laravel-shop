@@ -1,0 +1,12 @@
+Hi Ali... this is ur road map: php Laravel, React ...
+
+1. HTML...DONE!
+2. CSS...DONE!
+3. JavaScript...DONE!
+4. jQuery...not yet\\
+5. bootstrap...DONE!
+6. php Elementery --> DONE!
+7. php OOP --> DONE!
+8. php MVC --> DONE!
+9. php Laravel --> studying...
+10. React...

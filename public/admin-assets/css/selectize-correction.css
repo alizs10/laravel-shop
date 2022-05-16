@@ -1,0 +1,17 @@
+.selectize-input {
+    background-color: var(--box-background-color) !important;
+    border-radius: 5px !important;
+    border: 0.15rem solid #dcdddf !important;
+    padding: .7rem 0 !important;
+}
+
+.input-active {
+    border: 0.15rem solid #3772ff !important;
+}
+
+.selectize-control.multi .selectize-input>div {
+    background: none;
+    background-color: var(--theme-color) !important;
+    border-radius: 5px;
+    color: var(--text-reverse) !important;
+}

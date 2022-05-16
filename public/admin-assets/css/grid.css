@@ -1,0 +1,353 @@
+#main {
+    width: 100%;
+    height: 100%;
+}
+
+.container {
+    width: 95%;
+    margin: auto;
+}
+
+.hidden {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+}
+
+.box-container {
+    width: calc(100% - 1.2rem);
+    background-color: var(--box-background-color);
+    box-shadow: 0 1px 13px 0 var(--box-shadow-color);
+    padding: .6rem;
+    border-radius: 5px;
+    color: var(--text-color);
+}
+
+.row-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--text-color);
+}
+
+.flex-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+
+.flex-center {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+
+.flex-gap-1 {
+    gap: .6rem;
+}
+
+.flex-gap-2 {
+    gap: 1.2rem;
+}
+
+
+.flex-row-gap-1 {
+    row-gap: .6rem !important;
+}
+
+.flex-row-gap-2 {
+    row-gap: 1.2rem !important;
+}
+
+.flex-column-gap-1 {
+    column-gap: .6rem;
+}
+
+.flex-column-gap-2 {
+    column-gap: 1.2rem;
+}
+
+.flex-column {
+    display: flex !important;
+    flex-direction: column !important;
+    row-gap: .4rem;
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+    column-gap: .6rem;
+}
+
+.flex-space-evenly {
+    justify-content: space-evenly !important;
+}
+
+.flex-justify-between {
+    justify-content: space-between !important;
+}
+
+.flex-justify-center {
+    justify-content: center !important;
+}
+
+.flex-align-center {
+    display: flex;
+    align-items: center;
+}
+
+.flex-align-start {
+    display: flex;
+    align-items: flex-start !important;
+}
+
+.maintainer-box {
+    width: 100%;
+    background-color: var(--boxColor);
+}
+
+.cards-container {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    column-gap: .6rem;
+    overflow-x: scroll;
+}
+
+.cards-container::-webkit-scrollbar {
+    display: none;
+}
+
+.product-card {
+    width: calc(calc(100% - 4.8rem - 1.8rem)/4);
+    height: calc(100% - 2rem);
+    border-radius: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: .4rem;
+}
+
+.product-card-5 {
+    width: calc(calc(100% - 6rem - 2.4rem)/5);
+}
+
+.product-card:hover {
+    box-shadow: 0 1px 13px 0 var(--boxShadowColor);
+}
+
+.product-card img {
+    margin: auto;
+    max-width: 8rem;
+}
+
+.product-card a {
+    font-size: .8rem;
+    font-weight: 500;
+    line-height: 1rem;
+}
+
+.product-card .card-footer .shopping-btn {
+    color: #495057;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: fit-content;
+    height: 1rem;
+    padding: .4rem .6rem;
+    background-color: #fff;
+    border: .1rem solid #dee2e6;
+    transition: all .3s;
+}
+
+.product-card .card-footer .shopping-btn:hover {
+    background-color: #ff002b;
+    color: #fff;
+}
+
+.product-card .card-footer .shopping-btn svg {
+    font-size: 1rem;
+    padding-left: .4rem;
+    margin-left: .4rem;
+    border-left: .1rem solid #dee2e6;
+    pointer-events: none;
+}
+
+.product-card .card-footer .favourite-btn {
+    color: #495057;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: fit-content;
+    height: 1rem;
+    padding: .4rem .6rem;
+    background-color: #fff;
+    border: .1rem solid #dee2e6;
+    transition: all .3s;
+}
+
+.product-card .card-footer .favourite-btn:hover {
+    color: #ff002b;
+}
+
+.product-card .price-tags {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: .4rem;
+    font-size: .9rem;
+    font-weight: 500;
+}
+
+.product-card .price-tags .price-alert {
+    color: var(--reverseText);
+    font-size: .8rem;
+    width: .8rem;
+    height: .8rem;
+    padding: .2rem;
+    background-color: #ff002b;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.product-card .card-footer {
+    width: 100%;
+    padding-top: .4rem;
+    border-top: .1rem solid #dee2e6;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.text-line-through {
+    text-decoration: line-through;
+    opacity: .5;
+}
+
+/* route map */
+
+
+.route-map-group {
+    display: flex;
+    column-gap: 2px;
+    font-size: .9rem;
+    color: var(--text);
+    margin: 0 .4rem;
+    direction: rtl;
+}
+
+
+/* route map ends */
+
+/* borders */
+
+.border {
+    padding: .6rem;
+    border: .1rem solid #dee2e6;
+    border-radius: 5px;
+}
+
+.border-bottom {
+    padding-bottom: .6rem;
+    border-bottom: .1rem solid #dee2e6;
+}
+
+/* side menu and main content */
+
+.box-w-2 {
+    padding: 1rem 0;
+    gap: .6rem;
+    align-items: flex-start;
+}
+
+.box-w-2 .box-container:first-of-type {
+    width: 25% !important;
+    direction: rtl;
+}
+
+.box-w-2 .box-container:last-of-type {
+    width: 75% !important;
+    direction: rtl;
+}
+
+/* side menu and main content ends */
+
+/* form inputs */
+
+.form-input-full {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: .6rem;
+}
+
+.form-input-half {
+    width: calc(50% - .6rem);
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: .6rem;
+}
+
+
+.form-input-full label, .form-input-half label {
+    width: 100%;
+    font-size: .8rem;
+}
+
+.form-input-full input, .form-input-full select, .form-input-full textarea, .form-input-half input, .form-input-half select, .form-input-half textarea {
+    width: 100%;
+    font-size: .8rem;
+}
+
+.form-check-full {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    column-gap: .6rem;
+    padding: 1rem 0;
+}
+
+.form-check-full label{
+    font-size: .8rem;
+}
+
+
+/* form inputs ends */
+
+.max-width-4 {
+    max-width: 4rem;
+}
+
+.max-width-9 {
+    max-width: 9rem;
+}
+
+.min-width-25pcg {
+    min-width: 25% !important;
+}
+
+.line-hight-1 {
+    line-height: 1.2rem;
+}
+
+.line-hight-2 {
+    line-height: 1.6rem;
+}
+
+.max-width-half {
+    width: calc(50% - 1.7rem);
+}
+
+.text-wrap {
+    word-break: break-word;
+}
+
+.max-width-compelete-9 {
+    max-width: calc(100% - 9.6rem);
+}
+
+.text-center {
+    text-align: center !important;
+}

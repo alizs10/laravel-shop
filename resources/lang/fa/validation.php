@@ -217,5 +217,8 @@ return [
         'color_code' => 'کد رنگ',
         'image.*' => 'تصویر',
         'unit' => 'واحد',
+        'marketable_number' => 'تعداد افزایش موجودی',
+        'receiver' => 'تحویل گیرنده',
+        'deliverer' => 'تحویل دهنده',
     ],
 ];

@@ -39,27 +39,31 @@
                     <td>#</td>
                     <td>نام کالا</td>
                     <td>تصویر کالا</td>
-                    <td>موجودی</td>
-                    <td>ورودی انبار</td>
-                    <td>خروجی انبار</td>
+                    <td>قابل فروش</td>
+                    <td>در سبد خرید</td>
+                    <td>فروخته شده</td>
                     <td>عملیات</td>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>۱</td>
-                    <td>گوشی آیفون 12</td>
-                    <td><img src="{{ asset('admin-assets/images/vector.jpg') }}" class="max-height-3rem"></td>
-                    <td>10</td>
-                    <td>40</td>
-                    <td>30</td>
-                    <td class="w-20">
-                        <span>
-                            <a href="{{ route('admin.market.store.add-to-store') }}" class="button button-primary">افزایش موجودی</a>
-                            <a href="{{ route('admin.market.store.edit') }}" class="button button-warning">اصلاح موجودی</a>
-                        </span>
-                    </td>
-                </tr>
+                @foreach ($products as $product)
+                    <tr>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $product->name }}</td>
+                        <td><img src="{{ asset('storage\\' . $product->image["indexArray"][$product->image["currentImage"]]) }}" class="max-height-3rem"></td>
+                        <td>{{ $product->marketable_number }}</td>
+                        <td>{{ $product->frozen_number }}</td>
+                        <td>{{ $product->sold_number }}</td>
+                        <td class="w-20">
+                            <span>
+                                <a href="{{ route('admin.market.store.add-to-store', $product->id) }}"
+                                    class="button button-primary">افزایش موجودی</a>
+                                <a href="{{ route('admin.market.store.edit', $product->id) }}" class="button button-warning">اصلاح
+                                    موجودی</a>
+                            </span>
+                        </td>
+                    </tr>
+                @endforeach
 
             </tbody>
         </table>

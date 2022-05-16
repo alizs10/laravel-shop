@@ -11,7 +11,7 @@ class PaymentController extends Controller
     public function all()
     {
         $payments = Payment::all();
-        return view('admin.market.payment.index', $payments);
+        return view('admin.market.payment.index', compact('payments'));
     }
     public function online()
     {

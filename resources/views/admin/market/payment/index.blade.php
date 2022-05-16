@@ -47,12 +47,18 @@
                 </tr>
             </thead>
             <tbody>
-                
+
                 @foreach ($payments as $payment)
-                    <td>{{ $loop->iteration }}</td>
-                    <td>{{ $payment->amount }}</td>
-                    <td>{{ $payment->user->fullName }}</td>
-                    <td>{{ $payment->type() }}</td>
+                    <tr>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $payment->transactionId() }}</td>
+                        <td>{{ $payment->gateway() }}</td>
+                        <td>{{ $payment->amount }}</td>
+                        <td>{{ $payment->user->fullName }}</td>
+                        <td>{{ $payment->status() }}</td>
+                        <td>{{ $payment->type() }}</td>
+                        <td>{{ 's' }}</td>
+                    </tr>
                 @endforeach
 
 

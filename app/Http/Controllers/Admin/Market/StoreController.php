@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Admin\Market;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Market\StoreRequest;
+use App\Models\Market\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class StoreController extends Controller
 {
@@ -14,7 +17,8 @@ class StoreController extends Controller
      */
     public function index()
     {
-        return view('admin.market.store.index');
+        $products = Product::all();
+        return view('admin.market.store.index', compact('products'));
     }
 
     /**
@@ -22,10 +26,9 @@ class StoreController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function addToStore()
+    public function addToStore(Product $product)
     {
-        return view('admin.market.store.add-to-store');
-
+        return view('admin.market.store.add-to-store', compact('product'));
     }
 
     /**
@@ -34,9 +37,13 @@ class StoreController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request, Product $product)
     {
-        //
+        $product->marketable_number += $request->marketable_number;
+        $product->save();
+        Log::info("افزایش موجودی انبار", $request->only(["receiver", "deliverer", "marketable_number", "description"]));
+
+        return redirect()->route('admin.market.store.index')->with('alertify-success', 'موجودی انبار با موفقیت تغییر کرد');
     }
 
     /**
@@ -56,9 +63,9 @@ class StoreController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Product $product)
     {
-        //
+        return view('admin.market.store.edit-store', compact('product'));
     }
 
     /**
@@ -68,9 +75,13 @@ class StoreController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreRequest $request,Product $product)
     {
-        //
+        $inputs = $request->all();
+        $product->update($inputs);
+
+        return redirect()->route('admin.market.store.index')->with('alertify-success', 'موجودی انبار با موفقیت اصلاح شد');
+
     }
 
     /**

@@ -136,11 +136,10 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
         //store
         Route::prefix('store')->group(function () {
             Route::get('/', [StoreController::class, 'index'])->name('admin.market.store.index');
-            Route::get('/add-to-store', [StoreController::class, 'addToStore'])->name('admin.market.store.add-to-store');
-            Route::post('/store', [StoreController::class, 'store'])->name('admin.market.store.store');
-            Route::get('/edit', [StoreController::class, 'edit'])->name('admin.market.store.edit');
-            Route::put('/update/{id}', [StoreController::class, 'update'])->name('admin.market.store.update');
-            Route::delete('/delete/{id}', [StoreController::class, 'destroy'])->name('admin.market.store.destroy');
+            Route::get('{product}/add-to-store', [StoreController::class, 'addToStore'])->name('admin.market.store.add-to-store');
+            Route::post('{product}/store', [StoreController::class, 'store'])->name('admin.market.store.store');
+            Route::get('{product}/edit', [StoreController::class, 'edit'])->name('admin.market.store.edit');
+            Route::put('{product}/update', [StoreController::class, 'update'])->name('admin.market.store.update');
         });
 
 

@@ -73,7 +73,7 @@
                 <a href="{{ route('admin.market.payment.all') }}">کل پرداخت ها</a>
                 <a href="{{ route('admin.market.payment.online') }}">پرداخت های آنلاین</a>
                 <a href="{{ route('admin.market.payment.offline') }}">پرداخت های آفلاین</a>
-                <a href="{{ route('admin.market.payment.atDoor') }}">پرداخت های در محل</a>
+                <a href="{{ route('admin.market.payment.cash') }}">پرداخت های در محل</a>
             </div>
         </div>
 

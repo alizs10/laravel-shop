@@ -20,4 +20,9 @@ class OnlinePayment extends Model
         'bank_second_response',
     ];
 
+    public function payments()
+    {
+        return $this->morphMany(Payment::class, 'paymentable');
+    }
+
 }

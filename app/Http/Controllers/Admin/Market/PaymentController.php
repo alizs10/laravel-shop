@@ -10,19 +10,44 @@ class PaymentController extends Controller
 {
     public function all()
     {
+        $page = "کل پرداخت ها";
         $payments = Payment::all();
-        return view('admin.market.payment.index', compact('payments'));
+        return view('admin.market.payment.index', compact('payments', 'page'));
     }
     public function online()
     {
-        return view('admin.market.payment.online');
+        $page = "پرداخت های آنلاین";
+        $payments = Payment::where('type' , 0)->get();
+        return view('admin.market.payment.index', compact('payments', 'page'));
     }
     public function offline()
     {
-        return view('admin.market.payment.offline');
+        $page = "پرداخت های آفلاین";
+        $payments = Payment::where('type' , 1)->get();
+        return view('admin.market.payment.index', compact('payments', 'page'));
     }
-    public function atDoor()
+    public function cash()
     {
-        return view('admin.market.payment.at-door');
+        $page = "پرداخت های در محل";
+        $payments = Payment::where('type' , 2)->get();
+        return view('admin.market.payment.index', compact('payments', 'page'));
+    }
+
+    public function cancel(Payment $payment)
+    {
+        $payment->status = 2;
+        $payment->save();
+        return redirect()->back()->with('alertify-success', 'وضعیت پرداخت به لغو شده تغییر کرد');
+
+    }
+    public function refund(Payment $payment)
+    {
+        $payment->status = 3;
+        $payment->save();
+        return redirect()->back()->with('alertify-success', 'وضعیت پرداخت به برگشت وجه تغییر کرد');
+    }
+    public function show(Payment $payment)
+    {
+        return view('admin.market.payment.show', compact('payment'));
     }
 }

@@ -1,7 +1,7 @@
 @extends('admin.layouts.master')
 
 @section('head-tag')
-    <title>پنل ادمین | بخش فروش | پرداخت ها</title>
+    <title>پنل ادمین | بخش فروش | {{ $page }}</title>
 @endsection
 
 @section('content')
@@ -9,7 +9,7 @@
         <ol class="route-map-group">
             <li><a class="text-primary" href="{{ route('admin.home') }}">خانه</a></li>/
             <li><a class="text-primary" href="">بخش فروش</a></li>/
-            <li>کل پرداخت ها</li>
+            <li>{{ $page }}</li>
 
 
         </ol>
@@ -17,7 +17,7 @@
 
     <div class="box-container flex-column flex-row-gap-2">
         <div class="row-head">
-            <h2 class="text-size-titr">کل پرداخت ها</h2>
+            <h2 class="text-size-titr">{{ $page }}</h2>
         </div>
 
 
@@ -57,7 +57,22 @@
                         <td>{{ $payment->user->fullName }}</td>
                         <td>{{ $payment->status() }}</td>
                         <td>{{ $payment->type() }}</td>
-                        <td>{{ 's' }}</td>
+                        <td class="w-20">
+                            <span>
+                                <a href="{{ route('admin.market.payment.show', $payment->id) }}"
+                                    class="button button-primary">
+                                    <i class="fa-solid fa-eye ml-space"></i>
+                                    مشاهده</a>
+                                <a href="{{ route('admin.market.payment.cancel', $payment->id) }}"
+                                    class="button button-warning">
+                                    <i class="fa-solid fa-xmark ml-space"></i>
+                                    لغو کردن</a>
+                                <a href="{{ route('admin.market.payment.refund', $payment->id) }}"
+                                    class="button button-danger">
+                                    <i class="fa-solid fa-share ml-space"></i>
+                                    برگشت وجه</a>
+                            </span>
+                        </td>
                     </tr>
                 @endforeach
 

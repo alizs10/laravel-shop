@@ -193,7 +193,10 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
             Route::get('/all', [PaymentController::class, 'all'])->name('admin.market.payment.all');
             Route::get('/online', [PaymentController::class, 'online'])->name('admin.market.payment.online');
             Route::get('/offline', [PaymentController::class, 'offline'])->name('admin.market.payment.offline');
-            Route::get('/at-door', [PaymentController::class, 'atDoor'])->name('admin.market.payment.atDoor');
+            Route::get('/cash', [PaymentController::class, 'cash'])->name('admin.market.payment.cash');
+            Route::get('{payment}/cancel', [PaymentController::class, 'cancel'])->name('admin.market.payment.cancel');
+            Route::get('{payment}/refund', [PaymentController::class, 'refund'])->name('admin.market.payment.refund');
+            Route::get('{payment}/show', [PaymentController::class, 'show'])->name('admin.market.payment.show');
         });
     });
 

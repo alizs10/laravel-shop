@@ -3,7 +3,6 @@
 namespace App\Models\Market;
 
 use App\Models\User;
-use Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -26,9 +25,27 @@ class Payment extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function paymentable()
+    {
+        return $this->morphTo();
+    }
+
     public function status()
     {
-        return $status = $this->status == 0 ? "ناموفق" : "موفق";
+        switch ($this->status) {
+            case '0':
+                return "ناموفق";
+                break;
+            case '1':
+                return "موفق";
+                break;
+            case '2':
+                return "لغو شده";
+                break;
+            case '3':
+                return "برگشت وجه";
+                break;
+        }
     }
 
     public function type()
@@ -50,10 +67,10 @@ class Payment extends Model
     {
         switch ($this->type) {
             case '0':
-                return OnlinePayment::find($this->paymentable_id)->transaction_id;
+                return $this->paymentable->transaction_id;
                 break;
             case '1':
-                return OfflinePayment::find($this->paymentable_id)->transaction_id;
+                return $this->paymentable->transaction_id;
                 break;
             case '2':
                 return "-";
@@ -64,7 +81,7 @@ class Payment extends Model
     {
         switch ($this->type) {
             case '0':
-                return OnlinePayment::find($this->paymentable_id)->gateway;
+                return $this->paymentable->gateway;
                 break;
             case '1':
                 return "-";

@@ -2,7 +2,7 @@
 
 use \Morilog\Jalali\Jalalian;
 
-function showPersianDate($date, $format)
+function showPersianDate($date, $format = "Y/m/d")
 {
     return Jalalian::forge($date)->format($format);
 }

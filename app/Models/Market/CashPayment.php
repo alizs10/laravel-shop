@@ -18,5 +18,10 @@ class CashPayment extends Model
         'paymentable_id',
         'paymentable_type',
     ];
+
+    public function payments()
+    {
+        return $this->morphMany(Payment::class, 'paymentable');
+    }
 }
 

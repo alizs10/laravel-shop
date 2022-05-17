@@ -1070,7 +1070,7 @@ body {
 }
 
 .styled-table tbody tr td, .styled-table thead tr td {
-    width: 6rem;
+    width: 4rem;
 }
 
 .styled-table tbody tr td span {
@@ -1119,4 +1119,63 @@ body {
 .ck-editor__editable {
     background-color: var(--box-background-color) !important;
     height: 150px !important;
+}
+
+
+/* dropdown button */
+
+.dropdown-area {
+    position: relative;
+}
+
+.dropdown-toggle-btn {
+    background-color: #005CE6;
+    color: #fff;
+    font-size: .9rem;
+    transition: all .3s;
+}
+
+.toggle-active {
+    background-color: #0049b6;
+}
+
+.sub-btns {
+    position: absolute;
+    left: 0;
+    width: 10rem;
+    margin-top: .3rem;
+    background-color: #fff;
+    border-radius: 5px;
+    z-index: 1000;
+}
+
+.dropdown-btn {
+    width: 100%;
+    border-radius: 0px !important;
+    color: #000;
+    font-size: .7rem;
+    text-align: right !important;
+    display: block !important;
+}
+
+.dropdown-btn:first-of-type {
+    border-top-left-radius: 15px !important;
+    border-top-right-radius: 15px !important;
+}
+
+.dropdown-btn:last-of-type {
+    border-bottom-left-radius: 15px !important;
+    border-bottom-right-radius: 15px !important;
+}
+
+.dropdown-btn:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-btn svg {
+    font-size: 1.1rem;
+}
+
+.rotate-180 {
+    transform: rotate(180deg);
 }

@@ -49,11 +49,12 @@
 
             <div class="sub-menu">
                 <a href="{{ route('admin.market.order.newOrders') }}">جدید</a>
+                <a href="{{ route('admin.market.order.processing') }}">در حال پردازش</a>
                 <a href="{{ route('admin.market.order.delivering') }}">در حال ارسال</a>
                 <a href="{{ route('admin.market.order.unpaid') }}">پرداخت نشده</a>
                 <a href="{{ route('admin.market.order.expired') }}">باطل شده</a>
                 <a href="{{ route('admin.market.order.returned') }}">مرجوعی</a>
-                <a href="{{ route('admin.market.order.all') }}">تمام سفارشات</a>
+                <a href="{{ route('admin.market.order.index') }}">تمام سفارشات</a>
             </div>
         </div>
 

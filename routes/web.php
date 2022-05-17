@@ -195,12 +195,16 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
 
         //order
         Route::prefix('order')->group(function () {
+            Route::get('/', [OrderController::class, 'index'])->name('admin.market.order.index');
             Route::get('/new-orders', [OrderController::class, 'newOrders'])->name('admin.market.order.newOrders');
+            Route::get('/processing', [OrderController::class, 'processing'])->name('admin.market.order.processing');
             Route::get('/delivering', [OrderController::class, 'delivering'])->name('admin.market.order.delivering');
             Route::get('/unpaid', [OrderController::class, 'unpaid'])->name('admin.market.order.unpaid');
             Route::get('/expired', [OrderController::class, 'expired'])->name('admin.market.order.expired');
             Route::get('/returned', [OrderController::class, 'returned'])->name('admin.market.order.returned');
-            Route::get('/all', [OrderController::class, 'all'])->name('admin.market.order.all');
+            Route::get('/{order}/change-status', [OrderController::class, 'changeStatus'])->name('admin.market.order.change-status');
+            Route::get('/{order}/change-delivery-status', [OrderController::class, 'changeDeliveryStatus'])->name('admin.market.order.change-delivery-status');
+            Route::delete('/{order}/destroy', [OrderController::class, 'destroy'])->name('admin.market.order.destroy');
         });
 
         //payment

@@ -40,6 +40,7 @@
                 <tr>
                     <td>#</td>
                     <td>کد کوپن</td>
+                    <td>نوع کوپن</td>
                     <td>میزان تخفیف</td>
                     <td>سقف تخفیف</td>
                     <td>زمان شزوع تخفیف</td>
@@ -48,54 +49,36 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>norooz</td>
-                    <td>25%</td>
-                    <td>30000 تومان</td>
-                    <td>1 فروردین 1401</td>
-                    <td>13 فروردین 1401</td>
-                    <td>
-                        <span>
-                            <a href="" class="button button-warning">ویرایش</a>
-                            <button type="submit" class="button button-danger">حذف</button>
-                        </span>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>2</td>
-                    <td>norooz</td>
-                    <td>25%</td>
-                    <td>30000 تومان</td>
-                    <td>1 فروردین 1401</td>
-                    <td>13 فروردین 1401</td>
-                    <td>
-                        <span>
-                            <a href="" class="button button-warning">ویرایش</a>
-                            <button type="submit" class="button button-danger">حذف</button>
-                        </span>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>3</td>
-                    <td>norooz</td>
-                    <td>25%</td>
-                    <td>30000 تومان</td>
-                    <td>1 فروردین 1401</td>
-                    <td>13 فروردین 1401</td>
-                    <td>
-                        <span>
-                            <a href="" class="button button-warning">ویرایش</a>
-                            <button type="submit" class="button button-danger">حذف</button>
-                        </span>
-                    </td>
-                </tr>
-
+                @foreach ($discounts as $discount)
+                    <tr>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $discount->code }}</td>
+                        <td>{{ $discount->type == 0 ? 'عمومی' : "خصوصی ({$discount->user->fullName})" }}</td>
+                        <td>{{ $discount->amount . ($discount->amount_type == 0 ? ' %' : ' تومان') }}</td>
+                        <td>{{ $discount->maximum_discount }} تومان</td>
+                        <td>{{ showPersianDate($discount->valid_from) }}</td>
+                        <td>{{ showPersianDate($discount->valid_until) }}</td>
+                        <td>{{ $discount->status == 0 ? 'غیرفعال' : 'فعال' }}</td>
+                        <td>
+                            <span>
+                                <a href="{{ route('admin.market.discount.coupon.edit', $discount->id) }}"
+                                    class="button button-warning">ویرایش</a>
+                                <form action="{{ route('admin.market.discount.coupon.destroy', $discount->id) }}"
+                                    method="POST">
+                                    @csrf
+                                    {{ method_field('delete') }}
+                                    <button type="submit" class="button button-danger delBtn">حذف</button>
+                                </form>
+                            </span>
+                        </td>
+                    </tr>
+                @endforeach
 
             </tbody>
         </table>
 
     </div>
+@endsection
+@section('script')
+    <script type="text/javascript" src="{{ asset('admin-assets/js/ajax-destroy-data.js') }}"></script>
 @endsection

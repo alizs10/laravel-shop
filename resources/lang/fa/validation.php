@@ -223,6 +223,8 @@ return [
         'percentage' => "درصد تخفیف",
         'maximum_discount' => 'سقف تخفیف',
         'minimum_order_amount' => 'حداقل مبلغ سفارش',
-        'product_id' => 'محصول'
+        'product_id' => 'محصول',
+        'code' => 'کد تخفیف',
+        'user_id' => 'کاربر',
     ],
 ];

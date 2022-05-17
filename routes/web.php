@@ -166,9 +166,16 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
 
         //discount
         Route::prefix('discount')->group(function () {
+
+            //coupons
             Route::get('/coupon', [DiscountController::class, 'coupon'])->name('admin.market.discount.coupon');
             Route::get('/coupon/create', [DiscountController::class, 'couponCreate'])->name('admin.market.discount.coupon.create');
+            Route::post('/coupon/store', [DiscountController::class, 'couponStore'])->name('admin.market.discount.coupon.store');
+            Route::get('/coupon/{discount}/edit', [DiscountController::class, 'couponEdit'])->name('admin.market.discount.coupon.edit');
+            Route::put('/coupon/{discount}/update', [DiscountController::class, 'couponUpdate'])->name('admin.market.discount.coupon.update');
+            Route::delete('/coupon/{discount}/destroy', [DiscountController::class, 'couponDestroy'])->name('admin.market.discount.coupon.destroy');
 
+            //public discounts
             Route::get('/public-discount', [DiscountController::class, 'publicDiscount'])->name('admin.market.discount.public');
             Route::get('/public-discount/create', [DiscountController::class, 'publicDiscountCreate'])->name('admin.market.discount.public.create');
             Route::post('/public-discount/store', [DiscountController::class, 'publicDiscountStore'])->name('admin.market.discount.public.store');
@@ -176,6 +183,7 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
             Route::put('/public-discount/{discount}/update', [DiscountController::class, 'publicDiscountUpdate'])->name('admin.market.discount.public.update');
             Route::delete('/public-discount/{discount}/destroy', [DiscountController::class, 'publicDiscountDestroy'])->name('admin.market.discount.public.destroy');
 
+            //amazing sales
             Route::get('/amazing-discount', [DiscountController::class, 'amazingDiscount'])->name('admin.market.discount.amazing');
             Route::get('/amazing-discount/create', [DiscountController::class, 'amazingDiscountCreate'])->name('admin.market.discount.amazing.create');
             Route::post('/amazing-discount/store', [DiscountController::class, 'amazingDiscountStore'])->name('admin.market.discount.amazing.store');

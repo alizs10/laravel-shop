@@ -4,24 +4,78 @@ namespace App\Http\Controllers\Admin\Market;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Market\AmazingSaleReqeust;
+use App\Http\Requests\Admin\Market\CouponReqeust;
 use App\Http\Requests\Admin\Market\PublicDiscoutRequest;
 use App\Models\Market\AmazingSale;
+use App\Models\Market\Coupon;
 use App\Models\Market\Product;
 use App\Models\Market\PublicDiscount;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class DiscountController extends Controller
 {
 
-    //
+    //coupons
     public function coupon()
     {
-        return view('admin.market.discount.coupon');
+        $discounts = Coupon::all();
+        return view('admin.market.discount.coupon', compact('discounts'));
     }
 
     public function couponCreate()
     {
-        return view('admin.market.discount.couponCreate');
+        $users = User::all();
+        return view('admin.market.discount.couponCreate', compact('users'));
+    }
+
+    public function couponStore(CouponReqeust $request)
+    {
+        $inputs = $request->all();
+        $inputs['valid_from'] = date('Y-m-d', intval(substr($request->valid_from, 0, 10)));
+        $inputs['valid_until'] = date('Y-m-d', intval(substr($request->valid_until, 0, 10)));
+
+        if ($inputs['type'] == 0) {
+            $inputs["user_id"] = null;
+        }
+
+        if ($inputs['amount_type'] == 1) {
+            $inputs['maximum_discount'] = $inputs['amount'];
+        }
+
+        $discount = Coupon::create($inputs);
+
+        return redirect()->route('admin.market.discount.coupon')->with("alertify-success", "کوپن جدید با موفقیت اضافه شد");
+    }
+
+    public function couponEdit(Coupon $discount)
+    {
+        $users = User::all();
+        return view('admin.market.discount.couponEdit', compact('discount', 'users'));
+    }
+
+    public function couponUpdate(CouponReqeust $request, Coupon $discount)
+    {
+        $inputs = $request->all();
+        $inputs['valid_from'] = date('Y-m-d', intval(substr($request->valid_from, 0, 10)));
+        $inputs['valid_until'] = date('Y-m-d', intval(substr($request->valid_until, 0, 10)));
+
+        if ($inputs['type'] == 0) {
+            $inputs["user_id"] = null;
+        }
+        if ($inputs['amount_type'] == 1) {
+            $inputs['maximum_discount'] = $inputs['amount'];
+        }
+
+        $discount->update($inputs);
+
+        return redirect()->route('admin.market.discount.coupon')->with("alertify-success", "کوپن موردنظر با موفقیت ویرایش شد");
+    }
+
+    public function couponDestroy(Coupon $discount)
+    {
+        $discount->delete();
+        return redirect()->route('admin.market.discount.coupon')->with("alertify-success", "کوپن موردنظر با موفقیت حذف شد");
     }
 
 
@@ -64,8 +118,9 @@ class DiscountController extends Controller
         return redirect()->route('admin.market.discount.public')->with("alertify-success", "تخفیف موردنظر با موفقیت حذف شد");
     }
 
-    //amazing sales
 
+
+    //amazing sales
     public function amazingDiscount()
     {
         $discounts = AmazingSale::all();

@@ -73,9 +73,9 @@
                                     <i class="fa-regular fa-angle-down mr-space"></i>
                                 </button>
                                 <div class="sub-btns hidden" id={{ "dropdown-{$order->id}" }}>
-                                    <button class="button dropdown-btn">
+                                    <a href="{{ route('admin.market.order.show', $order->id) }}" class="button dropdown-btn">
                                         <i class="fa-regular fa-eye ml-space text-primary"></i>
-                                        مشاهده فاکتور</button>
+                                        مشاهده فاکتور</a>
                                     <a href="{{ route('admin.market.order.change-delivery-status', $order->id) }}"
                                         class="button dropdown-btn">
                                         <i class="fa-light fa-truck ml-space text-success"></i>

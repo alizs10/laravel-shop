@@ -205,6 +205,7 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
             Route::get('/{order}/change-status', [OrderController::class, 'changeStatus'])->name('admin.market.order.change-status');
             Route::get('/{order}/change-delivery-status', [OrderController::class, 'changeDeliveryStatus'])->name('admin.market.order.change-delivery-status');
             Route::delete('/{order}/destroy', [OrderController::class, 'destroy'])->name('admin.market.order.destroy');
+            Route::get('/{order}/show', [OrderController::class, 'show'])->name('admin.market.order.show');
         });
 
         //payment

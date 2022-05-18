@@ -136,6 +136,11 @@ button {
     background-color: #005CE6 !important;
 }
 
+.bg-white {
+    background-color: #fff;
+    color: #000;
+}
+
 /* inputs */
 
 input[type='checkbox'] {

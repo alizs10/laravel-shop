@@ -81,4 +81,9 @@ class OrderController extends Controller
 
         return redirect()->back()->with('alertify-success', 'سفارش موردنظر با موفقیت حذف شد');
     }
+
+    public function show(Order $order)
+    {
+        return view('admin.market.order.show', compact('order'));
+    }
 }

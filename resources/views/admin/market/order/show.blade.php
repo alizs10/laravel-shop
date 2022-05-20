@@ -4,120 +4,184 @@
     <title>پنل ادمین | بخش فروش | مشاهده فاکتور</title>
 @endsection
 
+@section('breadcrumb')
+    <section class="m-2 px-2 py-4 rounded-lg bg-slate-100 dark:bg-slate-800 dark:text-white flex items-center gap-x-2">
+
+        <a href="{{ route('admin.home') }}" class="text-xs md:text-base text-purple-800 dark:text-purple-400">خانه</a>
+        <i class="fa-light fa-angles-left text-xs md:text-sm"></i>
+        <span href="" class="text-xs md:text-base">بخش فروش</span>
+        <i class="fa-light fa-angles-left text-xs md:text-sm"></i>
+        <span class="text-xs md:text-base">مشاهده فاکتور</span>
+
+    </section>
+@endsection
+
 @section('content')
-    <div class="box-container">
-        <ol class="route-map-group">
-            <li><a class="text-primary" href="{{ route('admin.home') }}">خانه</a></li>/
-            <li><a class="text-primary" href="">بخش فروش</a></li>/
-            <li>مشاهده فاکتور</li>
+    <section class="flex flex-col gap-y-2 p-2 w-full">
+        <div class="flex justify-between items-center">
+            <span class="text-sm md:text-lg">نمایش فاکتور</span>
 
-
-        </ol>
-    </div>
-
-    <div class="box-container flex flex-column gap-y-2">
-        <div class="row-head">
-            <h2>مشاهده فاکتور</h2>
-
-            <button class="button button-primary" onClick="print('print')">
-                <i class="fa fa-print ml-space"></i>
-                چاپ</button>
-            <script type="text/javascript" src="{{ asset('admin-assets/js/print.js') }}"></script>
+            <button onclick="print('print')" class="rounded-lg px-4 py-2 bg-slate-200 text-black flex items-center gap-x-1">
+                <i class="fa-solid fa-print"></i>
+                <span class="text-xs">چاپ فاکتور</span>
+            </button>
         </div>
+        <script type="text/javascript" src="{{ asset('admin-assets/js/print.js') }}"></script>
 
-
-        <section class="bg-white rounded p-space" id="print">
-            <table>
-                <thead>
-                    <tr>
-                        مشخصات فروشنده
-                    </tr>
-                </thead>
+        <section id="print" class="w-full rounded-lg bg-white text-black border border-black overflow-scroll no-scrollbar">
+            <table class="w-full">
+                <div class="border border-black">
+                    <p class="text-center py-2">مشخصات فروشنده</p>
+                </div>
                 <tbody>
                     <tr>
-                        <td>نام شرکت: فروشگاه لاراول</td>
-                        <td>شماره اقتصادی: 135468431</td>
-                        <td>شماره شناسه ملی: 0002165</td>
+                        <td class="border border-black">نام شخص/شرکت:
+                            فروشگاه اینترنتی لاراول
+                        </td>
+                        <td class="border border-black">
+
+                            شماره اقتصادی: 135468431
+                        </td>
+                        <td class="border border-black">
+
+                            شماره شناسه ملی: 0002165
+                        </td>
                     </tr>
                     <tr>
-                        <td>نام استان: تهران</td>
-                        <td>شهرستان: تهران</td>
-                        <td>شماره ثبت: 7865</td>
-                        <td>کد پستی: 64789456325</td>
+                        <td class="border border-black">
+                            نام استان: تهران
 
+                        </td>
+                        <td class="border border-black">
+                            شهرستان: تهران
+
+                        </td>
+                        <td class="border border-black">
+
+                            شماره ثبت: 7865
+                        </td>
                     </tr>
                     <tr>
-                        <td>نشانی: شهرک صنغتی دوم، میدان اول، خیابان دوم شرقی</td>
-                        <td>شماره تماس: 021-45687920</td>
+                        <td class="border border-black">
+                            کد پستی: 64789456325
 
+                        </td>
+                        <td class="border border-black">
+                            نشانی: شهرک صنغتی دوم، میدان اول، خیابان دوم شرقی
+
+                        </td>
+                        <td class="border border-black">
+                            شماره تماس: 021-45687920
+
+                        </td>
                     </tr>
                 </tbody>
             </table>
-            <table>
-                <thead>
-                    <tr>
-                        مشخصات خریدار
-                    </tr>
-                </thead>
+            <table class="w-full">
+                <div class="border border-black">
+                    <p class="text-center py-2">مشخصات خریدار</p>
+                </div>
                 <tbody>
                     <tr>
-                        <td>نام و نام خانوادگی: {{ $order->user->fullName }}</td>
-                        <td>شماره شناسه نامه: 135468431</td>
+                        <td class="border border-black">
+                            نام و نام خانوادگی: {{ $order->user->fullName }}
+
+                        </td>
+                        <td class="border border-black">
+                            شماره شناسه نامه: 135468431
+
+                        </td>
+                        <td class="border border-black">
+
+                            نام استان: {{ $order->address->city->province->name }}
+                        </td>
                     </tr>
                     <tr>
-                        <td>نام استان: {{ $order->address->city->province->name }}</td>
-                        <td>شهرستان: {{ $order->address->city->name }}</td>
-                        <td>نشانی: {{ $order->address->address }}</td>
+
+                        <td class="border border-black">
+
+                            شهرستان: {{ $order->address->city->name }}
+                        </td>
+                        <td class="border border-black">
+
+                            نشانی: {{ $order->address->address }}
+                        </td>
+                        <td class="border border-black">
+                            پلاک: {{ $order->address->no ?? '-' }}
+
+                        </td>
                     </tr>
                     <tr>
-                        <td>پلاک: {{ $order->address->no ?? '-' }}</td>
-                        <td>واحد: {{ $order->address->unit ?? '-' }}</td>
-                        <td>کد پستی: {{ $order->address->postal_code }}</td>
-                        <td>شماره تماس: {{ $order->address->mobile }}</td>
+
+                        <td class="border border-black">
+                            واحد: {{ $order->address->unit ?? '-' }}
+
+                        </td>
+                        <td class="border border-black">
+                            کد پستی: {{ $order->address->postal_code }}
+
+                        </td>
+                        <td class="border border-black">
+                            شماره تماس: {{ $order->address->mobile }}
+
+                        </td>
                     </tr>
                 </tbody>
             </table>
-            <table>
+            <table class="w-full">
+                <div class="border border-black">
+                    <p class="text-center py-2">مشخصات کالاها</p>
+                </div>
                 <thead>
-                    <tr>
+                    <tr class="border border-black">
                         <th>#</th>
-                        <th>کد کالا</th>
                         <th>نام کالا</th>
-                        <th>تعداد/مقدار</th>
-                        <th>مبلغ واحد(تومان)</th>
-                        <th>مبلغ تخفیف</th>
-                        <th>مبلغ کل پس از تخفیف</th>
+                        <th>قیمت کالا</th>
+                        <th>تعدلد</th>
+                        <th>تخفیف</th>
                         <th>مالیات</th>
-                        <th>عوارض</th>
                         <th>هزینه نهایی</th>
                     </tr>
                 </thead>
                 <tbody>
-
-                    @foreach ($order->items as $item)
-                        <tr>
-                            <td>{{ $loop->iteration }}</tdd>
-                            <td>{{ $item->product_id }}</td>
-                            <td>{{ $item->product->name }}</td>
-                            <td>{{ $item->number }}</td>
-                            <td>{{ $item->final_product_price }}</td>
-                            <td>{{ '-' }}</td>
-                            <td>{{ $item->final_product_price }}</td>
-                            <td>{{ 0 }}</td>
-                            <td>{{ 0 }}</td>
-                            <td>{{ $item->final_total_price }}</td>
-                        </tr>
-                    @endforeach
-
-
-
-
+                    <tr class="border border-black">
+                        <td>1</td>
+                        <td>آیفون 14</td>
+                        <td>36800000</td>
+                        <td>2</td>
+                        <td>4500000</td>
+                        <td>0</td>
+                        <td>36350000</td>
+                    </tr>
+                    <tr class="border border-black">
+                        <td>1</td>
+                        <td>آیفون 14</td>
+                        <td>36800000</td>
+                        <td>2</td>
+                        <td>4500000</td>
+                        <td>0</td>
+                        <td>36350000</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>آیفون 14</td>
+                        <td>36800000</td>
+                        <td>2</td>
+                        <td>4500000</td>
+                        <td>0</td>
+                        <td>36350000</td>
+                    </tr>
+                    <tr class="border border-black">
+                        <td></td>
+                        <td>جمع کل</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>136545000</td>
+                    </tr>
                 </tbody>
             </table>
-            <p>
-                مبلغ قابل پرداخت : {{ $order->order_final_amount - $order->order_total_products_discount_amount }} تومان
-            </p>
         </section>
-
-    </div>
+    </section>
 @endsection

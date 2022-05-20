@@ -4,107 +4,130 @@
     <title>پنل ادمین | بخش فروش | {{ $page }}</title>
 @endsection
 
+@section('breadcrumb')
+    <section class="m-2 px-2 py-4 rounded-lg bg-slate-100 dark:bg-slate-800 dark:text-white flex items-center gap-x-2">
+
+        <a href="{{ route('admin.home') }}" class="text-xs md:text-base text-purple-800 dark:text-purple-400">خانه</a>
+        <i class="fa-light fa-angles-left text-xs md:text-sm"></i>
+        <span href="" class="text-xs md:text-base">بخش فروش</span>
+        <i class="fa-light fa-angles-left text-xs md:text-sm"></i>
+        <span class="text-xs md:text-base">{{ $page }}</span>
+
+    </section>
+@endsection
+
 @section('content')
-    <div class="box-container">
-        <ol class="route-map-group">
-            <li><a class="text-primary" href="{{ route('admin.home') }}">خانه</a></li>/
-            <li><a class="text-primary" href="">بخش فروش</a></li>/
-            <li>{{ $page }}</li>
+    <section class="flex flex-col gap-y-2 p-2 w-full">
+        <span class="text-sm md:text-lg">سفارشات</span>
+        <div class="grid grid-cols-12 gap-2">
 
-
-        </ol>
-    </div>
-
-    <div class="box-container">
-        <div class="row-head">
-            <h2>{{ $page }}</h2>
-        </div>
-
-
-        <div class="row-head">
-            <select name="" id="">
-                <option value="10">10</option>
-                <option value="100">100</option>
-                <option value="1000">1000</option>
-            </select>
-            <div class="searchBox">
-                <a><i class="fas fa-search"></i></a>
-                <input type="text">
+            <div class="col-span-8 md:col-span-10 flex gap-2 bg-slate-200 dark:bg-slate-700 items-center rounded-lg">
+                <input type="text"
+                    class="w-5/6 px-2 py-2 md:py-4 font-light text-black dark:text-white text-sm bg-transparent border-none focus:border-none focus:ring-0 focus:outline-none placeholder:text-xxs md:placeholder:text-sm"
+                    placeholder="دنبال چی میگردی">
+                <span class="w-1/6 text-purple-800 dark:text-purple-400 text-lg md:text-2xl flex justify-end">
+                    <i class="fa-light fa-magnifying-glass ml-2"></i>
+                </span>
+            </div>
+            <div
+                class="col-span-4 md:col-span-2 flex items-center rounded-lg bg-slate-200 dark:bg-slate-700 overflow-hidden">
+                <select name="" id="" style="direction: ltr"
+                    class="w-full font-light text-sm bg-transparent px-2 py-2 md:py-4 dark:focus:text-slate-50 focus:bg-slate-200 dark:focus:bg-slate-500 border-none focus:border-none focus:ring-0 focus:outline-none">
+                    <option class="bg-transparent" value="10">10</option>
+                    <option value="30">20</option>
+                    <option value="20">30</option>
+                </select>
+                <span class="text-purple-800 dark:text-purple-400 mx-2">
+                    <i class="fa-light fa-hashtag"></i>
+                </span>
             </div>
         </div>
 
-        <table class="styled-table">
-            <thead>
-                <tr>
-                    <td>#</td>
-                    <td>کد سفارش</td>
-                    <td>مبلغ سفارش (بدون تخفیف)</td>
-                    <td>مبلغ کل تخفیف</td>
-                    <td>مبلغ نهایی</td>
-                    <td>وضعیت پرداخت</td>
-                    <td>شیوه پرداخت</td>
-                    <td>بانک</td>
-                    <td>شیوه ارسال</td>
-                    <td>وضعیت ارسال</td>
-                    <td>وضعیت سفارش</td>
-                    <td>عملیات</td>
-                </tr>
-            </thead>
-            <tbody>
+        <section class="bg-slate-200 dark:bg-slate-700 rounded-lg w-full">
 
-                @foreach ($orders as $order)
+            <table class="table-auto w-full dark:text-white md:border-collapse">
+
+                <thead class="text-xxs md:text-sm">
                     <tr>
-                        <td>{{ $loop->iteration }}</td>
-                        <td>{{ $order->id }}</td>
-                        <td>{{ $order->order_final_amount }} هزارتومان</td>
-                        <td>{{ $order->order_total_products_discount_amount }} هزار تومان</td>
-                        <td>{{ $order->order_final_amount - $order->order_total_products_discount_amount }} هزارتومان</td>
-                        <td>{{ $order->payment->status }}</td>
-                        <td>{{ $order->payment->type }}</td>
-                        <td>{{ $order->payment->paymentable->gateway }}</td>
-                        <td>{{ $order->delivery->name }}</td>
-                        <td>{{ $order->deliveryStatus() }}</td>
-                        <td>{{ $order->status() }}</td>
-                        <td>
-                            <div class="dropdown-area">
-                                <button class="button dropdown-toggle-btn" id="toggle-dropdown-{{ $order->id }}"
-                                    onclick="toggleDropdown('dropdown-{{ $order->id }}')">
-                                    عملیات
-                                    <i class="fa-regular fa-angle-down mr-space"></i>
-                                </button>
-                                <div class="sub-btns hidden" id={{ "dropdown-{$order->id}" }}>
-                                    <a href="{{ route('admin.market.order.show', $order->id) }}" class="button dropdown-btn">
-                                        <i class="fa-regular fa-eye ml-space text-primary"></i>
-                                        مشاهده فاکتور</a>
-                                    <a href="{{ route('admin.market.order.change-delivery-status', $order->id) }}"
-                                        class="button dropdown-btn">
-                                        <i class="fa-light fa-truck ml-space text-success"></i>
-                                        تغییر وضعیت ارسال</a>
-                                    <a href="{{ route('admin.market.order.change-status', $order->id) }}"
-                                        class="button dropdown-btn">
-                                        <i class="fa-light fa-rectangle-list ml-space"></i>
-                                        تغییر وضعیت سفارش</a>
-                                    <form action="{{ route('admin.market.order.destroy', $order->id) }}"
-                                        method="POST">
-                                        @csrf
-                                        {{ method_field('delete') }}
-                                        <button class="button dropdown-btn delBtn">
-                                            <i class="fa-regular fa-trash-can ml-space text-danger"></i>
-                                            حذف</button>
-                                    </form>
-
-                                </div>
-                            </div>
-                        </td>
+                        <th>#</th>
+                        <th>کد سفارش</th>
+                        <th>مبلغ سفارش (بدون تخفیف)</th>
+                        <th>مبلغ کل تخفیف</th>
+                        <th>مبلغ نهایی</th>
+                        <th>وضعیت پرداخت</th>
+                        <th>شیوه پرداخت</th>
+                        <th>بانک</th>
+                        <th>شیوه ارسال</th>
+                        <th>وضعیت ارسال</th>
+                        <th>وضعیت سفارش</th>
+                        <th>عملیات</th>
                     </tr>
-                @endforeach
+                </thead>
+                <tbody class="text-xxs md:text-sm">
+
+                    @foreach ($orders as $order)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $order->id }}</td>
+                            <td>{{ $order->order_final_amount }} هزارتومان</td>
+                            <td>{{ $order->order_total_products_discount_amount }} هزار تومان</td>
+                            <td>{{ $order->order_final_amount - $order->order_total_products_discount_amount }} هزارتومان
+                            </td>
+                            <td>{{ $order->payment->status }}</td>
+                            <td>{{ $order->payment->type }}</td>
+                            <td>{{ $order->payment->paymentable->gateway }}</td>
+                            <td>{{ $order->delivery->name }}</td>
+                            <td>{{ $order->deliveryStatus() }}</td>
+                            <td>{{ $order->status() }}</td>
+                            <td>
+                                <div class="relative">
+                                    <button onclick="toggleDropdown('dropdown-{{ $order->id }}')"
+                                        id="toggle-dropdown-{{ $order->id }}"
+                                        class="btn bg-blue-600 text-white flex-center gap-1">
+                                        عملیات
+                                        <i class="fa-regular fa-angle-down mr-space"></i>
+                                    </button>
+                                    
+                                    <div class="hidden absolute top-10 left-0 w-56 h-fit rounded-lg bg-white dark:bg-slate-900 flex flex-col overflow-hidden" id={{ "dropdown-{$order->id}" }}>
+                                        <a href="{{ route('admin.market.order.show', $order->id) }}"
+                                            class="py-2 w-full text-sm h-full flex items-center gap-x-2 hover-transition hover:bg-slate-100 dark:hover:bg-slate-800">
+                                            <i class="fa-regular fa-eye mr-2"></i>
+                                            مشاهده فاکتور</a>
+                                        <a href="{{ route('admin.market.order.change-delivery-status', $order->id) }}"
+                                            class="py-2 w-full text-sm h-full flex items-center gap-x-2 hover-transition hover:bg-slate-100 dark:hover:bg-slate-800">
+                                            <i class="fa-light fa-truck mr-2"></i>
+                                            تغییر وضعیت ارسال</a>
+                                        <a href="{{ route('admin.market.order.change-status', $order->id) }}"
+                                            class="py-2 w-full text-sm h-full flex items-center gap-x-2 hover-transition hover:bg-slate-100 dark:hover:bg-slate-800">
+                                            <i class="fa-light fa-rectangle-list mr-2"></i>
+                                            تغییر وضعیت سفارش</a>
+                                        <form class="w-full m-0" action="{{ route('admin.market.order.destroy', $order->id) }}"
+                                            method="POST">
+                                            @csrf
+                                            {{ method_field('delete') }}
+                                            <button class="py-2 w-full text-sm h-full flex items-center gap-x-2 hover-transition hover:bg-slate-100 dark:hover:bg-slate-800 delBtn">
+                                                <i class="fa-regular fa-trash-can mr-2"></i>
+                                                حذف</button>
+                                        </form>
+
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                 
+
+                </tbody>
 
 
 
-            </tbody>
-        </table>
 
-    </div>
+            </table>
+
+        </section>
+
+
+    </section>
 @endsection
 
 @section('script')

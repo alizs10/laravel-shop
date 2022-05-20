@@ -1,55 +1,9 @@
 @font-face {
-	font-family: iransansdn;
-	font-style: normal;
-	font-weight: bold;
-	src: url('fonts/eot/iransansdnbold.eot');
-	src: url('fonts/eot/iransansdnbold.eot?#iefix') format('embedded-opentype'), /* IE6-8 */
-	url('fonts/woff2/iransansdnbold.woff2') format('woff2'), /* FF39+,Chrome36+, Opera24+*/
-	url('fonts/woff/iransansdnbold.woff') format('woff'), /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
-	url('fonts/ttf/iransansdnbold.ttf') format('truetype');
-}
-
-@font-face {
-	font-family: iransansdn;
-	font-style: normal;
-	font-weight: 300;
-	src: url('fonts/eot/iransansdnlight.eot');
-	src: url('fonts/eot/iransansdnlight.eot?#iefix') format('embedded-opentype'), /* IE6-8 */
-	url('fonts/woff2/iransansdnlight.woff2') format('woff2'), /* FF39+,Chrome36+, Opera24+*/
-	url('fonts/woff/iransansdnlight.woff') format('woff'), /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
-	url('fonts/ttf/iransansdnlight.ttf') format('truetype');
-}
-
-@font-face {
-	font-family: iransansdn;
+	font-family: iransans;
 	font-style: normal;
 	font-weight: normal;
-	src: url('fonts/eot/iransansdn.eot');
-	src: url('fonts/eot/iransansdn.eot?#iefix') format('embedded-opentype'), /* IE6-8 */
-	url('fonts/woff2/iransansdn.woff2') format('woff2'), /* FF39+,Chrome36+, Opera24+*/
-	url('fonts/woff/iransansdn.woff') format('woff'), /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
-	url('fonts/ttf/iransansdn.ttf') format('truetype');
-}
-
-@font-face {
-	font-family: Samim;
-	src: url('fonts/samim/Samim.eot');
-	src: url('fonts/samim/Samim.eot?#iefix') format('Parastoo-opentype'), url('fonts/samim/Samim.woff') format('woff'), url('fonts/samim/Samim.ttf') format('truetype');
-	font-weight: normal;
-	font-style: normal;
-}
-
-@font-face {
-	font-family: Samim;
-	src: url('fonts/samim/Samim-Bold.eot');
-	src: url('fonts/samim/Samim-Bold.eot?#iefix') format('embedded-opentype'), url('fonts/samim/Samim-Bold.woff') format('woff'), url('fonts/samim/Samim-Bold.ttf') format('truetype');
-	font-weight: bold;
-}
-
-@font-face {
-	font-family: yekan;
-	src: url('fonts/Yekan/Yekan.eot');
-	src: url('fonts/Yekan/Yekan.eot?#iefix') format('embedded-opentype'), url('fonts/Yekan/Yekan.woff') format('woff'), url('fonts/Yekan/Yekan.ttf') format('truetype'), url('fonts/Yekan/Yekan.svg#BYekan') format('svg');
-	font-weight: normal;
-	font-style: normal
+	src: url('fonts/iransans.eot');
+	src: url('fonts/iransans.eot?#iefix') format('embedded-opentype'),  /* IE6-8 */
+		 url('fonts/iransans.woff') format('woff'),  /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+		 url('fonts/iransans.ttf') format('truetype');
 }

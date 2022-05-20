@@ -10,9 +10,9 @@ function showPersianDate($date, $format = "Y/m/d")
 function sideBarMenuActiver($url, $hasSub = false)
 {
     if ($hasSub)
-        return (strpos(request()->url(), $url) === 0) ? "menuSelected" : "";
+        return (strpos(request()->url(), $url) === 0) ? "sidebar-active" : "";
     else
-        return request()->url() === $url ? "menuSelected" : "";
+        return request()->url() === $url ? "sidebar-active" : "";
 }
 
 function numbers_e2f($str) {

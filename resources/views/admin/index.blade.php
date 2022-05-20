@@ -5,67 +5,58 @@
 @endsection
 
 @section('content')
-    <div class="box-container">
+    <section class="flex flex-col gap-y-2 m-2">
+        <span class="text-xs">نمای کلی</span>
 
-        <div class="statistics">
-
-            <div class="statistics-card bg-g-blue">
-                <span>
-                    <i class="fas fa-chart-bar"></i>
-                </span>
-
-                <span>
-                    <h3>بازدید ها</h3>
-                    <p>3,500</p>
-                    <span class="last-update-notice">
-                        <i class="fas fa-clock"></i>آخرین بروز رسانی 30 دقیقه قبل
-                    </span>
-                </span>
-
+        <div class="grid grid-cols-4 gap-2">
+            <div class="col-span-4 md:col-span-2 lg:col-span-1 p-2 rounded-lg text-black bg-emerald-200">
+                <div class="flex flex-col">
+                    <div class="flex justify-between">
+                        <span class="text-xs font-bold md:text-base">بازدید ها</span>
+                        <i class="fa fa-eye text-3xl"></i>
+                    </div>
+                    <span class="text-2xl text-slate-800 font-bold md:text-3xl">1201</span>
+                    <span class="text-xxs md:text-xs text-slate-700">
+                        <i class="fa-regular fa-clock text-xs md:text-sm ml-1"></i>
+                        آخرین بروزرسانی 5 دقیقه قبل</span>
+                </div>
             </div>
-            <div class="statistics-card bg-g-green">
-                <span>
-                    <i class="fas fa-chart-bar"></i>
-                </span>
-
-                <span>
-                    <h3>نظرات</h3>
-                    <p>55</p>
-                    <span class="last-update-notice">
-                        <i class="fas fa-clock"></i>آخرین بروز رسانی لحظاتی قبل
-                    </span>
-                </span>
+            <div class="col-span-4 md:col-span-2 lg:col-span-1 p-2 rounded-lg text-black bg-red-200">
+                <div class="flex flex-col">
+                    <div class="flex justify-between">
+                        <span class="text-xs font-bold md:text-base">محصولات</span>
+                        <i class="fa-regular fa-boxes-stacked text-3xl"></i>
+                    </div>
+                    <span class="text-2xl text-slate-800 font-bold md:text-3xl">16</span>
+                    <span class="text-xxs md:text-xs text-slate-700">
+                        <i class="fa-regular fa-clock text-xs md:text-sm ml-1"></i>
+                        آخرین بروزرسانی 5 دقیقه قبل</span>
+                </div>
             </div>
-            <div class="statistics-card bg-g-red">
-                <span>
-                    <i class="fas fa-chart-bar"></i>
-                </span>
-
-                <span>
-                    <h3>نمونه کارها</h3>
-                    <p>455</p>
-                    <span class="last-update-notice">
-                        <i class="fas fa-clock"></i>آخرین بروز رسانی لحظاتی قبل
-                    </span>
-                </span>
+            <div class="col-span-4 md:col-span-2 lg:col-span-1 p-2 rounded-lg text-black bg-orange-200">
+                <div class="flex flex-col">
+                    <div class="flex justify-between">
+                        <span class="text-xs font-bold md:text-base">کاربران</span>
+                        <i class="fa-regular fa-users text-3xl"></i>
+                    </div>
+                    <span class="text-2xl text-slate-800 font-bold md:text-3xl">1201</span>
+                    <span class="text-xxs md:text-xs text-slate-700">
+                        <i class="fa-regular fa-clock text-xs md:text-sm ml-1"></i>
+                        آخرین بروزرسانی 5 دقیقه قبل</span>
+                </div>
             </div>
-            <div class="statistics-card bg-g-light">
-                <span>
-                    <i class="fas fa-chart-bar"></i>
-                </span>
-
-                <span>
-                    <h3>مهارت ها</h3>
-                    <p>4545</p>
-                    <span class="last-update-notice">
-                        <i class="fas fa-clock"></i>آخرین بروز رسانی لحظاتی قبل
-                    </span>
-                </span>
+            <div class="col-span-4 md:col-span-2 lg:col-span-1 p-2 rounded-lg text-black bg-blue-200">
+                <div class="flex flex-col">
+                    <div class="flex justify-between">
+                        <span class="text-xs font-bold md:text-base">نظرات</span>
+                        <i class="fa-regular fa-comments text-3xl"></i>
+                    </div>
+                    <span class="text-2xl text-slate-800 font-bold md:text-3xl">23545</span>
+                    <span class="text-xxs md:text-xs text-slate-700">
+                        <i class="fa-regular fa-clock text-xs md:text-sm ml-1"></i>
+                        آخرین بروزرسانی 5 دقیقه قبل</span>
+                </div>
             </div>
-
-
         </div>
-
-
-    </div>
+    </section>
 @endsection

@@ -1,230 +1,316 @@
-<section class="sideMenu flex-column">
+<aside id="sidebar" class="sidebar toggleSidebar md:fixed md:top-0 md:right-0 md:w-1/4">
 
-    <div class="logo">
-        <h1 class="text-size-titr mr-space">پنل مدیریتی پیشرفته</h1>
+    <div class="flex flex-col gap-y-2">
+        <span class="text-purple-800 dark:text-purple-400 font-bold text-base xs:text-lg">پنل ادمین
+            پیشرفته</span>
+
+        <div class="mt-4 flex flex-col gap-y-4">
+            <a href="{{ route('admin.home') }}" class="sidebar-link {{ sideBarMenuActiver(route('admin.home')) }}">
+                <i class="fa-regular fa-house text-xl"></i>
+                خانه
+            </a>
+
+            <span class="text-gray-500 text-xs">بخش فروش</span>
+
+            <button class="sidebar-btn" onclick="toggleSidebarDropdownBtn(this)">
+
+                <div class="flex justify-between w-full">
+                    <span>
+                        <i class="fa-regular fa-house text-xl"></i>
+                        ویترین
+                    </span>
+
+                    <span class="angle ml-2 transition-all duration-300">
+                        <i class="fa fa-angle-left"></i>
+                    </span>
+                </div>
+
+                <ul class="hidden dropdown w-full mt-4 flex-col gap-y-2">
+                    <a href="{{ route('admin.market.category.index') }}"
+                        class="flex items-center gap-x-4 text-sm text-slate-900">
+                        <span
+                            class="mr-4 text-slate-800 dark:text-slate-200 flex items-center gap-x-4 hover-transition hover:text-purple-800 dark:hover:text-purple-500">
+                            <i class="fa-solid fa-angles-left text-xxs"></i>
+                            دسته بندی
+                        </span>
+                    </a>
+                    <a href="{{ route('admin.market.property.index') }}"
+                        class="flex items-center gap-x-4 text-sm text-slate-900">
+                        <span
+                            class="mr-4 text-slate-800 dark:text-slate-200 flex items-center gap-x-4  hover-transition hover:text-purple-800 dark:hover:text-purple-500">
+                            <i class="fa-solid fa-angles-left text-xxs"></i>
+                            فرم کالا
+                        </span>
+                    </a>
+                    <a href="{{ route('admin.market.product.index') }}"
+                        class="flex items-center gap-x-4 text-sm text-slate-900">
+                        <span
+                            class="mr-4 text-slate-800 dark:text-slate-200 flex items-center gap-x-4  hover-transition hover:text-purple-800 dark:hover:text-purple-500">
+                            <i class="fa-solid fa-angles-left text-xxs"></i>
+                            محصولات
+                        </span>
+                    </a>
+                    <a href="{{ route('admin.market.brand.index') }}"
+                        class="flex items-center gap-x-4 text-sm text-slate-900">
+                        <span
+                            class="mr-4 text-slate-800 dark:text-slate-200 flex items-center gap-x-4  hover-transition hover:text-purple-800 dark:hover:text-purple-500">
+                            <i class="fa-solid fa-angles-left text-xxs"></i>
+                            برند
+                        </span>
+                    </a>
+                    <a href="{{ route('admin.market.store.index') }}"
+                        class="flex items-center gap-x-4 text-sm text-slate-900">
+                        <span
+                            class="mr-4 text-slate-800 dark:text-slate-200 flex items-center gap-x-4  hover-transition hover:text-purple-800 dark:hover:text-purple-500">
+                            <i class="fa-solid fa-angles-left text-xxs"></i>
+                            انبار
+                        </span>
+                    </a>
+                    <a href="{{ route('admin.market.comment.index') }}"
+                        class="flex items-center gap-x-4 text-sm text-slate-900">
+                        <span
+                            class="mr-4 text-slate-800 dark:text-slate-200 flex items-center gap-x-4  hover-transition hover:text-purple-800 dark:hover:text-purple-500">
+                            <i class="fa-solid fa-angles-left text-xxs"></i>
+                            نظرات
+                        </span>
+                    </a>
+                </ul>
+
+            </button>
+            <button class="sidebar-btn" onclick="toggleSidebarDropdownBtn(this)">
+
+                <div class="flex justify-between w-full">
+                    <span>
+                        <i class="fa-regular fa-house text-xl"></i>
+                        سفارشات
+                    </span>
+
+                    <span class="angle ml-2 transition-all duration-300">
+                        <i class="fa fa-angle-left"></i>
+                    </span>
+                </div>
+
+                <ul class="hidden dropdown w-full mt-4 flex-col gap-y-2">
+                    <a href="{{ route('admin.market.order.newOrders') }}" class="flex items-center gap-x-4 text-sm text-slate-900">
+                        <span
+                            class="mr-4 text-slate-800 dark:text-slate-200 flex items-center gap-x-4 hover-transition hover:text-purple-800 dark:hover:text-purple-500">
+                            <i class="fa-solid fa-angles-left text-xxs"></i>
+                            جدید
+                        </span>
+                    </a>
+                    <a href="{{ route('admin.market.order.processing') }}" class="flex items-center gap-x-4 text-sm text-slate-900">
+                        <span
+                            class="mr-4 text-slate-800 dark:text-slate-200 flex items-center gap-x-4  hover-transition hover:text-purple-800 dark:hover:text-purple-500">
+                            <i class="fa-solid fa-angles-left text-xxs"></i>
+                            در حال پردازش
+                        </span>
+                    </a>
+                    <a href="{{ route('admin.market.order.delivering') }}" class="flex items-center gap-x-4 text-sm text-slate-900">
+                        <span
+                            class="mr-4 text-slate-800 dark:text-slate-200 flex items-center gap-x-4  hover-transition hover:text-purple-800 dark:hover:text-purple-500">
+                            <i class="fa-solid fa-angles-left text-xxs"></i>
+                            در حال ارسال
+                        </span>
+                    </a>
+                    <a href="{{ route('admin.market.order.unpaid') }}" class="flex items-center gap-x-4 text-sm text-slate-900">
+                        <span
+                            class="mr-4 text-slate-800 dark:text-slate-200 flex items-center gap-x-4  hover-transition hover:text-purple-800 dark:hover:text-purple-500">
+                            <i class="fa-solid fa-angles-left text-xxs"></i>
+                            پرداخت نشده
+                        </span>
+                    </a>
+                    <a href="{{ route('admin.market.order.expired') }}" class="flex items-center gap-x-4 text-sm text-slate-900">
+                        <span
+                            class="mr-4 text-slate-800 dark:text-slate-200 flex items-center gap-x-4  hover-transition hover:text-purple-800 dark:hover:text-purple-500">
+                            <i class="fa-solid fa-angles-left text-xxs"></i>
+                            باطل شده
+                        </span>
+                    </a>
+                    <a href="{{ route('admin.market.order.returned') }}" class="flex items-center gap-x-4 text-sm text-slate-900">
+                        <span
+                            class="mr-4 text-slate-800 dark:text-slate-200 flex items-center gap-x-4  hover-transition hover:text-purple-800 dark:hover:text-purple-500">
+                            <i class="fa-solid fa-angles-left text-xxs"></i>
+                            مرجوعی
+                        </span>
+                    </a>
+                    <a href="{{ route('admin.market.order.index') }}" class="flex items-center gap-x-4 text-sm text-slate-900">
+                        <span
+                            class="mr-4 text-slate-800 dark:text-slate-200 flex items-center gap-x-4  hover-transition hover:text-purple-800 dark:hover:text-purple-500">
+                            <i class="fa-solid fa-angles-left text-xxs"></i>
+                            تمام سفارشات
+                        </span>
+                    </a>
+                </ul>
+
+            </button>
+            <button class="sidebar-btn" onclick="toggleSidebarDropdownBtn(this)">
+
+                <div class="flex justify-between w-full">
+                    <span>
+                        <i class="fa-regular fa-house text-xl"></i>
+                     پرداخت ها
+                    </span>
+
+                    <span class="angle ml-2 transition-all duration-300">
+                        <i class="fa fa-angle-left"></i>
+                    </span>
+                </div>
+
+                <ul class="hidden dropdown w-full mt-4 flex-col gap-y-2">
+                    <a href="{{ route('admin.market.payment.all') }}" class="flex items-center gap-x-4 text-sm text-slate-900">
+                        <span
+                            class="mr-4 text-slate-800 dark:text-slate-200 flex items-center gap-x-4 hover-transition hover:text-purple-800 dark:hover:text-purple-500">
+                            <i class="fa-solid fa-angles-left text-xxs"></i>
+                            کل پرداخت ها
+                        </span>
+                    </a>
+                    <a href="{{ route('admin.market.payment.online') }}" class="flex items-center gap-x-4 text-sm text-slate-900">
+                        <span
+                            class="mr-4 text-slate-800 dark:text-slate-200 flex items-center gap-x-4  hover-transition hover:text-purple-800 dark:hover:text-purple-500">
+                            <i class="fa-solid fa-angles-left text-xxs"></i>
+                            پرداخت های آنلاین
+                        </span>
+                    </a>
+                    <a href="{{ route('admin.market.payment.offline') }}" class="flex items-center gap-x-4 text-sm text-slate-900">
+                        <span
+                            class="mr-4 text-slate-800 dark:text-slate-200 flex items-center gap-x-4  hover-transition hover:text-purple-800 dark:hover:text-purple-500">
+                            <i class="fa-solid fa-angles-left text-xxs"></i>
+                            پرداخت های آفلاین
+                        </span>
+                    </a>
+                    <a href="{{ route('admin.market.payment.cash') }}" class="flex items-center gap-x-4 text-sm text-slate-900">
+                        <span
+                            class="mr-4 text-slate-800 dark:text-slate-200 flex items-center gap-x-4  hover-transition hover:text-purple-800 dark:hover:text-purple-500">
+                            <i class="fa-solid fa-angles-left text-xxs"></i>
+                            پرداخت های در محل
+                        </span>
+                    </a>
+                </ul>
+
+            </button>
+            <button class="sidebar-btn" onclick="toggleSidebarDropdownBtn(this)">
+
+                <div class="flex justify-between w-full">
+                    <span>
+                        <i class="fa-regular fa-house text-xl"></i>
+                        تخفیف ها
+                    </span>
+
+                    <span class="angle ml-2 transition-all duration-300">
+                        <i class="fa fa-angle-left"></i>
+                    </span>
+                </div>
+
+                <ul class="hidden dropdown w-full mt-4 flex-col gap-y-2">
+                    <a href="{{ route('admin.market.discount.coupon') }}" class="flex items-center gap-x-4 text-sm text-slate-900">
+                        <span
+                            class="mr-4 text-slate-800 dark:text-slate-200 flex items-center gap-x-4 hover-transition hover:text-purple-800 dark:hover:text-purple-500">
+                            <i class="fa-solid fa-angles-left text-xxs"></i>
+                            کوپن های تخفیف
+                        </span>
+                    </a>
+                    <a href="{{ route('admin.market.discount.public') }}" class="flex items-center gap-x-4 text-sm text-slate-900">
+                        <span
+                            class="mr-4 text-slate-800 dark:text-slate-200 flex items-center gap-x-4  hover-transition hover:text-purple-800 dark:hover:text-purple-500">
+                            <i class="fa-solid fa-angles-left text-xxs"></i>
+                            تخفیف های عمومی
+                        </span>
+                    </a>
+                    <a href="{{ route('admin.market.discount.amazing') }}" class="flex items-center gap-x-4 text-sm text-slate-900">
+                        <span
+                            class="mr-4 text-slate-800 dark:text-slate-200 flex items-center gap-x-4  hover-transition hover:text-purple-800 dark:hover:text-purple-500">
+                            <i class="fa-solid fa-angles-left text-xxs"></i>
+                            تخفیف های شگفت انگیز
+                        </span>
+                    </a>
+                </ul>
+
+            </button>
+
+
+            <a href="{{ route('admin.market.delivery.index') }}" class="sidebar-link {{ sideBarMenuActiver(route('admin.market.delivery.index')) }}">
+                <i class="fa-regular fa-house text-xl"></i>
+                روش های ارسال
+            </a>
+
+            <span class="text-gray-500 text-xs">بخش محتوی</span>
+
+            <a href="{{ route('admin.content.category.index') }}" class="sidebar-link {{ sideBarMenuActiver(route('admin.content.category.index')) }}">
+                <i class="fa-regular fa-house text-xl"></i>
+                دسته بندی
+            </a>
+            <a href="{{ route('admin.content.post.index') }}" class="sidebar-link {{ sideBarMenuActiver(route('admin.content.post.index')) }}">
+                <i class="fa-regular fa-house text-xl"></i>
+                پست ها
+            </a>
+            <a href="{{ route('admin.content.comment.index') }}" class="sidebar-link {{ sideBarMenuActiver(route('admin.content.comment.index')) }}">
+                <i class="fa-regular fa-house text-xl"></i>
+                نظرات
+            </a>
+            <a href="{{ route('admin.content.menu.index') }}" class="sidebar-link {{ sideBarMenuActiver(route('admin.content.menu.index')) }}">
+                <i class="fa-regular fa-house text-xl"></i>
+                منو
+            </a>
+            <a href="{{ route('admin.content.faq.index') }}" class="sidebar-link {{ sideBarMenuActiver(route('admin.content.faq.index')) }}">
+                <i class="fa-regular fa-house text-xl"></i>
+                سوالات متداول
+            </a>
+            <a href="{{ route('admin.content.page.index') }}" class="sidebar-link {{ sideBarMenuActiver(route('admin.content.page.index')) }}">
+                <i class="fa-regular fa-house text-xl"></i>
+                پیج ساز
+            </a>
+
+            <span class="text-gray-500 text-xs">بخش کاربران</span>
+
+            <a href="{{ route('admin.user.admin-user.index') }}" class="sidebar-link {{ sideBarMenuActiver(route('admin.user.admin-user.index')) }}">
+                <i class="fa-regular fa-house text-xl"></i>
+                ادمین ها
+            </a>
+            <a href="{{ route('admin.user.customer.index') }}" class="sidebar-link {{ sideBarMenuActiver(route('admin.user.customer.index')) }}">
+                <i class="fa-regular fa-house text-xl"></i>
+                مشتریان
+            </a>
+
+            <span class="text-gray-500 text-xs">بخش تیکت ها</span>
+
+
+            <a href="{{ route('admin.ticket.new-tickets') }}" class="sidebar-link {{ sideBarMenuActiver(route('admin.ticket.new-tickets')) }}">
+                <i class="fa-regular fa-house text-xl"></i>
+                سطوح دسترسی
+            </a>
+            <a href="{{ route('admin.ticket.opened-tickets') }}" class="sidebar-link {{ sideBarMenuActiver(route('admin.ticket.opened-tickets')) }}">
+                <i class="fa-regular fa-house text-xl"></i>
+                تیکت های جدید
+            </a>
+            <a href="{{ route('admin.ticket.closed-tickets') }}" class="sidebar-link {{ sideBarMenuActiver(route('admin.ticket.closed-tickets')) }}">
+                <i class="fa-regular fa-house text-xl"></i>
+                تیکت های بسته
+            </a>
+            <a href="{{ route('admin.ticket.index') }}" class="sidebar-link {{ sideBarMenuActiver(route('admin.ticket.index')) }}">
+                <i class="fa-regular fa-house text-xl"></i>
+                تمامی تیکت ها
+            </a>
+
+            <span class="text-gray-500 text-xs">بخش اطلاع رسانی</span>
+
+
+            <a href="{{ route('admin.notify.email.index') }}" class="sidebar-link {{ sideBarMenuActiver(route('admin.notify.email.index')) }}">
+                <i class="fa-regular fa-house text-xl"></i>
+                اطلاعیه ایمیلی
+            </a>
+            <a href="{{ route('admin.notify.sms.index') }}" class="sidebar-link {{ sideBarMenuActiver(route('admin.notify.sms.index')) }}">
+                <i class="fa-regular fa-house text-xl"></i>
+                اطلاعیه پیامکی
+            </a>
+
+            <span class="text-gray-500 text-xs">بخش تنظیمات</span>
+
+
+            <a href="{{ route('admin.setting.index') }}" class="sidebar-link {{ sideBarMenuActiver(route('admin.setting.index')) }}">
+                <i class="fa-regular fa-house text-xl"></i>
+                تنظیمات
+            </a>
+        </div>
     </div>
 
-
-    <div class="menu-btns flex-column text-size-2">
-
-
-        <a class="{{ sideBarMenuActiver(route('admin.home')) }}" href="{{ route('admin.home') }}" hasSubMenu=false>
-            <i class="fas fa-home mx-space"></i>
-            خانه
-        </a>
-
-        <p class="text-info text-size-1 mr-space py-1">بخش فروش</p>
-
-        <div class="flex-column cursor-pointer" hasSubMenu=true>
-            <div class="row-head">
-                <span class="flex-wrap">
-                    <i class="fas fa-layer-group mx-space"></i>
-                    <h3>ویترین</h3>
-                </span>
-                <i class="fas fa-angle-left ml-space"></i>
-            </div>
-
-
-            <div class="sub-menu">
-                <a href="{{ route('admin.market.category.index') }}">دسته بندی</a>
-                <a href="{{ route('admin.market.property.index') }}">فرم کالا</a>
-                <a href="{{ route('admin.market.product.index') }}">محصولات</a>
-                <a href="{{ route('admin.market.brand.index') }}">برند</a>
-                <a href="{{ route('admin.market.store.index') }}">انبار</a>
-                <a href="{{ route('admin.market.comment.index') }}">نظرات</a>
-            </div>
-
-        </div>
-        <div class="flex-column cursor-pointer" hasSubMenu=true>
-            <div class="row-head">
-                <span class="flex-wrap">
-                    <i class="fas fa-layer-group mx-space"></i>
-                    <h3>سفارشات</h3>
-
-
-                </span>
-                <i class="fas fa-angle-left ml-space"></i>
-
-            </div>
-
-            <div class="sub-menu">
-                <a href="{{ route('admin.market.order.newOrders') }}">جدید</a>
-                <a href="{{ route('admin.market.order.processing') }}">در حال پردازش</a>
-                <a href="{{ route('admin.market.order.delivering') }}">در حال ارسال</a>
-                <a href="{{ route('admin.market.order.unpaid') }}">پرداخت نشده</a>
-                <a href="{{ route('admin.market.order.expired') }}">باطل شده</a>
-                <a href="{{ route('admin.market.order.returned') }}">مرجوعی</a>
-                <a href="{{ route('admin.market.order.index') }}">تمام سفارشات</a>
-            </div>
-        </div>
-
-        <div class="flex-column cursor-pointer" hasSubMenu=true>
-            <div class="row-head">
-                <span class="flex-wrap">
-                    <i class="fas fa-layer-group mx-space"></i>
-                    <h3>پرداخت ها</h3>
-
-
-                </span>
-                <i class="fas fa-angle-left ml-space"></i>
-
-            </div>
-
-            <div class="sub-menu">
-                <a href="{{ route('admin.market.payment.all') }}">کل پرداخت ها</a>
-                <a href="{{ route('admin.market.payment.online') }}">پرداخت های آنلاین</a>
-                <a href="{{ route('admin.market.payment.offline') }}">پرداخت های آفلاین</a>
-                <a href="{{ route('admin.market.payment.cash') }}">پرداخت های در محل</a>
-            </div>
-        </div>
-
-        <div class="flex-column cursor-pointer" hasSubMenu=true>
-            <div class="row-head">
-                <span class="flex-wrap">
-                    <i class="fas fa-layer-group mx-space"></i>
-                    <h3>تخفیف ها</h3>
-
-
-                </span>
-                <i class="fas fa-angle-left ml-space"></i>
-
-            </div>
-
-            <div class="sub-menu">
-                <a href="{{ route('admin.market.discount.coupon') }}">کوپن های تخفیف</a>
-                <a href="{{ route('admin.market.discount.public') }}">تخفیف های عمومی</a>
-                <a href="{{ route('admin.market.discount.amazing') }}">تخفیف های شگفت انگیز</a>
-            </div>
-        </div>
-
-
-
-        <a href="{{ route('admin.market.delivery.index') }}" hasSubMenu=false>
-            <i class="fas fa-layer-group mx-space"></i>
-            روش های ارسال
-        </a>
-
-
-        <p class="text-info text-size-1 mr-space py-1">بخش محتوی</p>
-
-        <a class="{{ sideBarMenuActiver(route('admin.content.category.index')) }}"
-            href="{{ route('admin.content.category.index') }}" hasSubMenu=false>
-            <i class="fas fa-question mx-space"></i>
-            دسته بندی
-        </a>
-
-        <a class="{{ sideBarMenuActiver(route('admin.content.post.index')) }}"
-            href="{{ route('admin.content.post.index') }}" hasSubMenu=false>
-            <i class="fas fa-question mx-space"></i>
-            پست ها
-        </a>
-
-        <a class="{{ sideBarMenuActiver(route('admin.content.comment.index')) }}"
-            href="{{ route('admin.content.comment.index') }}" hasSubMenu=false>
-            <i class="fas fa-question mx-space"></i>
-            نظرات
-        </a>
-
-        <a class="{{ sideBarMenuActiver(route('admin.content.menu.index')) }}"
-            href="{{ route('admin.content.menu.index') }}" hasSubMenu=false>
-            <i class="fas fa-question mx-space"></i>
-            منو
-        </a>
-
-        <a class="{{ sideBarMenuActiver(route('admin.content.faq.index')) }}"
-            href="{{ route('admin.content.faq.index') }}" hasSubMenu=false>
-            <i class="fas fa-question mx-space"></i>
-            سوالات متداول
-        </a>
-
-        <a class="{{ sideBarMenuActiver(route('admin.content.page.index')) }}"
-            href="{{ route('admin.content.page.index') }}" hasSubMenu=false>
-            <i class="fas fa-file-powerpoint mx-space"></i>
-            پیج ساز
-        </a>
-
-
-
-        <p class="text-info text-size-1 mr-space py-1">بخش کاربران</p>
-
-        <a class="{{ sideBarMenuActiver(route('admin.user.admin-user.index')) }}"
-            href="{{ route('admin.user.admin-user.index') }}" hasSubMenu=false>
-            <i class="fas fa-user-graduate mx-space"></i>
-            ادمین ها
-        </a>
-
-        <a class="{{ sideBarMenuActiver(route('admin.user.customer.index')) }}"
-            href="{{ route('admin.user.customer.index') }}" hasSubMenu=false>
-            <i class="fas fa-users mx-space"></i>
-            مشتریان
-        </a>
-
-        <a class="{{ sideBarMenuActiver(route('admin.user.role.index')) }}"
-            href="{{ route('admin.user.role.index') }}" hasSubMenu=false>
-            <i class="fas fa-user-tag mx-space"></i>
-            سطوح دسترسی
-        </a>
-
-        <p class="text-info text-size-1 mr-space py-1">تیکت ها</p>
-
-        <a class="{{ sideBarMenuActiver(route('admin.ticket.new-tickets')) }}"
-            href="{{ route('admin.ticket.new-tickets') }}" hasSubMenu=false>
-            <i class="fas fa-user-graduate mx-space"></i>
-            تیکت های جدید
-        </a>
-
-        <a class="{{ sideBarMenuActiver(route('admin.ticket.opened-tickets')) }}"
-            href="{{ route('admin.ticket.opened-tickets') }}" hasSubMenu=false>
-            <i class="fas fa-users mx-space"></i>
-            تیکت های باز
-        </a>
-
-        <a class="{{ sideBarMenuActiver(route('admin.ticket.closed-tickets')) }}"
-            href="{{ route('admin.ticket.closed-tickets') }}" hasSubMenu=false>
-            <i class="fas fa-user-tag mx-space"></i>
-            تیکت های بسته
-        </a>
-
-        <a class="{{ sideBarMenuActiver(route('admin.ticket.index')) }}" href="{{ route('admin.ticket.index') }}"
-            hasSubMenu=false>
-            <i class="fas fa-user-tag mx-space"></i>
-            تمامی تیکت ها
-        </a>
-
-
-
-        <p class="text-info text-size-1 mr-space py-1">اطلاع رسانی</p>
-
-        <a class="{{ sideBarMenuActiver(route('admin.notify.email.index')) }}"
-            href="{{ route('admin.notify.email.index') }}" hasSubMenu=false>
-            <i class="fas fa-at mx-space"></i>
-            اطلاعیه ایمیلی
-        </a>
-
-
-        <a class="{{ sideBarMenuActiver(route('admin.notify.sms.index')) }}"
-            href="{{ route('admin.notify.sms.index') }}" hasSubMenu=false>
-            <i class="fas fa-sms mx-space"></i>
-            اطلاعیه پیامکی
-        </a>
-
-
-        <p class="text-info text-size-1 mr-space py-1">تنظیمات</p>
-
-        <a class="{{ sideBarMenuActiver(route('admin.setting.index')) }}"
-            href="{{ route('admin.setting.index') }}" hasSubMenu=false>
-            <i class="fas fa-cogs mx-space"></i>
-            تنظیمات
-        </a>
-
-
-    </div>
-
-
-
-
-</section>
-
-<script>
-    $('.menuSelected').focus();
-</script>
+</aside>

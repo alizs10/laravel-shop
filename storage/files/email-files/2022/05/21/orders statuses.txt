@@ -1,0 +1,10 @@
+0 => still,
+1 => paid,
+2 => canceled,
+3 => unsuccessful payment
+
+
+//payment
+
+0 => unsuccessful,
+1 => successful

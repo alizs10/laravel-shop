@@ -34,8 +34,7 @@ class EmailFileRequest extends FormRequest
             return [
                 'file_name' => 'required|string|max:90|min:1',
                 'file_description' => 'nullable|string|max:255|min:1',
-                'file_save_path' => 'required|numeric|in:0,1',
-                'public_mail_id' => 'required|numeric|exists:public_mail,id'
+                'file_save_path' => 'required|numeric|in:0,1'
             ];
         }
     }

@@ -226,5 +226,6 @@ return [
         'product_id' => 'محصول',
         'code' => 'کد تخفیف',
         'user_id' => 'کاربر',
+        'subject' => 'موضوع'
     ],
 ];

@@ -295,11 +295,11 @@
 
 
             <a href="{{ route('admin.notify.email.index') }}" class="sidebar-link {{ sideBarMenuActiver(route('admin.notify.email.index')) }}">
-                <i class="fa-regular fa-house text-xl"></i>
+                <i class="fa-light fa-envelopes text-xl"></i>
                 اطلاعیه ایمیلی
             </a>
             <a href="{{ route('admin.notify.sms.index') }}" class="sidebar-link {{ sideBarMenuActiver(route('admin.notify.sms.index')) }}">
-                <i class="fa-regular fa-house text-xl"></i>
+                <i class="fa-light fa-message-sms text-xl"></i>
                 اطلاعیه پیامکی
             </a>
 
@@ -307,7 +307,7 @@
 
 
             <a href="{{ route('admin.setting.index') }}" class="sidebar-link {{ sideBarMenuActiver(route('admin.setting.index')) }}">
-                <i class="fa-regular fa-house text-xl"></i>
+                <i class="fa-light fa-gear text-xl"></i>
                 تنظیمات
             </a>
         </div>

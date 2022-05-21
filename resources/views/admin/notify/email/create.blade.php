@@ -1,90 +1,85 @@
 @extends('admin.layouts.master')
 
 @section('head-tag')
-    <title>پنل ادمین | بخش محتوی | اعلامیه ایمیلی جدید</title>
+    <title>پنل ادمین | بخش محتوی | اطلاعیه ایمیلی جدید</title>
     <link rel="stylesheet" href="{{ asset('admin-assets/packages/jalalidatepicker/persian-datepicker.min.css') }}">
 @endsection
+@section('breadcrumb')
+    <section class="m-2 px-2 py-4 rounded-lg bg-slate-100 dark:bg-slate-800 dark:text-white flex items-center gap-x-2">
 
+        <a href="{{ route('admin.home') }}" class="text-xs md:text-base text-purple-800 dark:text-purple-400">خانه</a>
+        <i class="fa-light fa-angles-left text-xs md:text-sm"></i>
+        <span class="text-xs md:text-base">بخش اطلاع رسانی</span>
+        <i class="fa-light fa-angles-left text-xs md:text-sm"></i>
+        <a href="{{ route('admin.notify.sms.index') }}"
+            class="text-xs md:text-base text-purple-800 dark:text-purple-400">اطلاعیه ایمیلی</a>
+        <i class="fa-light fa-angles-left text-xs md:text-sm"></i>
+        <span class="text-xs md:text-base">اطلاعیه ایمیلی جدید</span>
+
+    </section>
+@endsection
 @section('content')
-    <div class="box-container">
-        <ol class="route-map-group">
-            <li><a class="text-primary" href="{{ route('admin.home') }}">خانه</a></li>/
-            <li><a class="text-primary" href="">بخش اطلاع رسانی</a></li>/
-            <li><a class="text-primary" href="{{ route('admin.notify.email.index') }}">اعلامیه ایمیلی</a></li>/
-            <li>اعلامیه ایمیلی جدید</li>
+    <section class="flex flex-col gap-y-2 p-2 w-full">
 
-        </ol>
-    </div>
-
-    <div class="box-container">
-        <div class="row-head">
-            <h2>اعلامیه ایمیلی جدید</h2>
-            <a href="{{ route('admin.notify.email.index') }}" class="button button-info">بازگشت</a>
+        <div class="flex justify-between items-center">
+            <span class="text-sm md:text-lg">اطلاعیه پیامکی جدید</span>
+            <a href="{{ route('admin.notify.email.index') }}" class="btn bg-blue-600 text-white">بازگشت</a>
         </div>
+
         @if ($errors->any())
-            <div class="row-head bg-danger rounded">
-                <ul class="flex-column flex-row-gap-1">
-                    @foreach ($errors->all() as $error)
-                        <li class="text-white text-size-1 mr-space">{{ $error }}</li>
-                    @endforeach
-                </ul>
+            <div class="flex flex-col gap-y-1 rounded-lg bg-red-200 p-2">
+                <span class="text-xs">خطا های فرم:</span>
+                @foreach ($errors->all() as $error)
+                    <div class="flex gap-x-1 text-red-600 items-center">
+                        <span class="text-base">
+                            <i class="fa-light fa-diamond-exclamation"></i>
+                        </span>
+                        <span class="text-sm">{{ $error }}</span>
+                    </div>
+                @endforeach
+
             </div>
         @endif
 
-        <form action="{{ route('admin.notify.email.store') }}" method="POST">
+
+        <form class="w-full" action="{{ route('admin.notify.email.store') }}" method="POST"
+            enctype="multipart/form-data" id="form">
             @csrf
-            <div class="row-head">
 
-                <div class="form-input-half">
-                    <label @if ($errors->has('subject'))
-                        class="text-danger"
-                        @endif for="subject">عنوان ایمیل</label>
-                    <input type="subject" name="subject" id="subject" value="{{ old('subject') }}">
+            <section class="w-full grid grid-cols-2 gap-2">
+                <div class="col-span-2 md:col-span-1 flex flex-col gap-y-1">
+                    <label for="subject"
+                        class="text-xs {{ $errors->has('subject') ? 'text-red-600 dark:text-red-400' : '' }}">موضوع
+                        ایمیل</label>
+                    <input type="text" class="form-input" name="subject" id="subject" value="{{ old('subject') }}">
                 </div>
-
-
-                <div class="form-input-half">
-                    <label @if ($errors->has('published_at'))
-                        class="text-danger"
-                        @endif for="published_at">تاریخ انتشار</label>
-                    <input type="hidden" name="published_at" value="{{ old('published_at') }}" id="published_at">
-                    <input type="text" id="published_at_view" value="{{ old('published_at') }}" readonly>
+                <div class="col-span-2 md:col-span-1 flex flex-col gap-y-1">
+                    <label for="description"
+                        class="text-xs {{ $errors->has('description') ? 'text-red-600 dark:text-red-400' : '' }}">تاریخ
+                        انتشار
+                    </label>
+                    <input type="hidden" name="published_at" id="published_at">
+                    <input type="text" class="form-input" name="published_at_view" id="published_at_view" readonly>
                 </div>
-
-
-
-                <div class="form-input-full">
-                    <label @if ($errors->has('status'))
-                        class="text-danger"
-                        @endif for="status">وضعیت</label>
-                    <select name="status" id="status">
-                        <option value="1" @if (old('status') == 1)
-                            selected
-                            @endif>فعال</option>
-                        <option value="0" @if (old('status') == 0)
-                            selected
-                            @endif>غیرفعال</option>
+                <div class="col-span-2  flex flex-col gap-y-1">
+                    <label for="status"
+                        class="text-xs {{ $errors->has('status') ? 'text-red-600 dark:text-red-400' : '' }}">وضعیت</label>
+                    <select name="status" id="status" class="form-select" style="direction: ltr">
+                        <option value="1" @if (old('status') == 1) selected @endif>فعال</option>
+                        <option value="0" @if (old('status') == 0) selected @endif>غیرفعال</option>
                     </select>
                 </div>
-
-                <div class="form-input-full">
-                    <label @if ($errors->has('body'))
-                        class="text-danger"
-                        @endif for="body">متن ایمیل</label>
+                <div class="col-span-2 flex flex-col gap-y-1">
+                    <label for="body"
+                        class="text-xs {{ $errors->has('body') ? 'text-red-600 dark:text-red-400' : '' }}">متن
+                        ایمیل</label>
                     <textarea name="body" id="cke" rows="6">{{ old('body') }}</textarea>
                 </div>
 
-
-            </div>
-
-            <div class="row-head">
-                <button type="submit" class="button button-primary">ثبت</button>
-            </div>
-
+                <button class="col-span-2 py-2 rounded-lg bg-emerald-600 text-white text-sm md:text-base">ثبت</button>
+            </section>
         </form>
-
-
-    </div>
+    </section>
 @endsection
 
 @section('script')

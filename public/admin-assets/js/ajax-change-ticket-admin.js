@@ -2,6 +2,8 @@
 let changeTicketAdmin = function (id) {
     var element = $('#admin-' + id);
     var url = element.attr('data-url');
+    $(this).find('svg').addClass('text-xl');
+    var icon =  element.find('svg')
 
     $.ajax({
         type: "GET",
@@ -10,17 +12,18 @@ let changeTicketAdmin = function (id) {
         dataType: "json",
         success: function (response) {
             if (response.status) {
+               
                 if (response.set) {
-                    element.removeClass('button-success');
-                    element.addClass('button-danger');
-                    element.text('حذف وظیفه');
+                    element.toggleClass('bg-red-400').toggleClass('bg-emerald-400')
+                    icon.removeClass('fa-user-check').addClass('fa-user-minus')
+                    element.find('span').text('حذف وظیفه');
                     alertify.set('notifier', 'position', 'top-left');
                     alertify.success('وظیفه اعمال شد');
                 }
                 else {
-                    element.removeClass('button-danger');
-                    element.addClass('button-success');
-                    element.text('اعمال وظیفه');
+                    element.toggleClass('bg-red-400').toggleClass('bg-emerald-400')
+                    icon.removeClass('fa-user-minus').addClass('fa-user-check')
+                    element.find('span').text('اعمال وظیفه');
                     alertify.set('notifier', 'position', 'top-left');
                     alertify.success('وظیفه گرفته شد');
                 }

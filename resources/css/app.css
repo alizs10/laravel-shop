@@ -65,3 +65,7 @@ table tbody tr {
 .form-select {
     @apply rounded-lg text-sm px-2 py-1 h-10 md:h-12 md:px-4 md:py-2 bg-transparent focus:outline-none border-2 border-purple-800 dark:border-purple-400 focus:text-slate-900 dark:focus:text-slate-50 focus:bg-slate-200 dark:focus:bg-slate-500
 }
+
+.rotate-sidebar-btn {
+    @apply -rotate-90
+}

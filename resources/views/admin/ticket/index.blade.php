@@ -3,81 +3,85 @@
 @section('head-tag')
     <title>پنل ادمین | تیکت ها</title>
 @endsection
+@section('breadcrumb')
+    <section class="m-2 px-2 py-4 rounded-lg bg-slate-100 dark:bg-slate-800 dark:text-white flex items-center gap-x-2">
 
+        <a href="{{ route('admin.home') }}" class="text-xs md:text-base text-purple-800 dark:text-purple-400">خانه</a>
+        <i class="fa-light fa-angles-left text-xs md:text-sm"></i>
+        <span class="text-xs md:text-base">بخش تیکت ها</span>
+        <i class="fa-light fa-angles-left text-xs md:text-sm"></i>
+        <span class="text-xs md:text-base">{{ $page }}</span>
+
+    </section>
+@endsection
 @section('content')
-    <div class="box-container">
-        <ol class="route-map-group">
-            <li><a class="text-primary" href="{{ route('admin.home') }}">خانه</a></li>/
-            <li>تیکت ها</li>
-
-
-        </ol>
-    </div>
-
-    <div class="box-container">
-        <div class="row-head">
-            <h2>تیکت ها</h2>
+    <section class="flex flex-col gap-y-2 p-2 w-full">
+        <div class="flex justify-between items-center">
+            <span class="text-sm md:text-lg">{{ $page }}</span>
+         
         </div>
 
 
-        <div class="row-head">
-            <select name="" id="">
-                <option value="10">10</option>
-                <option value="100">100</option>
-                <option value="1000">1000</option>
-            </select>
-            <div class="searchBox">
-                <a><i class="fas fa-search"></i></a>
-                <input type="text">
-            </div>
-        </div>
+        <section class="bg-slate-200 dark:bg-slate-700 rounded-lg w-full">
 
-        <table class="styled-table">
-            <thead>
-                <tr>
-                    <td>#</td>
-                    <td>نویسنده تیکت</td>
-                    <td>عنوان تیکت</td>
-                    <td>دسته تیکت</td>
-                    <td>اولویت</td>
-                    <td>ارجاع شده به</td>
-                    <td>پاسخ به</td>
-                    <td>عملیات</td>
-                </tr>
-            </thead>
-            <tbody>
+            <table class="table-auto w-full dark:text-white md:border-collapse">
 
-                @foreach ($tickets as $key => $ticket)
-
+                <thead class="text-xxs md:text-sm">
                     <tr>
-                        <td @if ($key + (1 % 2) !== 0)
-                            class="active-row"
-                @endif>{{ $key + 1 }}</td>
-                <td>{{ $ticket->user->fullName }}</td>
-                <td>{{ $ticket->subject }}</td>
-                <td>{{ $ticket->category->name }}</td>
-                <td>{{ $ticket->priority->name }}</td>
-                <td>{{ $ticket->referencedTo->user->fullName }}</td>
-                <td>{{ $ticket->parent->user->fullName ?? '-' }}</td>
-                <td>
-                    <span>
-                        <a href="{{ route('admin.ticket.show', $ticket->id) }}" class="button button-success">مشاهده</a>
-                        <a @if ($ticket->parent == null)
-                            href="{{ route('admin.ticket.status', $ticket->id) }}"
-                            @endif
+                        <th>#</th>
+                        <th>نویسنده تیکت</th>
+                        <th>عنوان تیکت</th>
+                        <th>دسته تیکت</th>
+                        <th>اولویت</th>
+                        <th>ارجاع شده به</th>
+                        <th>پاسخ به</th>
+                        <th>عملیات</th>
+                    </tr>
+                </thead>
+                <tbody class="text-xxs md:text-sm">
+                    @foreach ($tickets as $ticket)
+                        <tr>
 
-                            class="{{ $ticket->parent ? 'disabled' : '' }} button button-{{ $ticket->status == 1 ? 'primary' : 'warning'}}">
-                            {{ $ticket->status == 1 ? 'باز کردن' : 'بستن' }}
-                        </a>
-                    </span>
-                </td>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $ticket->user->fullName }}</td>
+                            <td>{{ $ticket->subject }}</td>
+                            <td>{{ $ticket->category->name }}</td>
+                            <td>{{ $ticket->priority->name }}</td>
+                            <td>{{ $ticket->referencedTo->user->fullName }}</td>
+                            <td>{{ $ticket->parent->user->fullName ?? '-' }}</td>
+                            <td>
+                                <span class="flex items-center gap-x-1">
 
-                </tr>
+                                    <a href="{{ route('admin.ticket.show', $ticket->id) }}"
+                                        class="btn bg-blue-600 text-white flex-center gap-1">
+                                        <i class="fa-light fa-eye"></i>
+                                        مشاهده
+                                    </a>
+                                    @if ($ticket->parent == null)
+                                        <a href="{{ route('admin.ticket.status', $ticket->id) }}"
+                                            class="btn {{ $ticket->status == 1 ? 'bg-emerald-400' : 'bg-yellow-500'}} text-white flex-center gap-1">
+                                            <i class="fa-light fa-arrows-repeat"></i>
+                                            {{ $ticket->status == 1 ? 'باز کردن' : 'بستن' }}
+                                        </a>
+                                    @endif
 
-                @endforeach
 
-            </tbody>
-        </table>
 
-    </div>
+                                </span>
+                            </td>
+
+                        </tr>
+                    @endforeach
+
+                </tbody>
+
+
+
+
+            </table>
+
+        </section>
+
+
+    </section>
 @endsection

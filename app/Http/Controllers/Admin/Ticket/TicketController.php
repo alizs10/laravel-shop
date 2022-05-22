@@ -11,27 +11,31 @@ class TicketController extends Controller
 
     public function index()
     {
+        $page = "تمام تیکت ها";
         $tickets = Ticket::simplePaginate(15);
-        return view('admin.ticket.index', compact('tickets'));
+        return view('admin.ticket.index', compact('tickets', 'page'));
     }
 
 
     public function newTickets()
     {
+        $page = "تیکت های جدید";
         $tickets = Ticket::where('seen', 0)->simplePaginate(15);
-        return view('admin.ticket.index', compact('tickets'));
+        return view('admin.ticket.index', compact('tickets', 'page'));
     }
 
     public function openedTickets()
     {
+        $page = "تیکت های باز";
         $tickets = Ticket::where('status', 0)->simplePaginate(15);
-        return view('admin.ticket.index', compact('tickets'));
+        return view('admin.ticket.index', compact('tickets', 'page'));
     }
 
     public function closedTickets()
     {
+        $page = "تیکت های بسته";
         $tickets = Ticket::where('status', 1)->simplePaginate(15);
-        return view('admin.ticket.index', compact('tickets'));
+        return view('admin.ticket.index', compact('tickets', 'page'));
     }
 
 
@@ -57,7 +61,7 @@ class TicketController extends Controller
         $inputs['seen'] = 1;
         $inputs['status'] = $ticket->status;
         $inputs['reference_id'] = $ticket->reference_id;
-        $inputs['user_id'] = 6;
+        $inputs['user_id'] = 10;
         $inputs['cat_id'] = $ticket->cat_id;
         $inputs['priority_id'] = $ticket->priority_id;
         $inputs['ticket_id'] = $ticket->id;
@@ -71,7 +75,7 @@ class TicketController extends Controller
         $relatedTickets = Ticket::where('ticket_id', $id)->get();
         if ($relatedTickets) {
             foreach ($relatedTickets as $relatedTicket) {
-                
+
                 $relatedTicket->status = $relatedTicket->status == 1 ? 0 : 1;
                 $relatedTicket->save();
             }

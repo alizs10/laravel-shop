@@ -1,82 +1,83 @@
 @extends('admin.layouts.master')
 
 @section('head-tag')
-    <title>پنل ادمین | ادمین ها</title>
+    <title>پنل ادمین | تیکت ها | ادمین تیکت ها | افزودن ادمین جدید</title>
 @endsection
+@section('breadcrumb')
+    <section class="m-2 px-2 py-4 rounded-lg bg-slate-100 dark:bg-slate-800 dark:text-white flex items-center gap-x-2">
 
+        <a href="{{ route('admin.home') }}" class="text-xs md:text-base text-purple-800 dark:text-purple-400">خانه</a>
+        <i class="fa-light fa-angles-left text-xs md:text-sm"></i>
+        <span class="text-xs md:text-base">بخش تیکت ها</span>
+        <i class="fa-light fa-angles-left text-xs md:text-sm"></i>
+        <a href="{{ route('admin.ticket.admin.index') }}"
+            class="text-xs md:text-base text-purple-800 dark:text-purple-400">ادمین تیکت ها</a>
+        <i class="fa-light fa-angles-left text-xs md:text-sm"></i>
+        <span class="text-xs md:text-base">افزودن ادمین جدید</span>
+
+    </section>
+@endsection
 @section('content')
-    <div class="box-container">
-        <ol class="route-map-group">
-            <li><a class="text-primary" href="{{ route('admin.home') }}">خانه</a></li>/
-            <li>ادمین ها</li>
-
-
-        </ol>
-    </div>
-
-    <div class="box-container">
-        <div class="row-head">
-            <h2>ادمین های سایت</h2>
-            <a href="{{ route('admin.ticket.admin.index') }}" class="button button-info">بازگشت</a>
+    <section class="flex flex-col gap-y-2 p-2 w-full">
+        <div class="flex justify-between items-center">
+            <span class="text-sm md:text-lg">افزودن ادمین جدید</span>
+            <a href="{{ route('admin.ticket.admin.index') }}" class="btn bg-blue-600 text-white">بازگشت</a>
         </div>
 
 
-        <div class="row-head">
-            <select name="" id="">
-                <option value="10">10</option>
-                <option value="100">100</option>
-                <option value="1000">1000</option>
-            </select>
-            <div class="searchBox">
-                <a><i class="fas fa-search"></i></a>
-                <input type="text">
-            </div>
-        </div>
+        <section class="bg-slate-200 dark:bg-slate-700 rounded-lg w-full">
 
-        <table class="styled-table">
-            <thead>
-                <tr>
-                    <td>شناسه</td>
-                    <td>نام</td>
-                    <td>ایمیل</td>
-                    <td>عملیات</td>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($admins as $key => $admin)
+            <table class="table-auto w-full dark:text-white md:border-collapse">
 
+                <thead class="text-xxs md:text-sm">
                     <tr>
-                        <td @if ($key += 1 % 2 !== 0)
-                            class="active-row"
-                @endif>{{ $key }}</td>
-                <td>{{ $admin->fullName }}</td>
-                <td>{{ $admin->email }}</td>
+                        <th>#</th>
+                        <th>نام</th>
+                        <th>ایمیل</th>
+                        <th>عملیات</th>
+                    </tr>
+                </thead>
+                <tbody class="text-xxs md:text-sm">
+                    @foreach ($admins as $admin)
+                        <tr>
 
-                <td>
-                    <span>
-                        <button data-url="{{ route('admin.ticket.admin.set', $admin->id) }}"
-                            onclick="changeTicketAdmin({{ $admin->id }})" id="admin-{{ $admin->id }}"
-                            class="button button-{{ $admin->ticketAdmin ? 'danger' : 'success' }}">
-                            @if ($admin->ticketAdmin)
-                                حذف وظیفه
-                            @else
-                                اعمال وظیفه
-                            @endif
-                        </button>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $admin->fullName }}</td>
+                            <td>{{ $admin->email }}</td>
+                            <td>
+                                <span class="flex items-center gap-x-1">
 
-                    </span>
-                </td>
+                                    <button data-url="{{ route('admin.ticket.admin.set', $admin->id) }}"
+                                        onclick="changeTicketAdmin({{ $admin->id }})" id="admin-{{ $admin->id }}"
+                                        class="btn {{ $admin->ticketAdmin ? 'bg-red-400' : 'bg-emerald-400' }} text-black flex-center gap-1">
+                                        @if ($admin->ticketAdmin)
+                                            <i class="fa-solid fa-user-minus"></i>
+                                        @else
+                                            <i class="fa-solid fa-user-check"></i>
+                                        @endif
 
-                </tr>
+                                        <span>
+                                            {{ $admin->ticketAdmin ? 'حذف وظیفه' : 'اعمال وظیفه' }}
+                                        </span>
+                                    </button>
 
-                @endforeach
+                                </span>
+                            </td>
+
+                        </tr>
+                    @endforeach
+
+                </tbody>
 
 
 
-            </tbody>
-        </table>
 
-    </div>
+            </table>
+
+        </section>
+
+
+    </section>
 @endsection
 @section('script')
     <script type="text/javascript" src="{{ asset('admin-assets/js/ajax-change-ticket-admin.js') }}"></script>

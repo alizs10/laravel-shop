@@ -285,12 +285,12 @@
 
             <a href="{{ route('admin.user.admin-user.index') }}"
                 class="sidebar-link {{ sideBarMenuActiver(route('admin.user.admin-user.index')) }}">
-                <i class="fa-regular fa-house text-xl"></i>
+                <i class="fa-light fa-users-crown text-xl"></i>
                 ادمین ها
             </a>
             <a href="{{ route('admin.user.customer.index') }}"
                 class="sidebar-link {{ sideBarMenuActiver(route('admin.user.customer.index')) }}">
-                <i class="fa-regular fa-house text-xl"></i>
+                <i class="fa-light fa-users text-xl"></i>
                 مشتریان
             </a>
             <a href="{{ route('admin.user.role.index') }}"

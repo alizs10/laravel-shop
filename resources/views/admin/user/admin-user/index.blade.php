@@ -1,113 +1,116 @@
 @extends('admin.layouts.master')
 
 @section('head-tag')
-    <title>پنل ادمین | بخش محتوی | ادمین ها</title>
+    <title>پنل ادمین | بخش کاربران | ادمین ها</title>
 @endsection
+@section('breadcrumb')
+    <section class="m-2 px-2 py-4 rounded-lg bg-slate-100 dark:bg-slate-800 dark:text-white flex items-center gap-x-2">
 
+        <a href="{{ route('admin.home') }}" class="text-xs md:text-base text-purple-800 dark:text-purple-400">خانه</a>
+        <i class="fa-light fa-angles-left text-xs md:text-sm"></i>
+        <span class="text-xs md:text-base">بخش کاربران</span>
+        <i class="fa-light fa-angles-left text-xs md:text-sm"></i>
+        <span class="text-xs md:text-base">ادمین ها</span>
+
+    </section>
+@endsection
 @section('content')
-    <div class="box-container">
-        <ol class="route-map-group">
-            <li><a class="text-primary" href="{{ route('admin.home') }}">خانه</a></li>/
-            <li><a class="text-primary" href="">بخش کاربران</a></li>/
-            <li>ادمین ها</li>
+    <section class="flex flex-col gap-y-2 p-2 w-full">
+        <div class="flex justify-between items-center">
+            <span class="text-sm md:text-lg">ادمین ها</span>
+            <a href="{{ route('admin.user.admin-user.create') }}" class="btn bg-blue-600 text-white">افزودن ادمین جدید</a>
 
-
-        </ol>
-    </div>
-
-    <div class="box-container">
-        <div class="row-head">
-            <h2>ادمین ها</h2>
-            <a href="{{ route('admin.user.admin-user.create') }}" class="button button-info">افزودن ادمین جدید</a>
         </div>
 
 
-        <div class="row-head">
-            <select name="" id="">
-                <option value="10">10</option>
-                <option value="100">100</option>
-                <option value="1000">1000</option>
-            </select>
-            <div class="searchBox">
-                <a><i class="fas fa-search"></i></a>
-                <input type="text">
-            </div>
-        </div>
+        <section class="bg-slate-200 dark:bg-slate-700 rounded-lg w-full">
 
-        <table class="styled-table">
-            <thead>
-                <tr>
-                    <td>شناسه</td>
-                    <td>نام</td>
-                    <td>ایمیل</td>
-                    <td>شماره موبایل</td>
-                    <td>نقش ها</td>
-                    <td>وضعیت کاربر</td>
-                    <td>وضعیت</td>
-                    <td class="w-20">عملیات</td>
-                </tr>
-            </thead>
-            <tbody>
+            <table class="table-auto w-full dark:text-white md:border-collapse">
 
-                @foreach ($admins as $key => $admin)
+                <thead class="text-xxs md:text-sm">
                     <tr>
-                        <td @if (($key + 1) % 2) !== 0)
-                            class="active-row"
-                @endif>{{ $key + 1 }}</td>
-                <td>{{ $admin->fullName }}</td>
-                <td>{{ $admin->email }}</td>
-                <td>{{ $admin->mobile }}</td>
-                <td class="flex-column">
-                
-                    @if (sizeof($admin->roles) !== 0) 
+                        <th>#</th>
+                        <th>نام</th>
+                        <th>ایمیل</th>
+                        <th>شماره موبایل</th>
+                        <th>نقش ها</th>
+                        <th>وضعیت کاربر</th>
+                        <th>وضعیت</th>
+                        <th>عملیات</th>
+                    </tr>
+                </thead>
+                <tbody class="text-xxs md:text-sm">
+                    @foreach ($admins as $admin)
+                        <tr>
 
-                        @foreach ($admin->roles as $num => $role)
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $admin->fullName }}</td>
+                            <td>{{ $admin->email }}</td>
+                            <td>{{ $admin->mobile }}</td>
+                            <td class="flex flex-col">
 
-                            <div>
-                                {{ $num + 1 . '- ' . $role->name }}
-                            </div>
+                                @if (sizeof($admin->roles) !== 0)
+                                    @foreach ($admin->roles as $num => $role)
+                                        <div>
+                                            {{ $num + 1 . '- ' . $role->name }}
+                                        </div>
+                                    @endforeach
+                                @else
+                                    <p class="text-danger">بدون نقش</p>
+                                @endif
+                            </td>
+                            <td>
+                                <input type="checkbox" id="activation-{{ $admin->id }}"
+                                    data-url="{{ route('admin.user.admin-user.activation', $admin->id) }}"
+                                    onchange="changeActivation({{ $admin->id }})"
+                                    @if ($admin->activation === 1) checked @endif>
+                            </td>
+                            <td>
+                                <input type="checkbox" id="status-{{ $admin->id }}"
+                                    data-url="{{ route('admin.user.admin-user.status', $admin->id) }}"
+                                    onchange="changeStatus({{ $admin->id }})"
+                                    @if ($admin->status === 1) checked @endif>
+                            </td>
+                            <td>
+                                <span class="flex items-center gap-x-1">
 
-                        @endforeach
-                    @else
-                        <p class="text-danger">بدون نقش</p>
-                    @endif
-                </td>
-                <td>
-                    <input type="checkbox" id="activation-{{ $admin->id }}"
-                        data-url="{{ route('admin.user.admin-user.activation', $admin->id) }}"
-                        onchange="changeActivation({{ $admin->id }})" @if ($admin->activation === 1)
-                    checked
-                    @endif>
-                </td>
-                <td>
-                    <input type="checkbox" id="status-{{ $admin->id }}"
-                        data-url="{{ route('admin.user.admin-user.status', $admin->id) }}"
-                        onchange="changeStatus({{ $admin->id }})" @if ($admin->status === 1)
-                    checked
-                    @endif>
-                </td>
-
-                <td>
-                    <span>
-                        <a href="{{ route('admin.user.admin-user.roles', $admin->id) }}"
-                            class="button button-success">نقش</a>
-                        <a href="{{ route('admin.user.admin-user.edit', $admin->id) }}"
-                            class="button button-warning">ویرایش</a>
-                        <form action="{{ route('admin.user.admin-user.destroy', $admin->id) }}" method="POST">
-                            @csrf
-                            {{ method_field('put') }}
-                            <button type="submit" class="button button-danger delBtn">حذف از لیست</button>
-                        </form>
-                    </span>
-                </td>
-                </tr>
-                @endforeach
+                                    <a href="{{ route('admin.user.admin-user.roles', $admin->id) }}"
+                                        class="btn bg-blue-600 text-white flex-center gap-1">
+                                        <i class="fa-light fa-user-tag"></i>
+                                        نقش
+                                    </a>
+                                    <a href="{{ route('admin.user.admin-user.edit', $admin->id) }}"
+                                        class="btn bg-yellow-500 text-black flex-center gap-1">
+                                        <i class="fa-light fa-pen-to-square"></i>
+                                        ویرایش
+                                    </a>
+                                    <form class="m-0" action="{{ route('admin.user.admin-user.destroy', $admin->id) }}" method="POST">
+                                        @csrf
+                                        {{ method_field('delete') }}
+                                        <button class="btn bg-red-400 text-black flex-center gap-1 delBtn">
+                                            <i class="fa-light fa-trash-can"></i>
+                                            حذف از لیست
+                                        </button>
+                                    </form>
 
 
-            </tbody>
-        </table>
+                                </span>
+                            </td>
 
-    </div>
+                        </tr>
+                    @endforeach
+
+                </tbody>
+
+
+
+
+            </table>
+
+        </section>
+
+
+    </section>
 @endsection
 @section('script')
     <script type="text/javascript" src="{{ asset('admin-assets/js/ajax-change-status.js') }}"></script>

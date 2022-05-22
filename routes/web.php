@@ -304,7 +304,7 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
             Route::post('/store', [AdminUserController::class, 'store'])->name('admin.user.admin-user.store');
             Route::get('/edit/{admin}', [AdminUserController::class, 'edit'])->name('admin.user.admin-user.edit');
             Route::put('/update/{admin}', [AdminUserController::class, 'update'])->name('admin.user.admin-user.update');
-            Route::put('/delete/{admin}', [AdminUserController::class, 'destroy'])->name('admin.user.admin-user.destroy');
+            Route::delete('/delete/{admin}', [AdminUserController::class, 'destroy'])->name('admin.user.admin-user.destroy');
             Route::get('/status/{admin}', [AdminUserController::class, 'status'])->name('admin.user.admin-user.status');
             Route::get('/activation/{admin}', [AdminUserController::class, 'activation'])->name('admin.user.admin-user.activation');
             Route::get('/{admin}/roles', [AdminUserController::class, 'roles'])->name('admin.user.admin-user.roles');

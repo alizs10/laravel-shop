@@ -3,97 +3,103 @@
 @section('head-tag')
     <title>پنل ادمین | بخش محتوی | مشتریان</title>
 @endsection
+@section('breadcrumb')
+    <section class="m-2 px-2 py-4 rounded-lg bg-slate-100 dark:bg-slate-800 dark:text-white flex items-center gap-x-2">
 
+        <a href="{{ route('admin.home') }}" class="text-xs md:text-base text-purple-800 dark:text-purple-400">خانه</a>
+        <i class="fa-light fa-angles-left text-xs md:text-sm"></i>
+        <span class="text-xs md:text-base">بخش کاربران</span>
+        <i class="fa-light fa-angles-left text-xs md:text-sm"></i>
+        <span class="text-xs md:text-base">مشتریان</span>
+
+    </section>
+@endsection
 @section('content')
-    <div class="box-container">
-        <ol class="route-map-group">
-            <li><a class="text-primary" href="{{ route('admin.home') }}">خانه</a></li>/
-            <li><a class="text-primary" href="">بخش کاربران</a></li>/
-            <li>مشتریان</li>
-
-
-        </ol>
-    </div>
-
-    <div class="box-container">
-        <div class="row-head">
-            <h2>مشتریان</h2>
-            <a href="{{ route('admin.user.customer.create') }}" class="button button-info">افزودن مشتری جدید</a>
+    <section class="flex flex-col gap-y-2 p-2 w-full">
+        <div class="flex justify-between items-center">
+            <span class="text-sm md:text-lg">مشتریان</span>
+            <a href="{{ route('admin.user.customer.create') }}" class="btn bg-blue-600 text-white">افزودن مشتری جدید</a>
         </div>
 
 
-        <div class="row-head">
-            <select name="" id="">
-                <option value="10">10</option>
-                <option value="100">100</option>
-                <option value="1000">1000</option>
-            </select>
-            <div class="searchBox">
-                <a><i class="fas fa-search"></i></a>
-                <input type="text">
-            </div>
-        </div>
+        <section class="bg-slate-200 dark:bg-slate-700 rounded-lg w-full">
 
-        <table class="styled-table">
-            <thead>
-                <tr>
-                    <td>شناسه</td>
-                    <td>نام</td>
-                    <td>ایمیل</td>
-                    <td>شماره موبایل</td>
-                    <td>کد ملی</td>
-                    <td>وضعیت کاربر</td>
-                    <td>وضعیت</td>
-                    <td class="w-10">عملیات</td>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($users as $key => $user)
+            <table class="table-auto w-full dark:text-white md:border-collapse">
+
+                <thead class="text-xxs md:text-sm">
                     <tr>
-                        <td @if (($key + 1) % 2) !== 0)
-                            class="active-row"
-                @endif>{{ $key + 1 }}</td>
-                <td>{{ $user->fullName }}</td>
-                <td>{{ $user->email }}</td>
-                <td>{{ $user->mobile }}</td>
-                <td>{{ $user->national_code }}</td>
-                <td>
-                    <input type="checkbox" id="activation-{{ $user->id }}"
-                        data-url="{{ route('admin.user.customer.activation', $user->id) }}"
-                        onchange="changeActivation({{ $user->id }})" @if ($user->activation === 1)
-                    checked
-                    @endif>
-                </td>
-                <td>
-                    <input type="checkbox" id="status-{{ $user->id }}"
-                        data-url="{{ route('admin.user.customer.status', $user->id) }}"
-                        onchange="changeStatus({{ $user->id }})" @if ($user->status === 1)
-                    checked
-                    @endif>
-                </td>
+                        <th>#</th>
+                        <th>نام</th>
+                        <th>ایمیل</th>
+                        <th>شماره موبایل</th>
+                        <th>کد ملی</th>
+                        <th>وضعیت کاربر</th>
+                        <th>وضعیت</th>
+                        <th>عملیات</th>
+                    </tr>
+                </thead>
+                <tbody class="text-xxs md:text-sm">
+                    @foreach ($users as $user)
+                        <tr>
 
-                <td>
-                    <span>
-                        <a href="{{ route('admin.user.customer.edit', $user->id) }}"
-                            class="button button-warning">ویرایش</a>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $user->fullName }}</td>
+                            <td>{{ $user->email }}</td>
+                            <td>{{ $user->mobile }}</td>
+                            <td>{{ $user->national_code }}</td>
+                            <td>
+                                <input type="checkbox" id="activation-{{ $user->id }}"
+                                    data-url="{{ route('admin.user.customer.activation', $user->id) }}"
+                                    onchange="changeActivation({{ $user->id }})"
+                                    @if ($user->activation === 1) checked @endif>
+                            </td>
+                            <td>
+                                <input type="checkbox" id="status-{{ $user->id }}"
+                                    data-url="{{ route('admin.user.customer.status', $user->id) }}"
+                                    onchange="changeStatus({{ $user->id }})"
+                                    @if ($user->status === 1) checked @endif>
+                            </td>
+                            <td>
+                                <span class="flex items-center gap-x-1">
 
 
-                        <button type="submit" class="button {{ $user->type == 0 ? 'button-success' : '' }}"
-                            id="user-{{ $user->id }}"
-                            data-url="{{ route('admin.user.customer.change-user-type', $user->id) }}"
-                            onclick="changeUserType({{ $user->id }})">
-                            {{ $user->type == 0 ? 'ادمین شو' : 'حذف ادمین' }}
-                        </button>
+                                    <a href="{{ route('admin.user.customer.edit', $user->id) }}"
+                                        class="btn bg-yellow-500 text-black flex-center gap-1">
+                                        <i class="fa-light fa-pen-to-square"></i>
+                                        ویرایش
+                                    </a>
+                                    <button data-url="{{ route('admin.user.customer.change-user-type', $user->id) }}"
+                                        onclick="changeUserType({{ $user->id }})" id="user-{{ $user->id }}"
+                                        class="btn {{ $user->type == 1 ? 'bg-red-400' : 'bg-emerald-400' }} text-black flex-center gap-1">
+                                        @if ($user->type == 0)
+                                        <i class="fa-solid fa-user-check"></i>
+                                        @else
+                                        <i class="fa-solid fa-user-minus"></i>
+                                        @endif
 
-                    </span>
-                </td>
-                </tr>
-                @endforeach
+                                        <span>
+                                            {{ $user->type == 0 ? 'ادمین شو' : 'حذف ادمین' }}
+                                        </span>
+                                    </button>
 
-            </tbody>
-        </table>
 
-    </div>
+                                </span>
+                            </td>
+
+                        </tr>
+                    @endforeach
+
+                </tbody>
+
+
+
+
+            </table>
+
+        </section>
+
+
+    </section>
 @endsection
 @section('script')
     <script type="text/javascript" src="{{ asset('admin-assets/js/ajax-change-status.js') }}"></script>

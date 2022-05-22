@@ -2,7 +2,6 @@
 let changeTicketAdmin = function (id) {
     var element = $('#admin-' + id);
     var url = element.attr('data-url');
-    $(this).find('svg').addClass('text-xl');
     var icon =  element.find('svg')
 
     $.ajax({

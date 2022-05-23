@@ -1,80 +1,77 @@
 @extends('admin.layouts.master')
 
 @section('head-tag')
-    <title>پنل ادمین | بخش کاربران | ویرایش دسترسی های نقش</title>
+    <title>پنل ادمین | بخش کاربران | سطوح دسترسی | ویرایش دسترسی های نقش</title>
 @endsection
+@section('breadcrumb')
+    <section class="m-2 px-2 py-4 rounded-lg bg-slate-100 dark:bg-slate-800 dark:text-white flex items-center gap-x-2">
 
+        <a href="{{ route('admin.home') }}" class="text-xs md:text-base text-purple-800 dark:text-purple-400">خانه</a>
+        <i class="fa-light fa-angles-left text-xs md:text-sm"></i>
+        <span class="text-xs md:text-base">بخش کاربران</span>
+        <i class="fa-light fa-angles-left text-xs md:text-sm"></i>
+        <a href="{{ route('admin.user.role.index') }}"
+            class="text-xs md:text-base text-purple-800 dark:text-purple-400">سطوح دسترسی</a>
+        <i class="fa-light fa-angles-left text-xs md:text-sm"></i>
+        <span class="text-xs md:text-base">ویرایش دسترسی های نقش</span>
+
+    </section>
+@endsection
 @section('content')
-    <div class="box-container">
-        <ol class="route-map-group">
-            <li><a class="text-primary" href="{{ route('admin.home') }}">خانه</a></li>/
-            <li><a class="text-primary" href="">بخش کاربران</a></li>/
-            <li><a class="text-primary" href="{{ route('admin.user.role.index') }}">سطوح دسترسی</a></li>/
-            <li>ایجاد نقش جدید</li>
+    <section class="flex flex-col gap-y-2 p-2 w-full">
+        <div class="flex justify-between items-center">
+            <span class="text-sm md:text-lg">ویرایش دسترسی های نقش</span>
+            <a href="{{ route('admin.user.role.index') }}" class="btn bg-blue-600 text-white">بازگشت</a>
 
-        </ol>
-    </div>
-
-    <div class="box-container">
-        <div class="row-head">
-            <h2>ویرایش دسترسی های نقش</h2>
-            <a href="{{ route('admin.user.role.index') }}" class="button button-info">بازگشت</a>
         </div>
 
         @if ($errors->any())
-            <div class="row-head bg-danger rounded">
-                <ul class="flex-column flex-row-gap-1">
-                    @foreach ($errors->all() as $error)
-                        <li class="text-white text-size-1 mr-space">{{ $error }}</li>
-                    @endforeach
-                </ul>
+            <div class="flex flex-col gap-y-1 rounded-lg bg-red-200 p-2">
+                <span class="text-xs">خطا های فرم:</span>
+                @foreach ($errors->all() as $error)
+                    <div class="flex gap-x-1 text-red-600 items-center">
+                        <span class="text-base">
+                            <i class="fa-light fa-diamond-exclamation"></i>
+                        </span>
+                        <span class="text-sm">{{ $error }}</span>
+                    </div>
+                @endforeach
+
             </div>
         @endif
+        <section class="w-full">
 
-        <div class="flex-column bg-g-light text-info flex-row-gap-2 p-1 rounded">
-
-            <p>نقش: {{ $role->name }}</p>
-            <p>توضیح نقش: {{ $role->description }}</p>
-
-
-
-        </div>
-        <form action="{{ route('admin.user.permission.update', $role->id) }}" method="post" id="form">
-            @csrf
-            @method('put')
-            <div class="row-head">
-
-                <div class="row-head">
-                    <h3 class="mr-space text-primary">دسترسی ها:</h3>
-                </div>
-                <div class="flex-wrap">
-
-                    @foreach ($permissions as $permission)
-                        <div class="form-input-sm">
-                            <input type="checkbox" name="permission_id[]" value="{{ $permission->id }}"
-                                id="permission-{{ $permission->id }}" {{ in_array($permission->id, $permissionsRoleIDsArray) ? 'checked' : '' }}>
-                            <label class="w-100"
-                                for="permission-{{ $permission->id }}">{{ $permission->name }}</label>
-
-                        </div>
-                    @endforeach
-                </div>
-
-
-                <div class="row-head">
-                    <button type="submit" class="button button-warning">ویرایش</button>
-                </div>
-
+            <div class="flex flex-col gap-y-2 rounded-lg p-2 bg-emerald-400 text-black text-sm">
+                <span>نقش: {{ $role->name }}</span>
+                <span>توضیح نقش: {{ $role->description }}</span>
             </div>
 
+            <form class="w-full" action="{{ route('admin.user.permission.update', $role->id) }}" method="POST"
+                enctype="multipart/form-data" id="form">
+                @csrf
+                @method('put')
+                <section class="w-full flex flex-col gap-y-2">
 
-        </form>
+                    <div class="mt-2 text-gray-500 text-base">دسترسی ها</div>
+
+                    <div class="grid grid-cols-4 gap-2">
+                        @foreach ($permissions as $permission)
+                            <div class="col-span-2 md:col-span-1">
+                                <input type="checkbox" name="permission_id[]" value="{{ $permission->id }}"
+                                    id="permission-{{ $permission->id }}"
+                                    {{ in_array($permission->id, $permissionsRoleIDsArray) ? 'checked' : '' }}>
+                                <label class="w-100"
+                                    for="permission-{{ $permission->id }}">{{ $permission->name }}</label>
+
+                            </div>
+                        @endforeach
+                    </div>
+
+                    <button class="col-span-2 py-2 rounded-lg bg-emerald-600 text-white text-sm md:text-base">ثبت</button>
+                </section>
+            </form>
+        </section>
 
 
-
-
-
-
-
-    </div>
+    </section>
 @endsection

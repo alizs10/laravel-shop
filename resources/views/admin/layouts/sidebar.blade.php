@@ -295,7 +295,7 @@
             </a>
             <a href="{{ route('admin.user.role.index') }}"
                 class="sidebar-link {{ sideBarMenuActiver(route('admin.user.role.index')) }}">
-                <i class="fa-regular fa-house text-xl"></i>
+                <i class="fa-light fa-lock-keyhole text-xl"></i>
                 سطوح دسترسی
             </a>
 

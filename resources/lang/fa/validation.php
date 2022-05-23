@@ -228,5 +228,6 @@ return [
         'user_id' => 'کاربر',
         'subject' => 'موضوع',
         'national_code' => 'کد ملی',
+        'permission_id' => 'دسترسی ها',
     ],
 ];

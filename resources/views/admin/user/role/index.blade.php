@@ -42,7 +42,7 @@
 
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $role->name }}</td>
-                            <td>{{ $role->description }}</td>
+                            <td>{{ Str::limit($role->description, '30', '...') }}</td>
                             <td class="flex-column">
                                 @foreach ($role->permissions as $num => $permission)
                                     <div>
@@ -65,7 +65,7 @@
 
                                     <a href="{{ route('admin.user.permission.edit', $role->id) }}"
                                         class="btn bg-emerald-400 text-black flex-center gap-1">
-                                        <i class="fa-light fa-pen-to-square"></i>
+                                        <i class="fa-light fa-key-skeleton"></i>
                                         دسترسی ها
                                     </a>
                                     <a href="{{ route('admin.user.role.edit', $role->id) }}"

@@ -3,85 +3,89 @@
 @section('head-tag')
     <title>پنل ادمین | بخش محتوی | منو ها</title>
 @endsection
+@section('breadcrumb')
+    <section class="m-2 px-2 py-4 rounded-lg bg-slate-100 dark:bg-slate-800 dark:text-white flex items-center gap-x-2">
 
+        <a href="{{ route('admin.home') }}" class="text-xs md:text-base text-purple-800 dark:text-purple-400">خانه</a>
+        <i class="fa-light fa-angles-left text-xs md:text-sm"></i>
+        <span class="text-xs md:text-base">بخش محتوی</span>
+        <i class="fa-light fa-angles-left text-xs md:text-sm"></i>
+        <span class="text-xs md:text-base">منو ها</span>
+
+    </section>
+@endsection
 @section('content')
-<div class="box-container">
-    <ol class="route-map-group">
-        <li><a class="text-primary" href="{{ route('admin.home') }}">خانه</a></li>/
-        <li><a class="text-primary" href="">بخش محتوی</a></li>/
-        <li>منو ها</li>
-        
-
-    </ol>
-</div>
-
-<div class="box-container">
-    <div class="row-head">
-        <h2>منو ها</h2>
-        <a href="{{ route('admin.content.menu.create') }}" class="button button-info">افزودن منوی جدید</a>
-    </div>
-
-
-    <div class="row-head">
-        <select name="" id="">
-            <option value="10">10</option>
-            <option value="100">100</option>
-            <option value="1000">1000</option>
-        </select>
-        <div class="searchBox">
-            <a><i class="fas fa-search"></i></a>
-            <input type="text">
+    <section class="flex flex-col gap-y-2 p-2 w-full">
+        <div class="flex justify-between items-center">
+            <span class="text-sm md:text-lg">منو ها</span>
+            <a href="{{ route('admin.content.menu.create') }}" class="btn bg-blue-600 text-white">افزودن منوی جدید</a>
         </div>
-    </div>
 
-    <table class="styled-table">
-        <thead>
-            <tr>
-                <td>شناسه</td>
-                <td>منو</td>
-                <td>منو والد</td>
-                <td>آدرس</td>
-                <td>وضعیت</td>
-                <td>عملیات</td>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($menus as $key => $menu)
 
-            <tr>
-                <td @if ($key += 1 % 2 !== 0)
-                    class="active-row"
-        @endif>{{ $key }}</td>
-        <td>{{ $menu->name }}</td>
-        <td>{{ $menu->parent_id ? $menu->parent($menu->parent_id) : 'اصلی'; }}</td>
-        <td>{{ $menu->url }}</td>
-        <td>
-            <input type="checkbox" id="status-{{ $menu->id }}"
-                data-url="{{ route('admin.content.menu.status', $menu->id) }}"
-                onchange="changeStatus({{ $menu->id }})" @if ($menu->status === 1)
-            checked
-            @endif>
-        </td>
-        <td>
-            <span>
-                <a href="{{ route('admin.content.menu.edit', $menu->id) }}"
-                    class="button button-warning">ویرایش</a>
-                <form action="{{ route('admin.content.menu.destroy', $menu->id) }}" method="post">
-                    @csrf
-                    {{ method_field('delete') }}
-                    <button type="submit" class="button button-danger delBtn">حذف</button>
-                </form>
-            </span>
-        </td>
+        <section class="bg-slate-200 dark:bg-slate-700 rounded-lg w-full">
 
-        </tr>
+            <table class="table-auto w-full dark:text-white md:border-collapse">
 
-        @endforeach
+                <thead class="text-xxs md:text-sm">
+                    <tr>
+                        <th>#</th>
+                        <th>منو</th>
+                        <th>منو والد</th>
+                        <th>آدرس</th>
+                        <th>وضعیت</th>
+                        <th>عملیات</th>
+                    </tr>
+                </thead>
+                <tbody class="text-xxs md:text-sm">
+                    @foreach ($menus as $menu)
+                        <tr>
 
-        </tbody>
-    </table>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $menu->name }}</td>
+                            <td>{{ $menu->parent_id ? $menu->parent($menu->parent_id) : 'اصلی' }}</td>
+                            <td>{{ $menu->url }}</td>
+                            <td>
+                                <input type="checkbox" id="status-{{ $menu->id }}"
+                                    data-url="{{ route('admin.content.menu.status', $menu->id) }}"
+                                    onchange="changeStatus({{ $menu->id }})"
+                                    @if ($menu->status === 1) checked @endif>
+                            </td>
+                            <td>
+                                <span class="flex items-center gap-x-1">
 
-</div>
+                                    <a href="{{ route('admin.content.menu.edit', $menu->id) }}"
+                                        class="btn bg-yellow-500 text-black flex-center gap-1">
+                                        <i class="fa-light fa-pen-to-square"></i>
+                                        ویرایش
+                                    </a>
+                                    <form class="m-0"
+                                        action="{{ route('admin.content.menu.destroy', $menu->id) }}" method="POST">
+                                        @csrf
+                                        {{ method_field('delete') }}
+                                        <button class="btn bg-red-400 text-black flex-center gap-1 delBtn">
+                                            <i class="fa-light fa-trash-can"></i>
+                                            حذف
+                                        </button>
+                                    </form>
+
+
+                                </span>
+                            </td>
+
+                        </tr>
+                    @endforeach
+
+                </tbody>
+
+
+
+
+            </table>
+
+        </section>
+
+
+    </section>
 @endsection
 @section('script')
     <script type="text/javascript" src="{{ asset('admin-assets/js/ajax-change-status.js') }}"></script>

@@ -6,7 +6,7 @@
 
         <div class="mt-4 flex flex-col gap-y-4">
             <a href="{{ route('admin.home') }}" class="sidebar-link {{ sideBarMenuActiver(route('admin.home')) }}">
-                <i class="fa-regular fa-house text-xl"></i>
+                <i class="fa-light fa-house text-xl"></i>
                 خانه
             </a>
 
@@ -16,8 +16,8 @@
 
                 <div class="flex justify-between w-full">
                     <span>
-                        <i class="fa-regular fa-house text-xl"></i>
-                        ویترین
+                        <i class="fa-light fa-cart-circle-arrow-up text-xl"></i>
+                        فروشگاه
                     </span>
 
                     <span class="angle ml-2 transition-all duration-300">
@@ -81,7 +81,7 @@
 
                 <div class="flex justify-between w-full">
                     <span>
-                        <i class="fa-regular fa-house text-xl"></i>
+                        <i class="fa-light fa-clipboard-list text-xl"></i>
                         سفارشات
                     </span>
 
@@ -154,7 +154,7 @@
 
                 <div class="flex justify-between w-full">
                     <span>
-                        <i class="fa-regular fa-house text-xl"></i>
+                        <i class="fa-light fa-money-check-dollar text-xl"></i>
                         پرداخت ها
                     </span>
 
@@ -203,7 +203,7 @@
 
                 <div class="flex justify-between w-full">
                     <span>
-                        <i class="fa-regular fa-house text-xl"></i>
+                        <i class="fa-light fa-badge-percent text-xl"></i>
                         تخفیف ها
                     </span>
 
@@ -244,7 +244,7 @@
 
             <a href="{{ route('admin.market.delivery.index') }}"
                 class="sidebar-link {{ sideBarMenuActiver(route('admin.market.delivery.index')) }}">
-                <i class="fa-regular fa-house text-xl"></i>
+                <i class="fa-light fa-truck-ramp-box text-xl"></i>
                 روش های ارسال
             </a>
 
@@ -252,22 +252,22 @@
 
             <a href="{{ route('admin.content.category.index') }}"
                 class="sidebar-link {{ sideBarMenuActiver(route('admin.content.category.index')) }}">
-                <i class="fa-regular fa-house text-xl"></i>
+                <i class="fa-light fa-folder-tree text-xl"></i>
                 دسته بندی
             </a>
             <a href="{{ route('admin.content.post.index') }}"
                 class="sidebar-link {{ sideBarMenuActiver(route('admin.content.post.index')) }}">
-                <i class="fa-regular fa-house text-xl"></i>
+                <i class="fa-light fa-square-pen text-xl"></i>
                 پست ها
             </a>
             <a href="{{ route('admin.content.comment.index') }}"
                 class="sidebar-link {{ sideBarMenuActiver(route('admin.content.comment.index')) }}">
-                <i class="fa-regular fa-house text-xl"></i>
+                <i class="fa-light fa-comments text-xl"></i>
                 نظرات
             </a>
             <a href="{{ route('admin.content.menu.index') }}"
                 class="sidebar-link {{ sideBarMenuActiver(route('admin.content.menu.index')) }}">
-                <i class="fa-regular fa-house text-xl"></i>
+                <i class="fa-light fa-bars text-xl"></i>
                 منو
             </a>
             <a href="{{ route('admin.content.faq.index') }}"

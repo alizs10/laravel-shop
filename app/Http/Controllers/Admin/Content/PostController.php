@@ -105,10 +105,6 @@ class PostController extends Controller
             if ($result === false) {
                 return redirect()->route('admin.content.post.index')->with('alertify-error', 'آپلود تصویر با خطا مواجه شد.');    
             }
-        } else {
-            $image = $post->image;
-            $image['currentImage'] = $inputs['currentImage'];
-            $inputs['image'] = $image;
         }
 
         

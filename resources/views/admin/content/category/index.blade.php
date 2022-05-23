@@ -3,92 +3,97 @@
 @section('head-tag')
     <title>پنل ادمین | بخش محتوی | دسته بندی</title>
 @endsection
+@section('breadcrumb')
+    <section class="m-2 px-2 py-4 rounded-lg bg-slate-100 dark:bg-slate-800 dark:text-white flex items-center gap-x-2">
 
+        <a href="{{ route('admin.home') }}" class="text-xs md:text-base text-purple-800 dark:text-purple-400">خانه</a>
+        <i class="fa-light fa-angles-left text-xs md:text-sm"></i>
+        <span class="text-xs md:text-base">بخش محتوی</span>
+        <i class="fa-light fa-angles-left text-xs md:text-sm"></i>
+        <span class="text-xs md:text-base">دسته بندی</span>
+
+    </section>
+@endsection
 @section('content')
-    <div class="box-container">
-        <ol class="route-map-group">
-            <li><a class="text-primary" href="{{ route('admin.home') }}">خانه</a></li>/
-            <li>بخش محتوی</li>/
-            <li>دسته بندی</li>
-
-
-        </ol>
-    </div>
-
-    <div class="box-container">
-        <div class="row-head">
-            <h2>دسته بندی</h2>
-            <a href="{{ route('admin.content.category.create') }}" class="button button-info">افزودن دسته بندی جدید</a>
+    <section class="flex flex-col gap-y-2 p-2 w-full">
+        <div class="flex justify-between items-center">
+            <span class="text-sm md:text-lg">دسته بندی</span>
+            <a href="{{ route('admin.content.category.create') }}" class="btn bg-blue-600 text-white">افزودن دسته بندی
+                جدید</a>
         </div>
 
 
-        <div class="row-head">
-            <select name="" id="">
-                <option value="10">10</option>
-                <option value="100">100</option>
-                <option value="1000">1000</option>
-            </select>
-            <div class="searchBox">
-                <a><i class="fas fa-search"></i></a>
-                <input type="text">
-            </div>
-        </div>
+        <section class="bg-slate-200 dark:bg-slate-700 rounded-lg w-full">
 
-        <table class="styled-table">
-            <thead>
-                <tr>
-                    <td>شناسه</td>
-                    <td>نام دسته</td>
-                    <td>توضیحات</td>
-                    <td>اسلاگ</td>
-                    <td>تصویر</td>
-                    <td>تگ ها</td>
-                    <td>وضعیت</td>
-                    <td>عملیات</td>
-                </tr>
-            </thead>
-            <tbody>
+            <table class="table-auto w-full dark:text-white md:border-collapse">
 
-                @foreach ($postCategories as $key => $postCategory)
-
+                <thead class="text-xxs md:text-sm">
                     <tr>
-                        <td>{{ $key+1 }}</td>
-                        <td>{{ $postCategory->name }}</td>
-                        <td>{{ $postCategory->description }}</td>
-                        <td>{{ $postCategory->slug }}</td>
-                        <td>
-                            <img src="{{ asset($postCategory->image['indexArray']['small']) }}" alt="">
-                        </td>
-                        <td>{{ $postCategory->tags }}</td>
-                        <td>
-                            <input type="checkbox" id="status-{{ $postCategory->id }}"
-                                data-url="{{ route('admin.content.category.status', $postCategory->id) }}"
-                                onchange="changeStatus({{ $postCategory->id }})" @if ($postCategory->status === 1)
-                            checked
-                @endif>
-                </td>
-                <td>
-                    <span>
-                        <a href="{{ route('admin.content.category.edit', $postCategory->id) }}"
-                            class="button button-warning">ویرایش</a>
-                        <form action="{{ route('admin.content.category.destroy', $postCategory->id) }}" method="POST">
-                            @csrf
-                            {{ method_field('delete') }}
-                            <button type="submit" class="button button-danger delBtn">حذف</button>
-                        </form>
-                    </span>
-                </td>
+                        <th>#</th>
+                        <th>نام دسته</th>
+                        <th>توضیحات</th>
+                        <th>اسلاگ</th>
+                        <th>تصویر</th>
+                        <th>تگ ها</th>
+                        <th>وضعیت</th>
+                        <th>عملیات</th>
+                    </tr>
+                </thead>
+                <tbody class="text-xxs md:text-sm">
+                    @foreach ($postCategories as $postCategory)
+                        <tr>
 
-                </tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $postCategory->name }}</td>
+                            <td>{{ $postCategory->description }}</td>
+                            <td>{{ $postCategory->slug }}</td>
+                            <td>
+                                <img src="{{ asset('storage\\'.$postCategory->image['indexArray']['small']) }}" alt="">
+                            </td>
+                            <td>{{ $postCategory->tags }}</td>
+                            <td>
+                                <input type="checkbox" id="status-{{ $postCategory->id }}"
+                                    data-url="{{ route('admin.content.category.status', $postCategory->id) }}"
+                                    onchange="changeStatus({{ $postCategory->id }})"
+                                    @if ($postCategory->status === 1) checked @endif>
+                            </td>
+                            <td>
+                                <span class="flex items-center gap-x-1">
 
-                @endforeach
+                                    <a href="{{ route('admin.content.category.edit', $postCategory->id) }}"
+                                        class="btn bg-yellow-500 text-black flex-center gap-1">
+                                        <i class="fa-light fa-pen-to-square"></i>
+                                        ویرایش
+                                    </a>
+                                    <form class="m-0"
+                                        action="{{ route('admin.content.category.destroy', $postCategory->id) }}"
+                                        method="POST">
+                                        @csrf
+                                        {{ method_field('delete') }}
+                                        <button class="btn bg-red-400 text-black flex-center gap-1 delBtn">
+                                            <i class="fa-light fa-trash-can"></i>
+                                            حذف
+                                        </button>
+                                    </form>
+
+
+                                </span>
+                            </td>
+
+                        </tr>
+                    @endforeach
+
+                </tbody>
 
 
 
-            </tbody>
-        </table>
 
-    </div>
+            </table>
+
+        </section>
+
+
+    </section>
 @endsection
 @section('script')
     <script type="text/javascript" src="{{ asset('admin-assets/js/ajax-change-status.js') }}"></script>

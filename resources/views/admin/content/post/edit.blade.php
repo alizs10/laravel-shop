@@ -1,177 +1,134 @@
 @extends('admin.layouts.master')
 
 @section('head-tag')
-    <title>پنل ادمین | بخش محتوی | ویرایش پست</title>
+    <title>پنل ادمین | بخش محتوی | پست ها | ویرایش پست</title>
+    <link rel="stylesheet" href="{{ asset('admin-assets/packages/selectize/css/selectize.css') }}">
+    <link rel="stylesheet" href="{{ asset('admin-assets/css/selectize-correction.css') }}">
     <link rel="stylesheet" href="{{ asset('admin-assets/packages/jalalidatepicker/persian-datepicker.min.css') }}">
 @endsection
+@section('breadcrumb')
+    <section class="m-2 px-2 py-4 rounded-lg bg-slate-100 dark:bg-slate-800 dark:text-white flex items-center gap-x-2">
 
+        <a href="{{ route('admin.home') }}" class="text-xs md:text-base text-purple-800 dark:text-purple-400">خانه</a>
+        <i class="fa-light fa-angles-left text-xs md:text-sm"></i>
+        <span class="text-xs md:text-base">بخش محتوی</span>
+        <i class="fa-light fa-angles-left text-xs md:text-sm"></i>
+        <a href="{{ route('admin.content.post.index') }}"
+            class="text-xs md:text-base text-purple-800 dark:text-purple-400">پست ها</a>
+        <i class="fa-light fa-angles-left text-xs md:text-sm"></i>
+        <span class="text-xs md:text-base">ویرایش پست</span>
+
+    </section>
+@endsection
 @section('content')
-    <div class="box-container">
-        <ol class="route-map-group">
-            <li><a class="text-primary" href="{{ route('admin.home') }}">خانه</a></li>/
-            <li><a class="text-primary" href="">بخش محتوی</a></li>/
-            <li><a class="text-primary" href="{{ route('admin.content.post.index') }}">پست ها</a></li>/
-            <li>ویرایش پست</li>
+    <section class="flex flex-col gap-y-2 p-2 w-full">
 
-        </ol>
-    </div>
-
-    <div class="box-container">
-        <div class="row-head">
-            <h2>ویرایش پست</h2>
-            <a href="{{ route('admin.content.post.index') }}" class="button button-info">بازگشت</a>
+        <div class="flex justify-between items-center">
+            <span class="text-sm md:text-lg">ویرایش پست</span>
+            <a href="{{ route('admin.content.post.index') }}" class="btn bg-blue-600 text-white">بازگشت</a>
         </div>
 
         @if ($errors->any())
-            <div class="row-head bg-danger rounded">
-                <ul class="flex-column flex-row-gap-1">
-                    @foreach ($errors->all() as $error)
-                        <li class="text-white text-size-1 mr-space">{{ $error }}</li>
-                    @endforeach
-                </ul>
+            <div class="flex flex-col gap-y-1 rounded-lg bg-red-200 p-2">
+                <span class="text-xs">خطا های فرم:</span>
+                @foreach ($errors->all() as $error)
+                    <div class="flex gap-x-1 text-red-600 items-center">
+                        <span class="text-base">
+                            <i class="fa-light fa-diamond-exclamation"></i>
+                        </span>
+                        <span class="text-sm">{{ $error }}</span>
+                    </div>
+                @endforeach
+
             </div>
         @endif
 
-        <form action="{{ route('admin.content.post.update', $post->id) }}" method="POST" enctype="multipart/form-data"
-            id="form">
+
+        <form class="w-full" action="{{ route('admin.content.post.update', $post->id) }}" method="POST"
+            enctype="multipart/form-data" id="form">
             @csrf
-            {{ method_field('put') }}
-            <div class="row-head">
-                <div class="form-input">
-                    <label @if ($errors->has('title'))
-                        class="text-danger"
-                        @endif for="title">عنوان پست</label>
-                    <input type="text" name="title" id="title" value="{{ old('title', $post->title) }}">
+            @method('put')
+            <section class="w-full grid grid-cols-2 gap-2">
+                <div class="col-span-2 md:col-span-1 flex flex-col gap-y-1">
+                    <label for="title"
+                        class="text-xs {{ $errors->has('title') ? 'text-red-600 dark:text-red-400' : '' }}">عنوان
+                        پست</label>
+                    <input type="text" class="form-input" name="title" id="title"
+                        value="{{ old('title', $post->title) }}">
                 </div>
-
-                <div class="form-input">
-                    <label @if ($errors->has('summary'))
-                        class="text-danger"
-                        @endif for="summary">خلاصه</label>
-                    <input type="text" name="summary" id="summary" value="{{ old('summary', $post->summary) }}">
+                <div class="col-span-2 md:col-span-1 flex flex-col gap-y-1">
+                    <label for="summary"
+                        class="text-xs {{ $errors->has('summary') ? 'text-red-600 dark:text-red-400' : '' }}">خلاصه</label>
+                    <input type="text" class="form-input" name="summary" id="summary"
+                        value="{{ old('summary', $post->summary) }}">
                 </div>
-
-                <div class="form-input">
-                    <label @if ($errors->has('image'))
-                        class="text-danger"
-                        @endif for="image">تصویر</label>
-                    <input type="file" name="image" id="image">
+                <div class="col-span-2 md:col-span-1 flex flex-col gap-y-1">
+                    <label for="image"
+                        class="text-xs {{ $errors->has('image') ? 'text-red-600 dark:text-red-400' : '' }}">تصویر</label>
+                    <input type="file" class="form-input" name="image" id="image">
                 </div>
-
-                <div class="form-input">
-                    <label for="currentImage">تصویر پیش فرض</label>
-                    <select name="currentImage">
-                        @foreach ($post->image['indexArray'] as $key => $value)
-                            <option value="{{ $key }}" @if ($key === old('currentImage', $post->image['currentImage'])) selected @endif>
-
-                                @switch($key)
-                                    @case('larger')
-                                        {{ 'بزرگ' }}
-                                    @break
-                                    @case('medium')
-                                        {{ 'متوسط' }}
-                                    @break
-
-                                    @case('small')
-                                        {{ 'کوچک' }}
-                                    @break
-                                    @default
-
-                                @endswitch
-
-                            </option>
-                        @endforeach
-                    </select>
-
-                </div>
-
-                <div class="form-input">
-                    <label @if ($errors->has('cat_id'))
-                        class="text-danger"
-                        @endif for="cat_id">دسته</label>
-                    <select name="cat_id" id="cat_id">
+                <div class="col-span-2 md:col-span-1 flex flex-col gap-y-1">
+                    <label for="cat_id"
+                        class="text-xs {{ $errors->has('cat_id') ? 'text-red-600 dark:text-red-400' : '' }}">دسته</label>
+                    <select name="cat_id" id="cat_id" class="form-select" style="direction: ltr">
                         <option value="">یک دسته را انتخاب کنید</option>
                         @foreach ($postCategories as $cat)
-                            <option value="{{ $cat->id }}" @if ($cat->id == old('cat_id', $post->cat_id)) selected @endif>{{ $cat->name }}</option>
+                            <option value="{{ $cat->id }}" @if ($cat->id == old('cat_id', $post->cat_id)) selected @endif>
+                                {{ $cat->name }}</option>
                         @endforeach
-
                     </select>
                 </div>
+                <div class="col-span-2  flex flex-col gap-y-1">
+                    <label for="tags"
+                        class="text-xs {{ $errors->has('tags') ? 'text-red-600 dark:text-red-400' : '' }}">تگ ها</label>
+                    <input type="text" name="tags" id="input_tags" value="{{ old('tags', $post->tags) }}">
 
-                <div class="form-input">
-                    <label @if ($errors->has('tags'))
-                        class="text-danger"
-                        @endif for="input_tags">تگ ها</label>
-                    <input type="hidden" name="tags" id="input_tags" value="{{ old('tags', $post->tags) }}">
-                    <select id="select_tags" multiple>
-
-                    </select>
                 </div>
-
-                <div class="form-input">
-                    <label @if ($errors->has('published_at'))
-                        class="text-danger"
-                        @endif for="published_at">تاریخ انتشار</label>
+                <div class="col-span-2 md:col-span-1 flex flex-col gap-y-1">
+                    <label for="published_at"
+                        class="text-xs {{ $errors->has('published_at') ? 'text-red-600 dark:text-red-400' : '' }}">تاریخ
+                        انتشار
+                    </label>
                     <input type="hidden" name="published_at" id="published_at">
-                    <input type="text" id="published_at_view">
+                    <input type="text" class="form-input" name="published_at_view" id="published_at_view" readonly>
                 </div>
-
-                <div class="form-input">
-                    <label @if ($errors->has('commentable'))
-                        class="text-danger"
-                        @endif for="commentable">نظرات برای این پست</label>
-                    <select name="commentable" id="commentable">
-                        <option value="1" @if (old('commentable', $post->commentable) == 1)
-                            selected
-                            @endif>فعال</option>
-                        <option value="0" @if (old('commentable', $post->commentable) == 0)
-                            selected
-                            @endif>غیرفعال</option>
+                <div class="col-span-2 md:col-span-1 flex flex-col gap-y-1">
+                    <label for="status"
+                        class="text-xs {{ $errors->has('commentable') ? 'text-red-600 dark:text-red-400' : '' }}">نظرات
+                        برای این پست</label>
+                    <select name="commentable" id="commentable" class="form-select" style="direction: ltr">
+                        <option value="1" @if (old('commentable', $post->commentable) == 1) selected @endif>فعال</option>
+                        <option value="0" @if (old('commentable', $post->commentable) == 0) selected @endif>غیرفعال</option>
+                    </select>
+                </div>
+                <div class="col-span-2 flex flex-col gap-y-1">
+                    <label for="status"
+                        class="text-xs {{ $errors->has('status') ? 'text-red-600 dark:text-red-400' : '' }}">وضعیت</label>
+                    <select name="status" id="status" class="form-select" style="direction: ltr">
+                        <option value="1" @if (old('status', $post->status) == 1) selected @endif>فعال</option>
+                        <option value="0" @if (old('status', $post->status) == 0) selected @endif>غیرفعال</option>
                     </select>
                 </div>
 
-                <div class="form-input">
-                    <label @if ($errors->has('status'))
-                        class="text-danger"
-                        @endif for="status">وضعیت</label>
-                    <select name="status" id="status">
-                        <option value="1" @if (old('status', $post->status) == 1)
-                            selected
-                            @endif>فعال</option>
-                        <option value="0" @if (old('status', $post->status) == 0)
-                            selected
-                            @endif>غیرفعال</option>
-                    </select>
+                <div class="col-span-2 flex flex-col gap-y-1">
+                    <label for="body"
+                        class="text-xs {{ $errors->has('body') ? 'text-red-600 dark:text-red-400' : '' }}">متن</label>
+                    <textarea rows="6" class="form-input" name="body" id="cke">{{ old('body', $post->body) }}</textarea>
                 </div>
 
-                <div class="form-input-full">
-                    <label @if ($errors->has('body'))
-                        class="text-danger"
-                        @endif for="body">متن</label>
-                    <textarea name="body" id="cke" rows="6">{{ old('body', $post->body) }}</textarea>
-                </div>
-
-
-            </div>
-            <div class="row-head">
-                <button type="submit" class="button button-primary">ثبت</button>
-            </div>
+                <button class="col-span-2 py-2 rounded-lg bg-emerald-600 text-white text-sm md:text-base">ثبت</button>
+            </section>
         </form>
+    </section>
 
-
-
-
-
-
-    </div>
 @endsection
 
 @section('script')
-    <script src="{{ asset('admin-assets/js/select2tags.js') }}"></script>
+    <script src="{{ asset('admin-assets/packages/selectize/js/selectize.min.js') }}"></script>
+    <script src="{{ asset('admin-assets/js/select-tags.js') }}"></script>
     <script src="{{ asset('admin-assets/packages/ckeditor/ckeditor.js') }}"></script>
     <script src="{{ asset('admin-assets/js/ckreplace.js') }}"></script>
     <script src="{{ asset('admin-assets/packages/jalalidatepicker/persian-date.min.js') }}"></script>
     <script src="{{ asset('admin-assets/packages/jalalidatepicker/persian-datepicker.min.js') }}"></script>
     <script src="{{ asset('admin-assets/js/jalali-persian-date.js') }}"></script>
-
 @endsection

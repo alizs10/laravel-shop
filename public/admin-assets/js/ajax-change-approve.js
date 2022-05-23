@@ -12,8 +12,7 @@ let approve = function (id) {
         success: function (response) {
             if (response.status) {
                 if (response.approved) {
-                    element.removeClass('button-success');
-                    element.addClass('button-warning');
+                    element.toggleClass('bg-red-400').toggleClass('bg-emerald-400')
                     element.text('عدم تایید');
                     elementDependant.removeClass('text-warning');
                     elementDependant.addClass('text-success');
@@ -22,8 +21,7 @@ let approve = function (id) {
                     alertify.success('نظر تایید شد');
                 }
                 else {
-                    element.removeClass('button-warning');
-                    element.addClass('button-success');
+                    element.toggleClass('bg-red-400').toggleClass('bg-emerald-400')
                     element.text('تایید');
                     elementDependant.removeClass('text-success');
                     elementDependant.addClass('text-warning');

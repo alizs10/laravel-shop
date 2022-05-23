@@ -55,7 +55,7 @@ class PostController extends Controller
         }
 
         $inputs['image'] = $result;
-        $inputs['author_id'] = 1;
+        $inputs['author_id'] = 10;
         Post::create($inputs);
         return redirect()->route('admin.content.post.index')->with('alertify-success', 'پست جدید با موفقیت اضافه شد.');
     }

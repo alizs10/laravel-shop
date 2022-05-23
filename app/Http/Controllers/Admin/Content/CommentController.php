@@ -39,7 +39,7 @@ class CommentController extends Controller
     public function store(CommentRequest $request, Comment $comment)
     {
         $inputs = $request->all();
-        $inputs['author_id'] = 1;
+        $inputs['author_id'] = 10;
         $inputs['commentable_type'] = $comment->commentable_type;
         $inputs['commentable_id'] = $comment->commentable_id;
         $inputs['parent_id'] = $comment->id;

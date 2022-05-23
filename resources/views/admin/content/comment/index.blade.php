@@ -3,103 +3,89 @@
 @section('head-tag')
     <title>پنل ادمین | بخش محتوی | نظرات</title>
 @endsection
+@section('breadcrumb')
+    <section class="m-2 px-2 py-4 rounded-lg bg-slate-100 dark:bg-slate-800 dark:text-white flex items-center gap-x-2">
 
+        <a href="{{ route('admin.home') }}" class="text-xs md:text-base text-purple-800 dark:text-purple-400">خانه</a>
+        <i class="fa-light fa-angles-left text-xs md:text-sm"></i>
+        <span class="text-xs md:text-base">بخش محتوی</span>
+        <i class="fa-light fa-angles-left text-xs md:text-sm"></i>
+        <span class="text-xs md:text-base">نظرات</span>
+
+    </section>
+@endsection
 @section('content')
-    <div class="box-container">
-        <ol class="route-map-group">
-            <li><a class="text-primary" href="{{ route('admin.home') }}">خانه</a></li>/
-            <li><a class="text-primary" href="">بخش محتوی</a></li>/
-            <li>نظرات</li>
-
-
-        </ol>
-    </div>
-
-    <div class="box-container">
-        <div class="row-head">
-            <h2>نظرات</h2>
+    <section class="flex flex-col gap-y-2 p-2 w-full">
+        <div class="flex justify-between items-center">
+            <span class="text-sm md:text-lg">نظرات</span>
         </div>
 
 
-        <div class="row-head">
-            <select name="" id="">
-                <option value="10">10</option>
-                <option value="100">100</option>
-                <option value="1000">1000</option>
-            </select>
-            <div class="searchBox">
-                <a><i class="fas fa-search"></i></a>
-                <input type="text">
-            </div>
-        </div>
+        <section class="bg-slate-200 dark:bg-slate-700 rounded-lg w-full">
 
-        <table class="styled-table">
-            <thead>
-                <tr>
-                    <td>#</td>
-                    <td>پاسخ به</td>
-                    <td>متن نظر</td>
-                    <td>نام کاربر</td>
-                    <td>عنوان پست</td>
-                    <td>وضعیت</td>
-                    <td>عملیات</td>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($comments as $key => $comment)
+            <table class="table-auto w-full dark:text-white md:border-collapse">
 
+                <thead class="text-xxs md:text-sm">
                     <tr>
-                        <td @if ($key += 1 % 2 !== 0)
-                            class="active-row"
-                @endif>{{ $key }}</td>
-                <td>{{ $comment->parent ? Str::limit(strip_tags(html_entity_decode($comment->parent->body)), 15, ' ...') : '' }}
-                </td>
-                <td>{{ Str::limit(strip_tags(html_entity_decode($comment->body)), 15, ' ...') }}</td>
-                <td>{{ $comment->user->fullName }}</td>
-                <td>{{ $comment->commentable->title }}</td>
-                <td class="@if ($comment->approved === 1)
-                    text-success
-                @else
-                text-warning
-                @endif
-                "
-                    id="approve-d-{{ $comment->id }}">
-                    {{ $comment->approved ? 'تایید شده' : 'در انتظار تایید' }}</td>
+                        <th>#</th>
+                        <th>پاسخ به</th>
+                        <th>متن نظر</th>
+                        <th>نام کاربر</th>
+                        <th>عنوان پست</th>
+                        <th>وضعیت</th>
+                        <th>عملیات</th>
+                    </tr>
+                </thead>
+                <tbody class="text-xxs md:text-sm">
+                    @foreach ($comments as $comment)
+                        <tr>
 
-                <td>
-                    <span>
-                        <a href="{{ route('admin.content.comment.show', $comment->id) }}"
-                            class="button button-primary">دیدن</a>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $comment->parent ? Str::limit(strip_tags(html_entity_decode($comment->parent->body)), 15, ' ...') : '' }}
+                            </td>
+                            <td>{{ Str::limit(strip_tags(html_entity_decode($comment->body)), 15, ' ...') }}</td>
+                            <td>{{ $comment->user->fullName }}</td>
+                            <td>{{ $comment->commentable->title }}</td>
+                            <td class="@if ($comment->approved === 1) text-success
+                        @else
+                        text-warning @endif
+                        "
+                                id="approve-d-{{ $comment->id }}">
+                                {{ $comment->approved ? 'تایید شده' : 'در انتظار تایید' }}</td>
+                            <td>
+                                <span class="flex items-center gap-x-1">
+                                    <a href="{{ route('admin.content.comment.show', $comment->id) }}"
+                                        class="btn text-white bg-blue-600 flex-center gap-1">
+                                        <i class="fa-light fa-eye"></i>
+                                        دیدن
+                                    </a>
+                                    <button data-url=" {{ route('admin.content.comment.approve', $comment->id) }}"
+                                        onclick="approve({{ $comment->id }})" id="approve-{{ $comment->id }}"
+                                        class="btn {{ $comment->approved === 1 ? 'bg-red-400' : 'bg-emerald-400' }} text-black flex-center gap-1">
+
+                                        <span>
+                                            {{ $comment->approved === 1 ? 'عدم تایید' : 'تایید' }}
+                                        </span>
+                                    </button>
 
 
-                        <button type="button"
-                            class="button @if ($comment->approved === 1)
-                                button-warning
-                            @else
-                                button-success
-                            @endif"
-                            id="approve-{{ $comment->id }}"
-                            data-url=" {{ route('admin.content.comment.approve', $comment->id) }}"
-                            onclick="approve({{ $comment->id }})">
-                            @if ($comment->approved === 1)
-                                عدم تایید
-                            @else
-                                تایید
-                            @endif
+                                </span>
+                            </td>
 
-                        </button>
+                        </tr>
+                    @endforeach
 
-                    </span>
-                </td>
+                </tbody>
 
-                </tr>
 
-                @endforeach
 
-            </tbody>
-        </table>
 
-    </div>
+            </table>
+
+        </section>
+
+
+    </section>
 @endsection
 @section('script')
     <script type="text/javascript" src="{{ asset('admin-assets/js/ajax-change-approve.js') }}"></script>

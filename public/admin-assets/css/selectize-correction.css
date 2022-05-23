@@ -1,17 +1,13 @@
 .selectize-input {
-    background-color: var(--box-background-color) !important;
+    background-color: #f8fafc !important;
     border-radius: 5px !important;
-    border: 0.15rem solid #dcdddf !important;
+    border: 2px solid #5b21b6 !important;
     padding: .7rem 0 !important;
-}
-
-.input-active {
-    border: 0.15rem solid #3772ff !important;
 }
 
 .selectize-control.multi .selectize-input>div {
     background: none;
-    background-color: var(--theme-color) !important;
+    background-color: #e2e8f0 !important;
     border-radius: 5px;
-    color: var(--text-reverse) !important;
+    color: #000 !important;
 }

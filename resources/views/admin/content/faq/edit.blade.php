@@ -1,98 +1,91 @@
 @extends('admin.layouts.master')
 
 @section('head-tag')
-    <title>پنل ادمین | بخش فروش | ویرایش سوال</title>
+    <link rel="stylesheet" href="{{ asset('admin-assets/packages/selectize/css/selectize.css') }}">
+    <link rel="stylesheet" href="{{ asset('admin-assets/css/selectize-correction.css') }}">
+    <title>پنل ادمین | بخش محتوی | ویرایش سوال</title>
 @endsection
+@section('breadcrumb')
+    <section class="m-2 px-2 py-4 rounded-lg bg-slate-100 dark:bg-slate-800 dark:text-white flex items-center gap-x-2">
 
+        <a href="{{ route('admin.home') }}" class="text-xs md:text-base text-purple-800 dark:text-purple-400">خانه</a>
+        <i class="fa-light fa-angles-left text-xs md:text-sm"></i>
+        <span class="text-xs md:text-base">بخش محتوی</span>
+        <i class="fa-light fa-angles-left text-xs md:text-sm"></i>
+        <a href="{{ route('admin.content.faq.index') }}"
+            class="text-xs md:text-base text-purple-800 dark:text-purple-400">سوالات متداول</a>
+        <i class="fa-light fa-angles-left text-xs md:text-sm"></i>
+        <span class="text-xs md:text-base">ویرایش سوال</span>
+
+    </section>
+@endsection
 @section('content')
-    <div class="box-container">
-        <ol class="route-map-group">
-            <li><a class="text-primary" href="{{ route('admin.home') }}">خانه</a></li>/
-            <li><a class="text-primary" href="">بخش محتوی</a></li>/
-            <li><a class="text-primary" href="{{ route('admin.content.faq.index') }}">سوالات متداول</a></li>/
-            <li>ویرایش سوال</li>
+    <section class="flex flex-col gap-y-2 p-2 w-full">
 
-        </ol>
-    </div>
-
-    <div class="box-container">
-        <div class="row-head">
-            <h2>ویرایش سوال</h2>
-            <a href="{{ route('admin.content.faq.index') }}" class="button button-info">بازگشت</a>
+        <div class="flex justify-between items-center">
+            <span class="text-sm md:text-lg">ویرایش سوال</span>
+            <a href="{{ route('admin.content.faq.index') }}" class="btn bg-blue-600 text-white">بازگشت</a>
         </div>
 
         @if ($errors->any())
-            <div class="row-head bg-danger rounded">
-                <ul class="flex-column flex-row-gap-1">
-                    @foreach ($errors->all() as $error)
-                        <li class="text-white text-size-1 mr-space">{{ $error }}</li>
-                    @endforeach
-                </ul>
+            <div class="flex flex-col gap-y-1 rounded-lg bg-red-200 p-2">
+                <span class="text-xs">خطا های فرم:</span>
+                @foreach ($errors->all() as $error)
+                    <div class="flex gap-x-1 text-red-600 items-center">
+                        <span class="text-base">
+                            <i class="fa-light fa-diamond-exclamation"></i>
+                        </span>
+                        <span class="text-sm">{{ $error }}</span>
+                    </div>
+                @endforeach
+
             </div>
         @endif
 
-        <form action="{{ route('admin.content.faq.update', $faq->id) }}" method="POST" id="form">
+
+        <form class="w-full" action="{{ route('admin.content.faq.update', $faq->id) }}" method="POST"
+            enctype="multipart/form-data" id="form">
             @csrf
-            {{ method_field('put') }}
-            <div class="row-head">
-                <div class="form-input-half">
-                    <label @if ($errors->has('question'))
-                        class="text-danger"
-                        @endif for="question">عنوان سوال</label>
-                    <input type="text" name="question" id="question" value="{{ old('question', $faq->question) }}">
+@method('put')
+            <section class="w-full grid grid-cols-2 gap-2">
+                <div class="col-span-2 flex flex-col gap-y-1">
+                    <label for="question"
+                        class="text-xs {{ $errors->has('question') ? 'text-red-600 dark:text-red-400' : '' }}">عنوان
+                        سوال</label>
+                    <input type="text" class="form-input" name="question" id="question" value="{{ old('question', $faq->question) }}">
                 </div>
-
-                <div class="form-input-half">
-                    <label @if ($errors->has('status'))
-                        class="text-danger"
-                        @endif for="status">وضعیت</label>
-                    <select name="status" id="status">
-                        <option value="1" @if (old('status', $faq->status) == 1)
-                            selected
-                            @endif>فعال</option>
-                        <option value="0" @if (old('status', $faq->status) == 0)
-                            selected
-                            @endif>غیرفعال</option>
+                <div class="col-span-2 flex flex-col gap-y-1">
+                    <label for="status"
+                        class="text-xs {{ $errors->has('status') ? 'text-red-600 dark:text-red-400' : '' }}">وضعیت</label>
+                    <select name="status" id="status" class="form-select" style="direction: ltr">
+                        <option value="1" @if (old('status', $faq->status) == 1) selected @endif>فعال</option>
+                        <option value="0" @if (old('status', $faq->status) == 0) selected @endif>غیرفعال</option>
                     </select>
                 </div>
+                <div class="col-span-2  flex flex-col gap-y-1">
+                    <label for="tags"
+                        class="text-xs {{ $errors->has('tags') ? 'text-red-600 dark:text-red-400' : '' }}">تگ ها</label>
+                    <input type="text" name="tags" id="input_tags" value="{{ old('tags', $faq->tags) }}">
 
-                <div class="form-input-full">
-                    <label @if ($errors->has('tags'))
-                        class="text-danger"
-                        @endif for="input_tags">تگ ها</label>
-                    <input type="hidden" name="tags" id="input_tags" value="{{ old('tags', $faq->tags) }}">
-                    <select id="select_tags" multiple>
-
-                    </select>
+                </div>
+                <div class="col-span-2 flex flex-col gap-y-1">
+                    <label for="answer"
+                        class="text-xs {{ $errors->has('answer') ? 'text-red-600 dark:text-red-400' : '' }}">پاسخ
+                        سوال</label>
+                    <textarea rows="6" class="form-input" name="answer" id="cke">{{ old('answer', $faq->answer) }}</textarea>
                 </div>
 
-
-
-                <div class="form-input-full">
-                    <label @if ($errors->has('answer'))
-                        class="text-danger"
-                        @endif for="cke">پاسخ سوال</label>
-                    <textarea name="answer" id="cke" rows="6">{{ old('answer', $faq->answer) }}</textarea>
-                </div>
-
-
-            </div>
-            <div class="row-head">
-                <button type="submit" class="button button-primary">ثبت</button>
-            </div>
+                <button class="col-span-2 py-2 rounded-lg bg-emerald-600 text-white text-sm md:text-base">ثبت</button>
+            </section>
         </form>
+    </section>
 
 
-
-
-
-
-    </div>
 @endsection
 
 @section('script')
-    <script src="{{ asset('admin-assets/js/select2tags.js') }}"></script>
+    <script src="{{ asset('admin-assets/packages/selectize/js/selectize.min.js') }}"></script>
+    <script src="{{ asset('admin-assets/js/select-tags.js') }}"></script>
     <script src="{{ asset('admin-assets/packages/ckeditor/ckeditor.js') }}"></script>
     <script src="{{ asset('admin-assets/js/ckreplace.js') }}"></script>
-
 @endsection

@@ -272,12 +272,12 @@
             </a>
             <a href="{{ route('admin.content.faq.index') }}"
                 class="sidebar-link {{ sideBarMenuActiver(route('admin.content.faq.index')) }}">
-                <i class="fa-regular fa-house text-xl"></i>
+                <i class="fa-light fa-comments-question-check text-xl"></i>
                 سوالات متداول
             </a>
             <a href="{{ route('admin.content.page.index') }}"
                 class="sidebar-link {{ sideBarMenuActiver(route('admin.content.page.index')) }}">
-                <i class="fa-regular fa-house text-xl"></i>
+                <i class="fa-light fa-file-circle-plus text-xl"></i>
                 پیج ساز
             </a>
 

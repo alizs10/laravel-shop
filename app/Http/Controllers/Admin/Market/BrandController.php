@@ -98,10 +98,6 @@ class BrandController extends Controller
             if ($result === false) {
                 return redirect()->route('admin.market.brand.index')->with('alertify-error', 'آپلود تصویر با خطا مواجه شد');    
             }
-        } else {
-            $image = $brand->logo;
-            $image['currentImage'] = $inputs['currentImage'];
-            $inputs['logo'] = $image;
         }
 
         

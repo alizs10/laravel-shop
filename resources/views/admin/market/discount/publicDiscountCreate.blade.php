@@ -4,85 +4,95 @@
     <link rel="stylesheet" href="{{ asset('admin-assets/packages/jalalidatepicker/persian-datepicker.min.css') }}">
     <title>پنل ادمین | بخش فروش | تخفیف عمومی جدید</title>
 @endsection
+@section('breadcrumb')
+    <section class="m-2 px-2 py-4 rounded-lg bg-slate-100 dark:bg-slate-800 dark:text-white flex items-center gap-x-2">
 
+        <a href="{{ route('admin.home') }}" class="text-xs md:text-base text-purple-800 dark:text-purple-400">خانه</a>
+        <i class="fa-light fa-angles-left text-xs md:text-sm"></i>
+        <span class="text-xs md:text-base">بخش فروش</span>
+        <i class="fa-light fa-angles-left text-xs md:text-sm"></i>
+        <a href="{{ route('admin.market.discount.public') }}"
+            class="text-xs md:text-base text-purple-800 dark:text-purple-400">تخفیف های عمومی</a>
+        <i class="fa-light fa-angles-left text-xs md:text-sm"></i>
+        <span class="text-xs md:text-base">ایجاد تخفیف عمومی جدید</span>
+
+    </section>
+@endsection
 @section('content')
-    <div class="box-container">
-        <ol class="route-map-group">
-            <li><a class="text-primary" href="{{ route('admin.home') }}">خانه</a></li>/
-            <li><a class="text-primary" href="#">بخش فروش</a></li>/
-            <li><a class="text-primary" href="{{ route('admin.market.discount.public') }}">تخفیف های عمومی</a>
-            </li>/
-            <li>ایجاد تخفیف عمومی جدید</li>
+ 
+<section class="flex flex-col gap-y-2 p-2 w-full">
 
-        </ol>
+    <div class="flex justify-between items-center">
+        <span class="text-sm md:text-lg">ایجاد کوپن جدید</span>
+        <a href="{{ route('admin.market.discount.public') }}" class="btn bg-blue-600 text-white">بازگشت</a>
     </div>
 
-    <div class="box-container">
-        <div class="row-head">
-            <h2>ایجاد تخفیف عمومی جدید</h2>
-            <a href="{{ route('admin.market.discount.public') }}" class="button button-info">بازگشت</a>
+    @if ($errors->any())
+        <div class="flex flex-col gap-y-1 rounded-lg bg-red-200 p-2">
+            <span class="text-xs">خطا های فرم:</span>
+            @foreach ($errors->all() as $error)
+                <div class="flex gap-x-1 text-red-600 items-center">
+                    <span class="text-base">
+                        <i class="fa-light fa-diamond-exclamation"></i>
+                    </span>
+                    <span class="text-sm">{{ $error }}</span>
+                </div>
+            @endforeach
+
         </div>
+    @endif
 
-        @if ($errors->any())
-            <div class="row-head bg-danger py-1 rounded">
-                <ul class="flex-column flex-row-gap-1">
-                    @foreach ($errors->all() as $error)
-                        <li class="text-white text-size-1 mr-space">{{ $error }}</li>
-                    @endforeach
-                </ul>
+
+    <form class="w-full" action="{{ route('admin.market.discount.public.store') }}" method="POST"
+        enctype="multipart/form-data" id="form">
+        @csrf
+
+        <section class="w-full grid grid-cols-2 gap-2">
+            <div class="col-span-2 md:col-span-1 flex flex-col gap-y-1">
+                <label for="title"
+                    class="text-xs {{ $errors->has('title') ? 'text-red-600 dark:text-red-400' : '' }}">عنوان کد تخفیف</label>
+                <input type="text" class="form-input" name="title" id="title" value="{{ old('title') }}">
             </div>
-        @endif
-
-        <form action="{{ route('admin.market.discount.public.store') }}" method="POST" enctype="multipart/form-data"
-            id="form">
-            @csrf
-            <div class="flex-wrap flex-gap-2">
-                <div class="form-input-half">
-                    <label @if ($errors->has('title')) class="text-danger" @endif for="title">عنوان کد تخفیف</label>
-                    <input type="text" name="title" id="title" value="{{ old('title') }}">
-                </div>
-
-                <div class="form-input-half">
-                    <label @if ($errors->has('percentage')) class="text-danger" @endif for="percentage">میزان تخفیف</label>
-                    <input type="text" name="percentage" id="percentage" value="{{ old('percentage') }}">
-                </div>
-
-                <div class="form-input-half">
-                    <label @if ($errors->has('maximum_discount')) class="text-danger" @endif for="maximum_discount">سقف
-                        تخفیف</label>
-                    <input type="text" name="maximum_discount" id="maximum_discount"
-                        value="{{ old('maximum_discount') }}">
-                </div>
-
-                <div class="form-input-half">
-                    <label @if ($errors->has('minimum_order_amount')) class="text-danger" @endif for="minimum_order_amount">حداقل
-                        مبلغ سفارش</label>
-                    <input type="text" name="minimum_order_amount" id="minimum_order_amount"
-                        value="{{ old('minimum_order_amount') }}">
-                </div>
-
-                <div class="form-input-half">
-                    <label @if ($errors->has('valid_from')) class="text-danger" @endif for="valid_from">زمان شروع
-                        تخفیف</label>
-                    <input type="hidden" name="valid_from" id="valid_from" value="{{ old('valid_from') }}">
-                    <input type="text" id="valid_from_view" />
-                </div>
-
-                <div class="form-input-half">
-                    <label @if ($errors->has('valid_until')) class="text-danger" @endif for="valid_until">زمان پایان
-                        تخفیف</label>
-                    <input type="hidden" name="valid_until" id="valid_until" value="{{ old('valid_until') }}">
-                    <input type="text" id="valid_until_view" />
-                </div>
-
-                <div class="row-head w-100">
-                    <button type="submit" class="button button-success w-100">ثبت</button>
-                </div>
-
+           
+            <div class="col-span-2 md:col-span-1 flex flex-col gap-y-1">
+                <label for="percentage"
+                    class="text-xs {{ $errors->has('percentage') ? 'text-red-600 dark:text-red-400' : '' }}">مقدار
+                    تخفیف</label>
+                <input type="text" class="form-input" name="percentage" id="percentage" value="{{ old('percentage') }}">
             </div>
-        </form>
+            <div class="col-span-2 md:col-span-1 flex flex-col gap-y-1">
+                <label for="maximum_discount"
+                    class="text-xs {{ $errors->has('maximum_discount') ? 'text-red-600 dark:text-red-400' : '' }}">سقف
+                    تخفیف</label>
+                <input type="text" class="form-input" name="maximum_discount" id="maximum_discount" value="{{ old('maximum_discount') }}">
+            </div>
+            <div class="col-span-2 md:col-span-1 flex flex-col gap-y-1">
+                <label for="minimum_order_amount"
+                    class="text-xs {{ $errors->has('minimum_order_amount') ? 'text-red-600 dark:text-red-400' : '' }}">حداقل
+                    مبلغ سفارش</label>
+                <input type="text" class="form-input" name="minimum_order_amount" id="minimum_order_amount" value="{{ old('minimum_order_amount') }}">
+            </div>
+            <div class="col-span-2 md:col-span-1 flex flex-col gap-y-1">
+                <label for="valid_from"
+                    class="text-xs {{ $errors->has('valid_from') ? 'text-red-600 dark:text-red-400' : '' }}">زمان شروع
+                    تخفیف</label>
+                <input type="hidden" name="valid_from" id="valid_from">
+                <input type="text" class="form-input" name="valid_from_view" id="valid_from_view" readonly>
+            </div>
+            <div class="col-span-2 md:col-span-1 flex flex-col gap-y-1">
+                <label for="valid_until"
+                    class="text-xs {{ $errors->has('valid_until') ? 'text-red-600 dark:text-red-400' : '' }}">زمان پایان
+                    تخفیف</label>
+                <input type="hidden" name="valid_until" id="valid_until">
+                <input type="text" class="form-input" name="valid_until_view" id="valid_until_view" readonly>
+            </div>
+            
 
-    </div>
+            <button class="col-span-2 py-2 rounded-lg bg-emerald-600 text-white text-sm md:text-base">ثبت</button>
+        </section>
+    </form>
+</section>
+    
 @endsection
 @section('script')
     <script src="{{ asset('admin-assets/packages/jalalidatepicker/persian-date.min.js') }}"></script>

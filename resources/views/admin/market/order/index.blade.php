@@ -15,7 +15,6 @@
 
     </section>
 @endsection
-
 @section('content')
     <section class="flex flex-col gap-y-2 p-2 w-full">
         <span class="text-sm md:text-lg">سفارشات</span>
@@ -87,8 +86,9 @@
                                         عملیات
                                         <i class="fa-regular fa-angle-down mr-space"></i>
                                     </button>
-                                    
-                                    <div class="hidden absolute top-10 left-0 w-56 h-fit rounded-lg bg-white dark:bg-slate-900 flex flex-col overflow-hidden" id={{ "dropdown-{$order->id}" }}>
+
+                                    <div class="hidden absolute top-10 left-0 w-56 h-fit rounded-lg bg-white dark:bg-slate-900 flex flex-col overflow-hidden"
+                                        id={{ "dropdown-{$order->id}" }}>
                                         <a href="{{ route('admin.market.order.show', $order->id) }}"
                                             class="py-2 w-full text-sm h-full flex items-center gap-x-2 hover-transition hover:bg-slate-100 dark:hover:bg-slate-800">
                                             <i class="fa-regular fa-eye mr-2"></i>
@@ -101,11 +101,12 @@
                                             class="py-2 w-full text-sm h-full flex items-center gap-x-2 hover-transition hover:bg-slate-100 dark:hover:bg-slate-800">
                                             <i class="fa-light fa-rectangle-list mr-2"></i>
                                             تغییر وضعیت سفارش</a>
-                                        <form class="w-full m-0" action="{{ route('admin.market.order.destroy', $order->id) }}"
-                                            method="POST">
+                                        <form class="w-full m-0"
+                                            action="{{ route('admin.market.order.destroy', $order->id) }}" method="POST">
                                             @csrf
                                             {{ method_field('delete') }}
-                                            <button class="py-2 w-full text-sm h-full flex items-center gap-x-2 hover-transition hover:bg-slate-100 dark:hover:bg-slate-800 delBtn">
+                                            <button
+                                                class="py-2 w-full text-sm h-full flex items-center gap-x-2 hover-transition hover:bg-slate-100 dark:hover:bg-slate-800 delBtn">
                                                 <i class="fa-regular fa-trash-can mr-2"></i>
                                                 حذف</button>
                                         </form>
@@ -115,7 +116,7 @@
                             </td>
                         </tr>
                     @endforeach
-                 
+
 
                 </tbody>
 

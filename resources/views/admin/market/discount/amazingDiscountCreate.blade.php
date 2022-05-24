@@ -2,45 +2,57 @@
 
 @section('head-tag')
     <link rel="stylesheet" href="{{ asset('admin-assets/packages/jalalidatepicker/persian-datepicker.min.css') }}">
-    <title>پنل ادمین | بخش فروش | تخفیف شگفت انگیز جدید</title>
+    <title>پنل ادمین | بخش فروش | تخفیف های شگفت انگیز | تخفیف شگفت انگیز جدید</title>
 @endsection
+@section('breadcrumb')
+    <section class="m-2 px-2 py-4 rounded-lg bg-slate-100 dark:bg-slate-800 dark:text-white flex items-center gap-x-2">
 
+        <a href="{{ route('admin.home') }}" class="text-xs md:text-base text-purple-800 dark:text-purple-400">خانه</a>
+        <i class="fa-light fa-angles-left text-xs md:text-sm"></i>
+        <span class="text-xs md:text-base">بخش فروش</span>
+        <i class="fa-light fa-angles-left text-xs md:text-sm"></i>
+        <a href="{{ route('admin.market.discount.amazing') }}"
+            class="text-xs md:text-base text-purple-800 dark:text-purple-400">تخفیف های شگفت انگیز</a>
+        <i class="fa-light fa-angles-left text-xs md:text-sm"></i>
+        <span class="text-xs md:text-base">ایجاد تخفیف شگفت انگیز جدید</span>
+
+    </section>
+@endsection
 @section('content')
-    <div class="box-container">
-        <ol class="route-map-group">
-            <li><a class="text-primary" href="{{ route('admin.home') }}">خانه</a></li>/
-            <li><a class="text-primary" href="#">بخش فروش</a></li>/
-            <li><a class="text-primary" href="{{ route('admin.market.discount.amazing') }}">تخفیف های شگفت انگیز</a></li>
-            /
-            <li>ایجاد تخفیف شگفت انگیز جدید</li>
 
-        </ol>
-    </div>
+    <section class="flex flex-col gap-y-2 p-2 w-full">
 
-    <div class="box-container">
-        <div class="row-head">
-            <h2>ایجاد تخفیف شگفت انگیز جدید</h2>
-            <a href="{{ route('admin.market.discount.amazing') }}" class="button button-info">بازگشت</a>
+        <div class="flex justify-between items-center">
+            <span class="text-sm md:text-lg">ایجاد تخفیف شگفت انگیز جدید</span>
+            <a href="{{ route('admin.market.discount.amazing') }}" class="btn bg-blue-600 text-white">بازگشت</a>
         </div>
 
         @if ($errors->any())
-            <div class="row-head bg-danger py-1 rounded">
-                <ul class="flex-column flex-row-gap-1">
-                    @foreach ($errors->all() as $error)
-                        <li class="text-white text-size-1 mr-space">{{ $error }}</li>
-                    @endforeach
-                </ul>
+            <div class="flex flex-col gap-y-1 rounded-lg bg-red-200 p-2">
+                <span class="text-xs">خطا های فرم:</span>
+                @foreach ($errors->all() as $error)
+                    <div class="flex gap-x-1 text-red-600 items-center">
+                        <span class="text-base">
+                            <i class="fa-light fa-diamond-exclamation"></i>
+                        </span>
+                        <span class="text-sm">{{ $error }}</span>
+                    </div>
+                @endforeach
+
             </div>
         @endif
 
-        <form action="{{ route('admin.market.discount.amazing.store') }}" method="POST" enctype="multipart/form-data"
-            id="form">
+
+        <form class="w-full" action="{{ route('admin.market.discount.amazing.store') }}" method="POST"
+            enctype="multipart/form-data" id="form">
             @csrf
-            <div class="flex-wrap flex-gap-2">
-                <div class="form-input-half">
-                    <label @if ($errors->has('product_id')) class="text-danger" @endif for="product_id">انتخاب
+
+            <section class="w-full grid grid-cols-2 gap-2">
+                <div class="col-span-2 md:col-span-1  flex flex-col gap-y-1">
+                    <label for="product_id"
+                        class="text-xs {{ $errors->has('product_id') ? 'text-red-600 dark:text-red-400' : '' }}">انتخاب
                         محصول</label>
-                    <select name="product_id" id="product_id">
+                    <select name="product_id" id="product_id" class="form-select" style="direction: ltr">
                         <option value="">محصول موردنظر را انتخاب کنید</option>
                         @foreach ($products as $product)
                             <option value="{{ $product->id }}" @if (old('product_id') == $product->id) selected @endif>
@@ -50,45 +62,43 @@
                     </select>
                 </div>
 
-                <div class="form-input-half">
-                    <label @if ($errors->has('percentage')) class="text-danger" @endif for="percentage">میزان تخفیف</label>
-                    <input type="text" name="percentage" id="percentage" value="{{ old('percentage') }}">
-                </div>
-
-
-
-                <div class="form-input-half">
-                    <label @if ($errors->has('valid_from')) class="text-danger" @endif for="valid_from">زمان شروع
+                <div class="col-span-2 md:col-span-1 flex flex-col gap-y-1">
+                    <label for="percentage"
+                        class="text-xs {{ $errors->has('percentage') ? 'text-red-600 dark:text-red-400' : '' }}">مقدار
                         تخفیف</label>
-                    <input type="hidden" name="valid_from" id="valid_from" value="{{ old('valid_from') }}">
-                    <input type="text" id="valid_from_view" />
+                    <input type="text" class="form-input" name="percentage" id="percentage" value="{{ old('percentage') }}">
                 </div>
 
-                <div class="form-input-half">
-                    <label @if ($errors->has('valid_until')) class="text-danger" @endif for="valid_until">زمان پایان
+                <div class="col-span-2 md:col-span-1 flex flex-col gap-y-1">
+                    <label for="valid_from"
+                        class="text-xs {{ $errors->has('valid_from') ? 'text-red-600 dark:text-red-400' : '' }}">زمان
+                        شروع
                         تخفیف</label>
-                    <input type="hidden" name="valid_until" id="valid_until" value="{{ old('valid_until') }}">
-                    <input type="text" id="valid_until_view" />
+                    <input type="hidden" name="valid_from" id="valid_from">
+                    <input type="text" class="form-input" name="valid_from_view" id="valid_from_view" readonly>
                 </div>
-
-                <div class="form-input-full">
-                    <label @if ($errors->has('status')) class="text-danger" @endif for="status">وضعیت</label>
-                    <select name="status" id="status">
+                <div class="col-span-2 md:col-span-1 flex flex-col gap-y-1">
+                    <label for="valid_until"
+                        class="text-xs {{ $errors->has('valid_until') ? 'text-red-600 dark:text-red-400' : '' }}">زمان
+                        پایان
+                        تخفیف</label>
+                    <input type="hidden" name="valid_until" id="valid_until">
+                    <input type="text" class="form-input" name="valid_until_view" id="valid_until_view" readonly>
+                </div>
+                <div class="col-span-2 md:col-span-1 flex flex-col gap-y-1">
+                    <label for="status"
+                        class="text-xs {{ $errors->has('status') ? 'text-red-600 dark:text-red-400' : '' }}">وضعیت</label>
+                    <select name="status" id="status" class="form-select" style="direction: ltr">
                         <option value="1" @if (old('status') == 1) selected @endif>فعال</option>
                         <option value="0" @if (old('status') == 0) selected @endif>غیرفعال</option>
                     </select>
                 </div>
 
-                <div class="row-head w-100">
-                    <button type="submit" class="button button-success w-100">ثبت</button>
-                </div>
-
-            </div>
+                <button class="col-span-2 py-2 rounded-lg bg-emerald-600 text-white text-sm md:text-base">ثبت</button>
+            </section>
         </form>
+    </section>
 
-
-
-    </div>
 @endsection
 @section('script')
     <script src="{{ asset('admin-assets/packages/jalalidatepicker/persian-date.min.js') }}"></script>

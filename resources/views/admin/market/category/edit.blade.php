@@ -3,158 +3,116 @@
 @section('head-tag')
     <link rel="stylesheet" href="{{ asset('admin-assets/packages/selectize/css/selectize.css') }}">
     <link rel="stylesheet" href="{{ asset('admin-assets/css/selectize-correction.css') }}">
-    <title>پنل ادمین | بخش فروش | ویرایش دسته بندی</title>
+    <title>پنل ادمین | بخش فروش | دسته بندی | ویرایش دسته بندی</title>
 @endsection
+@section('breadcrumb')
+    <section class="m-2 px-2 py-4 rounded-lg bg-slate-100 dark:bg-slate-800 dark:text-white flex items-center gap-x-2">
 
+        <a href="{{ route('admin.home') }}" class="text-xs md:text-base text-purple-800 dark:text-purple-400">خانه</a>
+        <i class="fa-light fa-angles-left text-xs md:text-sm"></i>
+        <span class="text-xs md:text-base">بخش فروش</span>
+        <i class="fa-light fa-angles-left text-xs md:text-sm"></i>
+        <a href="{{ route('admin.market.category.index') }}"
+            class="text-xs md:text-base text-purple-800 dark:text-purple-400">سوالات متداول</a>
+        <i class="fa-light fa-angles-left text-xs md:text-sm"></i>
+        <span class="text-xs md:text-base">ویرایش دسته بندی</span>
+
+    </section>
+@endsection
 @section('content')
-    <div class="box-container">
-        <ol class="route-map-group">
-            <li><a class="text-primary" href="{{ route('admin.home') }}">خانه</a></li>/
-            <li class="text-primary">بخش فروش</li>/
-            <li><a class="text-primary" href="{{ route('admin.market.category.index') }}">دسته بندی</a></li>/
-            <li>ویرایش دسته بندی</li>
 
-        </ol>
-    </div>
+    <section class="flex flex-col gap-y-2 p-2 w-full">
 
-    <div class="box-container flex-column flex-row-gap-2">
-        <div class="row-head">
-            <h2>ویرایش دسته بندی</h2>
-            <a href="{{ route('admin.market.category.index') }}" class="button button-info">بازگشت</a>
+        <div class="flex justify-between items-center">
+            <span class="text-sm md:text-lg">ویرایش دسته بندی</span>
+            <a href="{{ route('admin.market.category.index') }}" class="btn bg-blue-600 text-white">بازگشت</a>
         </div>
 
         @if ($errors->any())
-            <div class="row-head bg-danger py-1 rounded">
-                <ul class="flex-column flex-row-gap-1">
-                    @foreach ($errors->all() as $error)
-                        <li class="text-white text-size-1 mr-space">{{ $error }}</li>
-                    @endforeach
-                </ul>
+            <div class="flex flex-col gap-y-1 rounded-lg bg-red-200 p-2">
+                <span class="text-xs">خطا های فرم:</span>
+                @foreach ($errors->all() as $error)
+                    <div class="flex gap-x-1 text-red-600 items-center">
+                        <span class="text-base">
+                            <i class="fa-light fa-diamond-exclamation"></i>
+                        </span>
+                        <span class="text-sm">{{ $error }}</span>
+                    </div>
+                @endforeach
+
             </div>
         @endif
 
-        <form action="{{ route('admin.market.category.update', $productCategory->id) }}" method="POST"
-            enctype="multipart/form-data" id="form">
+
+        <form class="w-full" action="{{ route('admin.market.category.update', $productCategory->id) }}"
+            method="POST" enctype="multipart/form-data" id="form">
             @csrf
-            {{ method_field('put') }}
-            <div class="flex-wrap flex-gap-2">
-                <div class="form-input-half">
-                    <label @if ($errors->has('name'))
-                        class="text-danger"
-                        @endif for="name">نام دسته</label>
-                    <input type="text" name="name" id="name" value="{{ old('name', $productCategory->name) }}">
+            @method('put')
+            <section class="w-full grid grid-cols-2 gap-2">
+                <div class="col-span-2 md:col-span-1 flex flex-col gap-y-1">
+                    <label for="name"
+                        class="text-xs {{ $errors->has('name') ? 'text-red-600 dark:text-red-400' : '' }}">نام
+                        دسته</label>
+                    <input type="text" class="form-input" name="name" id="name"
+                        value="{{ old('name', $productCategory->name) }}">
                 </div>
 
-                <div class="form-input-half">
-                    <label @if ($errors->has('parent_id'))
-                        class="text-danger"
-                        @endif for="parent_id">دسته والد</label>
-                    <select name="parent_id" id="parent_id">
+                <div class="col-span-2 md:col-span-1 flex flex-col gap-y-1">
+                    <label for="parent_id"
+                        class="text-xs {{ $errors->has('parent_id') ? 'text-red-600 dark:text-red-400' : '' }}">دسته
+                        والد</label>
+                    <select name="parent_id" id="parent_id" class="form-select" style="direction: ltr">
                         <option value="">دسته اصلی</option>
                         @foreach ($productCategories as $cat)
                             <option value="{{ $cat->id }}" @if (old('parent_id', $productCategory->parent_id) == $cat->id) selected @endif>
-                            {{ $cat->name }}
+                                {{ $cat->name }}
                             </option>
                         @endforeach
                     </select>
                 </div>
 
-
-                <div class="form-input-half">
-                    <label for="currentImage">تصویر پیش فرض</label>
-                    <select name="currentImage">
-                        @foreach ($productCategory->image['indexArray'] as $key => $value)
-                            <option value="{{ $key }}" @if (old('currentImage', $key) == $productCategory->image['currentImage']) selected @endif>
-
-                                @switch($key)
-                                    @case('larger')
-                                        بزرگ
-                                    @break
-                                    @case('medium')
-                                        متوسط
-                                    @break
-
-                                    @case('small')
-                                        کوچک
-                                    @break
-                                    @default
-
-                                @endswitch
-
-                            </option>
-                        @endforeach
+                <div class="col-span-2 md:col-span-1 flex flex-col gap-y-1">
+                    <label for="show_in_menu"
+                        class="text-xs {{ $errors->has('show_in_menu') ? 'text-red-600 dark:text-red-400' : '' }}">وضعیت
+                        نمایش در منو</label>
+                    <select name="show_in_menu" id="show_in_menu" class="form-select" style="direction: ltr">
+                        <option value="1" @if (old('show_in_menu', $productCategory->show_in_menu) == 1) selected @endif>فعال</option>
+                        <option value="0" @if (old('show_in_menu', $productCategory->show_in_menu) == 0) selected @endif>غیرفعال</option>
                     </select>
-
                 </div>
 
-                <div class="form-input-half">
-                    <label @if ($errors->has('status'))
-                        class="text-danger"
-                        @endif for="status">وضعیت</label>
-                    <select name="status" id="status">
-                        <option value="1" @if (old('status', $productCategory->status) == 1)
-                            selected
-                            @endif>فعال</option>
-                        <option value="0" @if (old('status', $productCategory->status) == 0)
-                            selected
-                            @endif>غیرفعال</option>
+                <div class="col-span-2 md:col-span-1 flex flex-col gap-y-1">
+                    <label for="description"
+                        class="text-xs {{ $errors->has('description') ? 'text-red-600 dark:text-red-400' : '' }}">توضیحات</label>
+                    <input type="text" class="form-input" name="description" id="description"
+                        value="{{ old('description', $productCategory->description) }}">
+                </div>
+                <div class="col-span-2  flex flex-col gap-y-1">
+                    <label for="tags"
+                        class="text-xs {{ $errors->has('tags') ? 'text-red-600 dark:text-red-400' : '' }}">تگ ها</label>
+                    <input type="text" name="tags" id="input_tags" value="{{ old('tags', $productCategory->tags) }}">
+
+                </div>
+                <div class="col-span-2 md:col-span-1 flex flex-col gap-y-1">
+                    <label for="image"
+                        class="text-xs {{ $errors->has('image') ? 'text-red-600 dark:text-red-400' : '' }}">تصویر</label>
+                    <input type="file" class="form-input" name="image" id="image">
+                </div>
+                <div class="col-span-2 md:col-span-1 flex flex-col gap-y-1">
+                    <label for="status"
+                        class="text-xs {{ $errors->has('status') ? 'text-red-600 dark:text-red-400' : '' }}">وضعیت</label>
+                    <select name="status" id="status" class="form-select" style="direction: ltr">
+                        <option value="1" @if (old('status', $productCategory->status) == 1) selected @endif>فعال</option>
+                        <option value="0" @if (old('status', $productCategory->status) == 0) selected @endif>غیرفعال</option>
                     </select>
                 </div>
 
 
-                <div class="form-input-half">
-                    <label @if ($errors->has('show_in_menu'))
-                        class="text-danger"
-                        @endif for="show_in_menu">وضعیت نمایش در منو</label>
-                    <select name="show_in_menu" id="show_in_menu">
-                        <option value="1" @if (old('show_in_menu', $productCategory->show_in_menu) == 1)
-                            selected
-                            @endif>فعال</option>
-                        <option value="0" @if (old('show_in_menu', $productCategory->show_in_menu) == 0)
-                            selected
-                            @endif>غیرفعال</option>
-                    </select>
-                </div>
-
-                <div class="form-input-half">
-                    <label @if ($errors->has('image'))
-                        class="text-danger"
-                        @endif for="image">تصویر</label>
-                    <input type="file" name="image" id="image">
-
-                </div>
-
-                <div class="form-input-full">
-                    <label @if ($errors->has('tags'))
-                        class="text-danger"
-                        @endif for="input_tags">تگ ها</label>
-                    <input class="w-100" type="text" name="tags" id="input_tags"
-                        value="{{ old('tags', $productCategory->tags) }}">
-                    </select>
-                </div>
-
-                <div class="form-input-full">
-                    <label @if ($errors->has('description'))
-                        class="text-danger"
-                        @endif for="description">توضیحات</label>
-                    <textarea name="description" rows="5"
-                        id="description">{{ old('description', $productCategory->description) }}</textarea>
-                </div>
-
-                <div class="row-head w-100">
-                    <button type="submit" class="button button-warning w-100">ویرایش</button>
-                </div>
-
-            </div>
-
-
+                <button class="col-span-2 py-2 rounded-lg bg-emerald-600 text-white text-sm md:text-base">ثبت</button>
+            </section>
         </form>
+    </section>
 
-
-
-
-
-    </div>
 @endsection
 
 @section('script')

@@ -100,10 +100,6 @@ class CategoryController extends Controller
             if ($result === false) {
                 return redirect()->route('admin.market.category.index')->with('alertify-error', 'آپلود تصویر با خطا مواجه شد');    
             }
-        } else {
-            $image = $productCategory->image;
-            $image['currentImage'] = $inputs['currentImage'];
-            $inputs['image'] = $image;
         }
 
         

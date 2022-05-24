@@ -23,4 +23,10 @@ class PostCategory extends Model
     protected $fillable = ['name', 'slug', 'description', 'image', 'status', 'tags'];
 
     protected $casts = ['image' => 'array'];
+
+    
+    public function parent()
+    {
+        return $this->belongsTo($this, 'parent_id');
+    }
 }

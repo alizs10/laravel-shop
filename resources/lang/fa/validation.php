@@ -230,5 +230,6 @@ return [
         'national_code' => 'کد ملی',
         'permission_id' => 'دسترسی ها',
         'slug' => 'اسلاگ',
+        'value' => 'مقدار',
     ],
 ];

@@ -1,83 +1,91 @@
 @extends('admin.layouts.master')
 
 @section('head-tag')
-    <title>پنل ادمین | بخش فروش | مقادیر فرم کالا</title>
+    <title>پنل ادمین | بخش فروش | فرم کالا | مقادیر فرم کالا</title>
 @endsection
+@section('breadcrumb')
+    <section class="m-2 px-2 py-4 rounded-lg bg-slate-100 dark:bg-slate-800 dark:text-white flex items-center gap-x-2">
 
+        <a href="{{ route('admin.home') }}" class="text-xs md:text-base text-purple-800 dark:text-purple-400">خانه</a>
+        <i class="fa-light fa-angles-left text-xs md:text-sm"></i>
+        <span class="text-xs md:text-base">بخش فروش</span>
+        <i class="fa-light fa-angles-left text-xs md:text-sm"></i>
+        <a href="{{ route('admin.market.property.index') }}" class="text-xs md:text-base text-purple-800 dark:text-purple-400">فرم کالا</a>
+        <i class="fa-light fa-angles-left text-xs md:text-sm"></i>
+        <span class="text-xs md:text-base">مقادیر فرم کالا</span>
+
+    </section>
+@endsection
 @section('content')
-    <div class="box-container">
-        <ol class="route-map-group">
-            <li><a class="text-primary" href="{{ route('admin.home') }}">خانه</a></li>/
-            <li><a class="text-primary" href="">بخش فروش</a></li>/
-            <li><a class="text-primary" href="{{ route('admin.market.property.index') }}">فرم کالا</a></li>/
-            <li>{{ $property->name }}</li>/
-            <li>مقادیر فرم کالا</li>
-
-
-        </ol>
+   
+<section class="flex flex-col gap-y-2 p-2 w-full">
+    <div class="flex justify-between items-center">
+        <span class="text-sm md:text-lg">مقادیر فرم کالا ({{ $property->name }})</span>
+        <a href="{{ route('admin.market.property.value.create', $property->id) }}" class="btn bg-blue-600 text-white">افزودن مقدار جدید</a>
     </div>
 
-    <div class="box-container flex-column flex-row-gap-2">
-        <div class="row-head">
-            <h2 class="text-size-titr">مقادیر فرم کالا <span class="text-danger">"{{ $property->name }}"</span></h2>
-            <a href="{{ route('admin.market.property.value.create', $property->id) }}" class="button button-info">افزودن مقدار جدید</a>
-        </div>
 
+    <section class="bg-slate-200 dark:bg-slate-700 rounded-lg w-full">
 
-        <div class="row-head">
-            <select name="" id="">
-                <option value="10">10</option>
-                <option value="100">100</option>
-                <option value="1000">1000</option>
-            </select>
-            <div class="searchBox">
-                <a><i class="fas fa-search"></i></a>
-                <input type="text">
-            </div>
-        </div>
+        <table class="table-auto w-full dark:text-white md:border-collapse">
 
-        <table class="styled-table">
-            <thead>
+            <thead class="text-xxs md:text-sm">
                 <tr>
-                    <td>#</td>
-                    <td>نام محصول</td>
-                    <td>فرم کالا</td>
-                    <td>مقدار</td>
-                    <td>افزایش قیمت</td>
-                    <td>عملیات</td>
+                    <th>#</th>
+                    <th>نام محصول</th>
+                    <th>فرم کالا</th>
+                    <th>مقدار</th>
+                    <th>افزایش قیمت</th>
+                    <th>عملیات</th>
                 </tr>
             </thead>
-            <tbody>
-
+            <tbody class="text-xxs md:text-sm">
                 @foreach ($property->values as $value)
                     <tr>
+
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $value->product->name }}</td>
                         <td>{{ $value->attribute->name }}</td>
                         <td>{{ json_decode($value->value)->value }}</td>
                         
                         <td>{{ json_decode($value->value)->price_increase . ' تومان' }}</td>
+                        <td>
+                            <span class="flex items-center gap-x-1">
+                                <a href="{{ route('admin.market.property.value.edit', $value->id) }}"
+                                    class="btn bg-yellow-500 text-black flex-center gap-1">
+                                    <i class="fa-light fa-pen-to-square"></i>
+                                    ویرایش
+                                </a>
+                                <form class="m-0"
+                                action="{{ route('admin.market.property.value.destroy', $value->id) }}"
+                                    method="POST">
+                                    @csrf
+                                    {{ method_field('delete') }}
+                                    <button class="btn bg-red-400 text-black flex-center gap-1 delBtn">
+                                        <i class="fa-light fa-trash-can"></i>
+                                        حذف
+                                    </button>
+                                </form>
 
-                <td>
-                    <span>
-                        <a href="{{ route('admin.market.property.value.edit', $value->id) }}"
-                            class="button button-warning">ویرایش</a>
-                        <form action="{{ route('admin.market.property.value.destroy', $value->id) }}" method="POST">
-                            @csrf
-                            {{ method_field('delete') }}
-                            <button type="submit" class="button button-danger delBtn">حذف</button>
-                        </form>
-                    </span>
-                </td>
 
-                </tr>
+                            </span>
+                        </td>
 
+                    </tr>
                 @endforeach
 
             </tbody>
+
+
+
+
         </table>
 
-    </div>
+    </section>
+
+
+</section>
+    
 @endsection
 
 @section('script')

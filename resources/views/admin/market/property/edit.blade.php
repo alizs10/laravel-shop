@@ -1,87 +1,92 @@
 @extends('admin.layouts.master')
 
 @section('head-tag')
-    <title>پنل ادمین | بخش فروش | ویرایش فرم کالا</title>
+    <title>پنل ادمین | بخش فروش | فرم کالا | ویرایش فرم کالا</title>
 @endsection
+@section('breadcrumb')
+    <section class="m-2 px-2 py-4 rounded-lg bg-slate-100 dark:bg-slate-800 dark:text-white flex items-center gap-x-2">
 
+        <a href="{{ route('admin.home') }}" class="text-xs md:text-base text-purple-800 dark:text-purple-400">خانه</a>
+        <i class="fa-light fa-angles-left text-xs md:text-sm"></i>
+        <span class="text-xs md:text-base">بخش فروش</span>
+        <i class="fa-light fa-angles-left text-xs md:text-sm"></i>
+        <a href="{{ route('admin.market.property.index') }}"
+            class="text-xs md:text-base text-purple-800 dark:text-purple-400">فرم کالا</a>
+        <i class="fa-light fa-angles-left text-xs md:text-sm"></i>
+        <span class="text-xs md:text-base">ویرایش فرم کالا</span>
+
+    </section>
+@endsection
 @section('content')
-    <div class="box-container">
-        <ol class="route-map-group">
-            <li><a class="text-primary" href="{{ route('admin.home') }}">خانه</a></li>/
-            <li><a class="text-primary" href="">بخش فروش</a></li>/
-            <li><a class="text-primary" href="{{ route('admin.market.property.index') }}">فرم کالا</a></li>/
-            <li>ویرایش فرم کالا</li>
 
-        </ol>
-    </div>
+    <section class="flex flex-col gap-y-2 p-2 w-full">
 
-
-
-    <div class="box-container flex-column flex-row-gap-2">
-        <div class="row-head">
-            <h2>ویرایش فرم کالا</h2>
-            <a href="{{ route('admin.market.property.index') }}" class="button button-info">بازگشت</a>
+        <div class="flex justify-between items-center">
+            <span class="text-sm md:text-lg">ویرایش فرم کالا</span>
+            <a href="{{ route('admin.market.property.index') }}" class="btn bg-blue-600 text-white">بازگشت</a>
         </div>
 
         @if ($errors->any())
-            <div class="row-head bg-danger py-1 rounded">
-                <ul class="flex-column flex-row-gap-1">
-                    @foreach ($errors->all() as $error)
-                        <li class="text-white text-size-1 mr-space">{{ $error }}</li>
-                    @endforeach
-                </ul>
+            <div class="flex flex-col gap-y-1 rounded-lg bg-red-200 p-2">
+                <span class="text-xs">خطا های فرم:</span>
+                @foreach ($errors->all() as $error)
+                    <div class="flex gap-x-1 text-red-600 items-center">
+                        <span class="text-base">
+                            <i class="fa-light fa-diamond-exclamation"></i>
+                        </span>
+                        <span class="text-sm">{{ $error }}</span>
+                    </div>
+                @endforeach
+
             </div>
         @endif
 
-        <form action="{{ route('admin.market.property.update', $property->id) }}" method="POST" id="form">
+
+        <form class="w-full" action="{{ route('admin.market.property.update', $property->id) }}" method="POST"
+            enctype="multipart/form-data" id="form">
             @csrf
             @method('put')
-            <div class="flex-wrap flex-gap-2">
-                <div class="form-input-half">
-                    <label @if ($errors->has('name'))
-                        class="text-danger"
-                        @endif for="name">عنوان فرم کالا</label>
-                    <input type="text" name="name" id="name" value="{{ old('name', $property->name) }}">
+            <section class="w-full grid grid-cols-2 gap-2">
+                <div class="col-span-2 md:col-span-1 flex flex-col gap-y-1">
+                    <label for="name"
+                        class="text-xs {{ $errors->has('name') ? 'text-red-600 dark:text-red-400' : '' }}">عنوان فرم
+                        کالا</label>
+                    <input type="text" class="form-input" name="name" id="name"
+                        value="{{ old('name', $property->name) }}">
+                </div>
+                <div class="col-span-2 md:col-span-1 flex flex-col gap-y-1">
+                    <label for="unit"
+                        class="text-xs {{ $errors->has('unit') ? 'text-red-600 dark:text-red-400' : '' }}">واحد فرم
+                        کالا</label>
+                    <input type="text" class="form-input" name="unit" id="unit"
+                        value="{{ old('unit', $property->unit) }}">
                 </div>
 
-                <div class="form-input-half">
-                    <label @if ($errors->has('unit'))
-                        class="text-danger"
-                        @endif for="unit">واحد فرم کالا</label>
-                    <input type="text" name="unit" id="unit" value="{{ old('unit', $property->unit) }}">
-                </div>
-
-                <div class="form-input-half">
-                    <label @if ($errors->has('type'))
-                        class="text-danger"
-                        @endif for="type">نوع فرم کالا</label>
-                    <select name="type" id="type">
+                <div class="col-span-2 md:col-span-1 flex flex-col gap-y-1">
+                    <label for="type"
+                        class="text-xs {{ $errors->has('type') ? 'text-red-600 dark:text-red-400' : '' }}">نوع فرم
+                        کالا</label>
+                    <select name="type" id="type" class="form-select" style="direction: ltr">
                         <option value="0" @if (old('type', $property->type) == 0) selected @endif>ساده</option>
                         <option value="1" @if (old('type', $property->type) == 1) selected @endif>انتخابی</option>
                     </select>
                 </div>
 
-                <div class="form-input-half">
-                    <label @if ($errors->has('cat_id'))
-                        class="text-danger"
-                        @endif for="cat_id">دسته</label>
-                    <select name="cat_id" id="cat_id">
+                <div class="col-span-2 md:col-span-1 flex flex-col gap-y-1">
+                    <label for="cat_id"
+                        class="text-xs {{ $errors->has('cat_id') ? 'text-red-600 dark:text-red-400' : '' }}">دسته</label>
+                    <select name="cat_id" id="cat_id" class="form-select" style="direction: ltr">
                         <option value="">دسته را انتخاب کنید</option>
                         @foreach ($productCategories as $cat)
-                            <option value="{{ $cat->id }}" @if (old('cat_id', $property->cat_id) == $cat->id) selected @endif>{{ $cat->name }}</option>
+                            <option value="{{ $cat->id }}" @if (old('cat_id', $property->cat_id) == $cat->id) selected @endif>
+                                {{ $cat->name }}</option>
                         @endforeach
-
                     </select>
                 </div>
 
-                <div class="row-head w-100">
-                    <button type="submit" class="button button-warning w-100">ویرایش</button>
-                </div>
-            </div>
+
+                <button class="col-span-2 py-2 rounded-lg bg-emerald-600 text-white text-sm md:text-base">ثبت</button>
+            </section>
         </form>
-
-
-
-
-    </div>
+    </section>
 @endsection

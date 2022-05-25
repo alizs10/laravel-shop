@@ -42,6 +42,14 @@
     @apply border-r-4 border-purple-800 text-purple-800 dark:border-purple-400 dark:text-purple-400 pr-2;
 }
 
+.sidebar-dropdown-menu {
+    @apply mr-4 text-slate-800 dark:text-slate-200 flex items-center gap-x-4 hover-transition hover:text-purple-800 dark:hover:text-purple-400
+}
+
+.sidebar-dropdown-menu-active {
+    @apply mr-4 text-purple-800 dark:text-purple-400 flex items-center gap-x-4
+}
+
 .toggleSidebar {
     @apply -right-full transition-all duration-300
 }

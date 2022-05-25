@@ -14,9 +14,34 @@ function sideBarMenuActiver($url, $hasSub = false)
     else
         return request()->url() === $url ? "sidebar-active" : "";
 }
+function sidebarDropdownMenuActiver($url)
+{
+    return request()->url() === $url ? "sidebar-dropdown-menu-active" : "sidebar-dropdown-menu";
+}
 
-function numbers_e2f($str) {
-	$persian_numbers = array('٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩');
-	$english_numbers = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
-	return str_replace($english_numbers, $persian_numbers, $str);
+function sidebarDropdownActiver($base, array $routes)
+{
+    foreach ($routes as $route) {
+        $url = route($base . '.' . $route);
+        if (request()->url() === $url) {
+            return [
+                'btn' => "sidebar-active",
+                'rotate' => 'rotate-sidebar-btn',
+                'hidden' => '',
+            ];
+        }
+    }
+
+    return [
+        'btn' => "",
+        'rotate' => '',
+        'hidden' => 'hidden',
+    ];
+}
+
+function numbers_e2f($str)
+{
+    $persian_numbers = array('٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩');
+    $english_numbers = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
+    return str_replace($english_numbers, $persian_numbers, $str);
 }

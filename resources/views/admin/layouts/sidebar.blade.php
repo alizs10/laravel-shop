@@ -12,7 +12,9 @@
 
             <span class="text-gray-500 text-xs">بخش فروش</span>
 
-            <button class="sidebar-btn" onclick="toggleSidebarDropdownBtn(this)">
+            <button
+                class="sidebar-btn {{ sidebarDropdownActiver('admin.market', ['category.index', 'property.index', 'product.index', 'brand.index', 'store.index', 'comment.index'])['btn'] }}"
+                onclick="toggleSidebarDropdownBtn(this)">
 
                 <div class="flex justify-between w-full">
                     <span>
@@ -20,56 +22,46 @@
                         فروشگاه
                     </span>
 
-                    <span class="angle ml-2 transition-all duration-300">
+                    <span
+                        class="angle ml-2 transition-all duration-300  {{ sidebarDropdownActiver('admin.market', ['category.index', 'property.index', 'product.index', 'brand.index', 'store.index', 'comment.index'])['rotate'] }}">
                         <i class="fa fa-angle-left"></i>
                     </span>
                 </div>
 
-                <ul class="hidden dropdown w-full mt-4 flex-col gap-y-2">
-                    <a href="{{ route('admin.market.category.index') }}"
-                        class="flex items-center gap-x-4 text-sm text-slate-900">
-                        <span
-                            class="mr-4 text-slate-800 dark:text-slate-200 flex items-center gap-x-4 hover-transition hover:text-purple-800 dark:hover:text-purple-500">
+                <ul
+                    class="{{ sidebarDropdownActiver('admin.market', ['category.index', 'property.index', 'product.index', 'brand.index', 'store.index', 'comment.index'])['hidden'] }} dropdown w-full mt-4 flex-col gap-y-2">
+                    <a href="{{ route('admin.market.category.index') }}" class="flex items-center gap-x-4 text-sm">
+                        <span class="{{ sidebarDropdownMenuActiver(route('admin.market.category.index')) }}">
                             <i class="fa-solid fa-angles-left text-xxs"></i>
                             دسته بندی
                         </span>
                     </a>
-                    <a href="{{ route('admin.market.property.index') }}"
-                        class="flex items-center gap-x-4 text-sm text-slate-900">
-                        <span
-                            class="mr-4 text-slate-800 dark:text-slate-200 flex items-center gap-x-4  hover-transition hover:text-purple-800 dark:hover:text-purple-500">
+                    <a href="{{ route('admin.market.property.index') }}" class="flex items-center gap-x-4 text-sm">
+                        <span class="{{ sidebarDropdownMenuActiver(route('admin.market.property.index')) }}">
                             <i class="fa-solid fa-angles-left text-xxs"></i>
                             فرم کالا
                         </span>
                     </a>
-                    <a href="{{ route('admin.market.product.index') }}"
-                        class="flex items-center gap-x-4 text-sm text-slate-900">
-                        <span
-                            class="mr-4 text-slate-800 dark:text-slate-200 flex items-center gap-x-4  hover-transition hover:text-purple-800 dark:hover:text-purple-500">
+                    <a href="{{ route('admin.market.product.index') }}" class="flex items-center gap-x-4 text-sm">
+                        <span class="{{ sidebarDropdownMenuActiver(route('admin.market.product.index')) }}">
                             <i class="fa-solid fa-angles-left text-xxs"></i>
                             محصولات
                         </span>
                     </a>
-                    <a href="{{ route('admin.market.brand.index') }}"
-                        class="flex items-center gap-x-4 text-sm text-slate-900">
-                        <span
-                            class="mr-4 text-slate-800 dark:text-slate-200 flex items-center gap-x-4  hover-transition hover:text-purple-800 dark:hover:text-purple-500">
+                    <a href="{{ route('admin.market.brand.index') }}" class="flex items-center gap-x-4 text-sm">
+                        <span class="{{ sidebarDropdownMenuActiver(route('admin.market.brand.index')) }}">
                             <i class="fa-solid fa-angles-left text-xxs"></i>
                             برند
                         </span>
                     </a>
-                    <a href="{{ route('admin.market.store.index') }}"
-                        class="flex items-center gap-x-4 text-sm text-slate-900">
-                        <span
-                            class="mr-4 text-slate-800 dark:text-slate-200 flex items-center gap-x-4  hover-transition hover:text-purple-800 dark:hover:text-purple-500">
+                    <a href="{{ route('admin.market.store.index') }}" class="flex items-center gap-x-4 text-sm">
+                        <span class="{{ sidebarDropdownMenuActiver(route('admin.market.store.index')) }}">
                             <i class="fa-solid fa-angles-left text-xxs"></i>
                             انبار
                         </span>
                     </a>
-                    <a href="{{ route('admin.market.comment.index') }}"
-                        class="flex items-center gap-x-4 text-sm text-slate-900">
-                        <span
-                            class="mr-4 text-slate-800 dark:text-slate-200 flex items-center gap-x-4  hover-transition hover:text-purple-800 dark:hover:text-purple-500">
+                    <a href="{{ route('admin.market.comment.index') }}" class="flex items-center gap-x-4 text-sm">
+                        <span class="{{ sidebarDropdownMenuActiver(route('admin.market.comment.index')) }}">
                             <i class="fa-solid fa-angles-left text-xxs"></i>
                             نظرات
                         </span>
@@ -77,7 +69,7 @@
                 </ul>
 
             </button>
-            <button class="sidebar-btn" onclick="toggleSidebarDropdownBtn(this)">
+            <button class="sidebar-btn {{ sidebarDropdownActiver('admin.market', ['order.newOrders', 'order.processing', 'order.delivering', 'order.unpaid', 'order.expired', 'order.returned', 'order.returned', 'order.index'])['btn'] }}" onclick="toggleSidebarDropdownBtn(this)">
 
                 <div class="flex justify-between w-full">
                     <span>
@@ -85,16 +77,16 @@
                         سفارشات
                     </span>
 
-                    <span class="angle ml-2 transition-all duration-300">
+                    <span class="angle ml-2 transition-all duration-300 {{ sidebarDropdownActiver('admin.market', ['order.newOrders', 'order.processing', 'order.delivering', 'order.unpaid', 'order.expired', 'order.returned', 'order.returned', 'order.index'])['rotate'] }}">
                         <i class="fa fa-angle-left"></i>
                     </span>
                 </div>
 
-                <ul class="hidden dropdown w-full mt-4 flex-col gap-y-2">
+                <ul class="{{ sidebarDropdownActiver('admin.market', ['order.newOrders', 'order.processing', 'order.delivering', 'order.unpaid', 'order.expired', 'order.returned', 'order.returned', 'order.index'])['hidden'] }} dropdown w-full mt-4 flex-col gap-y-2">
                     <a href="{{ route('admin.market.order.newOrders') }}"
                         class="flex items-center gap-x-4 text-sm text-slate-900">
                         <span
-                            class="mr-4 text-slate-800 dark:text-slate-200 flex items-center gap-x-4 hover-transition hover:text-purple-800 dark:hover:text-purple-500">
+                            class="{{ sidebarDropdownMenuActiver(route('admin.market.order.newOrders')) }}">
                             <i class="fa-solid fa-angles-left text-xxs"></i>
                             جدید
                         </span>
@@ -102,7 +94,7 @@
                     <a href="{{ route('admin.market.order.processing') }}"
                         class="flex items-center gap-x-4 text-sm text-slate-900">
                         <span
-                            class="mr-4 text-slate-800 dark:text-slate-200 flex items-center gap-x-4  hover-transition hover:text-purple-800 dark:hover:text-purple-500">
+                            class="{{ sidebarDropdownMenuActiver(route('admin.market.order.processing')) }}">
                             <i class="fa-solid fa-angles-left text-xxs"></i>
                             در حال پردازش
                         </span>
@@ -110,7 +102,7 @@
                     <a href="{{ route('admin.market.order.delivering') }}"
                         class="flex items-center gap-x-4 text-sm text-slate-900">
                         <span
-                            class="mr-4 text-slate-800 dark:text-slate-200 flex items-center gap-x-4  hover-transition hover:text-purple-800 dark:hover:text-purple-500">
+                            class="{{ sidebarDropdownMenuActiver(route('admin.market.order.delivering')) }}">
                             <i class="fa-solid fa-angles-left text-xxs"></i>
                             در حال ارسال
                         </span>
@@ -118,7 +110,7 @@
                     <a href="{{ route('admin.market.order.unpaid') }}"
                         class="flex items-center gap-x-4 text-sm text-slate-900">
                         <span
-                            class="mr-4 text-slate-800 dark:text-slate-200 flex items-center gap-x-4  hover-transition hover:text-purple-800 dark:hover:text-purple-500">
+                            class="{{ sidebarDropdownMenuActiver(route('admin.market.order.unpaid')) }}">
                             <i class="fa-solid fa-angles-left text-xxs"></i>
                             پرداخت نشده
                         </span>
@@ -126,7 +118,7 @@
                     <a href="{{ route('admin.market.order.expired') }}"
                         class="flex items-center gap-x-4 text-sm text-slate-900">
                         <span
-                            class="mr-4 text-slate-800 dark:text-slate-200 flex items-center gap-x-4  hover-transition hover:text-purple-800 dark:hover:text-purple-500">
+                            class="{{ sidebarDropdownMenuActiver(route('admin.market.order.expired')) }}">
                             <i class="fa-solid fa-angles-left text-xxs"></i>
                             باطل شده
                         </span>
@@ -134,7 +126,7 @@
                     <a href="{{ route('admin.market.order.returned') }}"
                         class="flex items-center gap-x-4 text-sm text-slate-900">
                         <span
-                            class="mr-4 text-slate-800 dark:text-slate-200 flex items-center gap-x-4  hover-transition hover:text-purple-800 dark:hover:text-purple-500">
+                            class="{{ sidebarDropdownMenuActiver(route('admin.market.order.returned')) }}">
                             <i class="fa-solid fa-angles-left text-xxs"></i>
                             مرجوعی
                         </span>
@@ -142,7 +134,7 @@
                     <a href="{{ route('admin.market.order.index') }}"
                         class="flex items-center gap-x-4 text-sm text-slate-900">
                         <span
-                            class="mr-4 text-slate-800 dark:text-slate-200 flex items-center gap-x-4  hover-transition hover:text-purple-800 dark:hover:text-purple-500">
+                            class="{{ sidebarDropdownMenuActiver(route('admin.market.order.index')) }}">
                             <i class="fa-solid fa-angles-left text-xxs"></i>
                             تمام سفارشات
                         </span>
@@ -150,7 +142,7 @@
                 </ul>
 
             </button>
-            <button class="sidebar-btn" onclick="toggleSidebarDropdownBtn(this)">
+            <button class="sidebar-btn {{ sidebarDropdownActiver('admin.market', ['payment.all', 'payment.online', 'payment.offline', 'payment.cash'])['btn'] }}" onclick="toggleSidebarDropdownBtn(this)">
 
                 <div class="flex justify-between w-full">
                     <span>
@@ -158,16 +150,16 @@
                         پرداخت ها
                     </span>
 
-                    <span class="angle ml-2 transition-all duration-300">
+                    <span class="angle ml-2 transition-all duration-300 {{ sidebarDropdownActiver('admin.market', ['payment.all', 'payment.online', 'payment.offline', 'payment.cash'])['rotate'] }}">
                         <i class="fa fa-angle-left"></i>
                     </span>
                 </div>
 
-                <ul class="hidden dropdown w-full mt-4 flex-col gap-y-2">
+                <ul class="{{ sidebarDropdownActiver('admin.market', ['payment.all', 'payment.online', 'payment.offline', 'payment.cash'])['hidden'] }} dropdown w-full mt-4 flex-col gap-y-2">
                     <a href="{{ route('admin.market.payment.all') }}"
                         class="flex items-center gap-x-4 text-sm text-slate-900">
                         <span
-                            class="mr-4 text-slate-800 dark:text-slate-200 flex items-center gap-x-4 hover-transition hover:text-purple-800 dark:hover:text-purple-500">
+                            class="{{ sidebarDropdownMenuActiver(route('admin.market.payment.all')) }}">
                             <i class="fa-solid fa-angles-left text-xxs"></i>
                             کل پرداخت ها
                         </span>
@@ -175,7 +167,7 @@
                     <a href="{{ route('admin.market.payment.online') }}"
                         class="flex items-center gap-x-4 text-sm text-slate-900">
                         <span
-                            class="mr-4 text-slate-800 dark:text-slate-200 flex items-center gap-x-4  hover-transition hover:text-purple-800 dark:hover:text-purple-500">
+                            class="{{ sidebarDropdownMenuActiver(route('admin.market.payment.online')) }}">
                             <i class="fa-solid fa-angles-left text-xxs"></i>
                             پرداخت های آنلاین
                         </span>
@@ -183,7 +175,7 @@
                     <a href="{{ route('admin.market.payment.offline') }}"
                         class="flex items-center gap-x-4 text-sm text-slate-900">
                         <span
-                            class="mr-4 text-slate-800 dark:text-slate-200 flex items-center gap-x-4  hover-transition hover:text-purple-800 dark:hover:text-purple-500">
+                            class="{{ sidebarDropdownMenuActiver(route('admin.market.payment.offline')) }}">
                             <i class="fa-solid fa-angles-left text-xxs"></i>
                             پرداخت های آفلاین
                         </span>
@@ -191,7 +183,7 @@
                     <a href="{{ route('admin.market.payment.cash') }}"
                         class="flex items-center gap-x-4 text-sm text-slate-900">
                         <span
-                            class="mr-4 text-slate-800 dark:text-slate-200 flex items-center gap-x-4  hover-transition hover:text-purple-800 dark:hover:text-purple-500">
+                            class="{{ sidebarDropdownMenuActiver(route('admin.market.payment.cash')) }}">
                             <i class="fa-solid fa-angles-left text-xxs"></i>
                             پرداخت های در محل
                         </span>
@@ -199,7 +191,7 @@
                 </ul>
 
             </button>
-            <button class="sidebar-btn" onclick="toggleSidebarDropdownBtn(this)">
+            <button class="sidebar-btn {{ sidebarDropdownActiver('admin.market.discount', ['coupon', 'public', 'amazing'])['btn'] }}" onclick="toggleSidebarDropdownBtn(this)">
 
                 <div class="flex justify-between w-full">
                     <span>
@@ -207,16 +199,16 @@
                         تخفیف ها
                     </span>
 
-                    <span class="angle ml-2 transition-all duration-300">
+                    <span class="angle ml-2 transition-all duration-300  {{ sidebarDropdownActiver('admin.market.discount', ['coupon', 'public', 'amazing'])['rotate'] }}">
                         <i class="fa fa-angle-left"></i>
                     </span>
                 </div>
 
-                <ul class="hidden dropdown w-full mt-4 flex-col gap-y-2">
+                <ul class=" {{ sidebarDropdownActiver('admin.market.discount', ['coupon', 'public', 'amazing'])['hidden'] }} dropdown w-full mt-4 flex-col gap-y-2">
                     <a href="{{ route('admin.market.discount.coupon') }}"
                         class="flex items-center gap-x-4 text-sm text-slate-900">
                         <span
-                            class="mr-4 text-slate-800 dark:text-slate-200 flex items-center gap-x-4 hover-transition hover:text-purple-800 dark:hover:text-purple-500">
+                            class="{{ sidebarDropdownMenuActiver(route('admin.market.discount.coupon')) }}">
                             <i class="fa-solid fa-angles-left text-xxs"></i>
                             کوپن های تخفیف
                         </span>
@@ -224,7 +216,7 @@
                     <a href="{{ route('admin.market.discount.public') }}"
                         class="flex items-center gap-x-4 text-sm text-slate-900">
                         <span
-                            class="mr-4 text-slate-800 dark:text-slate-200 flex items-center gap-x-4  hover-transition hover:text-purple-800 dark:hover:text-purple-500">
+                            class="{{ sidebarDropdownMenuActiver(route('admin.market.discount.public')) }}">
                             <i class="fa-solid fa-angles-left text-xxs"></i>
                             تخفیف های عمومی
                         </span>
@@ -232,7 +224,7 @@
                     <a href="{{ route('admin.market.discount.amazing') }}"
                         class="flex items-center gap-x-4 text-sm text-slate-900">
                         <span
-                            class="mr-4 text-slate-800 dark:text-slate-200 flex items-center gap-x-4  hover-transition hover:text-purple-800 dark:hover:text-purple-500">
+                            class="{{ sidebarDropdownMenuActiver(route('admin.market.discount.amazing')) }}">
                             <i class="fa-solid fa-angles-left text-xxs"></i>
                             تخفیف های شگفت انگیز
                         </span>
@@ -301,7 +293,7 @@
 
             <span class="text-gray-500 text-xs">بخش تیکت ها</span>
 
-            <button class="sidebar-btn" onclick="toggleSidebarDropdownBtn(this)">
+            <button class="sidebar-btn {{ sidebarDropdownActiver('admin.ticket', ['new-tickets', 'opened-tickets', 'closed-tickets', 'index', 'admin.index', 'category.index', 'priority.index'])['btn'] }}" onclick="toggleSidebarDropdownBtn(this)">
 
                 <div class="flex justify-between w-full">
                     <span>
@@ -309,16 +301,16 @@
                         تیکت ها
                     </span>
 
-                    <span class="angle ml-2 transition-all duration-300">
+                    <span class="angle ml-2 transition-all duration-300 {{ sidebarDropdownActiver('admin.ticket', ['new-tickets', 'opened-tickets', 'closed-tickets', 'index', 'admin.index', 'category.index', 'priority.index'])['rotate'] }}">
                         <i class="fa fa-angle-left"></i>
                     </span>
                 </div>
 
-                <ul class="hidden dropdown w-full mt-4 flex-col gap-y-2">
+                <ul class="{{ sidebarDropdownActiver('admin.ticket', ['new-tickets', 'opened-tickets', 'closed-tickets', 'index', 'admin.index', 'category.index', 'priority.index'])['hidden'] }} dropdown w-full mt-4 flex-col gap-y-2">
                     <a href="{{ route('admin.ticket.new-tickets') }}"
                         class="flex items-center gap-x-4 text-sm text-slate-900">
                         <span
-                            class="mr-4 text-slate-800 dark:text-slate-200 flex items-center gap-x-4 hover-transition hover:text-purple-800 dark:hover:text-purple-500">
+                            class="sidebar-link {{ sidebarDropdownMenuActiver(route('admin.ticket.new-tickets')) }}">
                             <i class="fa-solid fa-angles-left text-xxs"></i>
                             تیکت های جدید
                         </span>
@@ -326,7 +318,7 @@
                     <a href="{{ route('admin.ticket.opened-tickets') }}"
                         class="flex items-center gap-x-4 text-sm text-slate-900">
                         <span
-                            class="mr-4 text-slate-800 dark:text-slate-200 flex items-center gap-x-4 hover-transition hover:text-purple-800 dark:hover:text-purple-500">
+                            class="sidebar-link {{ sidebarDropdownMenuActiver(route('admin.ticket.opened-tickets')) }}">
                             <i class="fa-solid fa-angles-left text-xxs"></i>
                             تیکت های باز
                         </span>
@@ -334,7 +326,7 @@
                     <a href="{{ route('admin.ticket.closed-tickets') }}"
                         class="flex items-center gap-x-4 text-sm text-slate-900">
                         <span
-                            class="mr-4 text-slate-800 dark:text-slate-200 flex items-center gap-x-4  hover-transition hover:text-purple-800 dark:hover:text-purple-500">
+                            class="sidebar-link {{ sidebarDropdownMenuActiver(route('admin.ticket.closed-tickets')) }}">
                             <i class="fa-solid fa-angles-left text-xxs"></i>
                             تیکت های بسته
                         </span>
@@ -342,7 +334,7 @@
                     <a href="{{ route('admin.ticket.index') }}"
                         class="flex items-center gap-x-4 text-sm text-slate-900">
                         <span
-                            class="mr-4 text-slate-800 dark:text-slate-200 flex items-center gap-x-4  hover-transition hover:text-purple-800 dark:hover:text-purple-500">
+                            class="sidebar-link {{ sidebarDropdownMenuActiver(route('admin.ticket.index')) }}">
                             <i class="fa-solid fa-angles-left text-xxs"></i>
                             تمام تیکت ها
                         </span>
@@ -350,7 +342,7 @@
                     <a href="{{ route('admin.ticket.admin.index') }}"
                         class="flex items-center gap-x-4 text-sm text-slate-900">
                         <span
-                            class="mr-4 text-slate-800 dark:text-slate-200 flex items-center gap-x-4  hover-transition hover:text-purple-800 dark:hover:text-purple-500">
+                            class="sidebar-link {{ sidebarDropdownMenuActiver(route('admin.ticket.admin.index')) }}">
                             <i class="fa-solid fa-angles-left text-xxs"></i>
                             ادمین تیکت ها
                         </span>
@@ -358,7 +350,7 @@
                     <a href="{{ route('admin.ticket.category.index') }}"
                         class="flex items-center gap-x-4 text-sm text-slate-900">
                         <span
-                            class="mr-4 text-slate-800 dark:text-slate-200 flex items-center gap-x-4  hover-transition hover:text-purple-800 dark:hover:text-purple-500">
+                            class="sidebar-link {{ sidebarDropdownMenuActiver(route('admin.ticket.category.index')) }}">
                             <i class="fa-solid fa-angles-left text-xxs"></i>
                             دسته بندی تیکت ها
                         </span>
@@ -366,7 +358,7 @@
                     <a href="{{ route('admin.ticket.priority.index') }}"
                         class="flex items-center gap-x-4 text-sm text-slate-900">
                         <span
-                            class="mr-4 text-slate-800 dark:text-slate-200 flex items-center gap-x-4  hover-transition hover:text-purple-800 dark:hover:text-purple-500">
+                            class="sidebar-link {{ sidebarDropdownMenuActiver(route('admin.ticket.priority.index')) }}">
                             <i class="fa-solid fa-angles-left text-xxs"></i>
                             اولویت بندی تیکت ها
                         </span>

@@ -60,31 +60,38 @@
                 class="h-10 md:h-16 w-10 md:w-16 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 hover-transition relative">
                 <i class="fa-light fa-bell text-xl xs:text-3xl"></i>
                 <span
-                    class="absolute bottom-0 -right-3 rounded-full bg-red-600 h-5 xs:h-7 w-5 xs:w-7 p-1 text-xxxs xs:text-xxs flex-center text-white">13</span>
+                    class="absolute bottom-0 -right-3 rounded-full bg-red-600 h-5 xs:h-7 w-5 xs:w-7 p-1 text-xxxs xs:text-xxs flex-center text-white">{{ $unreadNotifications->count() }}</span>
 
                 <div
                     class="hidden absolute -left-1 top-14 xs:top-20 z-20 h-fit max-h-96 overflow-y-scroll no-scrollbar w-56 rounded-lg overflow-hidden shadow-md">
                     <ul class="w-full">
 
-                        <li>
-                            <a href=""
-                                class="flex flex-col gap-y-2 py-2 bg-slate-100 dark:bg-slate-900 hover:bg-slate-200 dark:hover:bg-slate-700 hover-transition">
-                                <div class="flex justify-between mx-2">
-                                    <span class="flex gap-x-2">
-                                        <i class="fa fa-user"></i>
-                                        <span class="text-xxs">علی سلیمانی</span>
+                        @foreach ($unreadNotifications as $unreadNotification)
+                            <li>
+                                <a href=""
+                                    class="flex flex-col gap-y-2 py-2 bg-slate-100 dark:bg-slate-900 hover:bg-slate-200 dark:hover:bg-slate-700 hover-transition">
+                                    <div class="flex justify-between mx-2">
+                                        <span class="flex gap-x-2">
+                                            <i class="fa fa-user"></i>
+                                            <span class="text-xxs">
+                                                {{ $unreadNotification['data']['username'] }}
+                                            </span>
+                                        </span>
+                                        <span>
+                                            <i
+                                                class="fa-regular fa-dot-circle text-xxs xs:text-xs text-emerald-400"></i>
+                                        </span>
+                                    </div>
+                                    <span class="text-right mr-2 text-xs text-blue-500 font-bold">
+                                        {{ $unreadNotification['data']['message'] }}
                                     </span>
-                                    <span>
-                                        <i class="fa-regular fa-dot-circle text-xxs xs:text-xs text-emerald-400"></i>
+                                    <span class="mr-2 text-right text-gray-500 text-xxs">
+                                        {{ Str::limit($unreadNotification['data']['title'], 35, '...') }}
                                     </span>
-                                </div>
-                                <span class="text-right mr-2 text-xs text-blue-500 font-bold">یک پست جدید
-                                    منتشر
-                                    کرد</span>
-                                <span class="mr-2 text-right text-gray-500 text-xxs">متن تستی است این یک
-                                    ...</span>
-                            </a>
-                        </li>
+                                </a>
+                            </li>
+                        @endforeach
+
 
                     </ul>
                 </div>
@@ -124,7 +131,8 @@
                         @endforeach
 
                         @if (count($unseenComments) == 0)
-                            <li class="py-2 bg-slate-100 dark:bg-slate-900 hover:bg-slate-200 dark:hover:bg-slate-700">نظری
+                            <li class="py-2 bg-slate-100 dark:bg-slate-900 hover:bg-slate-200 dark:hover:bg-slate-700">
+                                نظری
                                 جدیدی وجود ندارد
                                 <li />
                         @endif

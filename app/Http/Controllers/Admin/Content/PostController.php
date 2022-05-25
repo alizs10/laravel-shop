@@ -7,6 +7,8 @@ use App\Http\Requests\Admin\Content\PostRequest;
 use App\Http\Services\Image\ImageService;
 use App\Models\Content\Post;
 use App\Models\Content\PostCategory;
+use App\Models\User;
+use App\Notifications\Admin\PostCreated;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -57,6 +59,14 @@ class PostController extends Controller
         $inputs['image'] = $result;
         $inputs['author_id'] = 10;
         Post::create($inputs);
+        $details = [
+            'message' => 'یک پست جدید منتشر کرد',
+            'username' => User::find($inputs['author_id'])->fullName,
+            'title' => $inputs['title'],
+        ];
+
+        $admin = User::find(10);
+        $admin->notify(new PostCreated($details));
         return redirect()->route('admin.content.post.index')->with('alertify-success', 'پست جدید با موفقیت اضافه شد.');
     }
 

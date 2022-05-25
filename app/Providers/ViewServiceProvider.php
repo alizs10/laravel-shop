@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Comment;
+use App\Models\Notification;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -27,5 +28,8 @@ class ViewServiceProvider extends ServiceProvider
     {
         $unseenComments = Comment::where('seen', 0)->orderBy('created_at', 'desc')->get();
         View::share('unseenComments', $unseenComments);
+
+        $unreadNotifications = Notification::where('read_at', null)->get();
+        view::share('unreadNotifications', $unreadNotifications);
     }
 }

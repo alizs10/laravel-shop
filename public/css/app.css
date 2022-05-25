@@ -991,11 +991,17 @@ select{
 .z-20{
   z-index: 20;
 }
+.z-30{
+  z-index: 30;
+}
 .col-span-6{
   grid-column: span 6 / span 6;
 }
 .col-span-2{
   grid-column: span 2 / span 2;
+}
+.col-span-1{
+  grid-column: span 1 / span 1;
 }
 .col-span-8{
   grid-column: span 8 / span 8;
@@ -1288,6 +1294,9 @@ select{
 }
 .grid-cols-12{
   grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+.grid-cols-5{
+  grid-template-columns: repeat(5, minmax(0, 1fr));
 }
 .flex-row{
   flex-direction: row;
@@ -2591,6 +2600,11 @@ table tbody tr:hover{
   color: rgb(226 232 240 / var(--tw-text-opacity));
 }
 
+.dark .dark\:text-black{
+  --tw-text-opacity: 1;
+  color: rgb(0 0 0 / var(--tw-text-opacity));
+}
+
 .dark .dark\:text-gray-500{
   --tw-text-opacity: 1;
   color: rgb(107 114 128 / var(--tw-text-opacity));
@@ -2599,11 +2613,6 @@ table tbody tr:hover{
 .dark .dark\:text-gray-400{
   --tw-text-opacity: 1;
   color: rgb(156 163 175 / var(--tw-text-opacity));
-}
-
-.dark .dark\:text-black{
-  --tw-text-opacity: 1;
-  color: rgb(0 0 0 / var(--tw-text-opacity));
 }
 
 .dark .dark\:hover\:bg-slate-700:hover{

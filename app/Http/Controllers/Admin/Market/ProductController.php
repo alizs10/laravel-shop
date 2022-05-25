@@ -130,10 +130,6 @@ class ProductController extends Controller
             if ($result === false) {
                 return redirect()->route('admin.market.product.index')->with('alertify-error', 'آپلود تصویر با خطا مواجه شد');
             }
-        } else {
-            $image = $product->image;
-            $image['currentImage'] = $inputs['currentImage'];
-            $inputs['image'] = $image;
         }
 
         $meta_keys = $request->meta_key;

@@ -4,194 +4,173 @@
     <link rel="stylesheet" href="{{ asset('admin-assets/packages/jalalidatepicker/persian-datepicker.min.css') }}">
     <link rel="stylesheet" href="{{ asset('admin-assets/packages/selectize/css/selectize.css') }}">
     <link rel="stylesheet" href="{{ asset('admin-assets/css/selectize-correction.css') }}">
-    <title>پنل ادمین | بخش فروش | ایجاد محصول جدید</title>
+    <title>پنل ادمین | بخش فروش | محصولات | ایجاد محصول جدید</title>
 @endsection
+@section('breadcrumb')
+    <section class="m-2 px-2 py-4 rounded-lg bg-slate-100 dark:bg-slate-800 dark:text-white flex items-center gap-x-2">
 
+        <a href="{{ route('admin.home') }}" class="text-xs md:text-base text-purple-800 dark:text-purple-400">خانه</a>
+        <i class="fa-light fa-angles-left text-xs md:text-sm"></i>
+        <span class="text-xs md:text-base">بخش فروش</span>
+        <i class="fa-light fa-angles-left text-xs md:text-sm"></i>
+        <a href="{{ route('admin.market.product.index') }}"
+            class="text-xs md:text-base text-purple-800 dark:text-purple-400">محصولات</a>
+        <i class="fa-light fa-angles-left text-xs md:text-sm"></i>
+        <span class="text-xs md:text-base">ایجاد محصول جدید</span>
+
+    </section>
+@endsection
 @section('content')
-    <div class="box-container">
-        <ol class="route-map-group">
-            <li><a class="text-primary" href="{{ route('admin.home') }}">خانه</a></li>/
-            <li><a class="text-primary" href="">بخش فروش</a></li>/
-            <li><a class="text-primary" href="{{ route('admin.market.product.index') }}">محصولات</a></li>/
-            <li>ایجاد محصول جدید</li>
 
-        </ol>
-    </div>
+    <section class="flex flex-col gap-y-2 p-2 w-full">
 
-    <div class="box-container flex-column flex-row-gap-2">
-        <div class="row-head">
-            <h2>ایجاد محصول جدید</h2>
-            <a href="{{ route('admin.market.product.index') }}" class="button button-info">بازگشت</a>
+        <div class="flex justify-between items-center">
+            <span class="text-sm md:text-lg">ایجاد محصول جدید</span>
+            <a href="{{ route('admin.market.product.index') }}" class="btn bg-blue-600 text-white">بازگشت</a>
         </div>
 
         @if ($errors->any())
-            <div class="row-head bg-danger py-1 rounded">
-                <ul class="flex-column flex-row-gap-1">
-                    @foreach ($errors->all() as $error)
-                        <li class="text-white text-size-1 mr-space">{{ $error }}</li>
-                    @endforeach
-                </ul>
+            <div class="flex flex-col gap-y-1 rounded-lg bg-red-200 p-2">
+                <span class="text-xs">خطا های فرم:</span>
+                @foreach ($errors->all() as $error)
+                    <div class="flex gap-x-1 text-red-600 items-center">
+                        <span class="text-base">
+                            <i class="fa-light fa-diamond-exclamation"></i>
+                        </span>
+                        <span class="text-sm">{{ $error }}</span>
+                    </div>
+                @endforeach
+
             </div>
         @endif
 
-        <form action="{{ route('admin.market.product.store') }}" method="POST" enctype="multipart/form-data" id="form">
+
+        <form class="w-full" action="{{ route('admin.market.product.store') }}" method="POST"
+            enctype="multipart/form-data" id="form">
             @csrf
-            <div class="flex-wrap flex-gap-2">
-                <div class="form-input-half">
-                    <label @if ($errors->has('name'))
-                        class="text-danger"
-                        @endif for="name">نام محصول</label>
-                    <input type="text" name="name" id="name" value="{{ old('name') }}">
+
+            <section class="w-full grid grid-cols-2 gap-2">
+                <div class="col-span-2 md:col-span-1 flex flex-col gap-y-1">
+                    <label for="name"
+                        class="text-xs {{ $errors->has('name') ? 'text-red-600 dark:text-red-400' : '' }}">نام
+                        محصول</label>
+                    <input type="text" class="form-input" name="name" id="name" value="{{ old('name') }}">
+                </div>
+                <div class="col-span-2 md:col-span-1 flex flex-col gap-y-1">
+                    <label for="image"
+                        class="text-xs {{ $errors->has('image') ? 'text-red-600 dark:text-red-400' : '' }}">تصویر</label>
+                    <input type="file" class="form-input" name="image" id="image">
+                </div>
+                <div class="col-span-2 md:col-span-1 flex flex-col gap-y-1">
+                    <label for="weight"
+                        class="text-xs {{ $errors->has('weight') ? 'text-red-600 dark:text-red-400' : '' }}">وزن</label>
+                    <input type="text" class="form-input" name="weight" id="weight" value="{{ old('weight') }}">
+                </div>
+                <div class="col-span-2 md:col-span-1 flex flex-col gap-y-1">
+                    <label for="height"
+                        class="text-xs {{ $errors->has('height') ? 'text-red-600 dark:text-red-400' : '' }}">ارتفاع</label>
+                    <input type="text" class="form-input" name="height" id="height" value="{{ old('height') }}">
+                </div>
+                <div class="col-span-2 md:col-span-1 flex flex-col gap-y-1">
+                    <label for="width"
+                        class="text-xs {{ $errors->has('width') ? 'text-red-600 dark:text-red-400' : '' }}">عرض</label>
+                    <input type="text" class="form-input" name="width" id="width" value="{{ old('width') }}">
+                </div>
+                <div class="col-span-2 md:col-span-1 flex flex-col gap-y-1">
+                    <label for="length"
+                        class="text-xs {{ $errors->has('length') ? 'text-red-600 dark:text-red-400' : '' }}">طول</label>
+                    <input type="text" class="form-input" name="length" id="length" value="{{ old('length') }}">
                 </div>
 
-                <div class="form-input-half">
-                    <label @if ($errors->has('image'))
-                        class="text-danger"
-                        @endif for="image">تصویر محصول</label>
-                    <input type="file" name="image" id="image" value="{{ old('image') }}">
-                </div>
-
-                <div class="form-input-half">
-                    <label @if ($errors->has('weight'))
-                        class="text-danger"
-                        @endif for="weight">وزن</label>
-                    <input type="text" name="weight" id="weight" value="{{ old('weight') }}">
-                </div>
-
-                <div class="form-input-half">
-                    <label @if ($errors->has('height'))
-                        class="text-danger"
-                        @endif for="height">ارتفاع</label>
-                    <input type="text" name="height" id="height" value="{{ old('height') }}">
-                </div>
-
-                <div class="form-input-half">
-                    <label @if ($errors->has('width'))
-                        class="text-danger"
-                        @endif for="width">عرض</label>
-                    <input type="text" name="width" id="width" value="{{ old('width') }}">
-                </div>
-
-                <div class="form-input-half">
-                    <label @if ($errors->has('length'))
-                        class="text-danger"
-                        @endif for="length">طول</label>
-                    <input type="text" name="length" id="length" value="{{ old('length') }}">
-                </div>
-
-                <div class="form-input-half">
-                    <label @if ($errors->has('cat_id'))
-                        class="text-danger"
-                        @endif for="cat_id">دسته</label>
-                    <select name="cat_id" id="cat_id">
+                <div class="col-span-2 md:col-span-1 flex flex-col gap-y-1">
+                    <label for="cat_id"
+                        class="text-xs {{ $errors->has('cat_id') ? 'text-red-600 dark:text-red-400' : '' }}">دسته</label>
+                    <select name="cat_id" id="cat_id" class="form-select" style="direction: ltr">
                         <option value="">دسته را انتخاب کنید</option>
                         @foreach ($productCategories as $cat)
-                            <option value="{{ $cat->id }}" @if (old('cat_id') == $cat->id) selected @endif>{{ $cat->name }}</option>
+                            <option value="{{ $cat->id }}" @if (old('cat_id') == $cat->id) selected @endif>
+                                {{ $cat->name }}</option>
                         @endforeach
-
                     </select>
                 </div>
-
-                <div class="form-input-half">
-                    <label @if ($errors->has('brand_id'))
-                        class="text-danger"
-                        @endif for="brand_id">برند ها</label>
-                    <select name="brand_id" id="brand_id">
+                <div class="col-span-2 md:col-span-1 flex flex-col gap-y-1">
+                    <label for="brand_id"
+                        class="text-xs {{ $errors->has('brand_id') ? 'text-red-600 dark:text-red-400' : '' }}">برند</label>
+                    <select name="brand_id" id="brand_id" class="form-select" style="direction: ltr">
                         <option value="">برند را انتخاب کنید</option>
                         @foreach ($brands as $brand)
-                            <option value="{{ $brand->id }}" @if (old('brand_id') == $brand->id) selected @endif>{{ $brand->original_name }}
+                            <option value="{{ $brand->id }}" @if (old('brand_id') == $brand->id) selected @endif>
+                                {{ $brand->original_name }}
                             </option>
                         @endforeach
-
                     </select>
                 </div>
 
-                <div class="form-input-half">
-                    <label @if ($errors->has('status'))
-                        class="text-danger"
-                        @endif for="status">وضعیت</label>
-                    <select name="status" id="status">
-                        <option value="1" @if (old('status') == 1)
-                            selected
-                            @endif>فعال</option>
-                        <option value="0" @if (old('status') == 0)
-                            selected
-                            @endif>غیرفعال</option>
+                <div class="col-span-2 md:col-span-1 flex flex-col gap-y-1">
+                    <label for="status"
+                        class="text-xs {{ $errors->has('status') ? 'text-red-600 dark:text-red-400' : '' }}">وضعیت</label>
+                    <select name="status" id="status" class="form-select" style="direction: ltr">
+                        <option value="0" @if (old('status') == 0) selected @endif>غیرفعال</option>
+                        <option value="1" @if (old('status') == 1) selected @endif>فعال</option>
+                    </select>
+                </div>
+                <div class="col-span-2 md:col-span-1 flex flex-col gap-y-1">
+                    <label for="marketable"
+                        class="text-xs {{ $errors->has('marketable') ? 'text-red-600 dark:text-red-400' : '' }}">قابل
+                        فروش بودن</label>
+                    <select name="marketable" id="marketable" class="form-select" style="direction: ltr">
+                        <option value="0" @if (old('marketable') == 0) selected @endif>غیرفعال</option>
+                        <option value="1" @if (old('marketable') == 1) selected @endif>فعال</option>
                     </select>
                 </div>
 
-                <div class="form-input-half">
-                    <label @if ($errors->has('marketable'))
-                        class="text-danger"
-                        @endif for="marketable">قابل فروش بودن</label>
-                    <select name="marketable" id="marketable">
-                        <option value="1" @if (old('marketable') == 1)
-                            selected
-                            @endif>فعال</option>
-                        <option value="0" @if (old('marketable') == 0)
-                            selected
-                            @endif>غیرفعال</option>
-                    </select>
+                <div class="col-span-2 md:col-span-1 flex flex-col gap-y-1">
+                    <label for="price"
+                        class="text-xs {{ $errors->has('price') ? 'text-red-600 dark:text-red-400' : '' }}">قیمت</label>
+                    <input type="text" class="form-input" name="price" id="price" value="{{ old('price') }}">
                 </div>
 
-                <div class="form-input-half">
-                    <label @if ($errors->has('price'))
-                        class="text-danger"
-                        @endif for="price">قیمت</label>
-                    <input type="text" name="price" id="price" value="{{ old('price') }}">
-                </div>
-
-                <div class="form-input-half">
-                    <label @if ($errors->has('published_at'))
-                        class="text-danger"
-                        @endif for="published_at">تاریخ انتشار</label>
+                <div class="col-span-2 md:col-span-1 flex flex-col gap-y-1">
+                    <label for="published_at"
+                        class="text-xs {{ $errors->has('published_at') ? 'text-red-600 dark:text-red-400' : '' }}">تاریخ
+                        انتشار
+                    </label>
                     <input type="hidden" name="published_at" id="published_at">
-                    <input type="text" id="published_at_view">
+                    <input type="text" class="form-input" name="published_at_view" id="published_at_view" readonly>
                 </div>
 
-                <div class="form-input-full">
-                    <label @if ($errors->has('tags'))
-                        class="text-danger"
-                        @endif for="input_tags">تگ ها</label>
-                    <input class="w-100" type="text" name="tags" id="input_tags" value="{{ old('tags') }}">
+                <div class="col-span-2  flex flex-col gap-y-1">
+                    <label for="tags"
+                        class="text-xs {{ $errors->has('tags') ? 'text-red-600 dark:text-red-400' : '' }}">تگ ها</label>
+                    <input type="text" name="tags" id="input_tags" value="{{ old('tags') }}">
+
                 </div>
 
-
-                <div class="form-input-full">
-                    <label @if ($errors->has('introduction'))
-                        class="text-danger"
-                        @endif for="cke">توضیحات</label>
-                    <textarea name="introduction" id="cke" rows="6">{{ old('introduction') }}</textarea>
+                <div class="col-span-2 flex flex-col gap-y-1">
+                    <label for="introduction"
+                        class="text-xs {{ $errors->has('introduction') ? 'text-red-600 dark:text-red-400' : '' }}">توضیحات</label>
+                    <textarea type="text" class="form-input" name="introduction" id="cke">{{ old('introduction') }}</textarea>
                 </div>
 
-                <div class="flex-column flex-row-gap-1 text-white w-100">
-
-                    <div class="flex-wrap flex-gap-2" id="meta_fields">
-                        <div class="form-input-half">
-                            <input type="text" name="meta_key[]" placeholder="ویژگی ...">
+                <div class="col-span-2 md:col-span-1 flex flex-col gap-y-2">
+                    
+                    <div class="grid grid-cols-2 gap-x-2" id="meta_fields">
+                        <div class="col-span-1">
+                            <input class="form-input w-full" type="text" name="meta_key[]" placeholder="ویژگی ...">
                         </div>
-    
-                        <div class="form-input-half">
-                            <input type="text" name="meta_value[]" placeholder="مقدار ...">
+                        <div class="col-span-1">
+                            <input class="form-input w-full" type="text" name="meta_value[]" placeholder="مقدار ...">
                         </div>
                     </div>
 
-                    <button type="button" class="button button-primary" onclick="addMetaField()">افزودن ویژگی</button>
+                    <button type="button" class="btn bg-blue-600" onclick="addMetaField()">افزودن ویژگی</button>
                 </div>
 
-                <div class="row-head w-100">
-                    <button type="submit" class="button button-success w-100">ثبت محصول</button>
-                </div>
-
-            </div>
+                <button class="col-span-2 py-2 rounded-lg bg-emerald-600 text-white text-sm md:text-base">ثبت</button>
+            </section>
         </form>
+    </section>
 
-
-
-
-
-
-    </div>
 @endsection
 
 @section('script')
@@ -203,12 +182,9 @@
     <script src="{{ asset('admin-assets/packages/ckeditor/ckeditor.js') }}"></script>
     <script src="{{ asset('admin-assets/js/ckreplace.js') }}"></script>
     <script>
-        
         let addMetaField = () => {
             var meta_fields = $('#meta_fields').clone()
             $('#meta_fields').before(meta_fields)
         }
-
     </script>
-
 @endsection

@@ -3,98 +3,118 @@
 @section('head-tag')
     <title>پنل ادمین | بخش فروش | محصولات</title>
 @endsection
+@section('breadcrumb')
+    <section class="m-2 px-2 py-4 rounded-lg bg-slate-100 dark:bg-slate-800 dark:text-white flex items-center gap-x-2">
 
+        <a href="{{ route('admin.home') }}" class="text-xs md:text-base text-purple-800 dark:text-purple-400">خانه</a>
+        <i class="fa-light fa-angles-left text-xs md:text-sm"></i>
+        <span class="text-xs md:text-base">بخش فروش</span>
+        <i class="fa-light fa-angles-left text-xs md:text-sm"></i>
+        <span class="text-xs md:text-base">محصولات</span>
+
+    </section>
+@endsection
 @section('content')
-    <div class="box-container">
-        <ol class="route-map-group">
-            <li><a class="text-primary" href="{{ route('admin.home') }}">خانه</a></li>/
-            <li><a class="text-primary" href="">بخش فروش</a></li>/
-            <li>محصولات</li>
-
-
-        </ol>
-    </div>
-
-    <div class="box-container flex-column flex-row-gap-2">
-        <div class="row-head">
-            <h2 class="text-size-titr">محصولات</h2>
-            <a href="{{ route('admin.market.product.create') }}" class="button button-info">افزودن محصول جدید</a>
+    <section class="flex flex-col gap-y-2 p-2 w-full">
+        <div class="flex justify-between items-center">
+            <span class="text-sm md:text-lg">محصولات</span>
+            <a href="{{ route('admin.market.product.create') }}" class="btn bg-blue-600 text-white">افزودن محصول جدید</a>
         </div>
 
 
-        <div class="row-head">
-            <select name="" id="">
-                <option value="10">10</option>
-                <option value="100">100</option>
-                <option value="1000">1000</option>
-            </select>
-            <div class="searchBox">
-                <a><i class="fas fa-search"></i></a>
-                <input type="text">
-            </div>
-        </div>
+        <section class="bg-slate-200 dark:bg-slate-700 rounded-lg w-full">
 
-        <table class="styled-table">
-            <thead>
-                <tr>
-                    <td>#</td>
-                    <td>نام کالا</td>
-                    <td>تصویر کالا</td>
-                    <td>قیمت</td>
-                    <td>دسته</td>
-                    <td>تاریخ انتشار</td>
-                    <td>وضعیت</td>
-                    <td>عملیات</td>
-                </tr>
-            </thead>
-            <tbody>
+            <table class="table-auto w-full dark:text-white md:border-collapse">
 
-                @foreach ($products as $key => $product)
+                <thead class="text-xxs md:text-sm">
                     <tr>
-                        <td>{{ $key + 1 }}</td>
-                        <td>{{ $product->name }}</td>
-                        <td>
-                            <img src="{{ asset('storage\\' . $product->image['indexArray']['small']) }}" alt="">
-                        </td>
-                        <td>{{ $product->price . ' تومان' }}</td>
-                        <td>{{ $product->category->name }}</td>
-                        <td>{{ showPersianDate($product->published_at, 'Y-m-d') }}</td>
-                        <td>
-                            <input type="checkbox" id="status-{{ $product->id }}"
-                                data-url="{{ route('admin.market.product.status', $product->id) }}"
-                                onchange="changeStatus({{ $product->id }})" @if ($product->status === 1)
-                            checked
-                @endif>
-                </td>
-                <td>
-                    <span>
+                        <th>#</th>
+                        <th>نام کالا</th>
+                        <th>تصویر کالا</th>
+                        <th>قیمت</th>
+                        <th>دسته</th>
+                        <th>تاریخ انتشار</th>
+                        <th>وضعیت</th>
+                        <th>عملیات</th>
+                    </tr>
+                </thead>
+                <tbody class="text-xxs md:text-sm">
+                    @foreach ($products as $product)
+                        <tr>
 
-                        <a href="{{ route('admin.market.product.color.index', $product->id) }}"
-                            class="button button-primary">رنگ ها ({{ count($product->colors) }})</a>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $product->name }}</td>
+                            <td>
+                                <img src="{{ asset('storage\\' . $product->image['indexArray']['small']) }}" alt="">
+                            </td>
+                            <td>{{ $product->price . ' تومان' }}</td>
+                            <td>{{ $product->category->name }}</td>
+                            <td>{{ showPersianDate($product->published_at, 'Y-m-d') }}</td>
+                            <td>
+                                <input type="checkbox" id="status-{{ $product->id }}"
+                                    data-url="{{ route('admin.market.product.status', $product->id) }}"
+                                    onchange="changeStatus({{ $product->id }})"
+                                    @if ($product->status === 1) checked @endif>
+                            </td>
+                            <td>
+                                <div class="relative">
+                                    <button onclick="toggleDropdown('dropdown-{{ $product->id }}')"
+                                        id="toggle-dropdown-{{ $product->id }}"
+                                        class="btn bg-blue-600 text-white flex-center gap-1">
+                                        عملیات
+                                        <i class="fa-regular fa-angle-down mr-space"></i>
+                                    </button>
 
-                        <a href="{{ route('admin.market.product.gallery.index', $product->id) }}"
-                            class="button button-success">گالری ({{ count($product->gallery) }})</a>
-                        <a href="{{ route('admin.market.product.edit', $product->id) }}"
-                            class="button button-warning">ویرایش</a>
-                        <form action="{{ route('admin.market.product.destroy', $product->id) }}" method="POST">
-                            @csrf
-                            {{ method_field('delete') }}
-                            <button type="submit" class="button button-danger delBtn">حذف</button>
-                        </form>
-                    </span>
-                </td>
+                                    <div class="hidden absolute top-10 left-0 z-30 w-56 h-fit rounded-lg bg-white dark:bg-slate-900 flex flex-col overflow-hidden"
+                                        id={{ "dropdown-{$product->id}" }}>
+                                        <a href="{{ route('admin.market.product.color.index', $product->id) }}"
+                                            class="py-2 w-full text-sm h-full flex items-center gap-x-2 hover-transition hover:bg-slate-100 dark:hover:bg-slate-800">
+                                            <i class="fa-regular fa-palette mr-2"></i>
+                                            رنگ ها ({{ count($product->colors) }})    
+                                        </a>
+                                        <a href="{{ route('admin.market.product.gallery.index', $product->id) }}"
+                                            class="py-2 w-full text-sm h-full flex items-center gap-x-2 hover-transition hover:bg-slate-100 dark:hover:bg-slate-800">
+                                            <i class="fa-regular fa-images mr-2"></i>
+                                            گالری ({{ count($product->gallery) }})    
+                                        </a>
+                                        <a href="{{ route('admin.market.product.edit', $product->id) }}"
+                                            class="py-2 w-full text-sm h-full flex items-center gap-x-2 hover-transition hover:bg-slate-100 dark:hover:bg-slate-800">
+                                            <i class="fa-regular fa-pen-to-square mr-2"></i>
+                                           ویرایش   
+                                        </a>
+                                        
+                                        <form class="w-full m-0"
+                                        action="{{ route('admin.market.product.destroy', $product->id) }}" method="POST">
+                                            @csrf
+                                            {{ method_field('delete') }}
+                                            <button
+                                                class="py-2 w-full text-sm h-full flex items-center gap-x-2 hover-transition hover:bg-slate-100 dark:hover:bg-slate-800 delBtn">
+                                                <i class="fa-regular fa-trash-can mr-2"></i>
+                                                حذف</button>
+                                        </form>
 
-                </tr>
+                                    </div>
+                                </div>
+                            </td>
 
-                @endforeach
+                        </tr>
+                    @endforeach
 
-            </tbody>
-        </table>
+                </tbody>
 
-    </div>
+
+
+
+            </table>
+
+        </section>
+
+
+    </section>
 @endsection
 
 @section('script')
+    <script type="text/javascript" src="{{ asset('admin-assets/js/dropdown-btn.js') }}"></script>
     <script type="text/javascript" src="{{ asset('admin-assets/js/ajax-change-status.js') }}"></script>
     <script type="text/javascript" src="{{ asset('admin-assets/js/ajax-destroy-data.js') }}"></script>
 @endsection

@@ -59,8 +59,13 @@
             <button id="alerts-popup-btn" onclick="alertsPopupToggle()"
                 class="h-10 md:h-16 w-10 md:w-16 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 hover-transition relative">
                 <i class="fa-light fa-bell text-xl xs:text-3xl"></i>
-                <span
-                    class="absolute bottom-0 -right-3 rounded-full bg-red-600 h-5 xs:h-7 w-5 xs:w-7 p-1 text-xxxs xs:text-xxs flex-center text-white">{{ $unreadNotifications->count() }}</span>
+                @if (count($unreadNotifications) > 0)
+                    <span
+                        class="absolute bottom-0 -right-3 rounded-full bg-red-600 h-5 xs:h-7 w-5 xs:w-7 p-1 text-xxxs xs:text-xxs flex-center text-white">
+                        {{ $unreadNotifications->count() }}
+                    </span>
+                @endif
+
 
                 <div
                     class="hidden absolute -left-1 top-14 xs:top-20 z-20 h-fit max-h-96 overflow-y-scroll no-scrollbar w-56 rounded-lg overflow-hidden shadow-md">
@@ -91,7 +96,12 @@
                                 </a>
                             </li>
                         @endforeach
-
+                        @if (count($unreadNotifications) == 0)
+                            <li class="py-2 bg-slate-100 dark:bg-slate-900 hover:bg-slate-200 dark:hover:bg-slate-700">
+                                اعلان
+                                جدیدی وجود ندارد
+                                <li />
+                        @endif
 
                     </ul>
                 </div>
@@ -101,9 +111,14 @@
             <button id="comments-popup-btn" onclick="commentsPopupToggle()"
                 class="h-10 md:h-16 w-10 md:w-16 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 hover-transition relative">
                 <i class="fa-light fa-message text-xl xs:text-3xl"></i>
-                <span
-                    class="absolute bottom-0 -right-3 rounded-full bg-red-600 h-5 xs:h-7 w-5 xs:w-7 p-1 text-xxxs xs:text-xxs flex-center text-white">{{ count($unseenComments) }}</span>
 
+
+                @if (count($unreadNotifications) > 0)
+                    <span
+                        class="absolute bottom-0 -right-3 rounded-full bg-red-600 h-5 xs:h-7 w-5 xs:w-7 p-1 text-xxxs xs:text-xxs flex-center text-white">
+                        {{ count($unseenComments) }}
+                    </span>
+                @endif
                 <div
                     class="hidden absolute -left-1 top-14 xs:top-20 z-20 h-fit max-h-96 overflow-y-scroll no-scrollbar w-56 rounded-lg overflow-hidden shadow-md">
                     <ul class="w-full">

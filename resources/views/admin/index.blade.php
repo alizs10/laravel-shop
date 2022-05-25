@@ -27,10 +27,10 @@
                         <span class="text-xs font-bold md:text-base">محصولات</span>
                         <i class="fa-regular fa-boxes-stacked text-3xl"></i>
                     </div>
-                    <span class="text-2xl text-slate-800 font-bold md:text-3xl">16</span>
+                    <span class="text-2xl text-slate-800 font-bold md:text-3xl">{{ $data['productsCount'] }}</span>
                     <span class="text-xxs md:text-xs text-slate-700">
                         <i class="fa-regular fa-clock text-xs md:text-sm ml-1"></i>
-                        آخرین بروزرسانی 5 دقیقه قبل</span>
+                    آخرین بروزرسانی در {{ showPersianDate($data['date'], 'H:i:s') }}</span>
                 </div>
             </div>
             <div class="col-span-4 md:col-span-2 lg:col-span-1 p-2 rounded-lg text-black bg-orange-200">
@@ -39,10 +39,10 @@
                         <span class="text-xs font-bold md:text-base">کاربران</span>
                         <i class="fa-regular fa-users text-3xl"></i>
                     </div>
-                    <span class="text-2xl text-slate-800 font-bold md:text-3xl">1201</span>
+                    <span class="text-2xl text-slate-800 font-bold md:text-3xl">{{ $data['usersCount'] }}</span>
                     <span class="text-xxs md:text-xs text-slate-700">
                         <i class="fa-regular fa-clock text-xs md:text-sm ml-1"></i>
-                        آخرین بروزرسانی 5 دقیقه قبل</span>
+                        آخرین بروزرسانی در {{ showPersianDate($data['date'], 'H:i:s') }}</span>
                 </div>
             </div>
             <div class="col-span-4 md:col-span-2 lg:col-span-1 p-2 rounded-lg text-black bg-blue-200">
@@ -51,10 +51,10 @@
                         <span class="text-xs font-bold md:text-base">نظرات</span>
                         <i class="fa-regular fa-comments text-3xl"></i>
                     </div>
-                    <span class="text-2xl text-slate-800 font-bold md:text-3xl">23545</span>
+                    <span class="text-2xl text-slate-800 font-bold md:text-3xl">{{ $data['commentsCount'] }}</span>
                     <span class="text-xxs md:text-xs text-slate-700">
                         <i class="fa-regular fa-clock text-xs md:text-sm ml-1"></i>
-                        آخرین بروزرسانی 5 دقیقه قبل</span>
+                        آخرین بروزرسانی در {{ showPersianDate($data['date'], 'H:i:s') }}</span>
                 </div>
             </div>
         </div>

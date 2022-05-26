@@ -51,9 +51,10 @@
 
             <button class="flex-center flex-col gap-y-2 text-xl xs:text-3xl relative px-3" id="toggleThemeBtn"
                 onclick="toggleTheme()">
-                <i class="fa-light fa-lightbulb-on"></i>
-                <i class="fa-light fa-lightbulb-slash"></i>
-                <span class="absolute top-4 xs:top-7 text-xxxs text-gray-500" id="darkText">حالت شب</span>
+                <i class="fa-light fa-lightbulb-on dark:hidden"></i>
+                <i class="fa-light fa-lightbulb-slash hidden dark:inline"></i>
+                <span class="absolute top-4 xs:top-7 text-xxxs text-gray-500 hidden dark:inline">حالت شب</span>
+                <span class="absolute top-4 xs:top-7 text-xxxs text-gray-500  dark:hidden">حالت روز</span>
             </button>
 
             <button id="alerts-popup-btn" onclick="alertsPopupToggle()"
@@ -162,3 +163,4 @@
 
     </div>
 </header>
+<script src="{{ asset('admin-assets/js/theme.js') }}"></script>

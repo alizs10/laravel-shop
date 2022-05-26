@@ -3,7 +3,16 @@
 <head>
     @include('admin.layouts.head-tags')
     @yield('head-tag')
-
+    <script type="text/javascript">
+        if (localStorage.themeMode === 'dark' || (!('themeMode' in localStorage) && window.matchMedia(
+                '(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark')
+        } else {
+            document.documentElement.classList.remove('dark')
+        }
+    </script>
+    <script src="{{ asset('admin-assets/js/jquery-3.6.0.min.js') }}"></script>
+    
 </head>
 
 <body class="bg-white dark:bg-slate-900 flex justify-end" style="direction: rtl; position: relative">
@@ -21,14 +30,7 @@
     </div>
 
 
-    <script type="text/javascript">
-        if (localStorage.themeMode === 'dark' || (!('themeMode' in localStorage) && window.matchMedia(
-                '(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark')
-        } else {
-            document.documentElement.classList.remove('dark')
-        }
-    </script>
+   
 </body>
 @include('admin.layouts.scripts')
 @yield('script')

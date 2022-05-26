@@ -9,5 +9,9 @@ class Notification extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'read_at'
+    ];
+
     protected $casts = ['data' => 'array'];
 }

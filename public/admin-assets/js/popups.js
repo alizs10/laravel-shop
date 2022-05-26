@@ -12,13 +12,14 @@ const alertsPopupToggle = () => {
             userPopupToggle()
         }
         $('#alerts-popup-btn div').removeClass('hidden');
+        readNotifications();
     } else {
         isAlertsPopupVisible = false
         $('#alerts-popup-btn div').addClass('hidden');
     }
 }
 const commentsPopupToggle = () => {
-    
+
     if (!isCommentsPopupVisible) {
         isCommentsPopupVisible = true;
         if (isAlertsPopupVisible) {
@@ -47,4 +48,19 @@ const userPopupToggle = () => {
         isUserPopupVisible = false
         $('#user-popup-btn div').addClass('hidden');
     }
+}
+
+function readNotifications() {
+
+    $.ajax({
+        method: 'get',
+        url: '/admin/notifications/read-all',
+        success: function (response) {
+
+            return response.data.sattus
+
+        }
+
+    })
+
 }

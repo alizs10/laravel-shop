@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\Market\ProductController;
 use App\Http\Controllers\Admin\Market\PropertyController;
 use App\Http\Controllers\Admin\Market\PropertyValueController;
 use App\Http\Controllers\Admin\Market\StoreController;
+use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\Notify\EmailController;
 use App\Http\Controllers\Admin\Notify\EmailFileController;
 use App\Http\Controllers\Admin\Notify\SMSController;
@@ -380,6 +381,7 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
         });
     });
 
+    //tikcets
     Route::namespace('Ticket')->prefix('ticket')->group(function () {
 
         //tickets category
@@ -422,6 +424,7 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
         Route::get('/status/{ticket}', [TicketController::class, 'status'])->name('admin.ticket.status');
     });
 
+    //setting
     Route::namespace('Setting')->prefix('setting')->group(function () {
 
         Route::get('/', [SettingController::class, 'index'])->name('admin.setting.index');
@@ -429,6 +432,9 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
         Route::get('/edit/{setting}', [SettingController::class, 'edit'])->name('admin.setting.edit');
         Route::put('/update/{setting}', [SettingController::class, 'update'])->name('admin.setting.update');
     });
+
+    //notifications
+    Route::get('/notifications/read-all', [NotificationController::class, 'readAll'])->name('admin.notifications.read-all');
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {

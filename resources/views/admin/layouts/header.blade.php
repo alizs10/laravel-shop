@@ -114,7 +114,7 @@
 
 
                 @if (count($unreadNotifications) > 0)
-                    <span
+                    <span id="new-notifications-badge"
                         class="absolute bottom-0 -right-3 rounded-full bg-red-600 h-5 xs:h-7 w-5 xs:w-7 p-1 text-xxxs xs:text-xxs flex-center text-white">
                         {{ count($unseenComments) }}
                     </span>

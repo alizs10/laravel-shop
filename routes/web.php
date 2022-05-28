@@ -33,7 +33,7 @@ use App\Http\Controllers\Admin\User\AdminUserController;
 use App\Http\Controllers\Admin\User\CustomerController;
 use App\Http\Controllers\Admin\User\PermissionController;
 use App\Http\Controllers\Admin\User\RoleController;
-
+use App\Http\Controllers\Auth\AuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -436,6 +436,21 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
     //notifications
     Route::get('/notifications/read-all', [NotificationController::class, 'readAll'])->name('admin.notifications.read-all');
 });
+
+/*
+|--------------------------------------------------------------------------
+| Auth Routes
+|--------------------------------------------------------------------------
+*/
+
+Route::name('Auth')->group(function () {
+
+    Route::get('/login', [AuthController::class, 'index'])->name('auth.index');
+    Route::get('/register', [AuthController::class, 'index']);
+
+    Route::post('/check-email', [AuthController::class, 'checkEmail'])->name('auth.check-email');
+});
+
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');

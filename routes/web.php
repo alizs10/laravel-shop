@@ -47,6 +47,37 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/*
+|--------------------------------------------------------------------------
+| Auth Routes
+|--------------------------------------------------------------------------
+*/
+
+Route::namespace('Auth')->group(function () {
+
+    Route::get('/login', [AuthController::class, 'index'])->name('auth.index');
+    Route::get('/register', function () {
+        return redirect('/login');
+    });
+    Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
+
+    Route::post('/check-email', [AuthController::class, 'checkEmail'])->name('auth.check-email');
+    Route::post('/check-verification-code', [AuthController::class, 'checkVerificationCode'])->name('auth.check-verification-code');
+});
+
+/*
+|--------------------------------------------------------------------------
+| App Routes
+|--------------------------------------------------------------------------
+*/
+
+Route::namespace('App')->group(function () {
+
+    Route::get('/', function () {
+        return "hi";
+    })->name('app.home');
+
+});
 
 
 /*
@@ -437,19 +468,6 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
     Route::get('/notifications/read-all', [NotificationController::class, 'readAll'])->name('admin.notifications.read-all');
 });
 
-/*
-|--------------------------------------------------------------------------
-| Auth Routes
-|--------------------------------------------------------------------------
-*/
-
-Route::name('Auth')->group(function () {
-
-    Route::get('/login', [AuthController::class, 'index'])->name('auth.index');
-    Route::get('/register', [AuthController::class, 'index']);
-
-    Route::post('/check-email', [AuthController::class, 'checkEmail'])->name('auth.check-email');
-});
 
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {

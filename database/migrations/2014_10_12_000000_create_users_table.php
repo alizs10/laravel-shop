@@ -16,7 +16,7 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('email')->unique()->nullable();
-            $table->string('password');
+            $table->string('password')->nullable();
             $table->string('mobile')->unique()->nullable();
             $table->string('national_code')->nullable();
             $table->string('slug')->unique()->nullable();
@@ -25,7 +25,8 @@ class CreateUsersTable extends Migration
             $table->tinyInteger('status')->default(0);
             $table->tinyInteger('user_type')->default(0)->comment('0 => user, 1 => admin');
             $table->tinyInteger('activation')->default(0)->comment('0 => inactive, 1 => active');
-            $table->timestamp('activation_date')->nullable();     
+            $table->timestamp('activation_date')->nullable(); 
+            $table->string('verification_code')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->foreignId('current_team_id')->nullable();

@@ -3,14 +3,44 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Services\EmailServices;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return view('auth.index');
+        if (Auth::user()) {
+            return redirect()->route('app.home');
+        }
+
+        $user_login_status = false;
+        if ($request->get('user')) {
+            $user_login_status = $request->get('user');
+        }
+        return view('auth.index', compact('user_login_status'));
+    }
+
+    public function login(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+
+
+        $credentials = $request->only(['email', 'password']);
+        $result = Auth::attempt($credentials);
+
+        if ($result) {
+            return redirect()->route('app.home');
+        }
+
+        return redirect(route('auth.index') . '?user=true&email=' . $request->email)->with(
+            'message', 'ایمیل یا کلمه عبور شما اشتباه می باشد'
+        );
     }
 
     public function checkEmail(Request $request)
@@ -19,7 +49,7 @@ class AuthController extends Controller
             'email' => 'required|email'
         ]);
         $user = User::where("email", $request->email)->first();
-        
+
         if (!$user || (empty($user->email_verified_at) && empty($user->password)) || (!empty($user->email_verified_at) && empty($user->password))) {
 
             if (!$user) {
@@ -30,23 +60,61 @@ class AuthController extends Controller
                 $isVCodeSent = $this->sendVerificationCode($user);
 
                 if ($isVCodeSent) {
-                    return response([
-                        'message' => 'verification code sent successfully',
-                        'status' => false
-                    ], 200);
+                    return redirect(route('auth.index') . '?user=false&vcode='. $isVCodeSent . '&email=' . $user->email);
                 }
             }
-
-
-            return response([
-                'message' => 'user does not exists',
-                'status' => false
-            ], 200);
         }
 
-        return response([
-            'message' => 'user exists',
-            'status' => true
-        ], 200);
+        return redirect(route('auth.index') . '?user=true&email=' . $user->email);
+    }
+
+
+    public function registerEmail($email)
+    {
+        $user = User::create([
+            'email' => $email,
+        ]);
+
+        return $user;
+    }
+
+
+    public function sendVerificationCode($user)
+    {
+        $verification_code = mt_rand(100000, 999999);
+        $user->update(['verification_code' => $verification_code]);
+
+        EmailServices::SendVCode($user->email, $verification_code);
+
+        return true;
+    }
+
+    public function checkVerificationCode(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|exists:users,email',
+            'vcode' => 'required|array|size:6',
+            'vcode.*' => 'required|string|max:1'
+        ]);
+
+        $vcodeArr = $request->vcode;
+        $verification_code = "";
+        foreach ($vcodeArr as $vcode){
+            $verification_code.= $vcode;
+        }
+
+        $user = User::where("email", $request->email)->first();
+
+        if ($verification_code === $user->verification_code) {
+            $user->update(['email_verified_at' => now(), 'verification_code' => null]);
+
+            Auth::loginUsingId($user->id);
+            return redirect()->route('app.home');
+        }
+
+        return redirect(route('auth.index') . '?user=false&vcode=1&email=' . $user->email)->with(
+            'message', 'کد تایید صحیح نمی باشد'
+        );
+
     }
 }

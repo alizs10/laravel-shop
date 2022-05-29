@@ -7,6 +7,9 @@ use App\Http\Services\EmailServices;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rules\Password;
 
 class AuthController extends Controller
 {
@@ -39,7 +42,8 @@ class AuthController extends Controller
         }
 
         return redirect(route('auth.index') . '?user=true&email=' . $request->email)->with(
-            'message', 'ایمیل یا کلمه عبور شما اشتباه می باشد'
+            'message',
+            'ایمیل یا کلمه عبور شما اشتباه می باشد'
         );
     }
 
@@ -60,7 +64,7 @@ class AuthController extends Controller
                 $isVCodeSent = $this->sendVerificationCode($user);
 
                 if ($isVCodeSent) {
-                    return redirect(route('auth.index') . '?user=false&vcode='. $isVCodeSent . '&email=' . $user->email);
+                    return redirect(route('auth.index') . '?user=false&vcode=' . $isVCodeSent . '&email=' . $user->email);
                 }
             }
         }
@@ -76,6 +80,30 @@ class AuthController extends Controller
         ]);
 
         return $user;
+    }
+
+    public function setPassword(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|exists:users,email',
+            'token' => 'required|string',
+            'password' => ['required', 'string', Password::min(8)->mixedCase()->numbers(), 'max:16', 'confirmed'],
+        ]);
+
+        $user = User::where("remember_token", $request->token)->first();
+        if ($user) {
+            $user->update([
+                "password" => Hash::make($request->password),
+                "remember_token" => null
+            ]);
+            Auth::loginUsingId($user->id);
+            return redirect()->route('app.home');
+        }
+
+
+        return redirect()->back()->with(
+            'message', 'اطلاعات شما نادرست می باشد'
+        );
     }
 
 
@@ -99,22 +127,30 @@ class AuthController extends Controller
 
         $vcodeArr = $request->vcode;
         $verification_code = "";
-        foreach ($vcodeArr as $vcode){
-            $verification_code.= $vcode;
+        foreach ($vcodeArr as $vcode) {
+            $verification_code .= $vcode;
         }
 
         $user = User::where("email", $request->email)->first();
 
         if ($verification_code === $user->verification_code) {
-            $user->update(['email_verified_at' => now(), 'verification_code' => null]);
+            $token = Hash::make(Str::random(64));
+            $user->update([
+                'email_verified_at' => now(),
+                'verification_code' => null,
+                'remember_token' => $token
+            ]);
 
-            Auth::loginUsingId($user->id);
-            return redirect()->route('app.home');
+
+            return redirect(route('auth.index') . '?user=false&vcode=2&email=' . $user->email . '&token=' . $token)->with(
+                'message',
+                'برای تکمیل ثبت نام، کلمه عبور خود را تعیین کنید'
+            );
         }
 
         return redirect(route('auth.index') . '?user=false&vcode=1&email=' . $user->email)->with(
-            'message', 'کد تایید صحیح نمی باشد'
+            'message',
+            'کد تایید صحیح نمی باشد'
         );
-
     }
 }

@@ -63,6 +63,7 @@ Route::namespace('Auth')->group(function () {
 
     Route::post('/check-email', [AuthController::class, 'checkEmail'])->name('auth.check-email');
     Route::post('/check-verification-code', [AuthController::class, 'checkVerificationCode'])->name('auth.check-verification-code');
+    Route::post('/set-password', [AuthController::class, 'setPassword'])->name('auth.set-password');
 });
 
 /*

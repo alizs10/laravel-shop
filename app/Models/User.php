@@ -39,6 +39,7 @@ class User extends Authenticatable
         'verification_code',
         'user_type',
         'status',
+        'remember_token'
     ];
 
     /**

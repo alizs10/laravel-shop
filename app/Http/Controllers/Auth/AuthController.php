@@ -153,4 +153,13 @@ class AuthController extends Controller
             'کد تایید صحیح نمی باشد'
         );
     }
+
+    public function logout() {
+        if(Auth::user())
+        {
+            Auth::logout();
+        }
+
+        return redirect()->route('app.home');
+    }
 }

@@ -1,4 +1,5 @@
-<header class="fixed lg:z-40 top-0 right-0 left-0 bg-white dark:bg-gray-800 p-2 flex flex-col gap-y-2 shadow-md lg:shadow-none">
+<header
+    class="fixed lg:z-40 top-0 right-0 left-0 bg-white dark:bg-gray-800 p-2 flex flex-col gap-y-2 shadow-md lg:shadow-none">
 
     <section class="grid grid-cols-8 md:grid-cols-10 items-center">
         <div class="col-span-1 lg:hidden flex justify-start items-center">
@@ -86,53 +87,55 @@
         </div>
         <div class="col-span-4 md:col-span-3 grid grid-cols-4 lg:flex lg:justify-end gap-x-2 items-center">
 
-            <div class="col-span-2 sm:col-span-3 flex justify-end">
+            @if (auth()->user())
+                <div class="col-span-2 sm:col-span-3 flex justify-end">
 
-                <a href="#"
-                    class="flex-center text-gray-700 dark:text-gray-200 w-10 sm:w-fit sm:px-2 lg:px-4 h-10 rounded-lg text-xl hover-transition hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <!-- user popup starts -->
+                    <button id="user-popup-btn" onclick="userPopupToggle()"
+                        class="relative text-gray-700 dark:text-gray-200 w-10 sm:w-fit sm:px-2 lg:px-4 h-10 rounded-lg text-xl hover-transition hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <span class="flex-center gap-x-2">
+                            <i class="fa-solid fa-user"></i>
+                            <span class="text-xs hidden sm:inline">{{ auth()->user()->fullName === " " ? Str::limit(auth()->user()->email, 15 , '...') : Str::limit(auth()->user()->fullName, 15, '...')  }}</span>
+                        </span>
+                        <div
+                            class="hidden flex-col absolute top-12 left-0 w-48 bg-gray-100 dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden">
+                            <a href=""
+                                class="text-base flex gap-x-1 items-center py-2 hover-transition hover:bg-gray-200 dark:hover:bg-gray-700">
+                                <i class="fa-solid fa-square-user mr-2"></i>
+                                <span class="text-xs">پروفایل کاربری</span>
+                            </a>
+                            <a href=""
+                                class="text-base flex gap-x-1 items-center py-2 hover-transition hover:bg-gray-200 dark:hover:bg-gray-700">
+                                <i class="fa-solid fa-square-list mr-2"></i>
+                                <span class="text-xs">لیست سفارشات</span>
+                            </a>
+                            <a href=""
+                                class="text-base flex gap-x-1 items-center py-2 hover-transition hover:bg-gray-200 dark:hover:bg-gray-700">
+                                <i class="fa-solid fa-heart mr-2"></i>
+                                <span class="text-xs">علاقه مندی ها</span>
+                            </a>
+                            <a href="{{ route('auth.logout') }}"
+                                class="text-base flex gap-x-1 items-center py-2 hover-transition hover:bg-gray-200 dark:hover:bg-gray-700">
+                                <i class="fa-solid fa-right-from-bracket mr-2"></i>
+                                <span class="text-xs">خروج از حساب کاربری</span>
+                            </a>
+                        </div>
+                    </button>
+                    <!-- user popup ends -->
+                </div>
+            @else
+                <div class="col-span-2 sm:col-span-3 flex justify-end">
 
-                    <span class="flex-center gap-x-2">
-                        <i class="fa-solid fa-right-to-bracket"></i>
-                        <span class="text-xs hidden sm:inline">ورود | ثبت نام</span>
-                    </span>
-                </a>
-            </div>
+                    <a href="{{ route('auth.index') }}"
+                        class="flex-center text-gray-700 dark:text-gray-200 w-10 sm:w-fit sm:px-2 lg:px-4 h-10 rounded-lg text-xl hover-transition hover:bg-gray-100 dark:hover:bg-gray-700">
 
-            <div class="col-span-2 sm:col-span-3 hidden  justify-end">
-
-                <!-- user popup starts -->
-                <button id="user-popup-btn" onclick="userPopupToggle()"
-                    class="relative text-gray-700 dark:text-gray-200 w-10 sm:w-fit sm:px-2 lg:px-4 h-10 rounded-lg text-xl hover-transition hover:bg-gray-100 dark:hover:bg-gray-700">
-                    <span class="flex-center gap-x-2">
-                        <i class="fa-solid fa-user"></i>
-                        <span class="text-xs hidden sm:inline">علی سلیمانی</span>
-                    </span>
-                    <div
-                        class="hidden flex-col absolute top-12 left-0 w-48 bg-gray-100 dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden">
-                        <a href=""
-                            class="text-base flex gap-x-1 items-center py-2 hover-transition hover:bg-gray-200 dark:hover:bg-gray-700">
-                            <i class="fa-solid fa-square-user mr-2"></i>
-                            <span class="text-xs">پروفایل کاربری</span>
-                        </a>
-                        <a href=""
-                            class="text-base flex gap-x-1 items-center py-2 hover-transition hover:bg-gray-200 dark:hover:bg-gray-700">
-                            <i class="fa-solid fa-square-list mr-2"></i>
-                            <span class="text-xs">لیست سفارشات</span>
-                        </a>
-                        <a href=""
-                            class="text-base flex gap-x-1 items-center py-2 hover-transition hover:bg-gray-200 dark:hover:bg-gray-700">
-                            <i class="fa-solid fa-heart mr-2"></i>
-                            <span class="text-xs">علاقه مندی ها</span>
-                        </a>
-                        <a href=""
-                            class="text-base flex gap-x-1 items-center py-2 hover-transition hover:bg-gray-200 dark:hover:bg-gray-700">
-                            <i class="fa-solid fa-right-from-bracket mr-2"></i>
-                            <span class="text-xs">خروج از حساب کاربری</span>
-                        </a>
-                    </div>
-                </button>
-                <!-- user popup ends -->
-            </div>
+                        <span class="flex-center gap-x-2">
+                            <i class="fa-solid fa-right-to-bracket"></i>
+                            <span class="text-xs hidden sm:inline">ورود | ثبت نام</span>
+                        </span>
+                    </a>
+                </div>
+            @endif
 
             <div class="col-span-2 sm:col-span-1 flex justify-end">
 

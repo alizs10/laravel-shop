@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Password;
+use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
@@ -44,6 +45,30 @@ class AuthController extends Controller
         return redirect(route('auth.index') . '?user=true&email=' . $request->email)->with(
             'message',
             'ایمیل یا کلمه عبور شما اشتباه می باشد'
+        );
+    }
+
+    public function loginOrRegister($credentials)
+    {
+        $user = User::where("email", $credentials->email)->first();
+
+        if (!$user) {
+            $user = User::create([
+                'name' => $credentials->name,
+                'email' => $credentials->email,
+                'provider_id' => $credentials->id,
+                'email_verified_at' => now()
+            ]);
+        }
+
+        $result = Auth::loginUsingId($user->id);
+        if ($result) {
+            return redirect()->route('app.home');
+        }
+
+        return redirect()->route('auth.index')->with(
+            'message',
+            'مشکلی پیش آمده دوباره امتحان کنید'
         );
     }
 
@@ -161,5 +186,15 @@ class AuthController extends Controller
         }
 
         return redirect()->route('app.home');
+    }
+
+    public function redirectToGoogle() {
+        return Socialite::driver('google')->redirect();
+    }
+
+    public function googleCallback()
+    {
+        $user = Socialite::driver('google')->stateless()->user();
+        return $this->loginOrRegister($user);
     }
 }

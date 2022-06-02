@@ -67,6 +67,10 @@ Route::namespace('Auth')->group(function () {
     Route::post('/set-password', [AuthController::class, 'setPassword'])->name('auth.set-password');
     Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 
+
+    // login using google
+    Route::get('/auth/redirect-to-google', [AuthController::class, 'redirectToGoogle'])->name('auth.redirect-to-google');
+    Route::get('/auth/google-callback', [AuthController::class, 'googleCallback'])->name('auth.google-callback');
 });
 
 /*
@@ -78,7 +82,6 @@ Route::namespace('Auth')->group(function () {
 Route::namespace('App')->group(function () {
 
     Route::get('/', [HomeController::class, 'index'])->name('app.home');
-
 });
 
 

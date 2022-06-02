@@ -81,11 +81,11 @@
                         <button type="submit" class="btn bg-red-500 text-white mt-2">ثبت نام</button>
                     </form>
                 @else
-                    <button href=""
+                    <a href="{{ route('auth.redirect-to-google') }}"
                         class="btn mt-4 bg-white dark:bg-gray-600 dark:text-gray-100 w-3/4 lg:w-2/5 flex self-center justify-between items-center">
                         <span class="text-xs lg:text-sm">ورود با گوگل</span>
                         <img src="{{ asset('app-assets/images/google.svg') }}" class="w-6" alt="">
-                    </button>
+                    </a>
 
                     <form class="flex flex-col w-3/4 lg:w-2/5 mt-4 self-center" action="{{ route('auth.check-email') }}"
                         method="POST">

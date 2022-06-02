@@ -18,6 +18,11 @@ class AmazingSale extends Model
         "valid_until"
     ];
 
+    public function getPriceAttribute()
+    {
+        return $price = $this->product->price - ($this->product->price * $this->percentage / 100);
+    }
+
     public function product()
     {
         return $this->belongsTo(Product::class);

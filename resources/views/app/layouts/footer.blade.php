@@ -57,13 +57,13 @@
 
             <div class="col-span-6 grid grid-cols-3 gap-1">
                 <div class="col-span-1 flex-center bg-white rounded-lg p-2">
-                    <img class="w-full sm:w-20" src="../images/namad1.png" alt="">
+                    <img class="w-full sm:w-20" src="{{ asset('app-assets/images/namad1.png') }}" alt="">
                 </div>
                 <div class="col-span-1 flex-center bg-white rounded-lg p-2">
-                    <img class="w-full sm:w-20" src="../images/namad2.png" alt="">
+                    <img class="w-full sm:w-20" src="{{ asset('app-assets/images/namad2.png') }}" alt="">
                 </div>
                 <div class="col-span-1 flex-center bg-white rounded-lg p-2">
-                    <img class="w-full sm:w-20" src="../images/namad3.png" alt="">
+                    <img class="w-full sm:w-20" src="{{ asset('app-assets/images/namad3.png') }}" alt="">
                 </div>
             </div>
 

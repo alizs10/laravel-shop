@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Password;
 use Laravel\Socialite\Facades\Socialite;
@@ -127,7 +128,8 @@ class AuthController extends Controller
 
 
         return redirect()->back()->with(
-            'message', 'اطلاعات شما نادرست می باشد'
+            'message',
+            'اطلاعات شما نادرست می باشد'
         );
     }
 
@@ -179,16 +181,50 @@ class AuthController extends Controller
         );
     }
 
-    public function logout() {
-        if(Auth::user())
-        {
+    public function logout()
+    {
+        if (Auth::user()) {
             Auth::logout();
         }
 
         return redirect()->route('app.home');
     }
 
-    public function redirectToGoogle() {
+    public function sendVCodeAgain()
+    {
+
+        $email = request()->get('email');
+        $validator = Validator::make(['email' => $email], [
+            'email' => 'required|email|exists:users,email',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false
+            ]);
+        }
+
+        $user = User::where("email", $email)->first();
+        if ($user) {
+            $isVCodeSent = $this->sendVerificationCode($user);
+            if ($isVCodeSent) {
+                return response()->json([
+                    'status' => true
+                ]);
+            }
+        }
+
+
+        return response()->json([
+            'status' => false
+        ]);
+    }
+
+
+    // login using google
+
+    public function redirectToGoogle()
+    {
         return Socialite::driver('google')->redirect();
     }
 

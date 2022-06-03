@@ -35,11 +35,28 @@ function countDown() {
 
         if (timer <= 0) {
             clearInterval(timerInterval)
-            var email = $('#email').val()
-            $('#timer-text').html('<a class="text-xs text-red-500" href="/auth/send-verification-code' + `?email=${email}` +'">ارسال مجدد کد تایید</a>')
+
+            $('#timer-text').html('<button class="text-xs text-red-500" onclick="sendVCode()">ارسال مجدد کد تایید</button>')
         }
     }, 1000)
 
 }
 
 countDown()
+
+
+function sendVCode() {
+    var email = $('#email').val()
+    $.ajax({
+        url: `/send-verification-code?email=${email}`,
+        method: 'get',
+        success: function (response) {
+            if (response.status) {
+                $('#timer-text').html('کد تایید مجددا به ایمیل شما ارسال شد')
+            }else {
+                $('#timer-text').html('خطایی در ارسال کد رخ داده است')
+            }
+        }
+
+    });
+}

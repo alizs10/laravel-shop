@@ -66,6 +66,9 @@ Route::namespace('Auth')->group(function () {
     Route::post('/check-verification-code', [AuthController::class, 'checkVerificationCode'])->name('auth.check-verification-code');
     Route::post('/set-password', [AuthController::class, 'setPassword'])->name('auth.set-password');
     Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
+    
+    Route::get('/send-verification-code', [AuthController::class, 'sendVCodeAgain'])->name('auth.send-verification-code');
+
 
 
     // login using google

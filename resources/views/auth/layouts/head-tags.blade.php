@@ -14,4 +14,5 @@
             document.documentElement.classList.remove('dark')
         }
     </script>
+    <script src="{{ asset('app-assets/js/jquery-3.6.0.min.js') }}"></script>
 </head>

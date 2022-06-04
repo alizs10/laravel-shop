@@ -262,6 +262,11 @@
                 <i class="fa-light fa-bars text-xl"></i>
                 منو
             </a>
+            <a href="{{ route('admin.content.advertisement-baner.index') }}"
+                class="sidebar-link {{ sideBarMenuActiver(route('admin.content.advertisement-baner.index')) }}">
+                <i class="fa-light fa-rectangle-ad text-xl"></i>
+                بنرهای تبلیغاتی
+            </a>
             <a href="{{ route('admin.content.faq.index') }}"
                 class="sidebar-link {{ sideBarMenuActiver(route('admin.content.faq.index')) }}">
                 <i class="fa-light fa-comments-question-check text-xl"></i>

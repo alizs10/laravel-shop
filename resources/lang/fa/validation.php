@@ -231,5 +231,8 @@ return [
         'permission_id' => 'دسترسی ها',
         'slug' => 'اسلاگ',
         'value' => 'مقدار',
+        'url' => 'آدرس',
+        'status' => 'وضعیت',
+        'position' => 'موقعیت',
     ],
 ];

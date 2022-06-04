@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\Content\AdvertisementBanerController;
 use App\Http\Controllers\Admin\Content\FAQController;
 use App\Http\Controllers\Admin\Content\MenuController;
 use App\Http\Controllers\Admin\Content\PageController;
@@ -67,7 +68,7 @@ Route::namespace('Auth')->group(function () {
     Route::post('/set-password', [AuthController::class, 'setPassword'])->name('auth.set-password');
     Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
     Route::get('/forgot-password/{email}', [AuthController::class, 'forgotPassword'])->name('auth.forgot-password');
-    
+
     Route::get('/send-verification-code', [AuthController::class, 'sendVCodeAgain'])->name('auth.send-verification-code');
 
 
@@ -309,6 +310,17 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
             Route::put('/update/{menu}', [MenuController::class, 'update'])->name('admin.content.menu.update');
             Route::delete('/delete/{menu}', [MenuController::class, 'destroy'])->name('admin.content.menu.destroy');
             Route::get('/status/{menu}', [MenuController::class, 'status'])->name('admin.content.menu.status');
+        });
+
+        //advertisement baners
+        Route::prefix('advertisement-baner')->group(function () {
+            Route::get('/', [AdvertisementBanerController::class, 'index'])->name('admin.content.advertisement-baner.index');
+            Route::get('/create', [AdvertisementBanerController::class, 'create'])->name('admin.content.advertisement-baner.create');
+            Route::post('/store', [AdvertisementBanerController::class, 'store'])->name('admin.content.advertisement-baner.store');
+            Route::get('/edit/{baner}', [AdvertisementBanerController::class, 'edit'])->name('admin.content.advertisement-baner.edit');
+            Route::put('/update/{baner}', [AdvertisementBanerController::class, 'update'])->name('admin.content.advertisement-baner.update');
+            Route::delete('/delete/{baner}', [AdvertisementBanerController::class, 'destroy'])->name('admin.content.advertisement-baner.destroy');
+            Route::get('/status/{baner}', [AdvertisementBanerController::class, 'status'])->name('admin.content.advertisement-baner.status');
         });
 
         //FAQ

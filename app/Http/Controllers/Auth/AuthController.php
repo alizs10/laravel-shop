@@ -220,6 +220,22 @@ class AuthController extends Controller
         ]);
     }
 
+    public function forgotPassword($email)
+    {
+        $user = User::where(['email' => $email])->first();
+        if ($user) {
+            $isVCodeSent = $this->sendVerificationCode($user);
+
+            if ($isVCodeSent) {
+                return redirect(route('auth.index') . '?user=false&vcode=' . $isVCodeSent . '&email=' . $user->email);
+            }
+        }
+
+        return redirect()->route('auth.index')->withErrors([
+            'email' => 'کاربری با این ایمیل وجود ندارد'
+        ]);
+    }
+
 
     // login using google
 

@@ -7,3 +7,4 @@
 
     <button type="submit" class="btn bg-red-500 text-white mt-2">ورود</button>
 </form>
+<a href="{{ route('auth.forgot-password', request()->get('email')) }}" class="text-center text-gray-400">فراموشی کلمه عبور</a>

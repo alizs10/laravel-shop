@@ -1,6 +1,36 @@
 @extends('app.layouts.master')
 
 @section('content')
+    <!-- slidershow starts -->
+    <section class="grid grid-cols-12 gap-2 md:h-2/3 h-1/3">
+
+        <section class="relative z-0 col-span-12 bg-white rounded-lg ltr overflow-hidden">
+
+            <div id="slidershow-imgs" class="w-full flex flex-wrap overflow-hidden">
+                <a class="w-full h-full inline-block text-center" href="">
+                    <img id="slider-1" src="../images/product-1.jfif" class="w-full hidden" alt="">
+                </a>
+                <a class=" h-full inline-block w-full text-center" href="">
+                    <img id="slider-2" src="../images/product-2.webp" class="w-full active" alt="">
+                </a>
+                <a class="w-full h-full inline-block text-center" href="">
+                    <img id="slider-3" src="../images/product-1.jfif" class="w-full hidden" alt="">
+                </a>
+            </div>
+
+            <div id="s-btns" class="absolute bottom-4 z-0 right-0 left-0 py-3 flex-center gap-x-2">
+                <span id="s-btn-1"
+                    class="transition-all duration-300 shadow-lg bg-white w-4 h-3 rounded-lg cursor-pointer"></span>
+                <span id="s-btn-2"
+                    class="transition-all duration-300 shadow-lg bg-red-500 w-4 h-3 rounded-lg cursor-pointer"></span>
+                <span id="s-btn-3"
+                    class="transition-all duration-300 shadow-lg bg-white w-4 h-3 rounded-lg cursor-pointer"></span>
+            </div>
+        </section>
+
+    </section>
+    <!-- slidershow ends -->
+    
     <!-- amazing sales starts -->
     <section class="flex flex-col gap-y-2 p-2 rounded-lg mt-4 bg-red-500 text-white">
         <div class="flex justify-between items-center text-base">
@@ -30,10 +60,10 @@
                         </span>
 
                         <div class="flex flex-col items-center gax-y-2">
-                            <button class="text-gray-700 w-10 h-10 rounded-lg text-xl hover-transition hover:bg-gray-200">
+                            <button onclick="addToFavorites(this)" class="text-gray-700 w-10 h-10 rounded-lg text-xl hover-transition hover:bg-gray-200">
                                 <i class="fa-regular fa-heart"></i>
                             </button>
-                            <button class="text-gray-700 w-10 h-10 rounded-lg text-xl hover-transition hover:bg-gray-200">
+                            <button onclick="addToCart(this)" class="text-gray-700 w-10 h-10 rounded-lg text-xl hover-transition hover:bg-gray-200">
                                 <i class="fa-solid fa-cart-circle-plus"></i>
                             </button>
                         </div>
@@ -49,9 +79,10 @@
 
 
     <!-- add starts -->
-    <section
-        class="rounded-lg my-4 h-24 text-2xl flex-center p-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
-        <span class="">محل تبلیغات شما</span>
+    <section class="rounded-lg my-4 overflow-hidden">
+        <a href="">
+            <img class="w-full" src="../images/banner-ad.jpg" alt="">
+        </a>
     </section>
     <!-- add ends -->
 
@@ -73,29 +104,30 @@
                     <img class="w-32"
                         src="{{ asset('storage\\' . $leastMarketableProduct->image['indexArray']['medium']) }}" alt="">
                     <div class="flex justify-between items-center">
-                       
+
                         @if (!is_null($leastMarketableProduct->amazingSale))
-                        <span class="flex flex-col gap-y-1 text-xs">
-                            <span class="flex gap-x-2 items-center">
-                                <span class="line-through">{{ $leastMarketableProduct->price }}</span>
-                                <div class="h-7 w-7 rounded-lg bg-red-600 text-white flex-center text-xs">
-                                    {{ $leastMarketableProduct->amazingSale->percentage }}%</div>
+                            <span class="flex flex-col gap-y-1 text-xs">
+                                <span class="flex gap-x-2 items-center">
+                                    <span class="line-through">{{ $leastMarketableProduct->price }}</span>
+                                    <div class="h-7 w-7 rounded-lg bg-red-600 text-white flex-center text-xs">
+                                        {{ $leastMarketableProduct->amazingSale->percentage }}%</div>
+                                </span>
+                                <span
+                                    class="text-red-500 font-bold">{{ $leastMarketableProduct->amazingSale->price }}</span>
+                                <span class="text-red-500 font-bold">تومان</span>
                             </span>
-                            <span class="text-red-500 font-bold">{{ $leastMarketableProduct->amazingSale->price }}</span>
-                            <span class="text-red-500 font-bold">تومان</span>
-                        </span>
                         @else
-                        <span class="flex flex-col gap-y-1 text-xs">
-                            <span>{{ $leastMarketableProduct->price }}</span>
-                            <span class="font-bold">تومان</span>
-                        </span>
+                            <span class="flex flex-col gap-y-1 text-xs">
+                                <span>{{ $leastMarketableProduct->price }}</span>
+                                <span class="font-bold">تومان</span>
+                            </span>
                         @endif
 
                         <div class="flex flex-col items-center gax-y-2">
-                            <button class="text-gray-700 w-10 h-10 rounded-lg text-xl hover-transition hover:bg-gray-200">
+                            <button onclick="addToFavorites(this)" class="text-gray-700 w-10 h-10 rounded-lg text-xl hover-transition hover:bg-gray-200">
                                 <i class="fa-regular fa-heart"></i>
                             </button>
-                            <button class="text-gray-700 w-10 h-10 rounded-lg text-xl hover-transition hover:bg-gray-200">
+                            <button onclick="addToCart(this)" class="text-gray-700 w-10 h-10 rounded-lg text-xl hover-transition hover:bg-gray-200">
                                 <i class="fa-solid fa-cart-circle-plus"></i>
                             </button>
                         </div>
@@ -110,9 +142,10 @@
     <!-- recommended products ends -->
 
     <!-- add starts -->
-    <section
-        class="rounded-lg my-4 h-24 text-2xl flex-center p-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
-        <span class="">محل تبلیغات شما</span>
+    <section class="rounded-lg my-4 overflow-hidden">
+        <a href="">
+            <img class="w-full" src="../images/banner-ad.jpg" alt="">
+        </a>
     </section>
     <!-- add ends -->
 
@@ -205,9 +238,15 @@
     <!-- visited products ends -->
 
     <!-- add starts -->
-    <section
-        class="rounded-lg my-4 h-24 text-2xl flex-center p-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
-        <span class="">محل تبلیغات شما</span>
+    <section class="rounded-lg my-4 overflow-hidden">
+        <a href="">
+            <img class="w-full" src="../images/banner-ad.jpg" alt="">
+        </a>
     </section>
     <!-- add ends -->
+@endsection
+
+@section('scripts')
+    <script src="{{ asset('app-assets/js/slidershow.js') }}"></script>
+    <script src="{{ asset('app-assets/js/products.js') }}"></script>
 @endsection

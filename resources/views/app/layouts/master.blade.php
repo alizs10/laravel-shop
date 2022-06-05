@@ -26,5 +26,5 @@
     <!-- background blur ends -->
 </body>
 @include('app.layouts.scripts')
-
+@yield('scripts')
 </html>

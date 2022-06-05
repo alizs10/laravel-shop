@@ -7,24 +7,21 @@
         <section class="relative z-0 col-span-12 bg-white rounded-lg ltr overflow-hidden">
 
             <div id="slidershow-imgs" class="w-full flex flex-wrap overflow-hidden">
-                <a class="w-full h-full inline-block text-center" href="">
-                    <img id="slider-1" src="../images/product-1.jfif" class="w-full hidden" alt="">
-                </a>
-                <a class=" h-full inline-block w-full text-center" href="">
-                    <img id="slider-2" src="../images/product-2.webp" class="w-full active" alt="">
-                </a>
-                <a class="w-full h-full inline-block text-center" href="">
-                    <img id="slider-3" src="../images/product-1.jfif" class="w-full hidden" alt="">
-                </a>
+                @foreach ($slideshowBaners as $key => $slideshow)
+                    <a class="w-full h-full inline-block text-center" href="{{ $slideshow->url }}">
+                        <img id="slider-{{ $key + 1 }}" src="{{ asset('storage\\' . $slideshow->image) }}"
+                            class="w-full @if ($key == 0) active @else hidden @endif" alt="slideshow">
+                    </a>
+                @endforeach
+
             </div>
 
             <div id="s-btns" class="absolute bottom-4 z-0 right-0 left-0 py-3 flex-center gap-x-2">
-                <span id="s-btn-1"
-                    class="transition-all duration-300 shadow-lg bg-white w-4 h-3 rounded-lg cursor-pointer"></span>
-                <span id="s-btn-2"
-                    class="transition-all duration-300 shadow-lg bg-red-500 w-4 h-3 rounded-lg cursor-pointer"></span>
-                <span id="s-btn-3"
-                    class="transition-all duration-300 shadow-lg bg-white w-4 h-3 rounded-lg cursor-pointer"></span>
+                @foreach ($slideshowBaners as $key => $slideshow)
+                    <span id="s-btn-{{ $key + 1 }}"
+                        class="transition-all duration-300 shadow-lg @if ($key == 0) bg-red-500 @else bg-white @endif w-4 h-3 rounded-lg cursor-pointer"></span>
+                @endforeach
+
             </div>
         </section>
 
@@ -82,8 +79,8 @@
 
     <!-- add starts -->
     <section class="rounded-lg my-4 overflow-hidden">
-        <a href="">
-            <img class="w-full" src="../images/banner-ad.jpg" alt="">
+        <a href="{{ $banerOne->url }}" target="_blank">
+            <img class="w-full" src="{{ asset('storage\\' . $banerOne->image) }}" alt="advertisement-baner">
         </a>
     </section>
     <!-- add ends -->
@@ -147,8 +144,8 @@
 
     <!-- add starts -->
     <section class="rounded-lg my-4 overflow-hidden">
-        <a href="">
-            <img class="w-full" src="../images/banner-ad.jpg" alt="">
+        <a href="{{ $banerTwo->url }}" target="_blank">
+            <img class="w-full" src="{{ asset('storage\\' . $banerTwo->image) }}" alt="advertisement-baner">
         </a>
     </section>
     <!-- add ends -->
@@ -243,8 +240,8 @@
 
     <!-- add starts -->
     <section class="rounded-lg my-4 overflow-hidden">
-        <a href="">
-            <img class="w-full" src="../images/banner-ad.jpg" alt="">
+        <a href="{{ $banerThree->url }}" target="_blank">
+            <img class="w-full" src="{{ asset('storage\\' . $banerThree->image) }}" alt="advertisement-baner">
         </a>
     </section>
     <!-- add ends -->
@@ -261,19 +258,13 @@
 
         <div class="flex flex-row gap-x-4 py-3 overflow-x-scroll no-scrollbar">
 
+            @foreach ($brands as $brand)
+                
             <a href="" class="rounded-lg bg-white text-black p-2 hover-transition hover:scale-110 overflow-hidden">
-                <img class="w-32" src="../images/product-1.jfif" alt="">
+                <img class="w-32" src="{{ asset('storage\\'. $brand->logo['indexArray']['small']) }}" alt="brand">
             </a>
-            <a href="" class="rounded-lg bg-white text-black p-2 hover-transition hover:scale-110 overflow-hidden">
-                <img class="w-32" src="../images/product-1.jfif" alt="">
-            </a>
-            <a href="" class="rounded-lg bg-white text-black p-2 hover-transition hover:scale-110 overflow-hidden">
-                <img class="w-32" src="../images/product-1.jfif" alt="">
-            </a>
-            <a href="" class="rounded-lg bg-white text-black p-2 hover-transition hover:scale-110 overflow-hidden">
-                <img class="w-32" src="../images/product-1.jfif" alt="">
-            </a>
-
+            @endforeach
+           
 
 
 

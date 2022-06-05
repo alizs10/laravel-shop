@@ -48,7 +48,7 @@
                                     <img class="w-20" src="{{ asset('storage\\' . $baner->image) }}" alt="">
                                 @endif
                             </td>
-                            <td>{{ $baner->url }}</td>
+                            <td>{{ Str::limit($baner->url, 30, '...') }}</td>
                             <td>{{ $positions[$baner->position] }}</td>
                             <td>
                                 <input type="checkbox" id="status-{{ $baner->id }}"

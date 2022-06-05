@@ -39,9 +39,22 @@ function sidebarDropdownActiver($base, array $routes)
     ];
 }
 
-function numbers_e2f($str)
+function english_to_persian_numbers($str)
 {
     $persian_numbers = array('٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩');
     $english_numbers = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
     return str_replace($english_numbers, $persian_numbers, $str);
+}
+
+function persian_to_english_numbers($str)
+{
+    $english_numbers = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
+    $persian_numbers = array('٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩');
+    return str_replace($persian_numbers, $english_numbers, $str);
+}
+
+function price_formater($price)
+{
+   $formated_price = number_format($price, 0, '.', ',');
+   return $formated_price;
 }

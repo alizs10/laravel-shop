@@ -67,8 +67,11 @@
                     <label for="position"
                         class="text-xs {{ $errors->has('position') ? 'text-red-600 dark:text-red-400' : '' }}">موقعیت
                         (صفر برای اسلایدر)</label>
-                    <input type="text" class="form-input" name="position" id="position"
-                        value="{{ old('position', $baner->position) }}">
+                    <select name="position" id="position" class="form-select" style="direction: ltr">
+                        @foreach ($positions as $key => $position)
+                            <option value="{{ $key }}" @if (old('position', $baner->position) == $key) selected @endif>{{ $position }}</option>
+                        @endforeach
+                    </select>
                 </div>
 
                 <div class="col-span-2 flex flex-col gap-y-1">

@@ -56,7 +56,7 @@
                         class="text-xs {{ $errors->has('image') ? 'text-red-600 dark:text-red-400' : '' }}">بنر</label>
                     <input type="file" class="form-input" name="image" id="image">
                 </div>
-              
+
                 <div class="col-span-2 md:col-span-1 flex flex-col gap-y-1">
                     <label for="url"
                         class="text-xs {{ $errors->has('url') ? 'text-red-600 dark:text-red-400' : '' }}">آدرس</label>
@@ -64,10 +64,15 @@
                 </div>
                 <div class="col-span-2 md:col-span-1 flex flex-col gap-y-1">
                     <label for="position"
-                        class="text-xs {{ $errors->has('position') ? 'text-red-600 dark:text-red-400' : '' }}">موقعیت (صفر برای اسلایدر)</label>
-                    <input type="text" class="form-input" name="position" id="position" value="{{ old('position') }}">
+                        class="text-xs {{ $errors->has('position') ? 'text-red-600 dark:text-red-400' : '' }}">موقعیت
+                        (صفر برای اسلایدر)</label>
+                    <select name="position" id="position" class="form-select" style="direction: ltr">
+                        @foreach ($positions as $key => $position)
+                            <option value="{{ $key }}" @if (old('position') ==  $key) selected @endif>{{ $position }}</option>
+                        @endforeach
+                    </select>
                 </div>
-               
+
                 <div class="col-span-2 flex flex-col gap-y-1">
                     <label for="status"
                         class="text-xs {{ $errors->has('status') ? 'text-red-600 dark:text-red-400' : '' }}">وضعیت</label>
@@ -76,7 +81,7 @@
                         <option value="0" @if (old('status') == 0) selected @endif>غیرفعال</option>
                     </select>
                 </div>
-                
+
 
 
                 <button class="col-span-2 py-2 rounded-lg bg-emerald-600 text-white text-sm md:text-base">ثبت</button>

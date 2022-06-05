@@ -45,11 +45,11 @@
                             <td>{{ $baner->name }}</td>
                             <td>
                                 @if ($baner->image)
-                                    <img src="{{ asset('storage\\' . $baner->image['indexArray']['small']) }}" alt="">
+                                    <img class="w-20" src="{{ asset('storage\\' . $baner->image) }}" alt="">
                                 @endif
                             </td>
                             <td>{{ $baner->url }}</td>
-                            <td>{{ $baner->position }}</td>
+                            <td>{{ $positions[$baner->position] }}</td>
                             <td>
                                 <input type="checkbox" id="status-{{ $baner->id }}"
                                     data-url="{{ route('admin.content.advertisement-baner.status', $baner->id) }}"

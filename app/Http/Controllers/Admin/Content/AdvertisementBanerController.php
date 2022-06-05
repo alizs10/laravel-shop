@@ -18,7 +18,8 @@ class AdvertisementBanerController extends Controller
     public function index()
     {
         $baners = AdvertisementBaner::all();
-        return view('admin.content.advertisement-baner.index', compact('baners'));
+        $positions = AdvertisementBaner::$positions;
+        return view('admin.content.advertisement-baner.index', compact('baners', 'positions'));
     }
 
     /**
@@ -28,7 +29,8 @@ class AdvertisementBanerController extends Controller
      */
     public function create()
     {
-        return view('admin.content.advertisement-baner.create');
+        $positions = AdvertisementBaner::$positions;
+        return view('admin.content.advertisement-baner.create', compact('positions'));
     }
 
     /**
@@ -43,7 +45,7 @@ class AdvertisementBanerController extends Controller
         if ($request->hasFile('image')) {
 
             $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'baners');
-            $result = $imageService->createIndexAndSave($request->file('image'));
+            $result = $imageService->save($request->file('image'));
             if ($result === false) {
                 return redirect()->route('admin.content.advertisement-baner.index')->with('alertify-error', 'آپلود تصویر با خطا مواجه شد.');
             }
@@ -72,7 +74,8 @@ class AdvertisementBanerController extends Controller
      */
     public function edit(AdvertisementBaner $baner)
     {
-        return view('admin.content.advertisement-baner.edit', compact('baner'));
+        $positions = AdvertisementBaner::$positions;
+        return view('admin.content.advertisement-baner.edit', compact('baner', 'positions'));
     }
 
     /**
@@ -88,7 +91,7 @@ class AdvertisementBanerController extends Controller
         if ($request->hasFile('image')) {
 
             $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'baners');
-            $result = $imageService->createIndexAndSave($request->file('image'));
+            $result = $imageService->save($request->file('image'));
             if ($result === false) {
                 return redirect()->route('admin.content.advertisement-baner.index')->with('alertify-error', 'آپلود تصویر با خطا مواجه شد.');
             }

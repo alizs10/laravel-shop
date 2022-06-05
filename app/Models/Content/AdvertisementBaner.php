@@ -19,4 +19,11 @@ class AdvertisementBaner extends Model
     ];
 
     protected $casts = ['image' => 'array'];
+
+    public static $positions = [
+        '0' => 'اسلایدشو صفحه اصلی',
+        '1' => 'صفحه اصلی کنار اسلایدشو',
+        '2' => 'صفحه اصلی وسط',
+        '3' => 'صفحه اصلی پایین',
+    ];
 }

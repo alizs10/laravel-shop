@@ -30,7 +30,7 @@
 
     </section>
     <!-- slidershow ends -->
-    
+
     <!-- amazing sales starts -->
     <section class="flex flex-col gap-y-2 p-2 rounded-lg mt-4 bg-red-500 text-white">
         <div class="flex justify-between items-center text-base">
@@ -60,10 +60,12 @@
                         </span>
 
                         <div class="flex flex-col items-center gax-y-2">
-                            <button onclick="addToFavorites(this)" class="text-gray-700 w-10 h-10 rounded-lg text-xl hover-transition hover:bg-gray-200">
+                            <button onclick="addToFavorites(this)"
+                                class="text-gray-700 w-10 h-10 rounded-lg text-xl hover-transition hover:bg-gray-200">
                                 <i class="fa-regular fa-heart"></i>
                             </button>
-                            <button onclick="addToCart(this)" class="text-gray-700 w-10 h-10 rounded-lg text-xl hover-transition hover:bg-gray-200">
+                            <button onclick="addToCart(this)"
+                                class="text-gray-700 w-10 h-10 rounded-lg text-xl hover-transition hover:bg-gray-200">
                                 <i class="fa-solid fa-cart-circle-plus"></i>
                             </button>
                         </div>
@@ -124,10 +126,12 @@
                         @endif
 
                         <div class="flex flex-col items-center gax-y-2">
-                            <button onclick="addToFavorites(this)" class="text-gray-700 w-10 h-10 rounded-lg text-xl hover-transition hover:bg-gray-200">
+                            <button onclick="addToFavorites(this)"
+                                class="text-gray-700 w-10 h-10 rounded-lg text-xl hover-transition hover:bg-gray-200">
                                 <i class="fa-regular fa-heart"></i>
                             </button>
-                            <button onclick="addToCart(this)" class="text-gray-700 w-10 h-10 rounded-lg text-xl hover-transition hover:bg-gray-200">
+                            <button onclick="addToCart(this)"
+                                class="text-gray-700 w-10 h-10 rounded-lg text-xl hover-transition hover:bg-gray-200">
                                 <i class="fa-solid fa-cart-circle-plus"></i>
                             </button>
                         </div>
@@ -244,6 +248,38 @@
         </a>
     </section>
     <!-- add ends -->
+
+    <!-- best brands starts -->
+    <section class="flex flex-col gap-y-2 p-2 rounded-lg mt-4 bg-gray-300 dark:bg-gray-700 text-white">
+        <div class="flex justify-between items-center text-black dark:text-white text-base">
+            <span>بهترین برند ها</span>
+            <a href="" class="flex-center gap-x-2">
+                <span>بیشتر</span>
+                <i class="fa-duotone fa-arrow-left text-base"></i>
+            </a>
+        </div>
+
+        <div class="flex flex-row gap-x-4 py-3 overflow-x-scroll no-scrollbar">
+
+            <a href="" class="rounded-lg bg-white text-black p-2 hover-transition hover:scale-110 overflow-hidden">
+                <img class="w-32" src="../images/product-1.jfif" alt="">
+            </a>
+            <a href="" class="rounded-lg bg-white text-black p-2 hover-transition hover:scale-110 overflow-hidden">
+                <img class="w-32" src="../images/product-1.jfif" alt="">
+            </a>
+            <a href="" class="rounded-lg bg-white text-black p-2 hover-transition hover:scale-110 overflow-hidden">
+                <img class="w-32" src="../images/product-1.jfif" alt="">
+            </a>
+            <a href="" class="rounded-lg bg-white text-black p-2 hover-transition hover:scale-110 overflow-hidden">
+                <img class="w-32" src="../images/product-1.jfif" alt="">
+            </a>
+
+
+
+
+        </div>
+    </section>
+    <!-- best brands ends -->
 @endsection
 
 @section('scripts')

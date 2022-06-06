@@ -65,7 +65,7 @@ Route::namespace('Auth')->group(function () {
 
     Route::post('/check-email', [AuthController::class, 'checkEmail'])->name('auth.check-email');
     Route::post('/check-verification-code', [AuthController::class, 'checkVerificationCode'])->name('auth.check-verification-code');
-    Route::post('/set-password', [AuthController::class, 'setPassword'])->name('auth.set-password');
+    Route::post('/set-passwords', [AuthController::class, 'setPasswords'])->name('auth.set-passwords');
     Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
     Route::get('/forgot-password/{email}', [AuthController::class, 'forgotPassword'])->name('auth.forgot-password');
 

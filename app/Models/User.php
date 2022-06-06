@@ -87,4 +87,9 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class)->using(RoleUser::class);
     }
 
+    public function opt()
+    {
+        return $this->hasOne(Opt::class);
+    }
+
 }

@@ -22,17 +22,19 @@
                     @endforeach
 
                 </div>
-            @endif
-            @if (session()->get('message'))
-                <span class="text-center text-red-500 mt-4">{{ session()->get('message') }}</span>>
+            @else
+                @if ($message)
+                    <span class="text-center text-red-500 mt-4">{{ $message }}</span>>
+                @endif
             @endif
 
-            @if ($user_login_status === 'true')
+
+            @if ($user == 'true')
                 @include('auth.set-password-form')
             @else
-                @if (request()->get('vcode') == 1)
+                @if ($vcode == 'true')
                     @include('auth.vcode-form')
-                @elseif(request()->get('vcode') == 2)
+                @elseif($code == 'checked')
                     @include('auth.set-passwords-form')
                 @else
                     @include('auth.login-form')

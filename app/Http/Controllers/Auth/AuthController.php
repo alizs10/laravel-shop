@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Services\EmailServices;
+use App\Models\Opt;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -21,11 +23,66 @@ class AuthController extends Controller
             return redirect()->route('app.home');
         }
 
-        $user_login_status = false;
-        if ($request->get('user')) {
-            $user_login_status = $request->get('user');
+        $user = false;
+        $vcode = false;
+        $code = false;
+        $email = false;
+        $token = false;
+        $message = '';
+
+        // login
+        if ($request->get('user') == 'true') {
+            $user = true;
+            $email = $request->email;
+            $is_user_exists = User::where("email", $request->email)->first();
+            $user = !empty($is_user_exists) ? true : false;
+            $message = !$user ? 'این کاربر در سیستم وجود ندارد' : '';
         }
-        return view('auth.index', compact('user_login_status'));
+        // vcode
+        if ($request->get('vcode') == 'true') {
+            if ($request->get('token')) {
+                $opt = Opt::where(['token' => $request->get('token'), 'used' => 0])->first();
+
+                if (!empty($opt)) {
+                    $email = $opt->identifier;
+                    $token = $opt->token;
+                    $message = 'کد تایید به ایمیل شما ارسال شد';
+                    $vcode = true;
+                } else {
+                    $message = 'توکن شما معتبر نمی باشد';
+                }
+            }
+        }
+        // set passwords when code is checked
+        if ($request->get('code') == 'checked') {
+            if ($request->get('token')) {
+                $opt = Opt::where([
+                    'token' => $request->get('token'),
+                    'used' => 0,
+                ])->latest()->first();
+
+                if (!empty($opt)) {
+                    $email = $opt->identifier;
+                    $token = $opt->token;
+
+                    if ($opt->created_at < Carbon::now()->subMinutes(5)->toDateTimeString()) {
+                        $email = false;
+                        $token = false;
+                        $message = 'توکن شما منقضی شده است';
+                    }
+                    $code = 'checked';
+                } else {
+                    $message = 'توکن شما معتبر نمی باشد';
+                }
+            }
+        }
+
+        // message
+        if (session()->get('message')) {
+            $message = session()->get('message');
+        }
+
+        return view('auth.index', compact('user', 'vcode', 'code', 'email', 'token', 'message'));
     }
 
     public function login(Request $request)
@@ -87,10 +144,10 @@ class AuthController extends Controller
             }
 
             if ($user) {
-                $isVCodeSent = $this->sendVerificationCode($user);
+                $token = $this->sendVerificationCode($user);
 
-                if ($isVCodeSent) {
-                    return redirect(route('auth.index') . '?user=false&vcode=' . $isVCodeSent . '&email=' . $user->email);
+                if ($token) {
+                    return redirect(route('auth.index') . '?vcode=true&token=' . $token);
                 }
             }
         }
@@ -108,40 +165,20 @@ class AuthController extends Controller
         return $user;
     }
 
-    public function setPassword(Request $request)
-    {
-        $request->validate([
-            'email' => 'required|email|exists:users,email',
-            'token' => 'required|string',
-            'password' => ['required', 'string', Password::min(8)->mixedCase()->numbers(), 'max:16', 'confirmed'],
-        ]);
-
-        $user = User::where("remember_token", $request->token)->first();
-        if ($user) {
-            $user->update([
-                "password" => Hash::make($request->password),
-                "remember_token" => null
-            ]);
-            Auth::loginUsingId($user->id);
-            return redirect()->route('app.home');
-        }
-
-
-        return redirect()->back()->with(
-            'message',
-            'اطلاعات شما نادرست می باشد'
-        );
-    }
-
-
     public function sendVerificationCode($user)
     {
         $verification_code = mt_rand(100000, 999999);
-        $user->update(['verification_code' => $verification_code]);
+        $token = Hash::make(Str::random(64));
+        $opt = Opt::create([
+            'identifier' => $user->email,
+            'user_id' => $user->id,
+            'code' => $verification_code,
+            'token' => $token
+        ]);
 
         EmailServices::SendVCode($user->email, $verification_code);
 
-        return true;
+        return $opt ? $token : false;
     }
 
     public function checkVerificationCode(Request $request)
@@ -149,7 +186,8 @@ class AuthController extends Controller
         $request->validate([
             'email' => 'required|email|exists:users,email',
             'vcode' => 'required|array|size:6',
-            'vcode.*' => 'required|string|max:1'
+            'vcode.*' => 'required|string|max:1',
+            'token' => 'required|string'
         ]);
 
         $vcodeArr = $request->vcode;
@@ -158,27 +196,67 @@ class AuthController extends Controller
             $verification_code .= $vcode;
         }
 
-        $user = User::where("email", $request->email)->first();
+        $opt = Opt::where(["identifier" => $request->email, 'token' => $request->token, 'used' => 0])->first();
 
-        if ($verification_code === $user->verification_code) {
-            $token = Hash::make(Str::random(64));
-            $user->update([
-                'email_verified_at' => now(),
-                'verification_code' => null,
-                'remember_token' => $token
+        if (empty($opt)) {
+            return redirect(route('auth.index') . '?token=' . $request->token);
+        }
+
+        if ($verification_code === $opt->code) {
+            $opt->update(['used' => 1]);
+            $newToken = Str::random(64);
+            $newOpt = Opt::create([
+                'identifier' => $opt->identifier,
+                'user_id' => $opt->user_id,
+                'code' => '0',
+                'token' => $newToken
             ]);
 
-
-            return redirect(route('auth.index') . '?user=false&vcode=2&email=' . $user->email . '&token=' . $token)->with(
+            return redirect(route('auth.index') . '?code=checked&email=' . $opt->identifier . '&token=' . $newToken)->with(
                 'message',
                 'برای تکمیل ثبت نام، کلمه عبور خود را تعیین کنید'
             );
         }
 
-        return redirect(route('auth.index') . '?user=false&vcode=1&email=' . $user->email)->with(
+        return redirect(route('auth.index') . '?vcode=true&email=' . $opt->identifier . '&token=' . $opt->token)->with(
             'message',
             'کد تایید صحیح نمی باشد'
         );
+    }
+
+    public function setPasswords(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => [
+                'required', 'confirmed', Password::min(8)
+                    ->letters()
+                    ->mixedCase()
+                    ->numbers()
+                    ->symbols()
+            ],
+            'token' => 'required|string',
+        ]);
+
+        $opt = Opt::where(["identifier" => $request->email, 'token' => $request->token, 'used' => 0])->first();
+        if (empty($opt)) {
+            return redirect(route('auth.index'))->with(
+                'message' , 'توکن شما نامعتبر است'
+            );
+        }
+        $opt->update(['used' => 1]);
+        $opt->user()->update([
+            'email_verified_at' => now(),
+            'password' => Hash::make($request->password)
+        ]);
+        
+    
+        $result = Auth::loginUsingId($opt->user_id);
+        if ($result) {
+            return redirect()->route('app.home');
+        }
+
+        return redirect()->route('auth.index');
     }
 
     public function logout()

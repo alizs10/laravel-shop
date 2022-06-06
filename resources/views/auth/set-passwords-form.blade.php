@@ -1,4 +1,4 @@
-<form class="flex flex-col w-3/4 lg:w-2/5 mt-4 self-center" action="{{ route('auth.set-password') }}" method="POST">
+<form class="flex flex-col w-3/4 lg:w-2/5 mt-4 self-center" action="{{ route('auth.set-passwords') }}" method="POST">
     @csrf
     <label class="text-xs text-gray-500 mb-2" for="password">کلمه عبور</label>
     <input type="password" name="password"

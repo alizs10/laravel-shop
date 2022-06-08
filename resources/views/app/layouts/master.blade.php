@@ -19,6 +19,7 @@
 
     @include('app.layouts.footer')
 
+    @yield('add-to-body')
     <!-- background blur starts -->
     <div id="blur-back" onclick="toggleSidebar()"
         class="hidden lg:hidden fixed top-0 bottom-0 left-0 right-0 bg-gray-500/70 z-20 transition-all duration-300">

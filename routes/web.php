@@ -35,6 +35,7 @@ use App\Http\Controllers\Admin\User\CustomerController;
 use App\Http\Controllers\Admin\User\PermissionController;
 use App\Http\Controllers\Admin\User\RoleController;
 use App\Http\Controllers\app\HomeController;
+use App\Http\Controllers\app\ProductController as AppProductController;
 use App\Http\Controllers\Auth\AuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -86,7 +87,12 @@ Route::namespace('Auth')->group(function () {
 
 Route::namespace('App')->group(function () {
 
+    //home
     Route::get('/', [HomeController::class, 'index'])->name('app.home');
+
+    //product
+    Route::get('/product/{product}', [AppProductController::class, 'index'])->name('app.product.index');
+
 });
 
 

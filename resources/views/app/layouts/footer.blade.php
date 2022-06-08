@@ -1,15 +1,15 @@
-<footer class="bg-gray-100 dark:bg-gray-800 dark:text-white relative shadow-md z-10 flex flex-col mt-20">
-    <div class="absolute -top-10 w-full flex justify-center z-0">
-        <div class="h-10 w-5/6 bg-red-500 rounded-t-lg p-2">
-            <span class="text-white text-sm">فروشگاه اینترنتی لاراول</span>
+<footer class="bg-gray-100 dark:bg-gray-800 dark:text-white relative shadow-md z-10 flex flex-col mt-24">
+    <div class="absolute -top-10 md:-top-16 w-full flex justify-center z-0">
+        <div class="h-10 md:h-16 w-5/6 bg-red-500 rounded-t-lg p-4 flex items-center">
+            <span class="text-white text-sm md:text-lg">فروشگاه اینترنتی لاراول</span>
         </div>
     </div>
 
-    <div class="p-2 grid grid-cols-12 gap-4">
+    <div class="p-4 grid grid-cols-12 gap-4">
         <div class="col-span-12 md:col-span-6 lg:col-span-3 flex flex-col gap-y-2">
-            <span class="text-sm text-red-500"">درباره فروشگاه</span>
+            <span class="text-sm md:text-lg text-red-500"">درباره فروشگاه</span>
 
-            <span class="    text-justify leading-5 text-xs">
+            <span class=" text-justify leading-5 text-xs md:text-base">
                 لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است،
                 چاپگرها و
                 متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و
@@ -19,7 +19,7 @@
             </span>
         </div>
 
-        <div class="col-span-12 md:col-span-6 lg:col-span-3 flex flex-col md:mt-7 gap-y-2 text-xs">
+        <div class="col-span-12 md:col-span-6 lg:col-span-3 flex flex-col md:mt-7 gap-y-2 text-xs md:text-base">
             <span class="">
                 <i class="fa-solid fa-location-dot text-lg text-gray-700 dark:text-gray-400"></i>
                 تهران بزرگ، تهران، شهرک صنعتی لاراول
@@ -36,8 +36,8 @@
 
         <div class="col-span-12 lg:col-span-6 grid grid-cols-12 items-end sm:items-start gap-4 mt-2">
 
-            <div class="col-span-6 flex flex-col justify-start gap-y-4 text-2xl">
-                <span class="text-xxs lg:text-sm">لاراول در شبکه های اجتماعی</span>
+            <div class="col-span-6 flex flex-col justify-start gap-y-4 text-2xl md:text-4xl">
+                <span class="text-xxs md:text-base">لاراول در شبکه های اجتماعی</span>
 
                 <div class="flex gap-x-6">
                     <a href="" class="text-sky-400">
@@ -57,13 +57,13 @@
 
             <div class="col-span-6 grid grid-cols-3 gap-1">
                 <div class="col-span-1 flex-center bg-white rounded-lg p-2">
-                    <img class="w-full sm:w-20" src="{{ asset('app-assets/images/namad1.png') }}" alt="">
+                    <img class="w-full sm:w-20 md:w-40" src="{{ asset('app-assets/images/namad1.png') }}" alt="">
                 </div>
                 <div class="col-span-1 flex-center bg-white rounded-lg p-2">
-                    <img class="w-full sm:w-20" src="{{ asset('app-assets/images/namad2.png') }}" alt="">
+                    <img class="w-full sm:w-20 md:w-40" src="{{ asset('app-assets/images/namad2.png') }}" alt="">
                 </div>
                 <div class="col-span-1 flex-center bg-white rounded-lg p-2">
-                    <img class="w-full sm:w-20" src="{{ asset('app-assets/images/namad3.png') }}" alt="">
+                    <img class="w-full sm:w-20 md:w-40" src="{{ asset('app-assets/images/namad3.png') }}" alt="">
                 </div>
             </div>
 
@@ -72,7 +72,7 @@
         </div>
     </div>
 
-    <div class="col-span-12 text-center mt-5 mb-2">
+    <div class="col-span-12 text-center mt-5 mb-20 md:mb-2">
         <span class="text-xs">Copyright 2022 by laravel-shop - All Rights Reserved</span>
     </div>
 

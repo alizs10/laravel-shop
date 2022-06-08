@@ -56,5 +56,5 @@ function persian_to_english_numbers($str)
 function price_formater($price)
 {
    $formated_price = number_format($price, 0, '.', ',');
-   return $formated_price;
+   return english_to_persian_numbers($formated_price);
 }

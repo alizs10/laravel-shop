@@ -42,7 +42,7 @@
 
 
             @foreach ($amazingSaleProducts as $amazingSale)
-                <div class="flex flex-col gap-y-2 p-2 rounded-lg bg-white text-black">
+                <a href="{{ route('app.product.index', $amazingSale->id) }}" class="flex flex-col gap-y-2 p-2 rounded-lg bg-white text-black">
                     <img class="w-32"
                         src="{{ asset('storage\\' . $amazingSale->product->image['indexArray']['medium']) }}" alt="">
                     <div class="flex justify-between items-center">
@@ -67,7 +67,7 @@
                             </button>
                         </div>
                     </div>
-                </div>
+                </a>
             @endforeach
 
 

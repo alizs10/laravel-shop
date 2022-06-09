@@ -33,4 +33,9 @@ class ProductCategory extends Model
     {
         return $this->belongsTo($this, 'parent_id');
     }
+
+    public function specs()
+    {
+        return $this->hasMany(CategorySpec::class, 'cat_id');
+    }
 }

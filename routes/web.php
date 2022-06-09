@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\Market\BrandController;
 use App\Http\Controllers\Admin\Content\CategoryController as ContentCategoryController;
 use App\Http\Controllers\Admin\Market\CategoryController;
 use App\Http\Controllers\Admin\Content\CommentController as ContentCommentController;
+use App\Http\Controllers\Admin\Market\CategorySpecController;
 use App\Http\Controllers\Admin\Market\CommentController;
 use App\Http\Controllers\Admin\Market\DeliveryController;
 use App\Http\Controllers\Admin\Market\DiscountController;
@@ -118,6 +119,18 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
             Route::put('/update/{productCategory}', [CategoryController::class, 'update'])->name('admin.market.category.update');
             Route::delete('/delete/{productCategory}', [CategoryController::class, 'destroy'])->name('admin.market.category.destroy');
             Route::get('/status/{productCategory}', [CategoryController::class, 'status'])->name('admin.market.category.status');
+        });
+
+        //category-spec
+        Route::prefix('category-spec')->group(function () {
+            Route::get('/', [CategorySpecController::class, 'index'])->name('admin.market.category-spec.index');
+            Route::get('/create/{productCategory}', [categorySpecController::class, 'create'])->name('admin.market.category-spec.create');
+            Route::post('/store/{productCategory}', [categorySpecController::class, 'store'])->name('admin.market.category-spec.store');
+            Route::get('/edit/{category_spec}', [categorySpecController::class, 'edit'])->name('admin.market.category-spec.edit');
+            Route::put('/update/{category_spec}', [categorySpecController::class, 'update'])->name('admin.market.category-spec.update');
+            Route::delete('/delete/{category_spec}', [categorySpecController::class, 'destroy'])->name('admin.market.category-spec.destroy');
+            Route::get('/status/{category_spec}', [categorySpecController::class, 'status'])->name('admin.market.category-spec.status');
+            Route::get('/manage/{productCategory}', [categorySpecController::class, 'manage'])->name('admin.market.category-spec.manage');
         });
 
         //property

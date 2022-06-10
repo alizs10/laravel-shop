@@ -100,26 +100,30 @@
 
                     <span>ضمانت 7 روزه بازگشت کالا</span>
                 </span>
-                <span class="mt-2 flex flex-col gap-2 text-sm">
-                    <span class="flex gap-x-1 items-center">
-                        <i class="fa-regular fa-palette text-lg"></i>
-                        انتخاب رنگ
+
+                @if ($product->colors->count() > 0)
+                    <span class="mt-2 flex flex-col gap-2 text-sm">
+                        <span class="flex gap-x-1 items-center">
+                            <i class="fa-regular fa-palette text-lg"></i>
+                            انتخاب رنگ
+                        </span>
+
+                        <div class="flex flex-wrap gap-2" id="product-colors">
+
+                            @foreach ($product->colors as $color)
+                                <span class="cursor-pointer text-xs rounded-lg px-2 py-1 border-2 flex items-center gap-2"
+                                    style="border-color: {{ '#' . $color->color_code }}">
+                                    <div class="rounded-full h-3 w-3"
+                                        style="background-color: {{ '#' . $color->color_code }}">
+                                    </div>
+                                    {{ $color->color_name }}
+                                </span>
+                            @endforeach
+
+
+                        </div>
                     </span>
-
-                    <div class="flex flex-wrap gap-2" id="product-colors">
-
-                        @foreach ($product->colors as $color)
-                            <span class="cursor-pointer text-xs rounded-lg px-2 py-1 border-2 flex items-center gap-2"
-                                style="border-color: {{ '#' . $color->color_code }}">
-                                <div class="rounded-full h-3 w-3" style="background-color: {{ '#' . $color->color_code }}">
-                                </div>
-                                {{ $color->color_name }}
-                            </span>
-                        @endforeach
-
-
-                    </div>
-                </span>
+                @endif
                 @if ($product->marketable_number > 0)
                     <span class="mt-2 flex gap-x-2 items-center text-sm font-bold text-emerald-700 dark:text-emerald-600">
                         <span class="flex gap-x-1 items-center">
@@ -154,15 +158,33 @@
                         <span class="flex flex-col gap-2">
                             <span class="flex gap-2">
                                 <span class="line-through">{{ price_formater($product->price) }}</span>
-                                <span class="flex-center rounded-full h-7 w-7 bg-red-500 text-white text-xs">5%</span>
+                                @if (!empty($product->amazingSale))
+                                    <span
+                                        class="flex-center rounded-full h-7 w-7 bg-red-500 text-white text-xs">{{ e2p_numbers($product->amazingSale->percentage) }}٪</span>
+                                @endif
                             </span>
-                            <span>{{ price_formater(44520000) }} تومان</span>
+                            @if (!empty($product->amazingSale))
+                                @php
+                                    $ultimate_price = $product->price - ($product->amazingSale->percentage * $product->price) / 100;
+                                @endphp
+                                <span>{{ price_formater($ultimate_price) }} تومان</span>
+                            @else
+                                <span>{{ price_formater($product->price) }} تومان</span>
+                            @endif
                         </span>
                     </span>
 
-                    <button class="block py-2 text-center rounded-lg bg-red-500 text-white text-sm">
-                        افزودن به سبد خرید
-                    </button>
+                    @if ($product->marketable_number == 0)
+                        <button class="w-full py-2 text-center rounded-lg bg-gray-500 text-white text-sm flex gap-2">
+                            <i class="fa-regular fa-bell"></i>
+                            موجود شد اطلاع بده!
+                        </button>
+                    @else
+                        <button class="block py-2 text-center rounded-lg bg-red-500 text-white text-sm">
+                            افزودن به سبد خرید
+                        </button>
+                    @endif
+
                 </div>
             </div>
 

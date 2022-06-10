@@ -73,9 +73,9 @@ class CategorySpecController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(CategorySpec $spec)
     {
-        //
+        return view('admin.market.category-spec.edit', compact('spec'));
     }
 
     /**
@@ -85,9 +85,13 @@ class CategorySpecController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CategorySpecRequest $request,CategorySpec $spec)
     {
-        //
+        $inputs  = $request->all();
+        $spec->update($inputs);
+
+        return redirect()->route('admin.market.category-spec.manage', $spec->cat_id)->with('alertify-success', 'مشخصات کالا با موفقیت ویرایش شد');
+
     }
 
     /**
@@ -96,9 +100,29 @@ class CategorySpecController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(CategorySpec $spec)
     {
-        //
+        $spec->delete();
+
+        return redirect()->route('admin.market.category-spec.manage', $spec->cat_id)->with('alertify-success', 'مشخصات کالا با موفقیت حذف شد');
+
+    }
+
+    public function status(CategorySpec $spec)
+    {
+        $spec->status = $spec->status == 0 ? 1 : 0;
+        $result = $spec->save();
+
+        if ($result) {
+            if ($spec->status == 0)
+            return response()->json(['status' => true, 'checked' => false]);
+            else
+            return response()->json(['status' => true, 'checked' => true]);
+        }
+        else
+        {
+            return response()->json(['status' => false]);
+        }
     }
 
     public function manage(ProductCategory $productCategory)

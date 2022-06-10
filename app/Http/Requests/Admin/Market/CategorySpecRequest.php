@@ -23,9 +23,17 @@ class CategorySpecRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'spec'=> 'required|array|min:1',
-            'spec.*' => 'required'
-        ];
+        if ($this->isMethod('POST')) {
+            return [
+                'spec'=> 'required|array|min:1',
+                'spec.*' => 'required'
+            ];
+        } else {
+            return [
+                'name' => 'required|string|max:90',
+                'default_value' => 'required|string|max:900',
+                'status' => 'required|in:0,1',
+            ];
+        }
     }
 }

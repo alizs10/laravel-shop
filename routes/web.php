@@ -126,10 +126,10 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
             Route::get('/', [CategorySpecController::class, 'index'])->name('admin.market.category-spec.index');
             Route::get('/create/{productCategory}', [categorySpecController::class, 'create'])->name('admin.market.category-spec.create');
             Route::post('/store/{productCategory}', [categorySpecController::class, 'store'])->name('admin.market.category-spec.store');
-            Route::get('/edit/{category_spec}', [categorySpecController::class, 'edit'])->name('admin.market.category-spec.edit');
-            Route::put('/update/{category_spec}', [categorySpecController::class, 'update'])->name('admin.market.category-spec.update');
-            Route::delete('/delete/{category_spec}', [categorySpecController::class, 'destroy'])->name('admin.market.category-spec.destroy');
-            Route::get('/status/{category_spec}', [categorySpecController::class, 'status'])->name('admin.market.category-spec.status');
+            Route::get('/edit/{spec}', [categorySpecController::class, 'edit'])->name('admin.market.category-spec.edit');
+            Route::put('/update/{spec}', [categorySpecController::class, 'update'])->name('admin.market.category-spec.update');
+            Route::delete('/delete/{spec}', [categorySpecController::class, 'destroy'])->name('admin.market.category-spec.destroy');
+            Route::get('/status/{spec}', [categorySpecController::class, 'status'])->name('admin.market.category-spec.status');
             Route::get('/manage/{productCategory}', [categorySpecController::class, 'manage'])->name('admin.market.category-spec.manage');
         });
 

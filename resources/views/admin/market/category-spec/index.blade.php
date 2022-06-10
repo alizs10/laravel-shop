@@ -88,7 +88,3 @@
 
     </section>
 @endsection
-@section('script')
-    <script type="text/javascript" src="{{ asset('admin-assets/js/ajax-change-status.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('admin-assets/js/ajax-destroy-data.js') }}"></script>
-@endsection

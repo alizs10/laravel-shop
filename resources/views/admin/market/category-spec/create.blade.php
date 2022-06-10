@@ -28,7 +28,7 @@
             <div class="flex justify-between items-center">
                 <span class="text-sm md:text-lg">اضافه کردن مشخصات کالا</span>
                 <div class="flex gap-2">
-                    <a href="{{ route('admin.market.category.index') }}" class="btn bg-blue-600 text-white">بازگشت</a>
+                    <a href="{{ route('admin.market.category-spec.index') }}" class="btn bg-blue-600 text-white">بازگشت</a>
                     <button type="submit" class="btn bg-emerald-600 text-white">ثبت</button>
                 </div>
             </div>

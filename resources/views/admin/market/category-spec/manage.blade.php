@@ -34,6 +34,7 @@
                         <th>#</th>
                         <th>نام</th>
                         <th>مقدار پیش فرض</th>
+                        <th>وضعیت</th>
                         <th>عملیات</th>
                     </tr>
                 </thead>
@@ -44,14 +45,20 @@
                             <td>{{ $spec->name }}</td>
                             <td>{{ $spec->default_value ?: "-" }}</td>
                             <td>
+                                <input type="checkbox" id="status-{{ $spec->id }}"
+                                    data-url="{{ route('admin.market.category-spec.status', $spec->id) }}"
+                                    onchange="changeStatus({{ $spec->id }})"
+                                    @if ($spec->status === 1) checked @endif>
+                            </td>
+                            <td>
                                 <span class="flex items-center gap-x-1">
-                                    <a href="{{ route('admin.market.category.edit', $productCategory->id) }}"
+                                    <a href="{{ route('admin.market.category-spec.edit', $spec->id) }}"
                                         class="btn bg-yellow-500 text-black flex-center gap-1">
                                         <i class="fa-light fa-pen-to-square"></i>
                                         ویرایش
                                     </a>
                                     <form class="m-0"
-                                        action="{{ route('admin.market.category.destroy', $productCategory->id) }}"
+                                        action="{{ route('admin.market.category-spec.destroy', $spec->id) }}"
                                         method="POST">
                                         @csrf
                                         {{ method_field('delete') }}

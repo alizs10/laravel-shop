@@ -48,9 +48,19 @@
 
                     <div id="slidershow-imgs" class="w-full flex flex-wrap overflow-hidden">
 
-                        @foreach ($product->gallery as $key => $galleryImage)
+                        @php
+                            $images = collect();
+                            $images->push($product->image);
+                            foreach ($product->gallery->toArray() as $image) {
+                                $images->push($image['image']);
+                            }
+
+        
+                        @endphp
+
+                       @foreach ($images as $key => $image)
                             <img id="slider-{{ $key + 1 }}"
-                                src="{{ asset('storage\\' . $galleryImage->image['indexArray']['larger']) }}"
+                                src="{{ asset('storage\\' . $image['indexArray']['larger']) }}"
                                 class="w-full @if ($key == 0) active @else hidden @endif"
                                 alt="{{ $product->name }}">
                         @endforeach
@@ -59,7 +69,7 @@
 
                     <div id="s-btns"
                         class="absolute bottom-2 z-0 right-0 left-0 py-3 ml-4 flex justify-start items-center gap-x-2">
-                        @foreach ($product->gallery as $key => $galleryImage)
+                        @foreach ($images as $key => $image)
                             <span id="s-btn-{{ $key + 1 }}"
                                 class="transition-all duration-300 shadow-lg @if ($key == 0) bg-red-500 @else bg-white @endif w-4 h-3 rounded-lg cursor-pointer"></span>
                         @endforeach

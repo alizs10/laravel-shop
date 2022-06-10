@@ -110,8 +110,8 @@
 
                         @foreach ($product->colors as $color)
                             <span class="cursor-pointer text-xs rounded-lg px-2 py-1 border-2 flex items-center gap-2"
-                                style="border-color: {{ '#'.$color->color_code }}">
-                                <div class="rounded-full h-3 w-3" style="background-color: {{ '#'.$color->color_code }}">
+                                style="border-color: {{ '#' . $color->color_code }}">
+                                <div class="rounded-full h-3 w-3" style="background-color: {{ '#' . $color->color_code }}">
                                 </div>
                                 {{ $color->color_name }}
                             </span>
@@ -242,62 +242,18 @@
 
             <div class="mt-2">
                 <ol class="flex flex-col rounded-lg leading-5 overflow-hidden">
-                    <li class="grid grid-cols-6">
-                        <span class="col-span-2 md:col-span-1 p-4 bg-gray-200 dark:bg-gray-700 text-xxs md:text-sm">
-                            ابعاد
-                        </span>
-                        <span class="col-span-4 md:col-span-5 p-4 bg-gray-50 dark:bg-gray-900 text-xs">
-                            7.39 * 4.25 * 16.235
-                        </span>
-                    </li>
-                    <li class="grid grid-cols-6">
-                        <span class="col-span-2 md:col-span-1 p-4 bg-gray-200 dark:bg-gray-700 text-xxs md:text-sm">
-                            وزن
-                        </span>
-                        <span class="col-span-4 md:col-span-5 p-4 bg-gray-50 dark:bg-gray-900 text-xs">
-                            250 گرم
-                        </span>
-                    </li>
-                    <li class="grid grid-cols-6">
-                        <span class="col-span-2 md:col-span-1 p-4 bg-gray-200 dark:bg-gray-700 text-xxs md:text-sm">
-                            توضیحات سیم کارت
-                        </span>
-                        <span class="col-span-4 md:col-span-5 p-4 bg-gray-50 dark:bg-gray-900 text-xs">
-                            سایز نانو
-                        </span>
-                    </li>
-                    <li class="grid grid-cols-6">
-                        <span class="col-span-2 md:col-span-1 p-4 bg-gray-200 dark:bg-gray-700 text-xxs md:text-sm">
-                            ساختار بدنه
-                        </span>
-                        <span class="col-span-4 md:col-span-5 p-4 bg-gray-50 dark:bg-gray-900 text-xs">
-                            قاب پشتی از شیشه و دور بدنه فلزی
-                        </span>
-                    </li>
-                    <li class="grid grid-cols-6 hidden">
-                        <span class="col-span-2 md:col-span-1 p-4 bg-gray-200 dark:bg-gray-700 text-xxs md:text-sm">
-                            تراشه
-                        </span>
-                        <span class="col-span-4 md:col-span-5 p-4 bg-gray-50 dark:bg-gray-900 text-xs">
-                            Exynous 2200 Chipset
-                        </span>
-                    </li>
-                    <li class="grid grid-cols-6 hidden">
-                        <span class="col-span-2 md:col-span-1 p-4 bg-gray-200 dark:bg-gray-700 text-xxs md:text-sm">
-                            زمان معرفی
-                        </span>
-                        <span class="col-span-4 md:col-span-5 p-4 bg-gray-50 dark:bg-gray-900 text-xs">
-                            2022
-                        </span>
-                    </li>
-                    <li class="grid grid-cols-6 hidden">
-                        <span class="col-span-2 md:col-span-1 p-4 bg-gray-200 dark:bg-gray-700 text-xxs md:text-sm">
-                            تعداد سیمکارت
-                        </span>
-                        <span class="col-span-4 md:col-span-5 p-4 bg-gray-50 dark:bg-gray-900 text-xs">
-                            2 عدد
-                        </span>
-                    </li>
+
+                    @foreach ($product->specs as $key => $spec)
+                        <li class="grid grid-cols-6 {{ $key > 3 ? 'hidden' : '' }}">
+                            <span class="col-span-2 md:col-span-1 p-4 bg-gray-200 dark:bg-gray-700 text-xxs md:text-sm">
+                                {{ $spec->name }}
+                            </span>
+                            <span class="col-span-4 md:col-span-5 p-4 bg-gray-50 dark:bg-gray-900 text-xs">
+                                {{ $spec->value }}
+
+                            </span>
+                        </li>
+                    @endforeach
 
                     <li class="flex-center p-4 bg-gray-50 dark:bg-gray-900">
                         <span id="show-full-product-details"

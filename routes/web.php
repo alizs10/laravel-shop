@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\Market\OrderController;
 use App\Http\Controllers\Admin\Market\PaymentController;
 use App\Http\Controllers\Admin\Market\ProductColorController;
 use App\Http\Controllers\Admin\Market\ProductController;
+use App\Http\Controllers\Admin\Market\ProductSpecController;
 use App\Http\Controllers\Admin\Market\PropertyController;
 use App\Http\Controllers\Admin\Market\PropertyValueController;
 use App\Http\Controllers\Admin\Market\StoreController;
@@ -172,6 +173,15 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
                 Route::get('/edit/{color}', [ProductColorController::class, 'edit'])->name('admin.market.product.color.edit');
                 Route::put('/update/{color}', [ProductColorController::class, 'update'])->name('admin.market.product.color.update');
                 Route::delete('/delete/{color}', [ProductColorController::class, 'destroy'])->name('admin.market.product.color.destroy');
+            });
+            //spec
+            Route::prefix('spec')->group(function () {
+                Route::get('/{product}', [ProductSpecController::class, 'index'])->name('admin.market.product.spec.index');
+                Route::get('/{product}/create', [ProductSpecController::class, 'create'])->name('admin.market.product.spec.create');
+                Route::post('/{product}/store', [ProductSpecController::class, 'store'])->name('admin.market.product.spec.store');
+                Route::get('/edit/{spec}', [ProductSpecController::class, 'edit'])->name('admin.market.product.spec.edit');
+                Route::put('/update/{spec}', [ProductSpecController::class, 'update'])->name('admin.market.product.spec.update');
+                Route::delete('/delete/{spec}', [ProductSpecController::class, 'destroy'])->name('admin.market.product.spec.destroy');
             });
 
             //gallery

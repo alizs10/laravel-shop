@@ -77,6 +77,11 @@
                                             <i class="fa-regular fa-images mr-2"></i>
                                             گالری ({{ count($product->gallery) }})    
                                         </a>
+                                        <a href="{{ route('admin.market.product.spec.index', $product->id) }}"
+                                            class="py-2 w-full text-sm h-full flex items-center gap-x-2 hover-transition hover:bg-slate-100 dark:hover:bg-slate-800">
+                                            <i class="fa-regular fa-info mr-2"></i>
+                                            مشخصات کالا ({{ count($product->specs) }})    
+                                        </a>
                                         <a href="{{ route('admin.market.product.edit', $product->id) }}"
                                             class="py-2 w-full text-sm h-full flex items-center gap-x-2 hover-transition hover:bg-slate-100 dark:hover:bg-slate-800">
                                             <i class="fa-regular fa-pen-to-square mr-2"></i>

@@ -68,6 +68,11 @@ class Product extends Model
         return $this->hasMany(ProductMeta::class, 'product_id');
     }
 
+    public function specs()
+    {
+        return $this->hasMany(ProductSpec::class, 'product_id');
+    }
+
     public function amazingSale()
     {
         return $this->hasOne(AmazingSale::class) ?? false;

@@ -56,5 +56,24 @@ class ProductController extends Controller
         return redirect()->back();
     }
 
-   
+    public function sendComment(Request $request, Product $product)
+    {
+        $user = Auth::user();
+        if (empty($user)) {
+            return redirect()->route('auth.index');
+        }
+
+        $request->validate([
+            'body' => 'required|min:3|max:500'
+        ]);
+
+        Comment::create([
+            'user_id' => $user->id,
+            'commentable_type' => 'App\Models\Market\Product',
+            'commentab4le_id' => $product->id,
+            'body' => $request->body,
+        ]);
+
+        return redirect()->route('app.products.index', $product->id);
+    }
 }

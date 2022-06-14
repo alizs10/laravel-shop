@@ -40,7 +40,6 @@
 
         <div class="flex flex-row gap-x-2 overflow-x-scroll no-scrollbar">
 
-
             @foreach ($amazingSaleProducts as $amazingSale)
                 <a href="{{ route('app.product.index', $amazingSale->id) }}" class="flex flex-col gap-y-2 p-2 rounded-lg bg-white text-black">
                     <img class="w-32"

@@ -77,4 +77,9 @@ class Product extends Model
     {
         return $this->hasOne(AmazingSale::class) ?? false;
     }
+
+    public function comments()
+    {
+        return $this->morphMany('App\Models\Comment', 'commentable');
+    }
 }

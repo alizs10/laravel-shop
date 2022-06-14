@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Market\CommentRequest;
 use App\Models\Comment;
 use Illuminate\Http\Request;
+use Mews\Purifier\Facades\Purifier;
 
 class CommentController extends Controller
 {
@@ -20,7 +21,6 @@ class CommentController extends Controller
         return view('admin.market.comment.index', compact('comments'));
     }
 
-
     /**
      * Store a newly created resource in storage.
      *
@@ -30,6 +30,7 @@ class CommentController extends Controller
     public function store(CommentRequest $request, Comment $comment)
     {
         $inputs = $request->all();
+        $request->merge(['body' => Purifier::clean($request->get('body'))]);
         $inputs['author_id'] = 10;
         $inputs['commentable_type'] = $comment->commentable_type;
         $inputs['commentable_id'] = $comment->commentable_id;
@@ -41,6 +42,7 @@ class CommentController extends Controller
         Comment::create($inputs);
         return redirect()->route('admin.market.comment.index')->with('alertify-success', 'پاسخ شما با موفقیت ارسال شد');
     }
+    
 
     /**
      * Display the specified resource.

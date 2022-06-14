@@ -54,11 +54,10 @@
                             foreach ($product->gallery->toArray() as $image) {
                                 $images->push($image['image']);
                             }
-
-        
+                            
                         @endphp
 
-                       @foreach ($images as $key => $image)
+                        @foreach ($images as $key => $image)
                             <img id="slider-{{ $key + 1 }}"
                                 src="{{ asset('storage\\' . $image['indexArray']['larger']) }}"
                                 class="w-full @if ($key == 0) active @else hidden @endif"
@@ -304,100 +303,84 @@
     <!-- comments starts -->
     <section class="flex flex-col gap-y-2 px-2 py-4 rounded-lg mt-4 bg-gray-100 dark:bg-gray-800 dark:text-white">
         <span class="text-base md:text-lg flex flex-wrap gap-1">
-            <span>نظرات کاربران (36 نظر)</span>
+            <span>نظرات کاربران ({{ $product->comments->count() }})</span>
         </span>
 
         <div class="flex flex-col gap-2">
-
-
-            <div class="px-3 py-4 rounded-lg bg-white dark:bg-gray-900">
-                <span class="flex items-start justify-between">
-                    <span class="flex flex-col gap-2">
-                        <span class="text-sm">
-                            سید مهدی موسوی معین
-                            <span class="rounded-lg px-3 py-1 text-white bg-red-500 text-xxs">خریدار</span>
-                        </span>
-                        <span class="text-xs text-gray-400">13 اسفند 1400</span>
-                    </span>
-
-                    <span class="text-sm flex items-center gap-1 text-emerald-600">
-
-                        <span>
-                            <button class="text-base">
-                                <i class="fa-regular fa-thumbs-up"></i>
-                            </button>
-                        </span>
-                        <span>
-                            16
-                        </span>
-                    </span>
-                </span>
-
-                <p class="mt-2 text-xs md:text-base text-justify leading-5">
-                    سلام این گوشی واقعا عالیه من هشت عدد برای خانواده خریدم و همه راضی بودن. از تک تکشون پرسیدم.
-                </p>
-
-                <div class="grid grid-cols-10 gap-2 items-center">
-                    <span class="col-span-1 text-center text-lg md:text-2xl text-red-500">
-                        <i class="fa-regular fa-reply"></i>
-                    </span>
-                    <div class="col-span-9 px-3 py-4 mr-8 mt-4 rounded-lg bg-gray-100 dark:bg-gray-800">
+            @foreach ($product->comments as $comment)
+                @if (empty($comment->parent_id))
+                    <div class="px-3 py-4 rounded-lg bg-white dark:bg-gray-900">
                         <span class="flex items-start justify-between">
                             <span class="flex flex-col gap-2">
                                 <span class="text-sm">
-                                    پاسخ ادمین
+                                    {{ $comment->user->fullName }}
+                                    <span class="rounded-lg px-3 py-1 text-white bg-red-500 text-xxs">خریدار</span>
                                 </span>
-
+                                <span
+                                    class="text-xs text-gray-400">{{ showPersianDate($comment->created_at, '%A, %d %B %y') }}</span>
                             </span>
 
                             <span class="text-sm flex items-center gap-1 text-emerald-600">
 
                                 <span>
-                                    <button class="text-base">
+                                    <a href="{{ route('app.product.like-comment', $comment->id) }}"
+                                        class="text-base">
                                         <i class="fa-regular fa-thumbs-up"></i>
-                                    </button>
+                                    </a>
                                 </span>
                                 <span>
-                                    2
+
+                                    @foreach ($comment->likes as $like)
+                                        {{ $like->likes }}
+                                    @endforeach
+
                                 </span>
                             </span>
                         </span>
 
                         <p class="mt-2 text-xs md:text-base text-justify leading-5">
-                            تشکر از خرید شما
+                            {!! $comment->body !!}
                         </p>
+
+                        @if ($comment->children->count() > 0)
+                            @foreach ($comment->children as $replay)
+                                <div class="grid grid-cols-10 gap-2 items-center">
+                                    <span class="col-span-1 text-center text-lg md:text-2xl text-red-500">
+                                        <i class="fa-regular fa-reply"></i>
+                                    </span>
+                                    <div class="col-span-9 px-3 py-4 mr-8 mt-4 rounded-lg bg-gray-100 dark:bg-gray-800">
+                                        <span class="flex items-start justify-between">
+                                            <span class="flex flex-col gap-2">
+                                                <span class="text-sm">
+                                                    پاسخ ادمین
+                                                </span>
+
+                                            </span>
+
+                                            <span class="text-sm flex items-center gap-1 text-emerald-600">
+
+                                                <span>
+                                                    <button class="text-base">
+                                                        <i class="fa-regular fa-thumbs-up"></i>
+                                                    </button>
+                                                </span>
+                                                <span>
+                                                    2
+                                                </span>
+                                            </span>
+                                        </span>
+
+                                        <p class="mt-2 text-xs md:text-base text-justify leading-5">
+                                            {!! $replay->body !!}
+                                        </p>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @endif
+
                     </div>
-                </div>
-            </div>
-            <div class="px-3 py-4 rounded-lg bg-white dark:bg-gray-900">
-                <span class="flex items-start justify-between">
-                    <span class="flex flex-col gap-2">
-                        <span class="text-sm">
-                            داریوش نیک پندار
-                        </span>
-                        <span class="text-xs text-gray-400">13 اسفند 1400</span>
-                    </span>
-
-                    <span class="text-sm flex items-center gap-1 text-emerald-600">
-
-                        <span>
-                            <button class="text-base">
-                                <i class="fa-regular fa-thumbs-up"></i>
-                            </button>
-                        </span>
-                        <span>
-                            112
-                        </span>
-                    </span>
-                </span>
-
-                <p class="mt-2 text-xs md:text-base text-justify leading-5">
-                    گرونه
-                    #نخریم_بگنده_ارزونش_کنن
-                </p>
-
-
-            </div>
+                @endif
+            @endforeach
 
         </div>
 

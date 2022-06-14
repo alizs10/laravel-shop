@@ -330,9 +330,13 @@
                                 </span>
                                 <span>
 
+                                    @if (empty($comment->likes->first()))
+                                        0                                    
+                                    @else
                                     @foreach ($comment->likes as $like)
                                         {{ $like->likes }}
                                     @endforeach
+                                    @endif
 
                                 </span>
                             </span>
@@ -355,18 +359,6 @@
                                                     پاسخ ادمین
                                                 </span>
 
-                                            </span>
-
-                                            <span class="text-sm flex items-center gap-1 text-emerald-600">
-
-                                                <span>
-                                                    <button class="text-base">
-                                                        <i class="fa-regular fa-thumbs-up"></i>
-                                                    </button>
-                                                </span>
-                                                <span>
-                                                    2
-                                                </span>
                                             </span>
                                         </span>
 

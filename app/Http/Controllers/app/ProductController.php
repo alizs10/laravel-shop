@@ -13,8 +13,23 @@ class ProductController extends Controller
 {
     public function index(Product $product)
     {
+        $user_comment_likes_ids = [];
+        if (!empty(Auth::user())) {
+
+            $user_comment_likes = LikeUser::where([
+                'likable_type' => 'App\Models\Comment',
+                'user_id' => Auth::user()->id
+            ])->get('likable_id')->toArray();
+
+            if (count($user_comment_likes) > 0) {
+                foreach ($user_comment_likes as $user_comment_like) {
+                    array_push($user_comment_likes_ids, $user_comment_like['likable_id']);
+                }
+                
+            }
+        }
         $related_products = Product::where('cat_id', $product->cat_id)->get()->except(['id' => $product->id]);
-        return view('app.product', compact('product', 'related_products'));
+        return view('app.product', compact('product', 'related_products', 'user_comment_likes_ids'));
     }
 
     public function likeComment(Comment $comment)

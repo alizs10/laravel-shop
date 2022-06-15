@@ -89,7 +89,7 @@ class User extends Authenticatable
 
     public function likes()
     {
-        return $this->belongsToMany(Like::class)->using(LikeUser::class);
+        return $this->belongsToMany(Like::class, 'like_user', 'likable_id', 'user_id')->using(LikeUser::class);
     }
 
     public function opt()

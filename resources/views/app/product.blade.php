@@ -343,7 +343,13 @@
                                     class="text-xs text-gray-400">{{ showPersianDate($comment->created_at, '%A, %d %B %y') }}</span>
                             </span>
 
-                            <span class="text-sm flex items-center gap-1 text-emerald-600">
+                            <span class="text-sm flex items-center gap-1
+                            @if(in_array($comment->id, $user_comment_likes_ids))
+                            text-emerald-600
+                            @else
+                            text-black dark:text-white
+                            @endif
+                            ">
 
                                 <span>
                                     <a href="{{ route('app.product.like-comment', $comment->id) }}"

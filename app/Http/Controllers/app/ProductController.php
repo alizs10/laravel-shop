@@ -68,12 +68,12 @@ class ProductController extends Controller
         ]);
 
         Comment::create([
-            'user_id' => $user->id,
+            'author_id' => $user->id,
             'commentable_type' => 'App\Models\Market\Product',
-            'commentab4le_id' => $product->id,
+            'commentable_id' => $product->id,
             'body' => $request->body,
         ]);
 
-        return redirect()->route('app.products.index', $product->id);
+        return redirect()->route('app.product.index', $product->id);
     }
 }

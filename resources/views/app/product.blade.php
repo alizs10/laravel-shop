@@ -301,13 +301,36 @@
     <!-- product introduction ends -->
 
     <!-- comments starts -->
+    @php
+    $comments = $product
+        ->comments()
+        ->where('approved', 1)
+        ->get();
+    @endphp
     <section class="flex flex-col gap-y-2 px-2 py-4 rounded-lg mt-4 bg-gray-100 dark:bg-gray-800 dark:text-white">
-        <span class="text-base md:text-lg flex flex-wrap gap-1">
-            <span>نظرات کاربران ({{ $product->comments->count() }})</span>
+        <span class="text-base md:text-lg flex justify-between items-center gap-1">
+            <span>نظرات کاربران ({{ $comments->count() }})</span>
+
+
+
+            @guest
+                <span class="text-red-500 text-xs md:text-sm">برای ثبت نظر وارد شوید</span>
+            @endguest
+
+            @auth
+
+                <button onclick="toggleSendComment()"
+                    class="flex items-center gap-x-2 text-xs md:text-sm bg-red-500 text-white rounded-lg px-4 py-2">
+                    <i class="fa-light fa-comment-pen text-xl"></i>
+                    ثبت نظر
+                </button>
+            @endauth
         </span>
 
         <div class="flex flex-col gap-2">
-            @foreach ($product->comments as $comment)
+
+
+            @foreach ($comments as $comment)
                 @if (empty($comment->parent_id))
                     <div class="px-3 py-4 rounded-lg bg-white dark:bg-gray-900">
                         <span class="flex items-start justify-between">
@@ -331,11 +354,11 @@
                                 <span>
 
                                     @if (empty($comment->likes->first()))
-                                        0                                    
+                                        0
                                     @else
-                                    @foreach ($comment->likes as $like)
-                                        {{ $like->likes }}
-                                    @endforeach
+                                        @foreach ($comment->likes as $like)
+                                            {{ $like->likes }}
+                                        @endforeach
                                     @endif
 
                                 </span>
@@ -381,6 +404,37 @@
 @endsection
 
 @section('add-to-body')
+    <!-- send comment modal starts -->
+    <div id="send-comment-backdrop" onclick="toggleSendComment()"
+        class="hidden fixed top-0 bottom-0 left-0 right-0 bg-gray-500/70 z-40 transition-all duration-300">
+        <form class="w-full flex-center" action="{{ route('app.product.send-comment', $product->id) }}" method="POST">
+            <div class="w-5/6 md:w-2/3 rounded-lg p-3 bg-white dark:bg-gray-700 flex flex-col gap-y-3"
+                onclick="event.stopPropagation()">
+                <div class="flex justify-between">
+                    <span class="text-red-500 text-xs xs:text-base md:text-lg">ثبت نظر</span>
+                    <button type="button" onclick="toggleSendComment()">
+                        <i class="fa-solid fa-xmark text-xl md:text-2xl"></i>
+                    </button>
+                </div>
+                <textarea class="form-input h-20" name="body" rows="10" placeholder="نظر خود را در این کادر بنویسید" required></textarea>
+
+
+                @guest
+                    <span class="text-red-500 text-sm md:text-lg">برای ثبت نظر وارد شوید</span>
+                @endguest
+
+                @auth
+
+                    <button type="submit" class="block bg-red-500 text-sm text-center md:text-base py-3 rounded-lg">ثبت
+                        نظر</button>
+                @endauth
+            </div>
+            @csrf
+        </form>
+
+    </div>
+    <!-- send comment modal ends -->
+
     <!-- buy product button starts -->
 
     <section
@@ -406,4 +460,5 @@
     <script src="{{ asset('app-assets/js/product-images-slider.js') }}"></script>
     <script src="{{ asset('app-assets/js/product-color-selecter.js') }}"></script>
     <script src="{{ asset('app-assets/js/product-details.js') }}"></script>
+    <script src="{{ asset('app-assets/js/product-comment.js') }}"></script>
 @endsection

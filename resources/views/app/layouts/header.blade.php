@@ -145,11 +145,9 @@
                     class="relative text-gray-700 dark:text-gray-200 w-10 h-10 rounded-lg text-xl hover-transition hover:bg-gray-100 dark:hover:bg-gray-700">
                     <i class="fa-solid fa-basket-shopping-simple"></i>
 
-                    @if ($cart_items->count() > 0)
-                        <div
-                            class="h-5 w-5 rounded-lg bg-red-600 text-white flex-center absolute -bottom-1 -right-1 text-xs">
+                        <div id="cart-alert-number"
+                            class="@if ($cart_items->count() == 0) hidden @endif h-5 w-5 rounded-lg bg-red-600 text-white flex-center absolute -bottom-1 -right-1 text-xs">
                             {{ $cart_items->count() }}</div>
-                    @endif
 
 
                     <div onclick="event.stopPropagation()"

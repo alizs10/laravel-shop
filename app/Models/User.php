@@ -96,5 +96,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(Opt::class);
     }
+    public function cart_items()
+    {
+        return $this->hasMany(CartItem::class);
+    }
 
 }

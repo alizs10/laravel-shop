@@ -7,7 +7,6 @@
 @section('content')
     <section class="flex flex-col gap-y-2 m-2">
         <span class="text-xs">نمای کلی</span>
-
         <div class="grid grid-cols-4 gap-2">
             <div class="col-span-4 md:col-span-2 lg:col-span-1 p-2 rounded-lg text-black bg-emerald-200">
                 <div class="flex flex-col">

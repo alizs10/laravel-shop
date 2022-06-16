@@ -95,7 +95,8 @@
                         class="relative text-gray-700 dark:text-gray-200 w-10 sm:w-fit sm:px-2 lg:px-4 h-10 rounded-lg text-xl hover-transition hover:bg-gray-100 dark:hover:bg-gray-700">
                         <span class="flex-center gap-x-2">
                             <i class="fa-solid fa-user"></i>
-                            <span class="text-xs hidden sm:inline">{{ auth()->user()->fullName === " " ? Str::limit(auth()->user()->email, 15 , '...') : Str::limit(auth()->user()->fullName, 15, '...')  }}</span>
+                            <span
+                                class="text-xs hidden sm:inline">{{ auth()->user()->fullName === ' ' ? Str::limit(auth()->user()->email, 15, '...') : Str::limit(auth()->user()->fullName, 15, '...') }}</span>
                         </span>
                         <div
                             class="hidden flex-col absolute top-12 left-0 w-48 bg-gray-100 dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden">
@@ -144,72 +145,85 @@
                     class="relative text-gray-700 dark:text-gray-200 w-10 h-10 rounded-lg text-xl hover-transition hover:bg-gray-100 dark:hover:bg-gray-700">
                     <i class="fa-solid fa-basket-shopping-simple"></i>
 
-                    <div
-                        class="h-5 w-5 rounded-lg bg-red-600 text-white flex-center absolute -bottom-1 -right-1 text-xs">
-                        2</div>
+                    @if ($cart_items->count() > 0)
+                        <div
+                            class="h-5 w-5 rounded-lg bg-red-600 text-white flex-center absolute -bottom-1 -right-1 text-xs">
+                            {{ $cart_items->count() }}</div>
+                    @endif
 
-                    <div
+
+                    <div onclick="event.stopPropagation()"
                         class="hidden flex-col absolute top-12 left-0 w-64 bg-gray-50 dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden">
 
                         <div
                             class="flex justify-between items-center border-b-2 dark:border-gray-700 border-gray-100 text-xs py-3">
-                            <span class="mr-2">3 کالا</span>
+                            <span class="mr-2">{{ $cart_items->count() }} کالا</span>
                             <a href="" class="text-blue-600 dark:text-blue-400 flex items-center gap-x-2 ml-2">
                                 برو به سبد خرید
                                 <i class="fa-duotone fa-arrow-left"></i>
                             </a>
                         </div>
 
-                        <ul class="flex flex-col">
-                            <li
-                                class="grid grid-cols-6 gap-2 items-center py-2 border-b dark:border-gray-700 last:border-none hover-transition hover:bg-gray-100 dark:hover:bg-gray-700">
-                                <div class="col-span-2 mr-2 rounded-lg overflow-hidden">
-                                    <img class="w-full" src="../images/product-1.jfif" alt="">
-                                </div>
-                                <div class="col-span-3 text-right">
-                                    <span class="text-xs leading-6">گوشی موبایل سامسونگ S22</span>
-                                </div>
-                                <span class="col-span-1 text-red-500 ml-2">
-                                    <i class="fa-duotone fa-trash-list"></i>
+                        @if ($cart_items->count() > 0)
+
+                            <ul class="flex flex-col">
+
+                                @foreach ($cart_items as $cart_item)
+                                    <li
+                                        class="grid grid-cols-6 gap-2 items-center py-2 border-b dark:border-gray-700 last:border-none hover-transition hover:bg-gray-100 dark:hover:bg-gray-700">
+                                        <div class="col-span-2 mr-2 rounded-lg overflow-hidden">
+                                            <img class="w-full"
+                                                src="{{ asset('storage\\' . $cart_item->product->image['indexArray']['medium']) }}"
+                                                alt="">
+                                        </div>
+                                        <div class="col-span-3 text-right">
+                                            <span class="text-xs leading-6">{{ $cart_item->product->name }}</span>
+                                        </div>
+                                        <span class="col-span-1 text-red-500 ml-2">
+                                            <i class="fa-duotone fa-trash-list"></i>
+                                        </span>
+                                    </li>
+                                @endforeach
+
+
+                            </ul>
+
+                            <div class="flex flex-col gap-3 pt-2 border-t-2 border-gray-100 dark:border-gray-700">
+
+                                @php
+                                    $pay_price = 0;
+                                    $discount_price = 0;
+                                    foreach ($cart_items as $cart_item) {
+                                        $pay_price += $cart_item->product->price;
+                                        if(!empty($cart_item->product->amazingSale->first())) {
+                                            $discount_price=+ ($cart_item->product->amazingSale->first()->percentage * $cart_item->product->price) /100;
+                                        }
+                                    }
+
+                                    $total_pay_price = $pay_price - $discount_price;
+                                @endphp
+                                <span class="flex justify-between text-xs mx-2">
+                                    <span>جمع سبد خرید شما :</span>
+                                    <span>{{ price_formater($pay_price) }} تومان</span>
                                 </span>
-                            </li>
-                            <li
-                                class="grid grid-cols-6 gap-2 items-center py-2 border-b dark:border-gray-700 last:border-none hover-transition hover:bg-gray-100 dark:hover:bg-gray-700">
-                                <div class="col-span-2 mr-2 rounded-lg overflow-hidden">
-                                    <img class="w-full" src="../images/product-1.jfif" alt="">
-                                </div>
-                                <div class="col-span-3 text-right">
-                                    <span class="text-xs leading-6">گوشی موبایل سامسونگ S22</span>
-                                </div>
-                                <span class="col-span-1 text-red-500 ml-2">
-                                    <i class="fa-duotone fa-trash-list"></i>
+                                <span class="flex justify-between text-xs mx-2 text-red-500">
+                                    <span>تخفیف ها</span>
+                                    <span>{{ price_formater($discount_price) }} تومان</span>
                                 </span>
-                            </li>
-                            <li
-                                class="grid grid-cols-6 gap-2 items-center py-2 border-b dark:border-gray-700 last:border-none hover-transition hover:bg-gray-100 dark:hover:bg-gray-700">
-                                <div class="col-span-2 mr-2 rounded-lg overflow-hidden">
-                                    <img class="w-full" src="../images/product-1.jfif" alt="">
-                                </div>
-                                <div class="col-span-3 text-right">
-                                    <span class="text-xs leading-6">گوشی موبایل سامسونگ S22</span>
-                                </div>
-                                <span class="col-span-1 text-red-500 ml-2">
-                                    <i class="fa-duotone fa-trash-list"></i>
+                                <span class="flex justify-between text-xs mx-2">
+                                    <span>مبلغ پرداختی</span>
+                                    <span>{{ price_formater($total_pay_price) }} تومان</span>
                                 </span>
-                            </li>
 
-
-
-                        </ul>
-
-                        <div class="flex flex-col pt-2 border-t-2 border-gray-100 dark:border-gray-700">
-                            <span class="flex justify-between text-sm mx-2">
-                                <span>مبلغ پرداختی :</span>
-                                <span>48,253,650 تومان</span>
+                                <a href="" class="btn text-sm bg-emerald-700 text-white m-2">ثبت سفارش</a>
+                            </div>
+                        @else
+                            <span class="py-3 flex flex-col justify-center gap-3">
+                                <i class="fa-light fa-cart-circle-xmark text-4xl md:text-6xl"></i>
+                                <span class="text-xs"> سبد خرید شما خالیه :(</span>
                             </span>
+                        @endif
 
-                            <a href="" class="btn text-sm bg-emerald-700 text-white m-2">ثبت سفارش</a>
-                        </div>
                     </div>
                 </button>
                 <!-- cart popup ends -->

@@ -15,10 +15,11 @@ class CreateCartItemsTable extends Migration
     {
         Schema::create('cart_items', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->onUpdate('cascade')->onDelete('cascade');
+            $table->string('ip_address')->nullable();
+            $table->foreignId('user_id')->nullable()->constrained('users')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('product_id')->constrained('products')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('color_id')->constrained('product_colors')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('guaranty_id')->constrained('guaranties')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('color_id')->nullable()->constrained('product_colors')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('guaranty_id')->nullable()->constrained('guaranties')->onUpdate('cascade')->onDelete('cascade');
             $table->integer('number')->default('1');
             $table->timestamps();
             $table->softDeletes();

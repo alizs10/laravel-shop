@@ -110,6 +110,25 @@
                     <span>ضمانت 7 روزه بازگشت کالا</span>
                 </span>
 
+                @if (count($product_attributes_select_type) > 0)
+                    @foreach ($product_attributes_select_type as $attr => $attr_values)
+                        <span class="mt-2 flex flex-col gap-2 text-sm">
+                            <span class="flex gap-x-1 items-center">
+                                انتخاب {{ $attr }}
+                            </span>
+
+
+                            <select class="form-input dark:border-gray-700" name="" id="">
+                                @foreach ($attr_values as $attr_value)
+                                    <option class="text-black" value="">
+                                        {{ json_decode($attr_value->value)->value . ' ' . $attr_value->attribute->unit }}
+                                    </option>
+                                @endforeach
+                            </select>
+
+                        </span>
+                    @endforeach
+                @endif
                 @if ($product->colors->count() > 0)
                     <span class="mt-2 flex flex-col gap-2 text-sm">
                         <span class="flex gap-x-1 items-center">
@@ -343,17 +362,15 @@
                                     class="text-xs text-gray-400">{{ showPersianDate($comment->created_at, '%A, %d %B %y') }}</span>
                             </span>
 
-                            <span class="text-sm flex items-center gap-1
-                            @if(in_array($comment->id, $user_comment_likes_ids))
-                            text-emerald-600
+                            <span
+                                class="text-sm flex items-center gap-1
+                            @if (in_array($comment->id, $user_comment_likes_ids)) text-emerald-600
                             @else
-                            text-black dark:text-white
-                            @endif
+                            text-black dark:text-white @endif
                             ">
 
                                 <span>
-                                    <a href="{{ route('app.product.like-comment', $comment->id) }}"
-                                        class="text-base">
+                                    <a href="{{ route('app.product.like-comment', $comment->id) }}" class="text-base">
                                         <i class="fa-regular fa-thumbs-up"></i>
                                     </a>
                                 </span>
@@ -413,7 +430,8 @@
     <!-- send comment modal starts -->
     <div id="send-comment-backdrop" onclick="toggleSendComment()"
         class="hidden fixed top-0 bottom-0 left-0 right-0 bg-gray-500/70 z-40 transition-all duration-300">
-        <form class="w-full flex-center" action="{{ route('app.product.send-comment', $product->id) }}" method="POST">
+        <form class="w-full flex-center" action="{{ route('app.product.send-comment', $product->id) }}"
+            method="POST">
             <div class="w-5/6 md:w-2/3 rounded-lg p-3 bg-white dark:bg-gray-700 flex flex-col gap-y-3"
                 onclick="event.stopPropagation()">
                 <div class="flex justify-between">
@@ -422,7 +440,8 @@
                         <i class="fa-solid fa-xmark text-xl md:text-2xl"></i>
                     </button>
                 </div>
-                <textarea class="form-input h-20" name="body" rows="10" placeholder="نظر خود را در این کادر بنویسید" required></textarea>
+                <textarea class="form-input h-20" name="body" rows="10" placeholder="نظر خود را در این کادر بنویسید"
+                    required></textarea>
 
 
                 @guest

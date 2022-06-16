@@ -13,6 +13,7 @@ class ProductController extends Controller
 {
     public function index(Product $product)
     {
+        //comments
         $user_comment_likes_ids = [];
         if (!empty(Auth::user())) {
 
@@ -25,11 +26,24 @@ class ProductController extends Controller
                 foreach ($user_comment_likes as $user_comment_like) {
                     array_push($user_comment_likes_ids, $user_comment_like['likable_id']);
                 }
-                
             }
         }
+
+        // product properties
+        $product_attributes_select_type = [];
+
+        foreach ($product->category->attributes as $category_attribute) {
+            foreach ($category_attribute->values as $category_attribute_value) {
+
+                if ($category_attribute_value->product_id == $product->id && $category_attribute_value->type == 1) {
+                    $product_attributes_select_type[$category_attribute->name] = $category_attribute->values;
+                }
+            }
+        }
+
+
         $related_products = Product::where('cat_id', $product->cat_id)->get()->except(['id' => $product->id]);
-        return view('app.product', compact('product', 'related_products', 'user_comment_likes_ids'));
+        return view('app.product', compact('product', 'related_products', 'user_comment_likes_ids', 'product_attributes_select_type'));
     }
 
     public function likeComment(Comment $comment)

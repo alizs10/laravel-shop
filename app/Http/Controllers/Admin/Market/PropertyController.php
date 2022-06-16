@@ -94,6 +94,7 @@ class PropertyController extends Controller
     public function destroy(CategoryAttribute $property)
     {
         $property->delete();
+        $property->values()->delete();
         return redirect()->back()->with('alertify-error', 'فرم کالا موردنظر با موفقیت حذف شد');
     }
 }

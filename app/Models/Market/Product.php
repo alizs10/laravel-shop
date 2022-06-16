@@ -82,4 +82,9 @@ class Product extends Model
     {
         return $this->morphMany('App\Models\Comment', 'commentable');
     }
+
+    public function properties()
+    {
+        return $this->hasMany(PropertyValue::class, 'product_id');
+    }
 }

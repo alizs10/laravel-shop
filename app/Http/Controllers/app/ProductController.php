@@ -146,7 +146,7 @@ class ProductController extends Controller
         $discount_price = 0;
         foreach ($cart_items as $cart_item) {
             $pay_price += $cart_item->product->price;
-            if(!empty($cart_item->product->amazingSale->first())) {
+            if(!empty($cart_item->product->amazingSale)) {
                 $discount_price=+ ($cart_item->product->amazingSale->first()->percentage * $cart_item->product->price) /100;
             }
         }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\app;
 
 use App\Http\Controllers\Controller;
 use App\Models\CartItem;
+use App\Models\CartItemSelectedAttribute;
 use App\Models\Comment;
 use App\Models\LikeUser;
 use App\Models\Market\Product;
@@ -29,6 +30,23 @@ class ProductController extends Controller
                 }
             }
         }
+
+       //check for default values
+       $properties = $product->properties()->get();
+       $attr_properties = [];
+       if ($properties->count() > 0) {
+           
+           foreach ($properties as $property) {
+               if (!empty($attr_properties[$property->attribute->name])) {
+                   array_push($attr_properties[$property->attribute->name], $property);
+               } else {
+
+                   $attr_properties[$property->attribute->name][0] = $property;
+               }
+           }
+       }
+
+       dd($attr_properties);
 
         // product properties
         $product_attributes_select_type = [];
@@ -126,14 +144,15 @@ class ProductController extends Controller
             }
         }
 
+        //create new cart item
         if (!$is_item_exists) {
             if (empty($user)) {
-               $new_item = CartItem::create([
+                $new_item = CartItem::create([
                     'product_id' => $product->id,
                     'ip_address' => $ip_address,
                 ]);
             } else {
-               $new_item = CartItem::create([
+                $new_item = CartItem::create([
                     'product_id' => $product->id,
                     'user_id' => $user->id,
                 ]);
@@ -142,12 +161,39 @@ class ProductController extends Controller
             $cart_items->push($new_item);
         }
 
+        //check for default values
+        $properties = $product->properties()->get();
+        $attr_properties = [];
+        if ($properties->count() > 0) {
+            
+            foreach ($properties as $property) {
+                if (!empty($attr_properties[$property->attribute->name])) {
+                    array_push($attr_properties[$property->attribute->name], $property);
+                } else {
+
+                    $attr_properties[$property->attribute->name][0] = $property;
+                }
+            }
+        }
+
+        if (count($attr_properties) > 0) {
+            foreach ($attr_properties as $value) {
+                $cartItemSelectedAttribute['cart_item_id'] = $new_item->id;
+                $cartItemSelectedAttribute['category_attribute_id'] = $value[0]->category_attribute_id;
+                $cartItemSelectedAttribute['category_value_id'] = '';
+                $cartItemSelectedAttribute['value'] = '';
+                CartItemSelectedAttribute::create();
+            }
+        }
+
+        
+
         $pay_price = 0;
         $discount_price = 0;
         foreach ($cart_items as $cart_item) {
             $pay_price += $cart_item->product->price;
-            if(!empty($cart_item->product->amazingSale)) {
-                $discount_price=+ ($cart_item->product->amazingSale->first()->percentage * $cart_item->product->price) /100;
+            if (!empty($cart_item->product->amazingSale)) {
+                $discount_price = + ($cart_item->product->amazingSale->first()->percentage * $cart_item->product->price) / 100;
             }
         }
 
@@ -160,7 +206,5 @@ class ProductController extends Controller
             'discount_price' => price_formater($discount_price),
             'total_pay_price' => price_formater($total_pay_price)
         ]);
-
-       
     }
 }

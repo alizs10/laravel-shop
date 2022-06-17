@@ -313,5 +313,5 @@
 
 @section('scripts')
 <script src="{{ asset('app-assets/js/slidershow.js') }}"></script>
-<script src="{{ asset('app-assets/js/products.js') }}"></script>
+
 @endsection

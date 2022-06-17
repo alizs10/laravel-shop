@@ -70,20 +70,30 @@ function addToCart(btn) {
                             `;
 
 
-                let cartContainer = cartContainerStart + itemGenerator(response.items) + cartContainerEnd;         
+                let cartContainer = cartContainerStart + itemGenerator(response.items) + cartContainerEnd;
 
                 $('#cart-dropdown').html(cartContainer);
-                
+
             }
             // toggle btn
-            if (response.status) {
 
-                $(btn).find('svg').removeClass('fa-cart-circle-plus').addClass('fa-cart-circle-check')
+            if ($(btn).attr('id') === 'product-add-to-cart-btn') {
+                if (response.status) {
+                    $('#product-add-to-cart-btn span').find('svg').removeClass('fa-plus').addClass('fa-check')
+                    $('#product-add-to-cart-btn span').find('span').html('موجود در سبد شما')
+                } else {
+                    $('#product-add-to-cart-btn span').find('svg').removeClass('fa-check').addClass('fa-plus')
+                    $('#product-add-to-cart-btn span').find('span').html('افزودن به سبد خرید')
+                }
             } else {
-                $(btn).find('svg').removeClass('fa-cart-circle-check').addClass('fa-cart-circle-plus')
+                if (response.status) {
 
+                    $(btn).find('svg').removeClass('fa-cart-circle-plus').addClass('fa-cart-circle-check')
+                } else {
+                    $(btn).find('svg').removeClass('fa-cart-circle-check').addClass('fa-cart-circle-plus')
+
+                }
             }
-
         }
     });
 }
@@ -110,7 +120,7 @@ function itemGenerator(items) {
             </span>
         </li>
         `
-        
+
     }
 
     return itemContainer;

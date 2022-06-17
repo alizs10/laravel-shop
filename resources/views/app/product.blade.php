@@ -208,8 +208,40 @@
                             موجود شد اطلاع بده!
                         </button>
                     @else
-                        <button class="block py-2 text-center rounded-lg bg-red-500 text-white text-sm">
-                            افزودن به سبد خرید
+                        <button id="product-add-to-cart-btn" onclick="addToCart(this)" data-url="{{ route('app.product.add-to-cart', $product->id) }}"
+                            class="block py-2 text-center rounded-lg bg-red-500 text-white text-sm">
+
+                            @if ($cart_items->count() > 0)
+                                @php
+                                    $is_item_in_cart = false;
+                                    
+                                    foreach ($cart_items as $cart_item) {
+                                        if ($cart_item->product_id == $product->id) {
+                                            $is_item_in_cart = true;
+                                            break;
+                                        }
+                                    }
+                                @endphp
+
+                                @if ($is_item_in_cart)
+                                    <span class="flex-center gap-2">
+                                        <i class="fa-solid fa-check"></i>
+                                        <span>موجود در سبد شما</span>
+                                    </span>
+                                  
+                                @else
+                                    <span class="flex-center gap-2">
+                                        <i class="fa-solid fa-plus"></i>
+                                        <span>افزودن به سبد خرید</span>
+                                    </span>
+                                @endif
+                            @else
+                                <span class="flex-center gap-2">
+                                    <i class="fa-solid fa-plus"></i>
+                                    <span>افزودن به سبد خرید</span>
+                                </span>
+                            @endif
+
                         </button>
                     @endif
 

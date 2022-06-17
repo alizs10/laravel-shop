@@ -142,9 +142,23 @@ class ProductController extends Controller
             $cart_items->push($new_item);
         }
 
+        $pay_price = 0;
+        $discount_price = 0;
+        foreach ($cart_items as $cart_item) {
+            $pay_price += $cart_item->product->price;
+            if(!empty($cart_item->product->amazingSale->first())) {
+                $discount_price=+ ($cart_item->product->amazingSale->first()->percentage * $cart_item->product->price) /100;
+            }
+        }
+
+        $total_pay_price = $pay_price - $discount_price;
+
         return response()->json([
             'items' => $cart_items->toArray(),
             'status' => !$is_item_exists,
+            'pay_price' => price_formater($pay_price),
+            'discount_price' => price_formater($discount_price),
+            'total_pay_price' => price_formater($total_pay_price)
         ]);
 
        

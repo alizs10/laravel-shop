@@ -41,10 +41,11 @@
         <div class="flex flex-row gap-x-2 overflow-x-scroll no-scrollbar">
 
             @foreach ($amazingSaleProducts as $amazingSale)
-                <div  class="flex flex-col gap-y-2 p-2 rounded-lg bg-white text-black">
+                <div class="flex flex-col gap-y-2 p-2 rounded-lg bg-white text-black">
                     <a href="{{ route('app.product.index', $amazingSale->product_id) }}" class="w-full">
                         <img class="w-32"
-                        src="{{ asset('storage\\' . $amazingSale->product->image['indexArray']['medium']) }}" alt="">
+                            src="{{ asset('storage\\' . $amazingSale->product->image['indexArray']['medium']) }}"
+                            alt="">
                     </a>
                     <div class="flex justify-between items-center">
                         <span class="flex flex-col gap-y-1 text-xs">
@@ -62,9 +63,22 @@
                                 class="text-gray-700 w-10 h-10 rounded-lg text-xl hover-transition hover:bg-gray-200">
                                 <i class="fa-regular fa-heart"></i>
                             </button>
-                            <button onclick="addToCart(this)" data-url="{{ route('app.product.add-to-cart', $amazingSale->id) }}"
+                            <button onclick="addToCart(this)"
+                                data-url="{{ route('app.product.add-to-cart', $amazingSale->id) }}"
                                 class="text-gray-700 w-10 h-10 rounded-lg text-xl hover-transition hover:bg-gray-200">
-                                <i class="fa-solid fa-cart-circle-plus"></i>
+                                @if ($cart_items->count() > 0)
+                                    @foreach ($cart_items as $cart_item)
+                                        @if ($cart_item->product_id == $amazingSale->product_id)
+                                            <i class="fa-solid fa-cart-circle-check"></i>
+                                            @break
+                                        @else
+                                            <i class="fa-solid fa-cart-circle-plus"></i>
+                                        @endif
+                                    @endforeach
+                                @else
+                                    <i class="fa-solid fa-cart-circle-plus"></i>
+                                @endif
+
                             </button>
                         </div>
                     </div>
@@ -102,7 +116,8 @@
             @foreach ($leastMarketableProducts as $leastMarketableProduct)
                 <div class="flex flex-col gap-y-2 p-2 rounded-lg bg-white text-black">
                     <img class="w-32"
-                        src="{{ asset('storage\\' . $leastMarketableProduct->image['indexArray']['medium']) }}" alt="">
+                        src="{{ asset('storage\\' . $leastMarketableProduct->image['indexArray']['medium']) }}"
+                        alt="">
                     <div class="flex justify-between items-center">
 
                         @if (!is_null($leastMarketableProduct->amazingSale))
@@ -260,12 +275,13 @@
         <div class="flex flex-row gap-x-4 py-3 overflow-x-scroll no-scrollbar">
 
             @foreach ($brands as $brand)
-                
-            <a href="" class="rounded-lg bg-white text-black p-2 hover-transition hover:scale-110 overflow-hidden">
-                <img class="w-32" src="{{ asset('storage\\'. $brand->logo['indexArray']['small']) }}" alt="brand">
-            </a>
+                <a href=""
+                    class="rounded-lg bg-white text-black p-2 hover-transition hover:scale-110 overflow-hidden">
+                    <img class="w-32" src="{{ asset('storage\\' . $brand->logo['indexArray']['small']) }}"
+                        alt="brand">
+                </a>
             @endforeach
-           
+
 
 
 

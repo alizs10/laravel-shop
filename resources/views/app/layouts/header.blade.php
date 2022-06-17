@@ -164,7 +164,7 @@
 
                         @if ($cart_items->count() > 0)
 
-                            <ul class="flex flex-col">
+                            <ul id="cart-dropdown-items" class="flex flex-col">
 
                                 @foreach ($cart_items as $cart_item)
                                     <li
@@ -186,7 +186,7 @@
 
                             </ul>
 
-                            <div class="flex flex-col gap-3 pt-2 border-t-2 border-gray-100 dark:border-gray-700">
+                            <div id="cart-dropdown-price" class="flex flex-col gap-3 pt-2 border-t-2 border-gray-100 dark:border-gray-700">
 
                                 @php
                                     $pay_price = 0;
@@ -216,7 +216,7 @@
                                 <a href="" class="btn text-sm bg-emerald-700 text-white m-2">ثبت سفارش</a>
                             </div>
                         @else
-                            <span class="py-3 flex flex-col justify-center gap-3">
+                            <span id='cart-dropdown-empty' class="py-3 flex flex-col justify-center gap-3">
                                 <i class="fa-light fa-cart-circle-xmark text-4xl md:text-6xl"></i>
                                 <span class="text-xs"> سبد خرید شما خالیه :(</span>
                             </span>

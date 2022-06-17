@@ -20,8 +20,10 @@ class CartItem extends Model
         'number',
     ];
 
+    protected $appends = ['item_product'];
 
-    public function user()
+
+    public function User()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
@@ -34,5 +36,10 @@ class CartItem extends Model
     public function cart_item_selected_attributes()
     {
         return $this->belongsTo(CartItemSelectedAttribute::class, 'cart_item_id');
+    }
+
+    public function getItemProductAttribute()
+    {
+        return $this->product->toArray();
     }
 }

@@ -8,12 +8,12 @@ const cartPopupToggle = () => {
             userPopupToggle()
         }
         $('#cart-popup-btn').toggleClass('bg-gray-100 dark:bg-gray-800');
-        $('#cart-popup-btn .hidden').toggleClass('hidden').toggleClass('flex')
+        $('#cart-popup-btn #cart-dropdown').toggleClass('hidden').toggleClass('flex')
         document.addEventListener('click', outsideClick)
     } else {
         isCartPopupVisible = false
         $('#cart-popup-btn').toggleClass('bg-gray-100 dark:bg-gray-800');
-        $('#cart-popup-btn div').toggleClass('hidden').toggleClass('flex')
+        $('#cart-popup-btn #cart-dropdown').toggleClass('hidden').toggleClass('flex')
     }
 }
 
@@ -40,7 +40,7 @@ function outsideClick(event) {
     if ($('#cart-popup-btn')[0] !== tg && $('#cart-popup-btn').find(tg).length == 0) {
         isCartPopupVisible = false
         $('#cart-popup-btn').removeClass('bg-gray-100 dark:bg-gray-800');
-        $('#cart-popup-btn div').addClass('hidden').removeClass('flex')
+        $('#cart-popup-btn #cart-dropdown').addClass('hidden').removeClass('flex')
     }
   
     if ($('#user-popup-btn')[0] !== tg && $('#user-popup-btn').find(tg).length == 0) {

@@ -146,11 +146,11 @@
                     <i class="fa-solid fa-basket-shopping-simple"></i>
 
                         <div id="cart-alert-number"
-                            class="@if ($cart_items->count() == 0) hidden @endif h-5 w-5 rounded-lg bg-red-600 text-white flex-center absolute -bottom-1 -right-1 text-xs">
+                            class="@if ($cart_items->count() == 0) hidden @else flex-center @endif h-5 w-5 rounded-lg bg-red-600 text-white absolute -bottom-1 -right-1 text-xs">
                             {{ $cart_items->count() }}</div>
 
 
-                    <div onclick="event.stopPropagation()"
+                    <div id="cart-dropdown" onclick="event.stopPropagation()"
                         class="hidden flex-col absolute top-12 left-0 w-64 bg-gray-50 dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden">
 
                         <div

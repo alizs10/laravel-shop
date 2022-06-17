@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\app;
 
 use App\Http\Controllers\Controller;
+use App\Models\CartItem;
 use App\Models\Comment;
 use App\Models\LikeUser;
 use App\Models\Market\Product;
@@ -104,5 +105,48 @@ class ProductController extends Controller
         ]);
 
         return redirect()->route('app.product.index', $product->id);
+    }
+
+    public function addToCart(Product $product)
+    {
+        $user = Auth::user();
+        if (empty($user)) {
+            $ip_address = request()->ip();
+            $cart_items = CartItem::where('ip_address', $ip_address)->get();
+        } else {
+            $cart_items = $user->cart_items;
+        }
+        $is_item_exists = false;
+
+        foreach ($cart_items as $key => $cart_item) {
+            if ($cart_item->product_id == $product->id) {
+                CartItem::destroy($cart_item->id);
+                unset($cart_items[$key]);
+                $is_item_exists = true;
+            }
+        }
+
+        if (!$is_item_exists) {
+            if (empty($user)) {
+               $new_item = CartItem::create([
+                    'product_id' => $product->id,
+                    'ip_address' => $ip_address,
+                ]);
+            } else {
+               $new_item = CartItem::create([
+                    'product_id' => $product->id,
+                    'user_id' => $user->id,
+                ]);
+            }
+
+            $cart_items->push($new_item);
+        }
+
+        return response()->json([
+            'items' => $cart_items->toArray(),
+            'status' => !$is_item_exists,
+        ]);
+
+       
     }
 }

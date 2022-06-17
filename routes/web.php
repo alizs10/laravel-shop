@@ -98,7 +98,7 @@ Route::namespace('App')->group(function () {
     Route::post('/product/{product}/send-comment', [AppProductController::class, 'sendComment'])->name('app.product.send-comment');
 
     //cart
-    Route::post('/product/{product}/add-to-cart', [AppProductController::class, 'addToCart'])->name('app.product.add-to-cart');
+    Route::get('/product/{product}/add-to-cart', [AppProductController::class, 'addToCart'])->name('app.product.add-to-cart');
 
 });
 

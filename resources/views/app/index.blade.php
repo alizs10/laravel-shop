@@ -41,9 +41,11 @@
         <div class="flex flex-row gap-x-2 overflow-x-scroll no-scrollbar">
 
             @foreach ($amazingSaleProducts as $amazingSale)
-                <a href="{{ route('app.product.index', $amazingSale->id) }}" class="flex flex-col gap-y-2 p-2 rounded-lg bg-white text-black">
-                    <img class="w-32"
+                <div  class="flex flex-col gap-y-2 p-2 rounded-lg bg-white text-black">
+                    <a href="{{ route('app.product.index', $amazingSale->product_id) }}" class="w-full">
+                        <img class="w-32"
                         src="{{ asset('storage\\' . $amazingSale->product->image['indexArray']['medium']) }}" alt="">
+                    </a>
                     <div class="flex justify-between items-center">
                         <span class="flex flex-col gap-y-1 text-xs">
                             <span class="flex gap-x-2 items-center">
@@ -60,13 +62,13 @@
                                 class="text-gray-700 w-10 h-10 rounded-lg text-xl hover-transition hover:bg-gray-200">
                                 <i class="fa-regular fa-heart"></i>
                             </button>
-                            <button onclick="addToCart(this)"
+                            <button onclick="addToCart(this)" data-url="{{ route('app.product.add-to-cart', $amazingSale->id) }}"
                                 class="text-gray-700 w-10 h-10 rounded-lg text-xl hover-transition hover:bg-gray-200">
                                 <i class="fa-solid fa-cart-circle-plus"></i>
                             </button>
                         </div>
                     </div>
-                </a>
+                </div>
             @endforeach
 
 

@@ -33,9 +33,9 @@ class CartItem extends Model
         return $this->belongsTo(Product::class, 'product_id');
     }
 
-    public function cart_item_selected_attributes()
+    public function cartItemSelectedAttributes()
     {
-        return $this->belongsTo(CartItemSelectedAttribute::class, 'cart_item_id');
+        return $this->hasMany(CartItemSelectedAttribute::class, 'cart_item_id');
     }
 
     public function getItemProductAttribute()

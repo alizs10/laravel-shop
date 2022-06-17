@@ -31,23 +31,7 @@ class ProductController extends Controller
             }
         }
 
-       //check for default values
-       $properties = $product->properties()->get();
-       $attr_properties = [];
-       if ($properties->count() > 0) {
-           
-           foreach ($properties as $property) {
-               if (!empty($attr_properties[$property->attribute->name])) {
-                   array_push($attr_properties[$property->attribute->name], $property);
-               } else {
-
-                   $attr_properties[$property->attribute->name][0] = $property;
-               }
-           }
-       }
-
-       dd($attr_properties);
-
+     
         // product properties
         $product_attributes_select_type = [];
 
@@ -139,6 +123,7 @@ class ProductController extends Controller
         foreach ($cart_items as $key => $cart_item) {
             if ($cart_item->product_id == $product->id) {
                 CartItem::destroy($cart_item->id);
+                CartItemSelectedAttribute::where('cart_item_id', $cart_item->id)->delete();
                 unset($cart_items[$key]);
                 $is_item_exists = true;
             }
@@ -161,39 +146,54 @@ class ProductController extends Controller
             $cart_items->push($new_item);
         }
 
-        //check for default values
-        $properties = $product->properties()->get();
-        $attr_properties = [];
-        if ($properties->count() > 0) {
-            
-            foreach ($properties as $property) {
-                if (!empty($attr_properties[$property->attribute->name])) {
-                    array_push($attr_properties[$property->attribute->name], $property);
-                } else {
+        //check for default attributes values
+        if (!$is_item_exists) {
+            $properties = $product->properties()->get();
+            $attr_properties = [];
+            if ($properties->count() > 0) {
 
-                    $attr_properties[$property->attribute->name][0] = $property;
+                foreach ($properties as $property) {
+                    if (!empty($attr_properties[$property->attribute->name])) {
+                        array_push($attr_properties[$property->attribute->name], $property);
+                    } else {
+
+                        $attr_properties[$property->attribute->name][0] = $property;
+                    }
                 }
             }
-        }
 
-        if (count($attr_properties) > 0) {
-            foreach ($attr_properties as $value) {
-                $cartItemSelectedAttribute['cart_item_id'] = $new_item->id;
-                $cartItemSelectedAttribute['category_attribute_id'] = $value[0]->category_attribute_id;
-                $cartItemSelectedAttribute['category_value_id'] = '';
-                $cartItemSelectedAttribute['value'] = '';
-                CartItemSelectedAttribute::create();
+            if (count($attr_properties) > 0) {
+                foreach ($attr_properties as $value) {
+                    $cartItemSelectedAttribute['cart_item_id'] = $new_item->id;
+                    $cartItemSelectedAttribute['category_attribute_id'] = $value[0]->category_attribute_id;
+                    $cartItemSelectedAttribute['category_value_id'] = $value[0]->id;
+                    $cartItemSelectedAttribute['value'] = $value[0]->value;
+                    CartItemSelectedAttribute::create($cartItemSelectedAttribute);
+                }
             }
         }
 
         
 
+
         $pay_price = 0;
         $discount_price = 0;
         foreach ($cart_items as $cart_item) {
-            $pay_price += $cart_item->product->price;
+            
+            $product_price = $cart_item->product->price;
+
+            //check for price increase
+            if (count($cart_item->cartItemSelectedAttributes) > 0) {
+                foreach ($cart_item->cartItemSelectedAttributes as $selected_attr) {
+                    $value = json_decode($selected_attr->value);
+                    $product_price += $value->price_increase;
+                }
+            }
+
+
+            $pay_price += $product_price;
             if (!empty($cart_item->product->amazingSale)) {
-                $discount_price = + ($cart_item->product->amazingSale->first()->percentage * $cart_item->product->price) / 100;
+                $discount_price = + ($cart_item->product->amazingSale->first()->percentage * $product_price) / 100;
             }
         }
 

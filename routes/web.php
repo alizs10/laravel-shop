@@ -103,7 +103,7 @@ Route::namespace('App')->group(function () {
 
     //search-page
 
-    Route::get('/search', [SearchController::class, 'index'])->name('app.search.index');
+    Route::get('/search/{search}', [SearchController::class, 'index'])->name('app.search.index');
 
 
 });

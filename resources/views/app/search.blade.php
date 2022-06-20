@@ -16,16 +16,16 @@
 
 
     <!-- search starts -->
-    <section class="mt-4 grid grid-cols-6 gap-2">
+    <section class="mt-4 grid grid-cols-9 gap-2">
 
         <!-- filters starts -->
         <section id="filters"
-            class="hidden fixed lg:static top-0 right-0 bottom-0 lg:bottom-auto lg:pb-4 left-0 z-30 bg-white lg:rounded-lg dark:bg-gray-900 transition-all duration-300 lg:shadow-lg">
+            class="hidden lg:block fixed lg:static lg:col-span-2 top-0 right-0 bottom-0 lg:bottom-auto lg:pb-4 left-0 z-30 lg:z-0 bg-white lg:rounded-lg dark:bg-gray-900 lg:bg-gray-100 lg:dark:bg-gray-800 transition-all duration-300 lg:shadow-lg">
 
             <div class="flex flex-col gap-y-4">
                 <div class="flex justify-between items-center">
                     <span class="text-sm mt-4 mr-4">اعمال فیلتر</span>
-                    <button class="ml-4 mt-4 text-xl" onclick="toggleFilters()">
+                    <button class="ml-4 mt-4 text-xl lg:hidden" onclick="toggleFilters()">
                         <i class="fa-solid fa-xmark"></i>
                     </button>
                 </div>
@@ -36,15 +36,15 @@
                         <i class="fa fa-angle-left"></i>
                     </span>
                     <div
-                        class="hidden fixed top-0 right-0 bottom-0 left-0 bg-white dark:bg-gray-900 z-10 flex flex-col gap-4">
-                        <div class="flex justify-between items-center">
+                        class="hidden fixed lg:static top-0 right-0 bottom-0 left-0 bg-white dark:bg-gray-900 lg:bg-transparent lg:dark:bg-transparent z-10 flex flex-col gap-4">
+                        <div class="flex justify-between items-center lg:hidden">
                             <span class="text-sm mt-4 mr-4">فیلتر دسته بندی</span>
                             <button class="ml-4 mt-4 text-xl" onclick="toggleCategoryFilter()">
                                 <i class="fa-solid fa-xmark"></i>
                             </button>
                         </div>
 
-                        <div class="flex flex-col gap-4 mx-4">
+                        <div class="flex flex-col gap-4 mx-4 lg:mt-4">
                             <span id="cat-filter-0" onclick="toggleSubCategoryFilter(0)"
                                 class="flex items-center cursor-pointer gap-2">
                                 <i class="fa fa-angle-left text-sm"></i>
@@ -77,26 +77,28 @@
                         <i class="fa fa-angle-left"></i>
                     </span>
                     <div
-                        class="hidden fixed top-0 right-0 bottom-0 left-0 bg-white dark:bg-gray-900 z-10 flex flex-col gap-4">
-                        <div class="flex justify-between items-center">
+                        class="hidden fixed lg:static top-0 right-0 bottom-0 left-0 bg-white dark:bg-gray-900 lg:bg-transparent lg:dark:bg-transparent z-10 flex flex-col gap-4">
+                        <div class="flex justify-between items-center lg:hidden">
                             <span class="text-sm mt-4 mr-4">فیلتر قیمت</span>
                             <button class="ml-4 mt-4 text-xl" onclick="togglePriceFilter()">
                                 <i class="fa-solid fa-xmark"></i>
                             </button>
                         </div>
 
-                        <div class="flex flex-col gap-4 mx-4">
+                        <div class="flex flex-col gap-4 mx-4 lg:mx-0 lg:mt-4">
                             <div class="flex flex-col gap-2">
                                 <label for="">از قیمت</label>
-                                <input class="form-input" type="text" name="start-price" value="0" min="0">
+                                <input class="form-input dark:border-gray-700" type="text" name="start-price"
+                                    value="0" min="0">
                             </div>
                             <div class="flex flex-col gap-2">
                                 <label for="">تا قیمت</label>
-                                <input class="form-input" type="text" name="end-price" value="100000000" max="100000000">
+                                <input class="form-input dark:border-gray-700" type="text" name="end-price"
+                                    value="100000000" max="100000000">
                             </div>
                         </div>
 
-                        <div class="flex flex-col gap-2 mx-4">
+                        <div class="flex flex-col gap-2 mx-4 lg:mx-0">
                             <span class="text-sm">
                                 محدوده قیمت
                             </span>
@@ -128,7 +130,7 @@
 
             </div>
 
-            <a class="fixed text-sm xs:text-base bottom-0 right-0 left-0 block text-center py-2 xs:py-3 bg-red-500 text-white"
+            <a class="fixed lg:static lg:mx-2 lg:rounded-lg lg:mt-2 text-sm xs:text-base bottom-0 right-0 left-0 block text-center py-2 xs:py-3 bg-red-500 text-white"
                 href="">اعمال فیلتر</a>
 
         </section>
@@ -137,17 +139,17 @@
 
 
 
-        <section class="col-span-6 flex flex-col gap-3 rounded-lg bg-gray-100 dark:bg-gray-800 shadow-lg p-3">
+        <section class="col-span-9 lg:col-span-7 flex flex-col gap-3 rounded-lg bg-gray-100 dark:bg-gray-800 shadow-lg p-3">
             <div class="flex flex-col gap-2 pb-2 border-b border-white">
                 <span class="flex justify-between items-center text-xxs xs:text-xs">
-                    <span>نتایج جستجو برای "موبایل سامسونگ"</span>
-                    <span class="text-red-500">۵۶ مورد</span>
+                    <span>نتایج جستجو برای "{{$search}}"</span>
+                    <span class="text-red-500">{{e2p_numbers($results->count())}} مورد</span>
                 </span>
                 <span class="flex flex-col gap-2 text-xxs xs:text-xs">
                     <span class="flex justify-between items-center text-xs xs:text-sm">
                         <span>فیلتر ها:</span>
                         <button onclick="toggleFilters()"
-                            class="w-10 h-10 text-gray-700 dark:text-gray-200 rounded-lg text-xl hover-transition hover:bg-gray-200 dark:hover:bg-gray-700">
+                            class="lg:hidden w-10 h-10 text-gray-700 dark:text-gray-200 rounded-lg text-xl hover-transition hover:bg-gray-200 dark:hover:bg-gray-700">
                             <i class="fa-regular fa-filter"></i>
                         </button>
                     </span>
@@ -162,83 +164,70 @@
 
             <!-- search results starts -->
 
-            <section class="grid grid-cols-4 gap-2">
+            <section class="grid grid-cols-8 gap-2">
 
-                <div class="col-span-4 xs:col-span-2 flex flex-col gap-y-2 p-2 rounded-lg bg-white text-black">
-                    <a href="">
-                        <img class="w-full" src="../images/product-2.webp" alt="">
-                    </a>
-                    <div class="flex justify-between items-center">
-                        <span class="flex flex-col gap-y-1 text-xs">
-                            <span class="flex gap-x-2 items-center">
-                                <span class="line-through">232,000</span>
-                                <div class="h-7 w-7 rounded-lg bg-red-600 text-white flex-center text-xs">
-                                    2%</div>
-                            </span>
-                            <span class="text-red-500 font-bold">212,000</span>
-                            <span class="text-red-500 font-bold">تومان</span>
-                        </span>
+                @foreach ($results as $result)
+                    <div
+                        class="col-span-8 xs:col-span-4 md:col-span-2 flex flex-col gap-y-2 p-2 rounded-lg bg-white text-black">
+                        <a href="{{ route('app.product.index', $result->id) }}">
+                            <img class="w-full" src="{{ asset('storage\\' . $result->image['indexArray']['medium']) }}"
+                                alt="">
+                        </a>
+                        <div class="flex justify-between items-center">
 
-                        <div class="flex flex-col items-center gax-y-2">
-                            <button class="text-gray-700 w-10 h-10 rounded-lg text-xl hover-transition hover:bg-gray-200">
-                                <i class="fa-regular fa-heart"></i>
-                            </button>
-                            <button class="text-gray-700 w-10 h-10 rounded-lg text-xl hover-transition hover:bg-gray-200">
-                                <i class="fa-solid fa-cart-circle-plus"></i>
-                            </button>
+                            @if (!is_null($result->amazingSale))
+                                <span class="flex flex-col gap-y-1 text-xs">
+                                    <span class="flex gap-x-2 items-center">
+                                        <span class="line-through">{{ $result->price }}</span>
+                                        <div class="h-7 w-7 rounded-lg bg-red-600 text-white flex-center text-xs">
+                                            {{ $result->amazingSale->percentage }}%</div>
+                                    </span>
+                                    <span class="text-red-500 font-bold">{{ $result->amazingSale->price }}</span>
+                                    <span class="text-red-500 font-bold">تومان</span>
+                                </span>
+                            @else
+                                <span class="flex flex-col gap-y-1 text-xs">
+                                    <span>{{ $result->price }}</span>
+                                    <span class="font-bold">تومان</span>
+                                </span>
+                            @endif
+
+                            <div class="flex flex-col items-center gax-y-2">
+                                <button onclick="addToFavorites(this)"
+                                    class="text-gray-700 w-10 h-10 rounded-lg text-xl hover-transition hover:bg-gray-200">
+                                    <i class="fa-regular fa-heart"></i>
+                                </button>
+                                <button onclick="addToCart(this)"
+                                    data-url="{{ route('app.product.add-to-cart', $result->id) }}"
+                                    class="text-gray-700 w-10 h-10 rounded-lg text-xl hover-transition hover:bg-gray-200">
+                                    @if ($cart_items->count() > 0)
+                                        @php
+                                            $is_item_in_cart = false;
+                                            
+                                            foreach ($cart_items as $cart_item) {
+                                                if ($cart_item->product_id == $result->id) {
+                                                    $is_item_in_cart = true;
+                                                    break;
+                                                }
+                                            }
+                                        @endphp
+
+                                        @if ($is_item_in_cart)
+                                            <i class="fa-solid fa-cart-circle-check"></i>
+                                        @else
+                                            <i class="fa-solid fa-cart-circle-plus"></i>
+                                        @endif
+                                    @else
+                                        <i class="fa-solid fa-cart-circle-plus"></i>
+                                    @endif
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-span-4 xs:col-span-2 flex flex-col gap-y-2 p-2 rounded-lg bg-white text-black">
-                    <a href="">
-                        <img class="w-full" src="../images/product-2.webp" alt="">
-                    </a>
-                    <div class="flex justify-between items-center">
-                        <span class="flex flex-col gap-y-1 text-xs">
-                            <span class="flex gap-x-2 items-center">
-                                <span class="line-through">232,000</span>
-                                <div class="h-7 w-7 rounded-lg bg-red-600 text-white flex-center text-xs">
-                                    2%</div>
-                            </span>
-                            <span class="text-red-500 font-bold">212,000</span>
-                            <span class="text-red-500 font-bold">تومان</span>
-                        </span>
+                @endforeach
 
-                        <div class="flex flex-col items-center gax-y-2">
-                            <button class="text-gray-700 w-10 h-10 rounded-lg text-xl hover-transition hover:bg-gray-200">
-                                <i class="fa-regular fa-heart"></i>
-                            </button>
-                            <button class="text-gray-700 w-10 h-10 rounded-lg text-xl hover-transition hover:bg-gray-200">
-                                <i class="fa-solid fa-cart-circle-plus"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-span-4 xs:col-span-2 flex flex-col gap-y-2 p-2 rounded-lg bg-white text-black">
-                    <a href="">
-                        <img class="w-full" src="../images/product-2.webp" alt="">
-                    </a>
-                    <div class="flex justify-between items-center">
-                        <span class="flex flex-col gap-y-1 text-xs">
-                            <span class="flex gap-x-2 items-center">
-                                <span class="line-through">232,000</span>
-                                <div class="h-7 w-7 rounded-lg bg-red-600 text-white flex-center text-xs">
-                                    2%</div>
-                            </span>
-                            <span class="text-red-500 font-bold">212,000</span>
-                            <span class="text-red-500 font-bold">تومان</span>
-                        </span>
 
-                        <div class="flex flex-col items-center gax-y-2">
-                            <button class="text-gray-700 w-10 h-10 rounded-lg text-xl hover-transition hover:bg-gray-200">
-                                <i class="fa-regular fa-heart"></i>
-                            </button>
-                            <button class="text-gray-700 w-10 h-10 rounded-lg text-xl hover-transition hover:bg-gray-200">
-                                <i class="fa-solid fa-cart-circle-plus"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
+
 
 
             </section>

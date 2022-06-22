@@ -109,7 +109,8 @@ Route::namespace('App')->group(function () {
     //user profile
     Route::prefix('user')->middleware('auth')->group(function () {
 
-        Route::get('profile', [UserController::class, 'profile'])->name('app.usesr.profile');
+        Route::get('profile', [UserController::class, 'profile'])->name('app.user.profile');
+        Route::put('profile/update/{user}', [UserController::class, 'profileUpdate'])->name('app.user.profile.update');
         Route::get('addresses', [UserController::class, 'addresses'])->name('app.user.addresses');
     });
 

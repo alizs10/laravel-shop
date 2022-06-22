@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\app;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\app\UserProfileRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -12,6 +14,19 @@ class UserController extends Controller
     {
         $user = Auth::user();
         return view('app.profile', compact('user'));
+    }
+
+    public function profileUpdate(UserProfileRequest $request,User $user)
+    {
+        if ($user->id != Auth::user()->id) {
+            return redirect('app.user.profile');
+        }
+
+        $inputs = $request->all();
+        $user->update($inputs);
+
+        return redirect()->route('app.user.profile');
+        
     }
 
     public function addresses()

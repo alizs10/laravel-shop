@@ -138,8 +138,10 @@
 @section('add-to-body')
     <!-- edit user infos modal starts -->
     <div id="edit-user-infos-backdrop" onclick="toggleEditUserInfos()"
-        class="hidden fixed top-0 bottom-0 left-0 right-0 bg-gray-500/70 z-40 transition-all duration-300">
-        <form class="w-full flex-center" action="">
+        class="@if($errors->any()) flex-center @else hidden @endif fixed top-0 bottom-0 left-0 right-0 bg-gray-500/70 z-40 transition-all duration-300">
+        <form class="w-full flex-center" action="{{ route('app.user.profile.update', $user) }}" method="POST">
+            @csrf
+            @method('put')
             <div class="w-5/6 md:w-2/3 rounded-lg p-3 shadow-md bg-white dark:bg-gray-700 flex flex-col gap-y-3"
                 onclick="event.stopPropagation()">
                 <div class="flex justify-between">
@@ -153,34 +155,49 @@
                     <div class="col-span-2 md:col-span-1 flex flex-col gap-1 relative mt-4">
                         <label class="text-xs absolute bg-white dark:bg-gray-700 px-2 -top-2 right-2"
                             for="">نام</label>
-                        <input class="form-input" name="" id="" />
+                        <input type="text" class="form-input" name="first_name" id="first_name" value="{{ old('first_name', $user->first_name) }}" />
+                        @if ($errors->has('first_name'))
+                            <span class="text-xs text-red-500">{{ $errors->first('first_name') }}</span>
+                        @endif
                     </div>
                     <div class="col-span-2 md:col-span-1 flex flex-col gap-1 relative mt-4">
                         <label class="text-xs absolute bg-white dark:bg-gray-700 px-2 -top-2 right-2" for="">نام
                             خانوادگی</label>
-                        <input class="form-input" name="" id="" />
+                        <input type="text" class="form-input" name="last_name" id="last_name" value="{{ old('last_name', $user->last_name) }}"/>
+                        @if ($errors->has('last_name'))
+                            <span class="text-xs text-red-500">{{ $errors->first('last_name') }}</span>
+                        @endif
                     </div>
                     <div class="col-span-2 md:col-span-1 flex flex-col gap-1 relative mt-4">
                         <label class="text-xs absolute bg-white dark:bg-gray-700 px-2 -top-2 right-2"
                             for="">ایمیل</label>
-                        <input class="form-input" name="" id="" />
+                        <input type="email" class="form-input" name="email" id="email" value="{{ old('email', $user->email) }}"/>
+                        @if ($errors->has('email'))
+                            <span class="text-xs text-red-500">{{ $errors->first('email') }}</span>
+                        @endif
                     </div>
                     <div class="col-span-2 md:col-span-1 flex flex-col gap-1 relative mt-4">
                         <label class="text-xs absolute bg-white dark:bg-gray-700 px-2 -top-2 right-2" for="">شماره
                             موبایل</label>
-                        <input class="form-input" name="" id="" />
+                        <input type="text" class="form-input" name="mobile" id="mobile" value="{{ old('mobile', $user->mobile) }}"/>
+                        @if ($errors->has('mobile'))
+                            <span class="text-xs text-red-500">{{ $errors->first('mobile') }}</span>
+                        @endif
                     </div>
                     <div class="col-span-2 md:col-span-1 flex flex-col gap-1 relative mt-4">
                         <label class="text-xs absolute bg-white dark:bg-gray-700 px-2 -top-2 right-2" for="">
                             کدملی
                         </label>
-                        <input class="form-input" name="" id="" />
+                        <input type="text" class="form-input" name="national_code" id="national_code" value="{{ old('national_code', $user->national_code) }}"/>
+                        @if ($errors->has('national_code'))
+                            <span class="text-xs text-red-500">{{ $errors->first('national_code') }}</span>
+                        @endif
                     </div>
                     <div class="col-span-2 md:col-span-1 flex flex-col gap-1 relative mt-4">
-                        <label class="text-xs absolute bg-white dark:bg-gray-700 px-2 -top-2 right-2" for="">شماره
-                            تماس
+                        <label class="text-xs absolute bg-white dark:bg-gray-700 px-2 -top-2 right-2" for="">
+                            تاریخ تولد
                         </label>
-                        <input class="form-input" name="" id="" />
+                        <input type="text" class="form-input" name="" id=""/>
                     </div>
                 </div>
 

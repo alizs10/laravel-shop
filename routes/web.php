@@ -39,6 +39,8 @@ use App\Http\Controllers\Admin\User\RoleController;
 use App\Http\Controllers\app\HomeController;
 use App\Http\Controllers\app\ProductController as AppProductController;
 use App\Http\Controllers\app\SearchController;
+use App\Http\Controllers\app\UserController;
+use App\Http\Controllers\app\UserProfileController;
 use App\Http\Controllers\Auth\AuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -102,8 +104,14 @@ Route::namespace('App')->group(function () {
     Route::get('/product/{product}/add-to-cart', [AppProductController::class, 'addToCart'])->name('app.product.add-to-cart');
 
     //search-page
-
     Route::get('/search/{search}', [SearchController::class, 'index'])->name('app.search.index');
+
+    //user profile
+    Route::prefix('user')->middleware('auth')->group(function () {
+
+        Route::get('profile', [UserController::class, 'profile'])->name('app.usesr.profile');
+        Route::get('addresses', [UserController::class, 'addresses'])->name('app.user.addresses');
+    });
 
 
 });

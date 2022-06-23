@@ -4,6 +4,7 @@ namespace App\Http\Controllers\app;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\app\UserProfileRequest;
+use App\Models\Province;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -32,6 +33,15 @@ class UserController extends Controller
     public function addresses()
     {
         $user = Auth::user();
-        return view('app.addresses', compact('user'));
+        $provinces = Province::all();
+        return view('app.addresses', compact('user', 'provinces'));
+    }
+
+    public function getCities(Province $province)
+    {
+        $cities = $province->cities;
+        return response()->json([
+            'cities' => $cities
+        ]);
     }
 }

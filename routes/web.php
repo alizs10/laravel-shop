@@ -114,6 +114,9 @@ Route::namespace('App')->group(function () {
         Route::get('addresses', [UserController::class, 'addresses'])->name('app.user.addresses');
     });
 
+    //cities
+    Route::get('provinces/{province}/cities', [UserController::class, 'getCities'])->name('app.province.get-cities')->middleware('auth');
+
 
 });
 

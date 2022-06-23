@@ -18,7 +18,8 @@ class Address extends Model
         "unit",
         "no",
         "addressee_name",
-        "mobile",
+        "receiver_mobile",
+        "receiver_name",
         "status",
     ];
 

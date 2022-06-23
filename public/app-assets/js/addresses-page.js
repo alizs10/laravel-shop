@@ -3,18 +3,27 @@ function toggleAddNewAddress() {
     $('#new-address-backdrop').toggleClass('hidden flex-center')
 }
 
-function setDefaultAddress(address) {
+function setDefaultAddress(address, addrss_id) {
     if ($(address).hasClass('selected-address')) return;
 
-    let selectedAddressBtnContainer = `
-    <i class="fa-regular fa-check text-lg"></i>
-    پیشفرض
-    `;
+    url = $(address).attr('data-url')
+    $.ajax({
+        type: "get",
+        url,
+        success: function (response) {
 
-    $('.selected-address').html('انتخاب پیشفرض')
-    $('.selected-address').removeClass('selected-address')
-    $(address).addClass('selected-address')
-    $(address).html(selectedAddressBtnContainer)
+            let selectedAddressBtnContainer = `
+                <i class="fa-regular fa-check text-lg"></i>
+                    پیش فرض`;
+
+            $('.selected-address').html('انتخاب پیش فرض')
+            $('.selected-address').removeClass('selected-address')
+            $(address).addClass('selected-address')
+            $(address).html(selectedAddressBtnContainer)
+
+        }
+    });
+
 }
 
 function profileBack() {
@@ -42,11 +51,11 @@ function getCities() {
 
 function printCities(cities) {
 
-    let citiesContainer = '<option value="">شهر خود را انتخاب کنید</option>';
+    let citiesContainer = '<option class="text-black" value="">شهر خود را انتخاب کنید</option>';
 
     for (let i = 0; i < cities.length; i++) {
         const city = cities[i];
-        citiesContainer += `<option value="${city.id}">${city.name}</option>`;
+        citiesContainer += `<option class="text-black" value="${city.id}">${city.name}</option>`;
     }
 
     console.log(citiesContainer);

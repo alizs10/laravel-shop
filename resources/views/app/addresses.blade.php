@@ -88,40 +88,47 @@
                     <div class="w-full flex flex-col gap-2 leading-6 rounded-lg bg-white dark:bg-gray-700 shadow-md p-3">
                         <span class="text-sm">
                             <i class="fa-light fa-city"></i>
-                            {{$address->city->province->name}}، {{$address->city->name}}</span>
+                            {{ $address->city->province->name }}، {{ $address->city->name }}</span>
                         <span class="flex gap-2 text-sm">
                             <i class="fa-light fa-map-pin"></i>
-                            <span>{{$address->address}}</span>
+                            <span>{{ $address->address . ($address->unit ? ' واحد ' . $address->unit : '') . ' پلاک ' . $address->no }}</span>
                         </span>
                         <span class="text-sm">
                             <i class="fa-light fa-mailbox"></i>
-                            کدپستی: {{$address->postal_code}}
+                            کدپستی: {{ $address->postal_code }}
                         </span>
                         <span class="text-sm">
                             <i class="fa-light fa-user"></i>
-                            نام تحویل گیرنده: {{$address->receiver_name}}
+                            نام تحویل گیرنده: {{ $address->receiver_name }}
                         </span>
                         <span class="text-sm">
                             <i class="fa-light fa-mobile"></i>
-                            موبایل تحویل گیرنده: {{$address->receiver_mobile}}</span>
+                            موبایل تحویل گیرنده: {{ $address->receiver_mobile }}</span>
 
                         <div class="flex justify-end">
                             <div class="flex items-center gap-x-3">
-                                <form class="m-0" action="">
+                                <form class="m-0" action="{{ route('app.user.addresses.destroy', $address->id) }}" method="POST">
+                                    @csrf
+                                    @method('delete')
                                     <button type="submit" class="text-gray-500 dark:text-gray-400 text-xl py-3">
                                         <i class="fa-light fa-trash-alt"></i>
                                     </button>
                                 </form>
-                                <button onclick="setDefaultAddress(this)"
-                                    class="px-3 py-2 border-2 flex-center gap-2 text-xs rounded-lg text-red-500 border-red-500 @if($address->status ==1) selected address @endif">
-                                <i class="fa-regular fa-check"></i>
-                                    پیش فرض
+                                <button onclick="setDefaultAddress(this, {{ $address->id }})"
+                                data-url="{{ route('app.user.addresses.change-status', $address) }}"
+                                    class="px-3 py-2 border-2 flex-center gap-2 text-xs rounded-lg text-red-500 border-red-500 @if ($address->status == 1) selected-address @endif">
+                                    @if ($address->status == 1)
+                                    <i class="fa-regular fa-check"></i>
+                                        پیش فرض
+                                    @else
+                                        انتخاب پیش فرض
+                                    @endif
                                 </button>
                             </div>
                         </div>
                     </div>
                 @endforeach
-               
+
 
                 <div class="w-full mt-4">
                     <button onclick="toggleAddNewAddress()"
@@ -141,8 +148,8 @@
 @section('add-to-body')
     <!-- add new address modal starts -->
     <div id="new-address-backdrop" onclick="toggleAddNewAddress()"
-        class="@if($errors->any()) flex-center @else hidden @endif fixed top-0 bottom-0 left-0 right-0 bg-gray-500/70 z-40 transition-all duration-300">
-        <form class="w-full flex-center" action="" method="POST">
+        class="hidden fixed top-0 bottom-0 left-0 right-0 bg-gray-500/70 z-40 transition-all duration-300">
+        <form class="w-full flex-center" action="{{ route('app.user.addresses.store') }}" method="POST">
             @csrf
             <div class="w-5/6 md:w-2/3 rounded-lg p-3 shadow-md bg-white dark:bg-gray-700 flex flex-col gap-y-3"
                 onclick="event.stopPropagation()">
@@ -157,13 +164,12 @@
                         <label class="text-xs absolute bg-white dark:bg-gray-700 px-2 -top-2 right-2"
                             for="province">استان</label>
                         <select class="form-input" name="province" id="province">
-                            <option value="">استان خود را انتخاب کنید</option>
-                           @foreach ($provinces as $province)
-                            <option value="{{ $province->id }}">{{$province->name}}</option>
-                               
-                           @endforeach
+                            <option class="text-black" value="">استان خود را انتخاب کنید</option>
+                            @foreach ($provinces as $province)
+                                <option class="text-black" value="{{ $province->id }}">{{ $province->name }}</option>
+                            @endforeach
                         </select>
-                         @if ($errors->has('province'))
+                        @if ($errors->has('province'))
                             <span class="text-xs text-red-500">{{ $errors->first('province') }}</span>
                         @endif
                     </div>
@@ -171,10 +177,9 @@
                         <label class="text-xs absolute bg-white dark:bg-gray-700 px-2 -top-2 right-2"
                             for="city_id">شهر</label>
                         <select class="form-input" name="city_id" id="city_id">
-                            <option value="">شهر خود را انتخاب کنید</option>
-                            
+                            <option class="text-black" value="">شهر خود را انتخاب کنید</option>
                         </select>
-                         @if ($errors->has('city_id'))
+                        @if ($errors->has('city_id'))
                             <span class="text-xs text-red-500">{{ $errors->first('city_id') }}</span>
                         @endif
                     </div>
@@ -182,15 +187,15 @@
                         <label class="text-xs absolute bg-white dark:bg-gray-700 px-2 -top-2 right-2"
                             for="address">آدرس</label>
                         <textarea class="form-input" name="address" id="address" rows="3" placeholder="آدرس دقیق خود را وارد کنید">{{ old('address') }}</textarea>
-                         @if ($errors->has('address'))
+                        @if ($errors->has('address'))
                             <span class="text-xs text-red-500">{{ $errors->first('address') }}</span>
                         @endif
                     </div>
                     <div class="col-span-2 md:col-span-1 flex flex-col gap-1 relative mt-4">
                         <label class="text-xs absolute bg-white dark:bg-gray-700 px-2 -top-2 right-2"
                             for="unit">واحد</label>
-                        <input class="form-input" name="unit" id="unit" value="{{ old('unit') }}"/>
-                         @if ($errors->has('unit'))
+                        <input class="form-input" name="unit" id="unit" value="{{ old('unit') }}" />
+                        @if ($errors->has('unit'))
                             <span class="text-xs text-red-500">{{ $errors->first('unit') }}</span>
                         @endif
                     </div>
@@ -198,32 +203,37 @@
                         <label class="text-xs absolute bg-white dark:bg-gray-700 px-2 -top-2 right-2"
                             for="no">پلاک</label>
                         <input class="form-input" name="no" id="no" value="{{ old('no') }}" />
-                         @if ($errors->has('no'))
+                        @if ($errors->has('no'))
                             <span class="text-xs text-red-500">{{ $errors->first('no') }}</span>
                         @endif
                     </div>
                     <div class="col-span-2 md:col-span-1 flex flex-col gap-1 relative mt-4">
                         <label class="text-xs absolute bg-white dark:bg-gray-700 px-2 -top-2 right-2"
                             for="postal_code">کدپستی</label>
-                        <input class="form-input" name="postal_code" id="postal_code" value="{{ old('postal_code') }}" />
-                         @if ($errors->has('postal_code'))
+                        <input class="form-input" name="postal_code" id="postal_code"
+                            value="{{ old('postal_code') }}" />
+                        @if ($errors->has('postal_code'))
                             <span class="text-xs text-red-500">{{ $errors->first('postal_code') }}</span>
                         @endif
                     </div>
                     <div class="col-span-2 md:col-span-1 flex flex-col gap-1 relative mt-4">
-                        <label class="text-xs absolute bg-white dark:bg-gray-700 px-2 -top-2 right-2" for="receiver_name">نام
+                        <label class="text-xs absolute bg-white dark:bg-gray-700 px-2 -top-2 right-2"
+                            for="receiver_name">نام
                             تحویل گیرنده</label>
-                        <input class="form-input" name="receiver_name" id="receiver_name" value="{{ old('receiver_name') }}" />
-                         @if ($errors->has('receiver_name'))
+                        <input class="form-input" name="receiver_name" id="receiver_name"
+                            value="{{ old('receiver_name') }}" />
+                        @if ($errors->has('receiver_name'))
                             <span class="text-xs text-red-500">{{ $errors->first('receiver_name') }}</span>
                         @endif
                     </div>
                     <div class="col-span-2 md:col-span-1 flex flex-col gap-1 relative mt-4">
-                        <label class="text-xs absolute bg-white dark:bg-gray-700 px-2 -top-2 right-2" for="receiver_mobile">شماره
+                        <label class="text-xs absolute bg-white dark:bg-gray-700 px-2 -top-2 right-2"
+                            for="receiver_mobile">شماره
                             تماس تحویل
                             گیرنده</label>
-                        <input class="form-input" name="receiver_mobile" id="receiver_mobile" value="{{ old('receiver_mobile') }}" />
-                         @if ($errors->has('receiver_mobile'))
+                        <input class="form-input" name="receiver_mobile" id="receiver_mobile"
+                            value="{{ old('receiver_mobile') }}" />
+                        @if ($errors->has('receiver_mobile'))
                             <span class="text-xs text-red-500">{{ $errors->first('receiver_mobile') }}</span>
                         @endif
                     </div>
@@ -241,4 +251,9 @@
 
 @section('scripts')
     <script src="{{ asset('app-assets/js/addresses-page.js') }}"></script>
+    @if ($errors->any())
+        <script>
+            toggleAddNewAddress();
+        </script>
+    @endif
 @endsection

@@ -234,5 +234,12 @@ return [
         'url' => 'آدرس',
         'status' => 'وضعیت',
         'position' => 'موقعیت',
+        'city_id' => 'شهر',
+        'province' => 'استان',
+        'unit' => 'واحد',
+        'postal_code' => 'کدپستی',
+        'no' => 'پلاک',
+        'receiver_name' => 'نام تحویل گیرنده',
+        'receiver_mobile' => 'شماره تماس تحویل گیرنده',
     ],
 ];

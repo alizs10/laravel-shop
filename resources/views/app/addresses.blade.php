@@ -91,11 +91,11 @@
                             {{ $address->city->province->name }}، {{ $address->city->name }}</span>
                         <span class="flex gap-2 text-sm">
                             <i class="fa-light fa-map-pin"></i>
-                            <span>{{ $address->address . ($address->unit ? ' واحد ' . $address->unit : '') . ' پلاک ' . $address->no }}</span>
+                            <span>{{ $address->address . ($address->unit ? ' واحد ' . e2p_numbers($address->unit) : '') . ' پلاک ' . e2p_numbers($address->no) }}</span>
                         </span>
                         <span class="text-sm">
                             <i class="fa-light fa-mailbox"></i>
-                            کدپستی: {{ $address->postal_code }}
+                            کدپستی: {{ e2p_numbers($address->postal_code) }}
                         </span>
                         <span class="text-sm">
                             <i class="fa-light fa-user"></i>
@@ -103,7 +103,7 @@
                         </span>
                         <span class="text-sm">
                             <i class="fa-light fa-mobile"></i>
-                            موبایل تحویل گیرنده: {{ $address->receiver_mobile }}</span>
+                            موبایل تحویل گیرنده: {{ e2p_numbers($address->receiver_mobile) }}</span>
 
                         <div class="flex justify-end">
                             <div class="flex items-center gap-x-3">

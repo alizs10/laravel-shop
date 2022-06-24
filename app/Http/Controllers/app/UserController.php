@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
+    //profile
     public function profile()
     {
         $user = Auth::user();
@@ -82,6 +83,25 @@ class UserController extends Controller
 
         $address->delete();
         return redirect()->route('app.user.addresses');
+    }
+
+    //orders
+
+    public function orders()
+    {
+        $user = Auth::user();
+        $orders = $user->orders;
+        return view('app.orders', compact('orders'));
+    }
+
+    //favorites
+
+
+    public function favorites()
+    {
+        $user = Auth::user();
+        $favorites = $user->favorites;
+        return view('app.favorites', compact('favorites'));
     }
     //provinces and cities
     public function getCities(Province $province)

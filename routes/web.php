@@ -109,12 +109,25 @@ Route::namespace('App')->group(function () {
     //user profile
     Route::prefix('user')->middleware('auth')->group(function () {
 
+        //profile
         Route::get('profile', [UserController::class, 'profile'])->name('app.user.profile');
         Route::put('profile/update/{user}', [UserController::class, 'profileUpdate'])->name('app.user.profile.update');
+
+        //address
         Route::get('addresses', [UserController::class, 'addresses'])->name('app.user.addresses');
         Route::post('addresses/store', [UserController::class, 'addressesStore'])->name('app.user.addresses.store');
         Route::get('addresses/{address}/change-status', [UserController::class, 'addressesChangeStatus'])->name('app.user.addresses.change-status');
         Route::delete('addresses/{address}/destroy', [UserController::class, 'addressesDestroy'])->name('app.user.addresses.destroy');
+    
+        //orders
+        Route::get('orders', [UserController::class, 'orders'])->name('app.user.ordres');
+
+        //favorites
+        Route::get('favorites', [UserController::class, 'favorites'])->name('app.user.favorites');
+        Route::get('favorites/{product}/toggle', [AppProductController::class, 'toggleFavorite'])->name('app.user.favorites.toggle');
+
+
+
     });
 
     //cities

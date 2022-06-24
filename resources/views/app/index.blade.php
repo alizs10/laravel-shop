@@ -41,9 +41,10 @@
         <div class="flex flex-row gap-x-2 overflow-x-scroll no-scrollbar">
 
             @foreach ($amazingSaleProducts as $amazingSale)
+           
                 <div class="flex flex-col gap-y-2 p-2 rounded-lg bg-white text-black">
                     <a href="{{ route('app.product.index', $amazingSale->product_id) }}" class="w-full">
-                        <img class="w-32"
+                        <img
                             src="{{ asset('storage\\' . $amazingSale->product->image['indexArray']['medium']) }}"
                             alt="">
                     </a>
@@ -60,7 +61,8 @@
 
                         <div class="flex flex-col items-center gax-y-2">
                             <button onclick="addToFavorites(this)"
-                                class="text-gray-700 w-10 h-10 rounded-lg text-xl hover-transition hover:bg-gray-200">
+                            data-url="{{ route('app.user.favorites.toggle', $amazingSale->product_id) }}"
+                                class="@if($amazingSale->product->isFavorite(auth()->user()->id)) text-red-500 @else text-gray-700 @endif w-10 h-10 rounded-lg text-xl hover-transition hover:bg-gray-200">
                                 <i class="fa-regular fa-heart"></i>
                             </button>
                             <button onclick="addToCart(this)"
@@ -141,6 +143,7 @@
 
                     <div class="flex flex-col items-center gax-y-2">
                         <button onclick="addToFavorites(this)"
+                        data-url="{{ route('app.user.favorites.toggle', $leastMarketableProduct->id) }}"
                             class="text-gray-700 w-10 h-10 rounded-lg text-xl hover-transition hover:bg-gray-200">
                             <i class="fa-regular fa-heart"></i>
                         </button>

@@ -1,6 +1,23 @@
 function addToFavorites(btn) {
-    $(btn).toggleClass('text-red-500 text-gray-700')
+
+    let url = $(btn).attr('data-url');
+    $.ajax({
+        type: "get",
+        url,
+        success: function (response) {
+            if (response.status) {
+                $(btn).removeClass('text-gray-700').addClass('text-red-500')
+            } else {
+                $(btn).removeClass('text-red-500').addClass('text-gray-700')
+            }
+        }
+    });
+
+
 }
+
+
+
 function addToCart(btn) {
 
     var url = $(btn).attr('data-url')

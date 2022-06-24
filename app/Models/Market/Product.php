@@ -2,6 +2,7 @@
 
 namespace App\Models\Market;
 
+use App\Models\User;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -86,5 +87,12 @@ class Product extends Model
     public function properties()
     {
         return $this->hasMany(PropertyValue::class, 'product_id');
+    }
+
+    public function isFavorite($user_id)
+    {
+        $user = User::find($user_id);
+        $is_favorite = $user->favorites()->where('product_id', $this->id)->first();
+        return !empty($is_favorite) ? true : false;
     }
 }

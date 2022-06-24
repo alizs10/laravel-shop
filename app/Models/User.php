@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Market\Favorite;
+use App\Models\Market\Product;
 use App\Models\Ticket\TicketAdmin;
 use App\Models\User\Role;
 use App\Models\User\RoleUser;
@@ -104,6 +106,11 @@ class User extends Authenticatable
     public function addresses()
     {
         return $this->hasMany(Address::class);
+    }
+
+    public function favorites()
+    {
+        return $this->belongsToMany(Product::class, 'favorites')->using(Favorite::class);
     }
 
 }

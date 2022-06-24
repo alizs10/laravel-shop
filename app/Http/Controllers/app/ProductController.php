@@ -8,6 +8,7 @@ use App\Models\CartItemSelectedAttribute;
 use App\Models\Comment;
 use App\Models\LikeUser;
 use App\Models\Market\Product;
+use GuzzleHttp\Handler\Proxy;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -31,7 +32,7 @@ class ProductController extends Controller
             }
         }
 
-     
+
         // product properties
         $product_attributes_select_type = [];
 
@@ -173,13 +174,13 @@ class ProductController extends Controller
             }
         }
 
-        
+
 
 
         $pay_price = 0;
         $discount_price = 0;
         foreach ($cart_items as $cart_item) {
-            
+
             $product_price = $cart_item->product->price;
 
             //check for price increase
@@ -205,6 +206,25 @@ class ProductController extends Controller
             'pay_price' => price_formater($pay_price),
             'discount_price' => price_formater($discount_price),
             'total_pay_price' => price_formater($total_pay_price)
+        ]);
+    }
+
+    public function toggleFavorite(Product $product)
+    {
+        $user = Auth::user();
+        $is_in_favorites = $user->favorites()->where('product_id', $product->id)->first();
+
+        if (!empty($is_in_favorites)) {
+            $user->favorites()->detach($product);
+            return response()->json([
+                'status' => false,
+            ]);
+        }
+
+        $user->favorites()->attach($product);
+
+        return response()->json([
+            'status' => true,
         ]);
     }
 }

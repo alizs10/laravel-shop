@@ -29,28 +29,28 @@
 
             <ul class="flex flex-col gap-4 xs:gap-y-4 py-3 mx-2 mt-2">
                 <li>
-                    <button class="flex items-center gap-3 py-2">
+                    <a href="{{ route('app.user.profile') }}" class="flex items-center gap-3 py-2">
                         <i class="fa-light fa-user text-sm xs:text-2xl"></i>
                         <span class="text-xs xs:text-base">
                             مشخصات کاربری
                         </span>
-                    </button>
+                    </a>
                 </li>
                 <li>
-                    <button class="flex items-center gap-3 py-2">
+                    <a href="{{ route('app.user.orders') }}" class="flex items-center gap-3 py-2">
                         <i class="fa-light fa-list-alt text-sm xs:text-2xl"></i>
                         <span class="text-xs xs:text-base">
                             لیست سفارشات
                         </span>
-                    </button>
+                    </a>
                 </li>
                 <li>
-                    <button class="flex items-center gap-3 py-2">
+                    <a href="{{ route('app.user.favorites') }}" class="flex items-center gap-3 py-2">
                         <i class="fa-light fa-heart text-sm xs:text-2xl"></i>
                         <span class="text-xs xs:text-base">
                             لیست علاقه مندی ها
                         </span>
-                    </button>
+                    </a>
                 </li>
                 <li>
                     <button onclick="profileBack()" class="flex items-center gap-3 py-2 text-red-500">
@@ -61,12 +61,12 @@
                     </button>
                 </li>
                 <li>
-                    <button class="flex items-center gap-3 py-2">
+                    <a href="{{ route('auth.logout') }}" class="flex items-center gap-3 py-2">
                         <i class="fa-light fa-right-from-bracket text-sm xs:text-2xl"></i>
                         <span class="text-xs xs:text-base">
                             خروج از حساب کاربری
                         </span>
-                    </button>
+                    </a>
                 </li>
             </ul>
 

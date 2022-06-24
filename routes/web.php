@@ -120,7 +120,7 @@ Route::namespace('App')->group(function () {
         Route::delete('addresses/{address}/destroy', [UserController::class, 'addressesDestroy'])->name('app.user.addresses.destroy');
     
         //orders
-        Route::get('orders', [UserController::class, 'orders'])->name('app.user.ordres');
+        Route::get('orders', [UserController::class, 'orders'])->name('app.user.orders');
 
         //favorites
         Route::get('favorites', [UserController::class, 'favorites'])->name('app.user.favorites');

@@ -37,36 +37,36 @@
                     </button>
                 </li>
                 <li>
-                    <button class="flex items-center gap-3 py-2">
+                    <a href="{{ route('app.user.orders') }}" class="flex items-center gap-3 py-2">
                         <i class="fa-light fa-list-alt text-sm xs:text-2xl"></i>
                         <span class="text-xs xs:text-base">
                             لیست سفارشات
                         </span>
-                    </button>
+                    </a>
                 </li>
                 <li>
-                    <button class="flex items-center gap-3 py-2">
+                    <a href="{{ route('app.user.favorites') }}" class="flex items-center gap-3 py-2">
                         <i class="fa-light fa-heart text-sm xs:text-2xl"></i>
                         <span class="text-xs xs:text-base">
                             لیست علاقه مندی ها
                         </span>
-                    </button>
+                    </a>
                 </li>
                 <li>
-                    <button class="flex items-center gap-3 py-2">
+                    <a href="{{ route('app.user.addresses') }}" class="flex items-center gap-3 py-2">
                         <i class="fa-light fa-map-location text-sm xs:text-2xl"></i>
                         <span class="text-xs xs:text-base">
                             آدرس های شما
                         </span>
-                    </button>
+                    </a>
                 </li>
                 <li>
-                    <button class="flex items-center gap-3 py-2">
+                    <a href="{{ route('auth.logout') }}" class="flex items-center gap-3 py-2">
                         <i class="fa-light fa-right-from-bracket text-sm xs:text-2xl"></i>
                         <span class="text-xs xs:text-base">
                             خروج از حساب کاربری
                         </span>
-                    </button>
+                    </a>
                 </li>
             </ul>
 

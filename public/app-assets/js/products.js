@@ -8,7 +8,16 @@ function addToFavorites(btn) {
             if (response.status) {
                 $(btn).removeClass('text-gray-700').addClass('text-red-500')
             } else {
+                if (response.redirect) {
+                    window.location(response.url)
+                }
                 $(btn).removeClass('text-red-500').addClass('text-gray-700')
+            }
+        },
+        error: function (response) {
+            if(response.status == 401)
+            {
+                window.location = window.location.origin + '/login';
             }
         }
     });

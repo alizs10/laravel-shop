@@ -51,18 +51,18 @@
                     <div class="flex justify-between items-center">
                         <span class="flex flex-col gap-y-1 text-xs">
                             <span class="flex gap-x-2 items-center">
-                                <span class="line-through">{{ $amazingSale->product->price }}</span>
+                                <span class="line-through">{{ price_formater($amazingSale->product->price) }}</span>
                                 <div class="h-7 w-7 rounded-lg bg-red-600 text-white flex-center text-xs">
-                                    {{ $amazingSale->percentage }}%</div>
+                                    {{ e2p_numbers($amazingSale->percentage) }}%</div>
                             </span>
-                            <span class="text-red-500 font-bold">{{ $amazingSale->price }}</span>
+                            <span class="text-red-500 font-bold">{{ price_formater($amazingSale->price) }}</span>
                             <span class="text-red-500 font-bold">تومان</span>
                         </span>
 
                         <div class="flex flex-col items-center gax-y-2">
                             <button onclick="addToFavorites(this)"
                             data-url="{{ route('app.user.favorites.toggle', $amazingSale->product_id) }}"
-                                class="@if($amazingSale->product->isFavorite(auth()->user()->id)) text-red-500 @else text-gray-700 @endif w-10 h-10 rounded-lg text-xl hover-transition hover:bg-gray-200">
+                                class="@if(auth()->user() && $amazingSale->product->isFavorite(auth()->user()->id)) text-red-500 @else text-gray-700 @endif w-10 h-10 rounded-lg text-xl hover-transition hover:bg-gray-200">
                                 <i class="fa-regular fa-heart"></i>
                             </button>
                             <button onclick="addToCart(this)"

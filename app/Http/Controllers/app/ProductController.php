@@ -212,6 +212,13 @@ class ProductController extends Controller
     public function toggleFavorite(Product $product)
     {
         $user = Auth::user();
+        if (!$user) {
+            return response()->json([
+                'status' => false,
+                'redirect' => true,
+                'url' => route('app.home')
+            ]);
+        }
         $is_in_favorites = $user->favorites()->where('product_id', $product->id)->first();
 
         if (!empty($is_in_favorites)) {

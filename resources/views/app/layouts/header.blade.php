@@ -9,8 +9,8 @@
             </button>
         </div>
 
-        <span
-            class="col-span-6 md:col-span-8 lg:col-span-9 text-red-500 text-2xl font-bold text-center md:text-right">لاراول</span>
+        <a href="{{ route('app.home') }}"
+            class="col-span-6 md:col-span-8 lg:col-span-9 text-red-500 text-2xl font-bold text-center md:text-right">لاراول</a>
 
 
 
@@ -100,24 +100,29 @@
                         </span>
                         <div
                             class="hidden flex-col absolute top-12 left-0 w-48 bg-gray-100 dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden">
-                            <a href=""
+                            <a href="{{ route('app.user.profile') }}"
                                 class="text-base flex gap-x-1 items-center py-2 hover-transition hover:bg-gray-200 dark:hover:bg-gray-700">
-                                <i class="fa-solid fa-square-user mr-2"></i>
+                                <i class="fa-light fa-square-user mr-2"></i>
                                 <span class="text-xs">پروفایل کاربری</span>
                             </a>
-                            <a href=""
+                            <a href="{{ route('app.user.orders') }}"
                                 class="text-base flex gap-x-1 items-center py-2 hover-transition hover:bg-gray-200 dark:hover:bg-gray-700">
-                                <i class="fa-solid fa-square-list mr-2"></i>
+                                <i class="fa-light fa-square-list mr-2"></i>
                                 <span class="text-xs">لیست سفارشات</span>
                             </a>
-                            <a href=""
+                            <a href="{{ route('app.user.favorites') }}"
                                 class="text-base flex gap-x-1 items-center py-2 hover-transition hover:bg-gray-200 dark:hover:bg-gray-700">
-                                <i class="fa-solid fa-heart mr-2"></i>
+                                <i class="fa-light fa-heart mr-2"></i>
                                 <span class="text-xs">علاقه مندی ها</span>
+                            </a>
+                            <a href="{{ route('app.user.addresses') }}"
+                                class="text-base flex gap-x-1 items-center py-2 hover-transition hover:bg-gray-200 dark:hover:bg-gray-700">
+                                <i class="fa-light fa-map-location mr-2"></i>
+                                <span class="text-xs">آدرس های شما</span>
                             </a>
                             <a href="{{ route('auth.logout') }}"
                                 class="text-base flex gap-x-1 items-center py-2 hover-transition hover:bg-gray-200 dark:hover:bg-gray-700">
-                                <i class="fa-solid fa-right-from-bracket mr-2"></i>
+                                <i class="fa-light fa-right-from-bracket mr-2"></i>
                                 <span class="text-xs">خروج از حساب کاربری</span>
                             </a>
                         </div>

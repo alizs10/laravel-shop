@@ -48,7 +48,7 @@
                     <a href="{{ route('app.user.favorites') }}" class="flex items-center gap-3 py-2">
                         <i class="fa-light fa-heart text-sm xs:text-2xl"></i>
                         <span class="text-xs xs:text-base">
-                            لیست علاقه مندی ها
+                            علاقه مندی ها
                         </span>
                     </a>
                 </li>

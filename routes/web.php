@@ -74,6 +74,8 @@ Route::namespace('Auth')->group(function () {
     Route::post('/set-passwords', [AuthController::class, 'setPasswords'])->name('auth.set-passwords');
     Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
     Route::get('/forgot-password/{email}', [AuthController::class, 'forgotPassword'])->name('auth.forgot-password');
+    Route::get('/change-password', [AuthController::class, 'changePasswordForm'])->name('auth.change-password-form')->middleware('auth');
+    Route::post('/change-password', [AuthController::class, 'changePassword'])->name('auth.change-password')->middleware('auth');
 
     Route::get('/send-verification-code', [AuthController::class, 'sendVCodeAgain'])->name('auth.send-verification-code');
 

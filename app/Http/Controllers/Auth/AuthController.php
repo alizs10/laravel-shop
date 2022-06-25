@@ -314,6 +314,40 @@ class AuthController extends Controller
         ]);
     }
 
+    public function changePasswordForm()
+    {
+        return view('auth.change-password-form');
+    }
+
+    public function changePassword(Request $request)
+    {
+        $request->validate([
+            'old_password' => 'required',
+            'password' => [
+                'required', 'confirmed', Password::min(8)
+                    ->letters()
+                    ->mixedCase()
+                    ->numbers()
+                    ->symbols()
+            ],
+        ]);
+        $user = Auth::user();
+
+        if(!Hash::check($request->old_password, $user->password))
+        {
+            return redirect()->route('auth.change-password-form')->withErrors([
+                'old_password' => 'کلمه عبور فعلی شما صحیح نمی باشد'
+            ]);
+        }
+
+        $user->update([
+            'password' => Hash::make($request->password)
+        ]);
+
+
+        return redirect()->route('app.user.profile');
+    }
+
 
     // login using google
 

@@ -116,7 +116,7 @@
                 <div
                     class="col-span-2 md:col-span-1 flex justify-between text-xs border-b-2 border-gray-300 dark:border-gray-700 p-3">
                     <span>کلمه عبور:</span>
-                    <a href="" class="text-blue-600 dark:text-blue-500">تغییر کلمه عبور</a>
+                    <a href="{{ route('auth.change-password-form') }}" class="text-blue-600 dark:text-blue-500">تغییر کلمه عبور</a>
                 </div>
 
                 <div class="col-span-2 mt-4">

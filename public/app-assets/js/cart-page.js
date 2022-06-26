@@ -20,18 +20,44 @@ function p2eNumbers(number) {
     return number;
 }
 
-function cartPlus(product_id) {
+function priceFormatter(price) {
+    let formated_price = parseInt(price).toLocaleString('en-US')
+    return e2pNumbers(formated_price);
+ }
+ 
+
+function cartPlus(btn ,product_id) {
     let input = $('#cart-product-' + product_id);
     let quantity = parseInt(p2eNumbers(input.val()));
-    quantity++;
-    input.val(e2pNumbers(quantity));
+    let url = $(btn).attr('data-url');
+    console.log(url);
+    $.ajax({
+        type: "get",
+        url,
+        success: function (response) {
+            input.val(e2pNumbers(response.number));
+            $('#pay_price').html(`${priceFormatter(response.pay_price)} تومان`)
+            $('#discount_price').html(`${priceFormatter(response.discount_price)} تومان`)
+            $('#total_pay_price').html(`${priceFormatter(response.total_pay_price)} تومان`)
+        },
+    });
 
 }
 
-function cartMinus(product_id) {
+function cartMinus(btn ,product_id) {
     let input = $('#cart-product-' + product_id);
     let quantity = parseInt(p2eNumbers(input.val()));
-    quantity = quantity <= 1 ? 1 : quantity - 1;
-    input.val(e2pNumbers(quantity));
+    let url = $(btn).attr('data-url');
+    $.ajax({
+        type: "get",
+        url,
+        success: function (response) {
+            input.val(e2pNumbers(response.number));
+            $('#pay_price').html(`${priceFormatter(response.pay_price)} تومان`)
+            $('#discount_price').html(`${priceFormatter(response.discount_price)} تومان`)
+            $('#total_pay_price').html(`${priceFormatter(response.total_pay_price)} تومان`)
+        },
+    });
+
 
 }

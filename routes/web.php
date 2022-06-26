@@ -107,6 +107,9 @@ Route::namespace('App')->group(function () {
     //cart
     Route::prefix('cart')->group(function () {
         Route::get('/', [CartController::class, 'index'])->name('app.cart.index');
+        Route::get('/increment/{cart_item}', [CartController::class, 'increaseQuantity'])->name('app.cart.increment');
+        Route::get('/decrement/{cart_item}', [CartController::class, 'decreaseQuantity'])->name('app.cart.decrement');
+        Route::get('/destroy/{cart_item}', [CartController::class, 'destroy'])->name('app.cart.destroy');
     });
 
     //search-page

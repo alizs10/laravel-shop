@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\app;
 
 use App\Http\Controllers\Controller;
+use App\Http\Services\CartServices;
 use App\Models\CartItem;
 use App\Models\Market\ProductCategory;
 use Illuminate\Http\Request;
@@ -53,5 +54,84 @@ class CartController extends Controller
 
 
         return view('app.cart', compact('related_products'));
+    }
+
+
+    public function increaseQuantity(CartItem $cart_item, CartServices $cart_services)
+    {
+        $user = Auth::user();
+        
+        if (empty($user)) {
+            if ($cart_item->ip_address != request()->ip())
+            {
+                return false;
+            }
+        } else {
+            if ($cart_item->user_id != $user->id)
+            {
+                return false;
+            }
+        }
+
+        $cart_item->increment('number');
+
+        $cart_calculations = $cart_services->calculate();
+        return response()->json([
+            'number' => $cart_item->number,
+            'pay_price' => $cart_calculations['pay_price'],
+            'discount_price' => $cart_calculations['discount_price'],
+            'total_pay_price' => $cart_calculations['total_pay_price'],
+        ]);
+    }
+
+    public function decreaseQuantity(CartItem $cart_item, CartServices $cart_services)
+    {
+        $user = Auth::user();
+        
+        if (empty($user)) {
+            if ($cart_item->ip_address != request()->ip())
+            {
+                return false;
+            }
+        } else {
+            if ($cart_item->user_id != $user->id)
+            {
+                return false;
+            }
+        }
+
+        if ($cart_item->number > 1) {
+            $cart_item->decrement('number');
+        }
+
+        $cart_calculations = $cart_services->calculate();
+        return response()->json([
+            'number' => $cart_item->number,
+            'pay_price' => $cart_calculations['pay_price'],
+            'discount_price' => $cart_calculations['discount_price'],
+            'total_pay_price' => $cart_calculations['total_pay_price'],
+        ]);
+    }
+
+
+    public function destroy(CartItem $cart_item)
+    {
+        $user = Auth::user();
+        
+        if (empty($user)) {
+            if ($cart_item->ip_address != request()->ip())
+            {
+                return false;
+            }
+        } else {
+            if ($cart_item->user_id != $user->id)
+            {
+                return false;
+            }
+        }
+
+        $cart_item->delete();
+
+        return redirect()->route('app.cart.index');
     }
 }

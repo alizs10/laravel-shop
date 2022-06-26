@@ -41,7 +41,7 @@ function sidebarDropdownActiver($base, array $routes)
 
 function e2p_numbers($str)
 {
-    $persian_numbers = array('٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩');
+    $persian_numbers = array('‍۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹');
     $english_numbers = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
     return str_replace($english_numbers, $persian_numbers, $str);
 }
@@ -49,7 +49,7 @@ function e2p_numbers($str)
 function p2e_nuumbers($str)
 {
     $english_numbers = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
-    $persian_numbers = array('٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩');
+    $persian_numbers = array('‍۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹');
     return str_replace($persian_numbers, $english_numbers, $str);
 }
 

@@ -36,6 +36,7 @@ use App\Http\Controllers\Admin\User\AdminUserController;
 use App\Http\Controllers\Admin\User\CustomerController;
 use App\Http\Controllers\Admin\User\PermissionController;
 use App\Http\Controllers\Admin\User\RoleController;
+use App\Http\Controllers\app\CartController;
 use App\Http\Controllers\app\HomeController;
 use App\Http\Controllers\app\ProductController as AppProductController;
 use App\Http\Controllers\app\SearchController;
@@ -101,9 +102,12 @@ Route::namespace('App')->group(function () {
     Route::get('/product/{product}', [AppProductController::class, 'index'])->name('app.product.index');
     Route::get('/product/{comment}/like', [AppProductController::class, 'likeComment'])->name('app.product.like-comment');
     Route::post('/product/{product}/send-comment', [AppProductController::class, 'sendComment'])->name('app.product.send-comment');
+    Route::get('/product/{product}/add-to-cart', [AppProductController::class, 'addToCart'])->name('app.product.add-to-cart');
 
     //cart
-    Route::get('/product/{product}/add-to-cart', [AppProductController::class, 'addToCart'])->name('app.product.add-to-cart');
+    Route::prefix('cart')->group(function () {
+        Route::get('/', [CartController::class, 'index'])->name('app.cart.index');
+    });
 
     //search-page
     Route::get('/search/{search}', [SearchController::class, 'index'])->name('app.search.index');
@@ -120,22 +124,17 @@ Route::namespace('App')->group(function () {
         Route::post('addresses/store', [UserController::class, 'addressesStore'])->name('app.user.addresses.store');
         Route::get('addresses/{address}/change-status', [UserController::class, 'addressesChangeStatus'])->name('app.user.addresses.change-status');
         Route::delete('addresses/{address}/destroy', [UserController::class, 'addressesDestroy'])->name('app.user.addresses.destroy');
-    
+
         //orders
         Route::get('orders', [UserController::class, 'orders'])->name('app.user.orders');
 
         //favorites
         Route::get('favorites', [UserController::class, 'favorites'])->name('app.user.favorites');
         Route::get('favorites/{product}/toggle', [AppProductController::class, 'toggleFavorite'])->name('app.user.favorites.toggle');
-
-
-
     });
 
     //cities
     Route::get('provinces/{province}/cities', [UserController::class, 'getCities'])->name('app.province.get-cities')->middleware('auth');
-
-
 });
 
 

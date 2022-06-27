@@ -16,7 +16,7 @@
 
 
         <div
-            class="@if (count($cart_items) > 0)col-span-9 md:col-span-6 lg:col-span-6 @else col-span-9 @endif lg:h-fit flex flex-col gap-2 p-3 bg-gray-100 dark:bg-gray-800 rounded-lg">
+            class="@if (count($cart_items) > 0) col-span-9 md:col-span-6 lg:col-span-6 @else col-span-9 @endif lg:h-fit flex flex-col gap-2 p-3 bg-gray-100 dark:bg-gray-800 rounded-lg">
             <span class="flex items-center gap-3">
                 <span class="text-sm xs:text-base text-gray-500 dark:text-gray-400">
                     سبد خرید شما
@@ -24,9 +24,9 @@
 
                 <span class="text-xs text-red-500">
                     @if (count($cart_items) > 0)
-                    ({{ e2p_numbers(count($cart_items)) }} کالا)
-                    @else 
-                    (خالی)
+                        ({{ e2p_numbers(count($cart_items)) }} کالا)
+                    @else
+                        (خالی)
                     @endif
                 </span>
             </span>
@@ -71,24 +71,19 @@
 
                             <div class="col-span-5 xs:col-span-6 lg:col-span-7 flex flex-col gap-2">
                                 <span class="text-xs xs:text-sm text-bold">{{ $cart_item->product->name }}</span>
-                                <span
-                                    class="mt-2 flex gap-x-2 items-center text-xxxs xs:text-xs lg:text-xs text-gray-500 dark:text-gray-400">
-                                    <span class="flex gap-x-1 items-center">
-                                        <i class="fa-regular fa-circle-small text-xxs xs:text-sm lg:text-base"></i>
-                                        حافظه داخلی:
-                                    </span>
 
-                                    <span>512 گیگابایت</span>
-                                </span>
-                                <span
-                                    class="flex gap-x-2 items-center text-xxxs xs:text-xs lg:text-xs text-gray-500 dark:text-gray-400">
-                                    <span class="flex gap-x-1 items-center">
-                                        <i class="fa-regular fa-circle-small text-xxs xs:text-sm lg:text-base"></i>
-                                        مقدار رم:
-                                    </span>
+                                @foreach ($cart_item->cartItemSelectedAttributes as $selected_attribute)
+                                    <span
+                                        class="mt-2 flex gap-x-2 items-center text-xxxs xs:text-xs lg:text-xs text-gray-500 dark:text-gray-400">
+                                        <span class="flex gap-x-1 items-center">
+                                            <i class="fa-regular fa-circle-small text-xxs xs:text-sm lg:text-base"></i>
+                                            {{ $selected_attribute->attribute->name }}:
+                                        </span>
 
-                                    <span>12 گیگابایت</span>
-                                </span>
+                                        <span>{{ json_decode($selected_attribute->value)->value }}</span>
+                                    </span>
+                                @endforeach
+
                                 <span
                                     class="flex gap-x-2 items-center text-gray-500 dark:text-gray-400 text-xxxs xs:text-xs lg:text-xs">
                                     <span class="flex gap-x-1 items-center">
@@ -181,44 +176,44 @@
 
         </div>
         @if (count($cart_items) > 0)
-        <div
-            class="col-span-9 md:col-span-3 lg:col-span-3 text-xs md:text-xxs lg:text-xs flex flex-col gap-2 h-fit p-3 bg-gray-100 dark:bg-gray-800 rounded-lg">
-
-            @php
-                $pay_price = 0;
-                $discount_price = 0;
-                foreach ($cart_items as $cart_item) {
-                    $pay_price += $cart_item->product->price * $cart_item->number;
-                    if (!empty($cart_item->product->amazingSale)) {
-                        $discount_price = +($cart_item->product->amazingSale->first()->percentage * $cart_item->product->price * $cart_item->number) / 100;
-                    }
-                }
-                
-                $total_pay_price = $pay_price - $discount_price;
-            @endphp
-            <span class="flex justify-between items-center">
-                <span>جمع سبد خرید شما</span>
-                <span id="pay_price">{{ price_formater($pay_price) }} تومان</span>
-            </span>
-            <span
-                class="text-red-500 flex justify-between items-center md:pb-2 md:border-b-2 border-gray-200 dark:border-gray-700">
-                <span>سود شما از این خرید</span>
-                <span id="discount_price">{{ price_formater($discount_price) }} تومان</span>
-            </span>
-
             <div
-                class="fixed drop-shadow-lg right-0 bottom-0 left-0 z-30 md:z-0 flex justify-between items-center md:block md:static bg-gray-200 dark:bg-gray-800 md:bg-transparent p-3 md:p-0">
+                class="col-span-9 md:col-span-3 lg:col-span-3 text-xs md:text-xxs lg:text-xs flex flex-col gap-2 h-fit p-3 bg-gray-100 dark:bg-gray-800 rounded-lg">
+
+                @php
+                    $pay_price = 0;
+                    $discount_price = 0;
+                    foreach ($cart_items as $cart_item) {
+                        $pay_price += $cart_item->product->price * $cart_item->number;
+                        if (!empty($cart_item->product->amazingSale)) {
+                            $discount_price = +($cart_item->product->amazingSale->first()->percentage * $cart_item->product->price * $cart_item->number) / 100;
+                        }
+                    }
+                    
+                    $total_pay_price = $pay_price - $discount_price;
+                @endphp
+                <span class="flex justify-between items-center">
+                    <span>جمع سبد خرید شما</span>
+                    <span id="pay_price">{{ price_formater($pay_price) }} تومان</span>
+                </span>
                 <span
-                    class="flex flex-col md:flex-row gap-2 md:justify-between items-center text-xxs xs:text-xs md:text-xxs lg:text-xs">
-                    <span>مبلغ پرداختی</span>
-                    <span id="total_pay_price">{{ price_formater($total_pay_price) }} تومان</span>
+                    class="text-red-500 flex justify-between items-center md:pb-2 md:border-b-2 border-gray-200 dark:border-gray-700">
+                    <span>سود شما از این خرید</span>
+                    <span id="discount_price">{{ price_formater($discount_price) }} تومان</span>
                 </span>
 
-                <button class="md:w-full px-4 py-2 bg-red-500 text-xxs xs:text-sm rounded-lg mt-2 text-white">ثبت
-                    سفارش و ادامه</button>
-            </div>
+                <div
+                    class="fixed drop-shadow-lg right-0 bottom-0 left-0 z-30 md:z-0 flex justify-between items-center md:block md:static bg-gray-200 dark:bg-gray-800 md:bg-transparent p-3 md:p-0">
+                    <span
+                        class="flex flex-col md:flex-row gap-2 md:justify-between items-center text-xxs xs:text-xs md:text-xxs lg:text-xs">
+                        <span>مبلغ پرداختی</span>
+                        <span id="total_pay_price">{{ price_formater($total_pay_price) }} تومان</span>
+                    </span>
 
-        </div>
+                    <button class="md:w-full px-4 py-2 bg-red-500 text-xxs xs:text-sm rounded-lg mt-2 text-white">ثبت
+                        سفارش و ادامه</button>
+                </div>
+
+            </div>
         @endif
     </section>
     <!-- cart ends -->

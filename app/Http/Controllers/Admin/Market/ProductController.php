@@ -65,14 +65,18 @@ class ProductController extends Controller
 
             $meta_keys = $request->meta_key;
             $meta_values = $request->meta_value;
+
             $metas = array_combine($meta_keys, $meta_values);
+
             if (count($metas) > 0) {
                 foreach ($metas as $key => $value) {
-                    ProductMeta::create([
-                        'meta_key' => $key,
-                        'meta_value' => $value,
-                        'product_id' => $product->id,
-                    ]);
+                    if ($value !== null) {
+                        ProductMeta::create([
+                            'meta_key' => $key,
+                            'meta_value' => $value,
+                            'product_id' => $product->id,
+                        ]);
+                    }
                 }
             }
         });
@@ -117,7 +121,7 @@ class ProductController extends Controller
     public function update(ProductRequest $request, Product $product, ImageService $imageService)
     {
 
-        
+
         $inputs = $request->all();
         $inputs['published_at'] = date('Y-m-d', intval(substr($request->published_at, 0, 10)));
         if ($request->hasFile('image')) {
@@ -140,22 +144,20 @@ class ProductController extends Controller
         $oldMetas = $product->metas->toArray();
         $newMetas = $metas;
 
-        
+
         foreach ($newMetas as $key => $value) {
-            
+
             foreach ($oldMetas as $num => $oldMeta) {
-                
+
                 if ($oldMeta['meta_key'] == $key && $oldMeta['meta_value'] == $value) {
-                    print_r($key.'-'.$num.'<br>');
+                    print_r($key . '-' . $num . '<br>');
                     unset($oldMetas[$num]);
                     unset($newMetas[$key]);
                 }
-                
             }
-            
         }
 
-       
+
 
         DB::transaction(function () use ($inputs, $product, $newMetas, $oldMetas) {
 

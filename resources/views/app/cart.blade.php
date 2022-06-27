@@ -183,9 +183,18 @@
                     $pay_price = 0;
                     $discount_price = 0;
                     foreach ($cart_items as $cart_item) {
-                        $pay_price += $cart_item->product->price * $cart_item->number;
+                        $product_price = $cart_item->product->price;
+
+                        if (!empty($cart_item->cartItemSelectedAttributes)) {
+                            foreach ($cart_item->cartItemSelectedAttributes as $selected_attribute) {
+                                $product_price += json_decode($selected_attribute->value)->price_increase;
+                            }
+                        }
+
+                        $pay_price += $product_price * $cart_item->number;
+
                         if (!empty($cart_item->product->amazingSale)) {
-                            $discount_price = +($cart_item->product->amazingSale->first()->percentage * $cart_item->product->price * $cart_item->number) / 100;
+                            $discount_price = +($cart_item->product->amazingSale->first()->percentage * $product_price * $cart_item->number) / 100;
                         }
                     }
                     
@@ -238,15 +247,23 @@
                                 alt="">
                         </a>
                         <div class="flex justify-between items-center">
+                            @if (!is_null($relatedProduct->amazingSale))
                             <span class="flex flex-col gap-y-1 text-xs">
                                 <span class="flex gap-x-2 items-center">
                                     <span class="line-through">{{ $relatedProduct->price }}</span>
                                     <div class="h-7 w-7 rounded-lg bg-red-600 text-white flex-center text-xs">
-                                        {{ $relatedProduct->percentage }}%</div>
+                                        {{ $relatedProduct->amazingSale->percentage }}%</div>
                                 </span>
-                                <span class="text-red-500 font-bold">{{ $relatedProduct->price }}</span>
+                                <span
+                                    class="text-red-500 font-bold">{{ $relatedProduct->amazingSale->price }}</span>
                                 <span class="text-red-500 font-bold">تومان</span>
                             </span>
+                        @else
+                            <span class="flex flex-col gap-y-1 text-xs">
+                                <span>{{ $relatedProduct->price }}</span>
+                                <span class="font-bold">تومان</span>
+                            </span>
+                        @endif
 
                             <div class="flex flex-col items-center gax-y-2">
                                 <button onclick="addToFavorites(this)"

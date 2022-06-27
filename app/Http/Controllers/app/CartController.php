@@ -47,7 +47,7 @@ class CartController extends Controller
           
             if (array_search($cart_item->product_id, $related_products_ids) !== false) {
                 $related_products = $related_products->reject(function ($value, $key) use($cart_item) {   
-                    return $value->id != $cart_item->product_id;
+                    return $value->id == $cart_item->product_id;
                 });
             }
         }

@@ -42,7 +42,7 @@
         <div class="grid grid-cols-12 gap-4">
 
             <!-- product images slider starts -->
-            <section class="col-span-12 md:col-span-4 grid grid-cols-12 gap-2">
+            <section class="col-span-12 h-fit md:col-span-4 grid grid-cols-12 gap-2">
 
                 <section class="relative z-0 col-span-12 bg-white rounded-lg ltr overflow-hidden">
 
@@ -164,7 +164,7 @@
                     <span class="mt-2 flex gap-x-2 items-center text-sm font-bold text-red-500">
 
                         <span class="flex gap-x-1 items-center">
-                            <i class="fa-regular fa-check-double text-lg"></i>
+                            <i class="fa-regular fa-xmark text-lg"></i>
                         </span>
 
                         <span>نا موجود</span>
@@ -184,13 +184,13 @@
                         </span>
 
                         <span class="flex flex-col gap-2">
-                            <span class="flex gap-2">
-                                <span class="line-through">{{ price_formater($product->price) }}</span>
-                                @if (!empty($product->amazingSale))
+                            @if (!empty($product->amazingSale))
+                                <span class="flex gap-2">
+                                    <span class="line-through">{{ price_formater($product->price) }}</span>
                                     <span
                                         class="flex-center rounded-full h-7 w-7 bg-red-500 text-white text-xs">{{ e2p_numbers($product->amazingSale->percentage) }}٪</span>
-                                @endif
-                            </span>
+                                </span>
+                            @endif
                             @if (!empty($product->amazingSale))
                                 @php
                                     $ultimate_price = $product->price - ($product->amazingSale->percentage * $product->price) / 100;
@@ -203,12 +203,13 @@
                     </span>
 
                     @if ($product->marketable_number == 0)
-                        <button class="w-full py-2 text-center rounded-lg bg-gray-500 text-white text-sm flex gap-2">
+                        <button class="w-full py-2 flex-center rounded-lg bg-gray-500 text-white text-sm flex gap-2">
                             <i class="fa-regular fa-bell"></i>
                             موجود شد اطلاع بده!
                         </button>
                     @else
-                        <button id="product-add-to-cart-btn" onclick="addToCart(this)" data-url="{{ route('app.product.add-to-cart', $product->id) }}"
+                        <button id="product-add-to-cart-btn" onclick="addToCart(this)"
+                            data-url="{{ route('app.product.add-to-cart', $product->id) }}"
                             class="block py-2 text-center rounded-lg bg-red-500 text-white text-sm">
 
                             @if ($cart_items->count() > 0)
@@ -228,7 +229,6 @@
                                         <i class="fa-solid fa-check"></i>
                                         <span>موجود در سبد شما</span>
                                     </span>
-                                  
                                 @else
                                     <span class="flex-center gap-2">
                                         <i class="fa-solid fa-plus"></i>
@@ -272,19 +272,26 @@
                     <a href="{{ route('app.product.index', $relatedProduct->id) }}"
                         class="flex flex-col gap-y-2 p-2 rounded-lg bg-white text-black">
                         <img class="w-32"
-                            src="{{ asset('storage\\' . $relatedProduct->product->image['indexArray']['medium']) }}"
+                            src="{{ asset('storage\\' . $relatedProduct->image['indexArray']['medium']) }}"
                             alt="">
                         <div class="flex justify-between items-center">
-                            <span class="flex flex-col gap-y-1 text-xs">
-                                <span class="flex gap-x-2 items-center">
-                                    <span class="line-through">{{ $relatedProduct->product->price }}</span>
-                                    <div class="h-7 w-7 rounded-lg bg-red-600 text-white flex-center text-xs">
-                                        {{ $relatedProduct->percentage }}%</div>
+                            @if (!is_null($relatedProduct->amazingSale))
+                                <span class="flex flex-col gap-y-1 text-xs">
+                                    <span class="flex gap-x-2 items-center">
+                                        <span class="line-through">{{ $relatedProduct->price }}</span>
+                                        <div class="h-7 w-7 rounded-lg bg-red-600 text-white flex-center text-xs">
+                                            {{ $relatedProduct->amazingSale->percentage }}%</div>
+                                    </span>
+                                    <span
+                                        class="text-red-500 font-bold">{{ $relatedProduct->amazingSale->price }}</span>
+                                    <span class="text-red-500 font-bold">تومان</span>
                                 </span>
-                                <span class="text-red-500 font-bold">{{ $relatedProduct->price }}</span>
-                                <span class="text-red-500 font-bold">تومان</span>
-                            </span>
-
+                            @else
+                                <span class="flex flex-col gap-y-1 text-xs">
+                                    <span>{{ $relatedProduct->price }}</span>
+                                    <span class="font-bold">تومان</span>
+                                </span>
+                            @endif
                             <div class="flex flex-col items-center gax-y-2">
                                 <button onclick="addToFavorites(this)"
                                     class="text-gray-700 w-10 h-10 rounded-lg text-xl hover-transition hover:bg-gray-200">

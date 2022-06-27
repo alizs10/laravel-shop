@@ -88,8 +88,7 @@ class ImageToolsService
 
     public function getFinalImageDirectory()
     {
-        return $this->disk === 'public' ? storage_path('app\public\\' . $this->finalImageDirectory) : storage_path($this->finalImageDirectory);
-
+        return $this->disk === 'public' ? storage_path('app' . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . $this->finalImageDirectory) : storage_path($this->finalImageDirectory);
     }
 
 
@@ -113,10 +112,8 @@ class ImageToolsService
     {
 
         if (!file_exists($imageDirectory)) {
-            mkdir($imageDirectory, 666, true);
+            mkdir($imageDirectory, 0755, true);
         }
-
-
     }
 
     public function getImageAddress()
@@ -151,6 +148,4 @@ class ImageToolsService
 
         $this->checkDirectory($this->getFinalImageDirectory());
     }
-
-
 }

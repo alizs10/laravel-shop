@@ -20,7 +20,7 @@ class ImageService extends ImageToolsService
         $this->provider();
 
         //save image
-        $result = Image::make($image->getRealPath())->save(storage_path('app\public\\'.$this->getImageAddress()), null, $this->getImageFormat());
+        $result = Image::make($image->getRealPath())->save(storage_path('app\public\\' . $this->getImageAddress()), null, $this->getImageFormat());
         return $result ? $this->getImageAddress() : false;
     }
 
@@ -37,7 +37,7 @@ class ImageService extends ImageToolsService
         $this->provider();
 
         //save image
-        $result = Image::make($image->getRealPath())->fit($width, $height)->save(storage_path('app\public\\'.$this->getImageAddress()), null, $this->getImageFormat());
+        $result = Image::make($image->getRealPath())->fit($width, $height)->save(storage_path('app\public\\' . $this->getImageAddress()), null, $this->getImageFormat());
         return $result ? $this->getImageAddress() : false;
     }
 
@@ -74,7 +74,7 @@ class ImageService extends ImageToolsService
             $this->provider();
 
             //save image
-            $result = Image::make($image->getRealPath())->fit($imageSize['width'], $imageSize['height'])->save(storage_path('app\public\\'.$this->getImageAddress()), null, $this->getImageFormat());
+            $result = Image::make($image->getRealPath())->fit($imageSize['width'], $imageSize['height'])->save(storage_path('app' . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . $this->getImageAddress()), null, $this->getImageFormat());
 
             if ($result) {
                 $indexArray[$sizeAlias] = $this->getImageAddress();
@@ -92,19 +92,18 @@ class ImageService extends ImageToolsService
 
     public function deleteImage($imagePath)
     {
-        $path = storage_path('app\public\\'.$imagePath);
-        
+        $path = storage_path('app\public\\' . $imagePath);
+
         if (file_exists($path)) {
 
             unlink($path);
-            
         }
     }
 
 
     public function deleteIndex($images)
     {
-        $directory = storage_path('app\public\\'.$images['directory']);
+        $directory = storage_path('app\public\\' . $images['directory']);
         $this->deleteDirectoryAndFiles($directory);
     }
 
@@ -117,7 +116,7 @@ class ImageService extends ImageToolsService
 
         $files = glob($directory . DIRECTORY_SEPARATOR . '*', GLOB_MARK);
         foreach ($files as $file) {
-            
+
             if (is_dir($file)) {
                 $this->deleteDirectoryAndFiles($file);
             } else {

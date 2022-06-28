@@ -117,6 +117,8 @@ Route::namespace('App')->group(function () {
     //shipping
     Route::prefix('shipping')->middleware('auth')->group(function () {
         Route::get('/{order}', [ShippingController::class, 'index'])->name('app.shipping.index');
+        Route::get('/{order}/select-address/{address}', [ShippingController::class, 'selectAddress'])->name('app.shipping.select-address');
+        Route::get('/{order}/select-delivery/{delivery}', [ShippingController::class, 'selectDelivery'])->name('app.shipping.select-delivery');
      
     });
     //search-page

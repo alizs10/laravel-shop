@@ -67,7 +67,7 @@
                             <div class="flex items-center gap-x-3">
 
                                 <button onclick="selectAddress(this, {{ $user_address->id }})"
-                                    data-url="{{ route('app.user.addresses.change-status', $user_address) }}"
+                                    data-url="{{ route('app.shipping.select-address', [$order->id, $user_address->id]) }}"
                                     class="px-3 py-2 border-2 flex-center gap-2 text-xs rounded-lg text-red-500 border-red-500 @if ($user_address->id == $order->address_id) selected-address @endif">
                                     @if ($user_address->id == $order->address_id)
                                         <i class="fa-regular fa-check"></i>
@@ -93,6 +93,7 @@
 
                 @foreach ($delivery_methods as $delivery_method)
                     <div onclick="selectDelivery(this)"
+                    data-url="{{ route('app.shipping.select-delivery', [$order->id, $delivery_method->id]) }}"
                         class="col-span-1 rounded-lg cursor-pointer shadow-md p-3 @if ($delivery_method->id == $order->delivery_id) selected-delivery bg-red-500 text-white @else bg-gray-200 dark:bg-gray-700 @endif flex flex-col gap-2">
                         <span class="flex gap-2">
                             <i class="fa-light fa-truck-bolt text-base"></i>
@@ -119,7 +120,7 @@
             </span>
             <span class="flex justify-between items-center md:pb-2 md:border-b-2 border-gray-200 dark:border-gray-700">
                 <span>هزینه ارسال</span>
-                <span>{{ price_formater($order->delivery_amount) }} تومان</span>
+                <span id="delivery_amount">{{ price_formater($order->delivery_amount) }} تومان</span>
             </span>
 
             <div
@@ -130,7 +131,7 @@
                 <span
                     class="flex flex-col md:flex-row gap-2 md:justify-between items-center text-xxs xs:text-xs md:text-xxs lg:text-xs">
                     <span>مبلغ پرداختی</span>
-                    <span>{{ price_formater($pay_price) }} تومان</span>
+                    <span id="pay_price" >{{ price_formater($pay_price) }} تومان</span>
                 </span>
 
                 <button class="md:w-full px-4 py-2 bg-red-500 text-xxs xs:text-sm rounded-lg mt-2 text-white">

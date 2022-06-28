@@ -36,4 +36,27 @@ class CartServices {
 
 
     }
+
+    public function moveCartItems()
+    {
+        $user = Auth::user();
+
+        if (empty($user)) {
+            return false;
+        }
+
+        $ip_address = request()->ip();
+        $cart_items = CartItem::where('ip_address', $ip_address)->get();
+
+        if (!empty($cart_items)) {
+            foreach ($cart_items as $cart_item) {
+                $cart_item->update([
+                    'user_id' => $user->id,
+                    'ip_address' => null,
+                ]);
+            }
+        }
+
+        return true;
+    }
 }

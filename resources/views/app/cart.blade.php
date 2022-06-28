@@ -218,8 +218,11 @@
                         <span id="total_pay_price">{{ price_formater($total_pay_price) }} تومان</span>
                     </span>
 
-                    <button class="md:w-full px-4 py-2 bg-red-500 text-xxs xs:text-sm rounded-lg mt-2 text-white">ثبت
-                        سفارش و ادامه</button>
+                    <form action="{{ route('app.cart.store-order') }}" method="POST">
+                        @csrf
+                        <button type="submit" class="md:w-full px-4 py-2 bg-red-500 text-xxs xs:text-sm rounded-lg mt-2 text-white">ثبت
+                            سفارش و ادامه</button>
+                    </form>
                 </div>
 
             </div>

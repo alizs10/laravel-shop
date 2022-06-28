@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Services\CartServices;
 use App\Http\Services\EmailServices;
 use App\Models\Opt;
 use App\Models\User;
@@ -23,12 +24,21 @@ class AuthController extends Controller
             return redirect()->route('app.home');
         }
 
+        $redirect = [
+            "status" => false,
+            "url" => ""
+        ];
         $user = false;
         $vcode = false;
         $code = false;
         $email = false;
         $token = false;
         $message = '';
+
+        if ($request->has('back_url')) {
+            $redirect['status'] = true;
+            $redirect['url'] = $request->get('back_url');
+        }
 
         // login
         if ($request->get('user') == 'true') {
@@ -97,6 +107,12 @@ class AuthController extends Controller
         $result = Auth::attempt($credentials);
 
         if ($result) {
+            $cart_services = new CartServices();
+            $cart_services->moveCartItems();
+            if (session('back_url')) {
+                $back_url = session()->pull('back_url');
+                return redirect($back_url);
+            }
             return redirect()->route('app.home');
         }
 
@@ -121,6 +137,16 @@ class AuthController extends Controller
 
         $result = Auth::loginUsingId($user->id);
         if ($result) {
+
+            if ($result) {
+                $cart_services = new CartServices();
+                $cart_services->moveCartItems();
+                if (session('back_url')) {
+                    $back_url = session()->pull('back_url');
+                    return redirect($back_url);
+                }
+                return redirect()->route('app.home');
+            }
             return redirect()->route('app.home');
         }
 
@@ -253,6 +279,15 @@ class AuthController extends Controller
     
         $result = Auth::loginUsingId($opt->user_id);
         if ($result) {
+            if ($result) {
+                $cart_services = new CartServices();
+                $cart_services->moveCartItems();
+                if (session('back_url')) {
+                    $back_url = session()->pull('back_url');
+                    return redirect($back_url);
+                }
+                return redirect()->route('app.home');
+            }
             return redirect()->route('app.home');
         }
 

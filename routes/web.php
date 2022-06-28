@@ -111,11 +111,12 @@ Route::namespace('App')->group(function () {
         Route::get('/increment/{cart_item}', [CartController::class, 'increaseQuantity'])->name('app.cart.increment');
         Route::get('/decrement/{cart_item}', [CartController::class, 'decreaseQuantity'])->name('app.cart.decrement');
         Route::get('/destroy/{cart_item}', [CartController::class, 'destroy'])->name('app.cart.destroy');
+        Route::post('/store-order', [CartController::class, 'storeOrder'])->name('app.cart.store-order');
     });
 
     //shipping
-    Route::prefix('shipping')->group(function () {
-        Route::get('/', [ShippingController::class, 'index'])->name('app.shipping.index');
+    Route::prefix('shipping')->middleware('auth')->group(function () {
+        Route::get('/{order}', [ShippingController::class, 'index'])->name('app.shipping.index');
      
     });
     //search-page

@@ -132,16 +132,20 @@ class ProductController extends Controller
 
         //create new cart item
         if (!$is_item_exists) {
+            $new_item_input['product_id'] = $product->id;
+
+            //check for color
+            $product_default_color = $product->colors->first();
+            if (!empty($product_default_color)) {
+                $new_item_input['color_id'] = $product_default_color->id;
+            }
+
             if (empty($user)) {
-                $new_item = CartItem::create([
-                    'product_id' => $product->id,
-                    'ip_address' => $ip_address,
-                ]);
+                $new_item_input['ip_address'] = $ip_address;
+                $new_item = CartItem::create($new_item_input);
             } else {
-                $new_item = CartItem::create([
-                    'product_id' => $product->id,
-                    'user_id' => $user->id,
-                ]);
+                $new_item_input['user_id'] = $user->id;
+                $new_item = CartItem::create($new_item_input);
             }
 
             $cart_items->push($new_item);
@@ -172,7 +176,10 @@ class ProductController extends Controller
                     CartItemSelectedAttribute::create($cartItemSelectedAttribute);
                 }
             }
+
+            
         }
+
 
 
 
@@ -189,6 +196,11 @@ class ProductController extends Controller
                     $value = json_decode($selected_attr->value);
                     $product_price += $value->price_increase;
                 }
+            }
+
+            if (!empty($cart_item->color_id)) {
+                $color_price = $cart_item->color->price_increase;
+                $product_price += $color_price;
             }
 
 

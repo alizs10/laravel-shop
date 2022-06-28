@@ -40,6 +40,7 @@ use App\Http\Controllers\app\CartController;
 use App\Http\Controllers\app\HomeController;
 use App\Http\Controllers\app\ProductController as AppProductController;
 use App\Http\Controllers\app\SearchController;
+use App\Http\Controllers\app\ShippingController;
 use App\Http\Controllers\app\UserController;
 use App\Http\Controllers\app\UserProfileController;
 use App\Http\Controllers\Auth\AuthController;
@@ -112,6 +113,11 @@ Route::namespace('App')->group(function () {
         Route::get('/destroy/{cart_item}', [CartController::class, 'destroy'])->name('app.cart.destroy');
     });
 
+    //shipping
+    Route::prefix('shipping')->group(function () {
+        Route::get('/', [ShippingController::class, 'index'])->name('app.shipping.index');
+     
+    });
     //search-page
     Route::get('/search/{search}', [SearchController::class, 'index'])->name('app.search.index');
 

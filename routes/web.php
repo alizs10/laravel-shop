@@ -100,10 +100,14 @@ Route::namespace('App')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('app.home');
 
     //product
-    Route::get('/product/{product}', [AppProductController::class, 'index'])->name('app.product.index');
-    Route::get('/product/{comment}/like', [AppProductController::class, 'likeComment'])->name('app.product.like-comment');
-    Route::post('/product/{product}/send-comment', [AppProductController::class, 'sendComment'])->name('app.product.send-comment');
-    Route::get('/product/{product}/add-to-cart', [AppProductController::class, 'addToCart'])->name('app.product.add-to-cart');
+    Route::prefix('product')->group(function () {
+        Route::get('/{product}', [AppProductController::class, 'index'])->name('app.product.index');
+        Route::get('/{comment}/like', [AppProductController::class, 'likeComment'])->name('app.product.like-comment');
+        Route::post('/{product}/send-comment', [AppProductController::class, 'sendComment'])->name('app.product.send-comment');
+        Route::get('/{product}/add-to-cart', [AppProductController::class, 'addToCart'])->name('app.product.add-to-cart');
+        Route::get('/{product}/change-color/{color}', [AppProductController::class, 'changeColor'])->name('app.product.change-color');
+    });
+ 
 
     //cart
     Route::prefix('cart')->group(function () {
@@ -119,7 +123,6 @@ Route::namespace('App')->group(function () {
         Route::get('/{order}', [ShippingController::class, 'index'])->name('app.shipping.index');
         Route::get('/{order}/select-address/{address}', [ShippingController::class, 'selectAddress'])->name('app.shipping.select-address');
         Route::get('/{order}/select-delivery/{delivery}', [ShippingController::class, 'selectDelivery'])->name('app.shipping.select-delivery');
-     
     });
     //search-page
     Route::get('/search/{search}', [SearchController::class, 'index'])->name('app.search.index');

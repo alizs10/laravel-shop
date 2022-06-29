@@ -141,12 +141,16 @@
 
                             @foreach ($product->colors as $color)
                                 <span
-                                    class="cursor-pointer text-xs rounded-lg px-2 py-1 border-2 flex items-center gap-2 @if ($product->colors->first()->id == $color->id) selected @endif"
+                                    class="cursor-pointer text-xs rounded-lg px-2 py-1 border-2 flex items-center gap-2
+                                    @if ($is_product_in_cart && $cartItem->color_id == $color->id) selected @elseif (!$is_product_in_cart && $product->colors->first()->id == $color->id) selected @endif"
                                     style="border-color: {{ '#' . $color->color_code }}">
-                                    @if ($product->colors->first()->id == $color->id)
+                                    @if ($is_product_in_cart && $cartItem->color_id == $color->id)
+                                        <i class="fa-regular fa-check text-lg text-black dark:text-white"></i>
+                                    @elseif (!$is_product_in_cart && $product->colors->first()->id == $color->id)
                                         <i class="fa-regular fa-check text-lg text-black dark:text-white"></i>
                                     @endif
-                                    <div class="rounded-full h-3 w-3 @if ($product->colors->first()->id == $color->id) hidden @endif"
+                                    <div class="rounded-full h-3 w-3 
+                                    @if ($is_product_in_cart && $cartItem->color_id == $color->id) hidden @elseif (!$is_product_in_cart && $product->colors->first()->id == $color->id) hidden @endif"
                                         style="background-color: {{ '#' . $color->color_code }}">
                                     </div>
 
@@ -181,6 +185,47 @@
 
             <!-- add to cart starts -->
 
+            @php
+                $product_price = $product->price;
+                
+                if ($is_product_in_cart) {
+                    //check for color price increase
+                    $product_color_price = $cartItem->color->price_increase;
+                    $product_price += $product_color_price;
+                
+                    //check for product attributes price increase
+                    if (!empty($cartItem->cartItemSelectedAttributes)) {
+                        foreach ($cartItem->cartItemSelectedAttributes as $selected_attribute) {
+                            $product_price += json_decode($selected_attribute->value)->price_increase;
+                        }
+                    }
+                } else {
+                    //check for color price increase
+                    if (!empty($product->colors)) {
+                        $product_color_price = $product->colors->first()->price_increase;
+                        $product_price += $product_color_price;
+                    }
+                    
+                    //check for product defaults attributes price increase
+                    $properties = $product->properties()->get();
+                    $attr_properties = [];
+                    if ($properties->count() > 0) {
+                        foreach ($properties as $property) {
+                            if (!empty($attr_properties[$property->attribute->name])) {
+                                array_push($attr_properties[$property->attribute->name], $property);
+                            } else {
+                                $attr_properties[$property->attribute->name][0] = $property;
+                            }
+                        }
+                    }
+                    
+                    foreach ($attr_properties as $key => $value) {
+                        $product_price += json_decode($value[0]->value)->price_increase;
+                    }
+           
+                }
+            @endphp
+
             <div class="hidden md:col-span-4 md:block">
                 <div class="p-4 rounded-lg overflow-hidden bg-white dark:bg-gray-900 flex flex-col gap-4">
                     <span class="flex items-start justify-between">
@@ -192,18 +237,18 @@
                         <span class="flex flex-col gap-2">
                             @if (!empty($product->amazingSale))
                                 <span class="flex gap-2">
-                                    <span class="line-through">{{ price_formater($product->price) }}</span>
+                                    <span class="line-through">{{ price_formater($product_price) }}</span>
                                     <span
                                         class="flex-center rounded-full h-7 w-7 bg-red-500 text-white text-xs">{{ e2p_numbers($product->amazingSale->percentage) }}٪</span>
                                 </span>
                             @endif
                             @if (!empty($product->amazingSale))
                                 @php
-                                    $ultimate_price = $product->price - ($product->amazingSale->percentage * $product->price) / 100;
+                                    $ultimate_price = $product_price - ($product->amazingSale->percentage * $product_price) / 100;
                                 @endphp
                                 <span>{{ price_formater($ultimate_price) }} تومان</span>
                             @else
-                                <span>{{ price_formater($product->price) }} تومان</span>
+                                <span>{{ price_formater($product_price) }} تومان</span>
                             @endif
                         </span>
                     </span>
@@ -219,18 +264,7 @@
                             class="block py-2 text-center rounded-lg bg-red-500 text-white text-sm">
 
                             @if ($cart_items->count() > 0)
-                                @php
-                                    $is_item_in_cart = false;
-                                    
-                                    foreach ($cart_items as $cart_item) {
-                                        if ($cart_item->product_id == $product->id) {
-                                            $is_item_in_cart = true;
-                                            break;
-                                        }
-                                    }
-                                @endphp
-
-                                @if ($is_item_in_cart)
+                                @if ($is_product_in_cart)
                                     <span class="flex-center gap-2">
                                         <i class="fa-solid fa-check"></i>
                                         <span>موجود در سبد شما</span>

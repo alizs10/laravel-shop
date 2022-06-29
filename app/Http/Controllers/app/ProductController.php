@@ -45,9 +45,26 @@ class ProductController extends Controller
             }
         }
 
-
+        //related products
         $related_products = Product::where('cat_id', $product->cat_id)->get()->except(['id' => $product->id]);
-        return view('app.product', compact('product', 'related_products', 'user_comment_likes_ids', 'product_attributes_select_type'));
+
+        //is in cart
+        $is_product_in_cart = false;
+
+        $user = Auth::user();
+        if (empty($user)) {
+        $ip_address = request()->ip();
+            $cart_items = CartItem::where('ip_address', $ip_address)->get();
+        } else {
+            $cart_items = $user->cart_items;
+        }
+
+        $cartItem = $cart_items->where('product_id', $product->id)->first();
+        if (!empty($cartItem)) {
+            $is_product_in_cart = true;
+        }
+                                    
+        return view('app.product', compact('product', 'related_products', 'user_comment_likes_ids', 'product_attributes_select_type', 'is_product_in_cart', 'cartItem'));
     }
 
     public function likeComment(Comment $comment)
@@ -246,4 +263,6 @@ class ProductController extends Controller
             'status' => true,
         ]);
     }
+
+    
 }

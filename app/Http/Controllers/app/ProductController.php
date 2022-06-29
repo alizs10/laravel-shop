@@ -8,6 +8,8 @@ use App\Models\CartItemSelectedAttribute;
 use App\Models\Comment;
 use App\Models\LikeUser;
 use App\Models\Market\Product;
+use App\Models\Market\ProductColor;
+use App\Models\Market\PropertyValue;
 use GuzzleHttp\Handler\Proxy;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -53,7 +55,7 @@ class ProductController extends Controller
 
         $user = Auth::user();
         if (empty($user)) {
-        $ip_address = request()->ip();
+            $ip_address = request()->ip();
             $cart_items = CartItem::where('ip_address', $ip_address)->get();
         } else {
             $cart_items = $user->cart_items;
@@ -63,7 +65,7 @@ class ProductController extends Controller
         if (!empty($cartItem)) {
             $is_product_in_cart = true;
         }
-                                    
+
         return view('app.product', compact('product', 'related_products', 'user_comment_likes_ids', 'product_attributes_select_type', 'is_product_in_cart', 'cartItem'));
     }
 
@@ -193,8 +195,6 @@ class ProductController extends Controller
                     CartItemSelectedAttribute::create($cartItemSelectedAttribute);
                 }
             }
-
-            
         }
 
 
@@ -264,5 +264,47 @@ class ProductController extends Controller
         ]);
     }
 
-    
+    public function changeColor(Request $request, Product $product, ProductColor $color)
+    {
+        if ($product->id != $color->product_id) {
+            return false;
+        }
+
+        $request->validate([
+            'attributes[]' => 'nullable|array',
+            'attributes.*' => 'numeric|exists:category_values,id'
+        ]);
+
+        $product_price = $product->price;
+        $discount_amount = 0;
+
+        //check for color price increase
+        $product_color_price = $color->price_increase;
+        $product_price += $product_color_price;
+
+        //check for product attributes price increase
+        if ($request->has('attributes')) {
+            $category_value_ids = $request->get('attributes');
+            $category_values = PropertyValue::whereIn('id', $category_value_ids)->get();
+            if ($category_values->count() > 0) {
+                foreach ($category_values as $category_value) {
+                    $product_price += json_decode($category_value->value)->price_increase;
+                }
+            }
+        }
+
+        //check for product discount
+        if (!empty($product->amazingSale)) {
+            $discount_amount = ($product->amazingSale->percentage * $product_price) / 100;
+        }
+
+
+        $ultimate_price = $product_price - $discount_amount;
+
+        return response()->json([
+            'product_price' => price_formater($product_price),
+            'ultimate_price' => price_formater($ultimate_price)
+        ]);
+
+    }
 }

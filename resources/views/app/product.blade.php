@@ -1,5 +1,9 @@
 @extends('app.layouts.master')
 
+@section('head-tag')
+    <meta name="csrf-token" content="{{ Session::token() }}">
+@endsection
+
 @section('content')
     <!-- breadcrumb starts-->
     <section
@@ -127,6 +131,9 @@
                             </select>
 
                         </span>
+
+                        <input type="hidden" name="product_attributes[]"
+                            value="{{ $attr_values[0]->id }}" />
                     @endforeach
                 @endif
 
@@ -140,7 +147,8 @@
                         <div class="flex flex-wrap gap-2" id="product-colors">
 
                             @foreach ($product->colors as $color)
-                                <span
+                                <span onclick="colorSelector(this)"
+                                    data-url="{{ route('app.product.change-color', [$product->id, $color->id]) }}"
                                     class="cursor-pointer text-xs rounded-lg px-2 py-1 border-2 flex items-center gap-2
                                     @if ($is_product_in_cart && $cartItem->color_id == $color->id) selected @elseif (!$is_product_in_cart && $product->colors->first()->id == $color->id) selected @endif"
                                     style="border-color: {{ '#' . $color->color_code }}">
@@ -161,6 +169,13 @@
 
                         </div>
                     </span>
+
+                    @if ($is_product_in_cart && !empty($cartItem->color_id))
+                        <input type="hidden" name="color_id" id="color_id" value="{{ $cartItem->color_id }}" />
+                    @else
+                        <input type="hidden" name="color_id" id="color_id"
+                            value="{{ $product->colors->first()->id }}" />
+                    @endif
                 @endif
                 @if ($product->marketable_number > 0)
                     <span class="mt-2 flex gap-x-2 items-center text-sm font-bold text-emerald-700 dark:text-emerald-600">
@@ -205,7 +220,7 @@
                         $product_color_price = $product->colors->first()->price_increase;
                         $product_price += $product_color_price;
                     }
-                    
+                
                     //check for product defaults attributes price increase
                     $properties = $product->properties()->get();
                     $attr_properties = [];
@@ -218,11 +233,10 @@
                             }
                         }
                     }
-                    
+                
                     foreach ($attr_properties as $key => $value) {
                         $product_price += json_decode($value[0]->value)->price_increase;
                     }
-           
                 }
             @endphp
 
@@ -237,7 +251,7 @@
                         <span class="flex flex-col gap-2">
                             @if (!empty($product->amazingSale))
                                 <span class="flex gap-2">
-                                    <span class="line-through">{{ price_formater($product_price) }}</span>
+                                    <span id="product-price" class="line-through">{{ price_formater($product_price) }}</span>
                                     <span
                                         class="flex-center rounded-full h-7 w-7 bg-red-500 text-white text-xs">{{ e2p_numbers($product->amazingSale->percentage) }}٪</span>
                                 </span>
@@ -246,9 +260,9 @@
                                 @php
                                     $ultimate_price = $product_price - ($product->amazingSale->percentage * $product_price) / 100;
                                 @endphp
-                                <span>{{ price_formater($ultimate_price) }} تومان</span>
+                                <span id="ultimate-price">{{ price_formater($ultimate_price) }} تومان</span>
                             @else
-                                <span>{{ price_formater($product_price) }} تومان</span>
+                                <span id="ultimate-price">{{ price_formater($product_price) }} تومان</span>
                             @endif
                         </span>
                     </span>

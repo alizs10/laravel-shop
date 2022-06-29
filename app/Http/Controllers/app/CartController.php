@@ -75,11 +75,15 @@ class CartController extends Controller
         $cart_item->increment('number');
 
         $cart_calculations = $cart_services->calculate();
+        $cart_calculations["cart_item"] = $cart_services->calcualteCartItem($cart_item);
         return response()->json([
             'number' => $cart_item->number,
             'pay_price' => $cart_calculations['pay_price'],
             'discount_price' => $cart_calculations['discount_price'],
             'total_pay_price' => $cart_calculations['total_pay_price'],
+            'ultimate_price' => $cart_calculations["cart_item"]['ultimate_price'],
+            'discount_amount' => $cart_calculations["cart_item"]['discount_amount'],
+            'cart_item_id' => $cart_item->id,
         ]);
     }
 
@@ -102,11 +106,16 @@ class CartController extends Controller
         }
 
         $cart_calculations = $cart_services->calculate();
+        $cart_calculations["cart_item"] = $cart_services->calcualteCartItem($cart_item);
+
         return response()->json([
             'number' => $cart_item->number,
             'pay_price' => $cart_calculations['pay_price'],
             'discount_price' => $cart_calculations['discount_price'],
             'total_pay_price' => $cart_calculations['total_pay_price'],
+            'ultimate_price' => $cart_calculations["cart_item"]['ultimate_price'],
+            'discount_amount' => $cart_calculations["cart_item"]['discount_amount'],
+            'cart_item_id' => $cart_item->id,
         ]);
     }
 

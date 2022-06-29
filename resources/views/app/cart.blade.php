@@ -169,12 +169,12 @@
                                         $ultimate_price = $final_product_price - $discount_amount;
                                     @endphp
                                     @if (!empty($cart_item->product->amazingSale))
-                                        <span class="text-red-500 text-xxs xs:text-xs lg:text-sm">
+                                        <span id="discount-amount-{{ $cart_item->id }}" class="text-red-500 text-xxs xs:text-xs lg:text-sm">
                                             تخفیف {{ price_formater($discount_amount) }} تومان
                                         </span>
                                     @endif
 
-                                    <span class="text-black dark:text-white text-xs xs:text-base">
+                                    <span id="ultimate-price-{{ $cart_item->id }}" class="text-black dark:text-white text-xs xs:text-base">
                                         {{ price_formater($ultimate_price) }} تومان
                                     </span>
                                 </span>

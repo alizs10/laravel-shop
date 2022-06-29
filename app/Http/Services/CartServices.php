@@ -52,6 +52,38 @@ class CartServices
         ];
     }
 
+    public function calcualteCartItem($cart_item)
+    {
+        $product_price = $cart_item->product->price;
+                                        
+        //check for product color price increase
+        if (!empty($cart_item->color)) {
+            $product_price += $cart_item->color->price_increase;
+        }
+        
+        //check for product attributes price increase
+        if (!empty($cart_item->cartItemSelectedAttributes)) {
+            foreach ($cart_item->cartItemSelectedAttributes as $selected_attribute) {
+                $product_price += json_decode($selected_attribute->value)->price_increase;
+            }
+        }
+        
+        $final_product_price = $product_price * $cart_item->number;
+        
+        if (!empty($cart_item->product->amazingSale)) {
+            $discount_amount = ($cart_item->product->amazingSale->percentage * $final_product_price) / 100;
+        } else {
+            $discount_amount = 0;
+        }
+        
+        $ultimate_price = $final_product_price - $discount_amount;
+
+        return [
+            "ultimate_price" => $ultimate_price,
+            "discount_amount" => $discount_amount,
+        ];
+    }
+
     public function moveCartItems()
     {
         $user = Auth::user();

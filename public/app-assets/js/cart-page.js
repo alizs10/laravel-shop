@@ -23,10 +23,10 @@ function p2eNumbers(number) {
 function priceFormatter(price) {
     let formated_price = parseInt(price).toLocaleString('en-US')
     return e2pNumbers(formated_price);
- }
- 
+}
 
-function cartPlus(btn ,product_id) {
+
+function cartPlus(btn, product_id) {
     let input = $('#cart-product-' + product_id);
     let quantity = parseInt(p2eNumbers(input.val()));
     let url = $(btn).attr('data-url');
@@ -39,12 +39,17 @@ function cartPlus(btn ,product_id) {
             $('#pay_price').html(`${priceFormatter(response.pay_price)} تومان`)
             $('#discount_price').html(`${priceFormatter(response.discount_price)} تومان`)
             $('#total_pay_price').html(`${priceFormatter(response.total_pay_price)} تومان`)
+            $('#ultimate-price-' + response.cart_item_id).html(`${priceFormatter(response.ultimate_price)} تومان`)
+            if (response.discount_amount > 0) {
+                $('#discount-amount-' + response.cart_item_id).html(`تخفیف ${priceFormatter(response.discount_amount)} تومان`)
+            }
+
         },
     });
 
 }
 
-function cartMinus(btn ,product_id) {
+function cartMinus(btn, product_id) {
     let input = $('#cart-product-' + product_id);
     let quantity = parseInt(p2eNumbers(input.val()));
     let url = $(btn).attr('data-url');
@@ -56,6 +61,10 @@ function cartMinus(btn ,product_id) {
             $('#pay_price').html(`${priceFormatter(response.pay_price)} تومان`)
             $('#discount_price').html(`${priceFormatter(response.discount_price)} تومان`)
             $('#total_pay_price').html(`${priceFormatter(response.total_pay_price)} تومان`)
+            $('#ultimate-price-' + response.cart_item_id).html(`${priceFormatter(response.ultimate_price)} تومان`)
+            if (response.discount_amount > 0) {
+                $('#discount-amount-' + response.cart_item_id).html(`تخفیف ${priceFormatter(response.discount_amount)} تومان`)
+            }
         },
     });
 

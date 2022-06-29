@@ -218,7 +218,7 @@
                                     <span>{{ price_formater($total_pay_price) }} تومان</span>
                                 </span>
 
-                                <a href="" class="btn text-sm bg-emerald-700 text-white m-2">ثبت سفارش</a>
+                                <a href="/cart" class="btn text-sm bg-emerald-700 text-white m-2">ثبت سفارش</a>
                             </div>
                         @else
                             <span id='cart-dropdown-empty' class="py-3 flex flex-col justify-center gap-3">

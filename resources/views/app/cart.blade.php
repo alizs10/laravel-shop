@@ -84,19 +84,22 @@
                                     </span>
                                 @endforeach
 
-                                <span
-                                    class="flex gap-x-2 items-center text-gray-500 dark:text-gray-400 text-xxxs xs:text-xs lg:text-xs">
-                                    <span class="flex gap-x-1 items-center">
-                                        <i class="fa-regular fa-palette text-xxs xs:text-sm lg:text-base"></i>
-                                    </span>
+                                @if (!empty($cart_item->color_id))
+                                    <span
+                                        class="flex gap-x-2 items-center text-gray-500 dark:text-gray-400 text-xxxs xs:text-xs lg:text-xs">
+                                        <span class="flex gap-x-1 items-center">
+                                            <i class="fa-regular fa-palette text-xxs xs:text-sm lg:text-base"></i>
+                                        </span>
 
-                                    <span class="flex gap-2">رنگ:
-                                        <span class="flex gap-2 items-center">
-                                            <span class="p-1 rounded-full bg-black"></span>
-                                            <span>مشکی</span>
+                                        <span class="flex gap-2">رنگ:
+                                            <span class="flex gap-2 items-center">
+                                                <span style="background-color: {{ '#' . $cart_item->color->color_code }}"
+                                                    class="p-1 rounded-full"></span>
+                                                <span>{{ $cart_item->color->color_name }}</span>
+                                            </span>
                                         </span>
                                     </span>
-                                </span>
+                                @endif
                                 <span
                                     class="flex gap-x-2 items-center text-gray-500 dark:text-gray-400 text-xxxs xs:text-xs lg:text-xs">
                                     <span class="flex gap-x-1 items-center">
@@ -129,24 +132,41 @@
                                     <span
                                         class="mt-2 flex gap-x-2 items-center text-xxs xs:text-xs lg:text-sm font-bold text-red-500">
                                         <span class="flex gap-x-1 items-center">
-                                            <i class="fa-regular fa-x-mark text-xxs xs:text-sm lg:text-base"></i>
+                                            <i class="fa-regular fa-xmark text-xxs xs:text-sm lg:text-base"></i>
 
                                         </span>
 
-                                        <span>نا موجود</span>
+                                        <span>ناموجود</span>
                                     </span>
                                 @endif
 
 
                                 <span class="mt-4 flex flex-col gap-2">
                                     @php
+                                        
+                                        $product_price = $cart_item->product->price;
+                                        
+                                        //check for product color price increase
+                                        if (!empty($cart_item->color)) {
+                                            $product_price += $cart_item->color->price_increase;
+                                        }
+                                        
+                                        //check for product attributes price increase
+                                        if (!empty($cart_item->cartItemSelectedAttributes)) {
+                                            foreach ($cart_item->cartItemSelectedAttributes as $selected_attribute) {
+                                                $product_price += json_decode($selected_attribute->value)->price_increase;
+                                            }
+                                        }
+                                        
+                                        $final_product_price = $product_price * $cart_item->number;
+                                        
                                         if (!empty($cart_item->product->amazingSale)) {
-                                            $discount_amount = ($cart_item->product->amazingSale->percentage * $cart_item->product->price) / 100;
+                                            $discount_amount = ($cart_item->product->amazingSale->percentage * $final_product_price) / 100;
                                         } else {
                                             $discount_amount = 0;
                                         }
                                         
-                                        $ultimate_price = $cart_item->product->price - $discount_amount;
+                                        $ultimate_price = $final_product_price - $discount_amount;
                                     @endphp
                                     @if (!empty($cart_item->product->amazingSale))
                                         <span class="text-red-500 text-xxs xs:text-xs lg:text-sm">
@@ -184,15 +204,21 @@
                     $discount_price = 0;
                     foreach ($cart_items as $cart_item) {
                         $product_price = $cart_item->product->price;
-
+                        
+                        //check for product color price increase
+                        if (!empty($cart_item->color)) {
+                            $product_price += $cart_item->color->price_increase;
+                        }
+                    
+                        //check for product attributes price increase
                         if (!empty($cart_item->cartItemSelectedAttributes)) {
                             foreach ($cart_item->cartItemSelectedAttributes as $selected_attribute) {
                                 $product_price += json_decode($selected_attribute->value)->price_increase;
                             }
                         }
-
+                    
                         $pay_price += $product_price * $cart_item->number;
-
+                    
                         if (!empty($cart_item->product->amazingSale)) {
                             $discount_price = +($cart_item->product->amazingSale->first()->percentage * $product_price * $cart_item->number) / 100;
                         }
@@ -220,7 +246,8 @@
 
                     <form action="{{ route('app.cart.store-order') }}" method="POST">
                         @csrf
-                        <button type="submit" class="md:w-full px-4 py-2 bg-red-500 text-xxs xs:text-sm rounded-lg mt-2 text-white">ثبت
+                        <button type="submit"
+                            class="md:w-full px-4 py-2 bg-red-500 text-xxs xs:text-sm rounded-lg mt-2 text-white">ثبت
                             سفارش و ادامه</button>
                     </form>
                 </div>
@@ -251,22 +278,21 @@
                         </a>
                         <div class="flex justify-between items-center">
                             @if (!is_null($relatedProduct->amazingSale))
-                            <span class="flex flex-col gap-y-1 text-xs">
-                                <span class="flex gap-x-2 items-center">
-                                    <span class="line-through">{{ $relatedProduct->price }}</span>
-                                    <div class="h-7 w-7 rounded-lg bg-red-600 text-white flex-center text-xs">
-                                        {{ $relatedProduct->amazingSale->percentage }}%</div>
+                                <span class="flex flex-col gap-y-1 text-xs">
+                                    <span class="flex gap-x-2 items-center">
+                                        <span class="line-through">{{ $relatedProduct->price }}</span>
+                                        <div class="h-7 w-7 rounded-lg bg-red-600 text-white flex-center text-xs">
+                                            {{ $relatedProduct->amazingSale->percentage }}%</div>
+                                    </span>
+                                    <span class="text-red-500 font-bold">{{ $relatedProduct->amazingSale->price }}</span>
+                                    <span class="text-red-500 font-bold">تومان</span>
                                 </span>
-                                <span
-                                    class="text-red-500 font-bold">{{ $relatedProduct->amazingSale->price }}</span>
-                                <span class="text-red-500 font-bold">تومان</span>
-                            </span>
-                        @else
-                            <span class="flex flex-col gap-y-1 text-xs">
-                                <span>{{ $relatedProduct->price }}</span>
-                                <span class="font-bold">تومان</span>
-                            </span>
-                        @endif
+                            @else
+                                <span class="flex flex-col gap-y-1 text-xs">
+                                    <span>{{ $relatedProduct->price }}</span>
+                                    <span class="font-bold">تومان</span>
+                                </span>
+                            @endif
 
                             <div class="flex flex-col items-center gax-y-2">
                                 <button onclick="addToFavorites(this)"

@@ -182,9 +182,9 @@
                                         <div class="col-span-3 text-right">
                                             <span class="text-xs leading-6">{{ $cart_item->product->name }}</span>
                                         </div>
-                                        <span class="col-span-1 text-red-500 ml-2">
+                                        <a href="{{ route('app.cart.destroy', $cart_item->id) }}" class="col-span-1 text-red-500 ml-2">
                                             <i class="fa-duotone fa-trash-list"></i>
-                                        </span>
+                                        </a>
                                     </li>
                                 @endforeach
 

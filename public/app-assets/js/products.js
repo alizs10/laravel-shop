@@ -141,9 +141,9 @@ function itemGenerator(items) {
             <div class="col-span-3 text-right">
                 <span class="text-xs leading-6">${item.product.name}</span>
             </div>
-            <span class="col-span-1 text-red-500 ml-2">
+            <a href="/cart/destroy/${item.id}" class="col-span-1 text-red-500 ml-2">
                 <i class="fa-duotone fa-trash-list"></i>
-            </span>
+            </a>
         </li>
         `
 

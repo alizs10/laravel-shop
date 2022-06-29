@@ -135,7 +135,7 @@ class CartController extends Controller
 
         $cart_item->delete();
 
-        return redirect()->route('app.cart.index');
+        return redirect()->back();
     }
 
     public function storeOrder()

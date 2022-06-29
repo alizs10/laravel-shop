@@ -38,13 +38,14 @@ function addToCart(btn) {
         success: function (response) {
             console.log(response.items);
             // increase cart number
-            cartNumber = response.items.length;
-            if (cartNumber == 0) {
+            cartNumber = response.cart_count;
+            if (response.items.length == 0) {
                 $('#cart-alert-number').addClass('hidden').removeClass('flex-center')
             } else {
                 $('#cart-alert-number').removeClass('hidden').addClass('flex-center')
             }
             $('#cart-alert-number').html(cartNumber)
+            $('#cart-count').html(cartNumber + " کالا")
 
 
             // add product to cart
@@ -63,8 +64,8 @@ function addToCart(btn) {
                 let cartContainerStart = `
                         <div
                             class="flex justify-between items-center border-b-2 dark:border-gray-700 border-gray-100 text-xs py-3">
-                            <span class="mr-2">${cartNumber} کالا</span>
-                            <a href="" class="text-blue-600 dark:text-blue-400 flex items-center gap-x-2 ml-2">
+                            <span id="cart-count" class="mr-2">${cartNumber} کالا</span>
+                            <a href="/cart" class="text-blue-600 dark:text-blue-400 flex items-center gap-x-2 ml-2">
                                 برو به سبد خرید
                                 <i class="fa-duotone fa-arrow-left"></i>
                             </a>

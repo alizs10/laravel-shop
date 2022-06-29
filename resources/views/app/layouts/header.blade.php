@@ -150,9 +150,9 @@
                     class="relative text-gray-700 dark:text-gray-200 w-10 h-10 rounded-lg text-xl hover-transition hover:bg-gray-100 dark:hover:bg-gray-700">
                     <i class="fa-solid fa-basket-shopping-simple"></i>
 
-                        <div id="cart-alert-number"
-                            class="@if ($cart_items->count() == 0) hidden @else flex-center @endif h-5 w-5 rounded-lg bg-red-600 text-white absolute -bottom-1 -right-1 text-xs">
-                            {{ $cart_items->count() }}</div>
+                    <div id="cart-alert-number"
+                        class="@if ($cart_items->count() == 0) hidden @else flex-center @endif h-5 w-5 rounded-lg bg-red-600 text-white absolute -bottom-1 -right-1 text-xs">
+                        {{ e2p_numbers($cart_items->count()) }}</div>
 
 
                     <div id="cart-dropdown" onclick="event.stopPropagation()"
@@ -160,8 +160,8 @@
 
                         <div
                             class="flex justify-between items-center border-b-2 dark:border-gray-700 border-gray-100 text-xs py-3">
-                            <span class="mr-2">{{ $cart_items->count() }} کالا</span>
-                            <a href="" class="text-blue-600 dark:text-blue-400 flex items-center gap-x-2 ml-2">
+                            <span id="cart-count" class="mr-2">{{ e2p_numbers($cart_items->count()) }} کالا</span>
+                            <a href="{{ route('app.cart.index') }}" class="text-blue-600 dark:text-blue-400 flex items-center gap-x-2 ml-2">
                                 برو به سبد خرید
                                 <i class="fa-duotone fa-arrow-left"></i>
                             </a>
@@ -182,7 +182,8 @@
                                         <div class="col-span-3 text-right">
                                             <span class="text-xs leading-6">{{ $cart_item->product->name }}</span>
                                         </div>
-                                        <a href="{{ route('app.cart.destroy', $cart_item->id) }}" class="col-span-1 text-red-500 ml-2">
+                                        <a href="{{ route('app.cart.destroy', $cart_item->id) }}"
+                                            class="col-span-1 text-red-500 ml-2">
                                             <i class="fa-duotone fa-trash-list"></i>
                                         </a>
                                     </li>
@@ -191,18 +192,34 @@
 
                             </ul>
 
-                            <div id="cart-dropdown-price" class="flex flex-col gap-3 pt-2 border-t-2 border-gray-100 dark:border-gray-700">
+                            <div id="cart-dropdown-price"
+                                class="flex flex-col gap-3 pt-2 border-t-2 border-gray-100 dark:border-gray-700">
 
                                 @php
                                     $pay_price = 0;
                                     $discount_price = 0;
                                     foreach ($cart_items as $cart_item) {
-                                        $pay_price += $cart_item->product->price;
-                                        if(!empty($cart_item->product->amazingSale)) {
-                                            $discount_price=+ ($cart_item->product->amazingSale->first()->percentage * $cart_item->product->price) /100;
+                                        $product_price = $cart_item->product->price;
+                                    
+                                        //check for product color price increase
+                                        if (!empty($cart_item->color)) {
+                                            $product_price += $cart_item->color->price_increase;
+                                        }
+                                    
+                                        //check for product attributes price increase
+                                        if (!empty($cart_item->cartItemSelectedAttributes)) {
+                                            foreach ($cart_item->cartItemSelectedAttributes as $selected_attribute) {
+                                                $product_price += json_decode($selected_attribute->value)->price_increase;
+                                            }
+                                        }
+                                    
+                                        $pay_price += $product_price * $cart_item->number;
+                                    
+                                        if (!empty($cart_item->product->amazingSale)) {
+                                            $discount_price = +($cart_item->product->amazingSale->first()->percentage * $product_price * $cart_item->number) / 100;
                                         }
                                     }
-
+                                    
                                     $total_pay_price = $pay_price - $discount_price;
                                 @endphp
                                 <span class="flex justify-between text-xs mx-2">

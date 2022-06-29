@@ -231,6 +231,7 @@ class ProductController extends Controller
 
         return response()->json([
             'items' => $cart_items->toArray(),
+            'cart_count' => e2p_numbers($cart_items->count()),
             'status' => !$is_item_exists,
             'pay_price' => price_formater($pay_price),
             'discount_price' => price_formater($discount_price),

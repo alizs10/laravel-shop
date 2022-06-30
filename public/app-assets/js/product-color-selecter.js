@@ -22,8 +22,6 @@ function colorSelector(colorBtn) {
     })
 
 
-   
-
     $.ajax({
         type: "post",
         url,

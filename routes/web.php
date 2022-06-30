@@ -105,7 +105,7 @@ Route::namespace('App')->group(function () {
         Route::get('/{comment}/like', [AppProductController::class, 'likeComment'])->name('app.product.like-comment');
         Route::post('/{product}/send-comment', [AppProductController::class, 'sendComment'])->name('app.product.send-comment');
         Route::get('/{product}/add-to-cart', [AppProductController::class, 'addToCart'])->name('app.product.add-to-cart');
-        Route::post('/{product}/change-color/{color}', [AppProductController::class, 'changeColor'])->name('app.product.change-color');
+        Route::post('/{product}/get-price', [AppProductController::class, 'getPrice'])->name('app.product.get-price');
     });
  
 
@@ -124,6 +124,7 @@ Route::namespace('App')->group(function () {
         Route::get('/{order}/select-address/{address}', [ShippingController::class, 'selectAddress'])->name('app.shipping.select-address');
         Route::get('/{order}/select-delivery/{delivery}', [ShippingController::class, 'selectDelivery'])->name('app.shipping.select-delivery');
     });
+
     //search-page
     Route::get('/search/{search}', [SearchController::class, 'index'])->name('app.search.index');
 

@@ -265,23 +265,34 @@ class ProductController extends Controller
         ]);
     }
 
-    public function changeColor(Request $request, Product $product, ProductColor $color)
+    public function getPrice(Request $request, Product $product)
     {
-        if ($product->id != $color->product_id) {
-            return false;
-        }
-
         $request->validate([
             'attributes[]' => 'nullable|array',
-            'attributes.*' => 'numeric|exists:category_values,id'
+            'attributes.*' => 'numeric|exists:category_values,id',
+            'color_id' => 'nullable|numeric|exists:product_colors,id',
         ]);
+
+        $color = false;
+
+        if (!empty($request->get('color_id'))) {
+            $color_id = $request->get('color_id');
+            $color = ProductColor::find($color_id);
+            if ($product->id != $color->product_id) {
+                return false;
+            }
+        }
+
+
 
         $product_price = $product->price;
         $discount_amount = 0;
 
         //check for color price increase
-        $product_color_price = $color->price_increase;
-        $product_price += $product_color_price;
+        if ($color) {
+            $product_color_price = $color->price_increase;
+            $product_price += $product_color_price;
+        }
 
         //check for product attributes price increase
         if ($request->has('attributes')) {
@@ -306,6 +317,5 @@ class ProductController extends Controller
             'product_price' => price_formater($product_price),
             'ultimate_price' => price_formater($ultimate_price)
         ]);
-
     }
 }

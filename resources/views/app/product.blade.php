@@ -122,18 +122,18 @@
                             </span>
 
 
-                            <select class="form-input dark:border-gray-700" name="" id="">
+                            <select onchange="changeAttributeValue(this)"
+                                data-url="{{ route('app.product.get-price', $product->id) }}"
+                                class="form-input dark:border-gray-700" name="product_attributes[]"
+                                id="product-attribute-{{ $loop->iteration }}">
                                 @foreach ($attr_values as $attr_value)
-                                    <option class="text-black" value="">
+                                    <option class="text-black" value="{{ $attr_value->id }}">
                                         {{ json_decode($attr_value->value)->value . ' ' . $attr_value->attribute->unit }}
                                     </option>
                                 @endforeach
                             </select>
 
                         </span>
-
-                        <input type="hidden" name="product_attributes[]"
-                            value="{{ $attr_values[0]->id }}" />
                     @endforeach
                 @endif
 
@@ -147,8 +147,8 @@
                         <div class="flex flex-wrap gap-2" id="product-colors">
 
                             @foreach ($product->colors as $color)
-                                <span onclick="colorSelector(this)"
-                                    data-url="{{ route('app.product.change-color', [$product->id, $color->id]) }}"
+                                <span onclick="colorSelector(this, {{$color->id}})"
+                                    data-url="{{ route('app.product.get-price', $product->id) }}"
                                     class="cursor-pointer text-xs rounded-lg px-2 py-1 border-2 flex items-center gap-2
                                     @if ($is_product_in_cart && $cartItem->color_id == $color->id) selected @elseif (!$is_product_in_cart && $product->colors->first()->id == $color->id) selected @endif"
                                     style="border-color: {{ '#' . $color->color_code }}">
@@ -251,7 +251,8 @@
                         <span class="flex flex-col gap-2">
                             @if (!empty($product->amazingSale))
                                 <span class="flex gap-2">
-                                    <span id="product-price" class="line-through">{{ price_formater($product_price) }}</span>
+                                    <span id="product-price"
+                                        class="line-through">{{ price_formater($product_price) }}</span>
                                     <span
                                         class="flex-center rounded-full h-7 w-7 bg-red-500 text-white text-xs">{{ e2p_numbers($product->amazingSale->percentage) }}٪</span>
                                 </span>
@@ -576,7 +577,8 @@
 
 @section('scripts')
     <script src="{{ asset('app-assets/js/product-images-slider.js') }}"></script>
-    <script src="{{ asset('app-assets/js/product-color-selecter.js') }}"></script>
+    {{-- <script src="{{ asset('app-assets/js/product-color-selecter.js') }}"></script> --}}
     <script src="{{ asset('app-assets/js/product-details.js') }}"></script>
     <script src="{{ asset('app-assets/js/product-comment.js') }}"></script>
+    <script src="{{ asset('app-assets/js/get-product-price.js') }}"></script>
 @endsection

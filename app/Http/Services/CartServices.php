@@ -10,14 +10,7 @@ class CartServices
 
     public function calculate()
     {
-        $user = Auth::user();
-        if (empty($user)) {
-            $ip_address = request()->ip();
-            $cart_items = CartItem::where('ip_address', $ip_address)->get();
-        } else {
-            $cart_items = $user->cart_items;
-        }
-
+        $cart_items = $this->getCartItems();
 
         $pay_price = 0;
         $discount_price = 0;
@@ -55,27 +48,27 @@ class CartServices
     public function calcualteCartItem($cart_item)
     {
         $product_price = $cart_item->product->price;
-                                        
+
         //check for product color price increase
         if (!empty($cart_item->color)) {
             $product_price += $cart_item->color->price_increase;
         }
-        
+
         //check for product attributes price increase
         if (!empty($cart_item->cartItemSelectedAttributes)) {
             foreach ($cart_item->cartItemSelectedAttributes as $selected_attribute) {
                 $product_price += json_decode($selected_attribute->value)->price_increase;
             }
         }
-        
+
         $final_product_price = $product_price * $cart_item->number;
-        
+
         if (!empty($cart_item->product->amazingSale)) {
             $discount_amount = ($cart_item->product->amazingSale->percentage * $final_product_price) / 100;
         } else {
             $discount_amount = 0;
         }
-        
+
         $ultimate_price = $final_product_price - $discount_amount;
 
         return [
@@ -105,5 +98,79 @@ class CartServices
         }
 
         return true;
+    }
+
+    public function isInCart($product, $attributes = [])
+    {
+        // attributes => category values, color_id, guaranty_id
+        $cart_items = $this->getCartItems();
+        $same_products = $cart_items->where('product_id', $product->id)->get();
+
+        if (empty($same_products)) {
+            return false;
+        }
+
+        if (empty($attributes)) {
+            foreach ($same_products as $same_product) {
+                if ($same_product->color_id == null && $same_product->guaranty_id == null && empty($same_product->cartItemSelectedAttributes)) {
+                    return true;
+                    exit;
+                }
+            }
+
+            return false;
+            exit;
+        }
+
+        //check for each attribute
+        foreach ($same_products as $same_product) {
+
+            $is_color_id_match = false;
+            $is_guaranty_id_match = false;
+            $is_category_values_match = false;
+            
+            //first => color_id
+            if ($same_product->color_id == $attributes['color_id']) {
+                $is_color_id_match = true;
+            }
+            //second => guaranty_id
+            if ($same_product->color_id == $attributes['color_id']) {
+                $is_guaranty_id_match = true;
+            }
+
+            //third => category values
+            if (empty($attributes['category_values']) && empty($same_product->cartItemSelectedAttributes)) {
+                $is_category_values_match = true;
+            }
+
+            $cart_item_attribute_value_ids = $same_product->cartItemSelectedAttributes->get('id')->toArray();
+            if (!$is_category_values_match && count($cart_item_attribute_value_ids) == count($attributes['category_values'])) {
+                if ($attributes['category_values'] == $cart_item_attribute_value_ids) {
+                    $is_category_values_match = true;
+                }
+            }
+
+            if ($is_category_values_match && $is_guaranty_id_match && $is_color_id_match) {
+                return true;
+                exit;
+            }
+        }
+
+
+        return false;
+    }
+
+    private function getCartItems()
+    {
+        $user = Auth::user();
+        if (empty($user)) {
+            $ip_address = request()->ip();
+            $cart_items = CartItem::where('ip_address', $ip_address)->get();
+        } else {
+            $cart_items = $user->cart_items;
+        }
+
+
+        return $cart_items;
     }
 }

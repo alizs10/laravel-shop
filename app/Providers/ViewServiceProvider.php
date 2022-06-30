@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Http\Services\CartServices;
 use App\Models\CartItem;
 use App\Models\Comment;
 use App\Models\Notification;
@@ -34,23 +35,18 @@ class ViewServiceProvider extends ServiceProvider
             $unseenComments = Comment::where('seen', 0)->orderBy('created_at', 'desc')->get();
             $unreadNotifications = Notification::where('read_at', null)->get();
             $view
-            ->with('unseenComments', $unseenComments)
-            ->with('unreadNotifications', $unreadNotifications);
+                ->with('unseenComments', $unseenComments)
+                ->with('unreadNotifications', $unreadNotifications);
         });
 
 
         // application
         View::composer('app.*', function ($view) {
-            $user = Auth::user();
-            if (empty($user)) {
-            $ip_address = request()->ip();
-                $cart_items = CartItem::where('ip_address', $ip_address)->get();
-            } else {
-                $cart_items = $user->cart_items;
-            }
+            $cartServices = new CartServices();
+            $cart_items = $cartServices->getCartItems();
 
             $view
-            ->with('cart_items', $cart_items);
+                ->with('cart_items', $cart_items);
         });
     }
 }

@@ -274,8 +274,8 @@
                             موجود شد اطلاع بده!
                         </button>
                     @else
-                        <button id="product-add-to-cart-btn" onclick="addToCart(this)"
-                            data-url="{{ route('app.product.add-to-cart', $product->id) }}"
+                        <button id="product-toggle-product-btn" onclick="addToCart(this)"
+                            data-url="{{ route('app.product.toggle-product', $product->id) }}"
                             class="block py-2 text-center rounded-lg bg-red-500 text-white text-sm">
 
                             @if ($cart_items->count() > 0)
@@ -577,7 +577,6 @@
 
 @section('scripts')
     <script src="{{ asset('app-assets/js/product-images-slider.js') }}"></script>
-    {{-- <script src="{{ asset('app-assets/js/product-color-selecter.js') }}"></script> --}}
     <script src="{{ asset('app-assets/js/product-details.js') }}"></script>
     <script src="{{ asset('app-assets/js/product-comment.js') }}"></script>
     <script src="{{ asset('app-assets/js/get-product-price.js') }}"></script>

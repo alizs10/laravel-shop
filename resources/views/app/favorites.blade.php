@@ -122,7 +122,7 @@
                                         <i class="fa-regular fa-heart"></i>
                                     </button>
                                     <button onclick="addToCart(this)"
-                                        data-url="{{ route('app.product.add-to-cart', $favorite->id) }}"
+                                        data-url="{{ route('app.product.toggle-product', $favorite->id) }}"
                                         class="text-gray-700 w-10 h-10 rounded-lg text-xl hover-transition hover:bg-gray-200">
                                         @if ($cart_items->count() > 0)
                                             @php

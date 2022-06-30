@@ -104,7 +104,14 @@ class CartServices
     {
         // attributes => category values, color_id, guaranty_id
         $cart_items = $this->getCartItems();
+
+        if (empty($cart_items->toArray())) {
+            return false;
+        }
+
+        
         $same_products = $cart_items->where('product_id', $product->id)->get();
+        dd($same_products);
 
         if (empty($same_products)) {
             return false;
@@ -160,14 +167,14 @@ class CartServices
         return false;
     }
 
-    private function getCartItems()
+    public function getCartItems()
     {
         $user = Auth::user();
         if (empty($user)) {
             $ip_address = request()->ip();
             $cart_items = CartItem::where('ip_address', $ip_address)->get();
         } else {
-            $cart_items = $user->cart_items;
+            $cart_items = $user->cart_items->get();
         }
 
 

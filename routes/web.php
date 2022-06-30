@@ -104,7 +104,7 @@ Route::namespace('App')->group(function () {
         Route::get('/{product}', [AppProductController::class, 'index'])->name('app.product.index');
         Route::get('/{comment}/like', [AppProductController::class, 'likeComment'])->name('app.product.like-comment');
         Route::post('/{product}/send-comment', [AppProductController::class, 'sendComment'])->name('app.product.send-comment');
-        Route::get('/{product}/add-to-cart', [AppProductController::class, 'addToCart'])->name('app.product.add-to-cart');
+        Route::post('/{product}/toggle-product', [AppProductController::class, 'toggleProduct'])->name('app.product.toggle-product');
         Route::post('/{product}/get-price', [AppProductController::class, 'getPrice'])->name('app.product.get-price');
     });
  

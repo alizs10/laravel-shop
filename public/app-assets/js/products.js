@@ -15,8 +15,7 @@ function addToFavorites(btn) {
             }
         },
         error: function (response) {
-            if(response.status == 401)
-            {
+            if (response.status == 401) {
                 window.location = window.location.origin + '/login';
             }
         }
@@ -30,11 +29,35 @@ function addToFavorites(btn) {
 function addToCart(btn) {
 
     var url = $(btn).attr('data-url')
+    let formData = {
+        '_token': $('meta[name=csrf-token]').attr('content'),
+        'attributes': {
+            'category_values': [],
+            'color_id': null,
+            'guaranty_id': null,
+        } 
+        
+    };
+
+    let attributes = $('select[name^="product_attributes"]')
+    let color_id = $('input[name="color_id"]')
+
+    if (color_id.length > 0) {
+        formData['attributes']['color_id'] = color_id[0].value
+    }
+
+    if (attributes.length > 0) {
+        attributes.each(function (key, value) {
+            formData['attributes']['category_values'][key] = value.value
+        })
+    }
+
 
     $.ajax({
-        type: "get",
+        type: "post",
         url: url,
-
+        data: formData,
+        dataType: "json",
         success: function (response) {
             console.log(response.items);
             // increase cart number
@@ -104,13 +127,13 @@ function addToCart(btn) {
             }
             // toggle btn
 
-            if ($(btn).attr('id') === 'product-add-to-cart-btn') {
+            if ($(btn).attr('id') === 'product-toggle-product-btn') {
                 if (response.status) {
-                    $('#product-add-to-cart-btn span').find('svg').removeClass('fa-plus').addClass('fa-check')
-                    $('#product-add-to-cart-btn span').find('span').html('موجود در سبد شما')
+                    $('#product-toggle-product-btn span').find('svg').removeClass('fa-plus').addClass('fa-check')
+                    $('#product-toggle-product-btn span').find('span').html('موجود در سبد شما')
                 } else {
-                    $('#product-add-to-cart-btn span').find('svg').removeClass('fa-check').addClass('fa-plus')
-                    $('#product-add-to-cart-btn span').find('span').html('افزودن به سبد خرید')
+                    $('#product-toggle-product-btn span').find('svg').removeClass('fa-check').addClass('fa-plus')
+                    $('#product-toggle-product-btn span').find('span').html('افزودن به سبد خرید')
                 }
             } else {
                 if (response.status) {

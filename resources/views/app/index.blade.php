@@ -1,5 +1,9 @@
 @extends('app.layouts.master')
 
+@section('head-tag')
+    <meta name="csrf-token" content="{{ Session::token() }}">
+@endsection
+
 @section('content')
     <!-- slidershow starts -->
     <section class="grid grid-cols-12 gap-2 md:h-2/3 h-1/3">
@@ -66,7 +70,7 @@
                                 <i class="fa-regular fa-heart"></i>
                             </button>
                             <button onclick="addToCart(this)"
-                                data-url="{{ route('app.product.add-to-cart', $amazingSale->product_id) }}"
+                                data-url="{{ route('app.product.toggle-product', $amazingSale->product_id) }}"
                                 class="text-gray-700 w-10 h-10 rounded-lg text-xl hover-transition hover:bg-gray-200">
                                 @if ($cart_items->count() > 0)
                                     @foreach ($cart_items as $cart_item)
@@ -148,7 +152,7 @@
                             <i class="fa-regular fa-heart"></i>
                         </button>
                         <button onclick="addToCart(this)"
-                            data-url="{{ route('app.product.add-to-cart', $leastMarketableProduct->id) }}"
+                            data-url="{{ route('app.product.toggle-product', $leastMarketableProduct->id) }}"
                             class="text-gray-700 w-10 h-10 rounded-lg text-xl hover-transition hover:bg-gray-200">
                             @if ($cart_items->count() > 0)
                                 @php

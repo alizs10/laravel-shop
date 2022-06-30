@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\app;
 
 use App\Http\Controllers\Controller;
+use App\Http\Services\CartServices;
 use App\Models\CartItem;
 use App\Models\CartItemSelectedAttribute;
 use App\Models\Comment;
@@ -129,113 +130,87 @@ class ProductController extends Controller
         return redirect()->route('app.product.index', $product->id);
     }
 
-    public function addToCart(Product $product)
+    public function toggleProduct(Request $request, Product $product, CartServices $cartServices)
     {
-        $user = Auth::user();
-        if (empty($user)) {
-            $ip_address = request()->ip();
-            $cart_items = CartItem::where('ip_address', $ip_address)->get();
-        } else {
-            $cart_items = $user->cart_items;
+        $attributes = [];
+        if ($request->has('attributes')) {
+            $attributes = $request->only('attributes')['attributes'];
         }
-        $is_item_exists = false;
 
-        foreach ($cart_items as $key => $cart_item) {
-            if ($cart_item->product_id == $product->id) {
-                CartItem::destroy($cart_item->id);
-                CartItemSelectedAttribute::where('cart_item_id', $cart_item->id)->delete();
-                unset($cart_items[$key]);
-                $is_item_exists = true;
-            }
+        $is_item_exists = $cartServices->isInCart($product, $attributes);
+
+        if ($is_item_exists) {
+            $exists_item = CartItem::where('product_id', $product->id)->first();
+            $exists_item->cartItemSelectedAttributes->delete();
         }
+
+        $cart_items = $cartServices->getCartItems();
 
         //create new cart item
         if (!$is_item_exists) {
             $new_item_input['product_id'] = $product->id;
 
-            //check for color
-            $product_default_color = $product->colors->first();
-            if (!empty($product_default_color)) {
-                $new_item_input['color_id'] = $product_default_color->id;
-            }
-
-            if (empty($user)) {
-                $new_item_input['ip_address'] = $ip_address;
-                $new_item = CartItem::create($new_item_input);
+            //check if has attributes
+            if (!empty($attributes)) {
+                $new_item_input['color_id'] = $attributes['color_id'];
+                $new_item_input['guaranty_id'] = $attributes['guaranty_id'];
             } else {
-                $new_item_input['user_id'] = $user->id;
-                $new_item = CartItem::create($new_item_input);
+                //check for color
+                $product_default_color = $product->colors->first();
+                $new_item_input['color_id'] = !empty($product_default_color) ? $product_default_color->id : null;
             }
 
+            $user = Auth::user();
+            $new_item_input['ip_address'] = empty($user) ? $request->ip() : null;
+            $new_item_input['user_id'] = empty($user) ? null : $user->id;
+            $new_item = CartItem::create($new_item_input);
             $cart_items->push($new_item);
-        }
 
-        //check for default attributes values
-        if (!$is_item_exists) {
-            $properties = $product->properties()->get();
-            $attr_properties = [];
-            if ($properties->count() > 0) {
+            //check for default attributes values
+            if (!empty($attributes)) {
+                foreach ($attributes['category_values'] as $category_value_id) {
+                    $property = PropertyValue::find($category_value_id);
+                    $new_attr_input['category_attribute_id'] = $property->attribute->id;
+                    $new_attr_input['category_value_id'] = $property->id;
+                    $new_attr_input['value'] = $property->value;
+                    $new_item->cartItemSelectedAttributes()->create($new_attr_input);
+                }
+            } else {
+                $properties = $product->properties()->get();
+                $attr_properties = [];
+                if ($properties->count() > 0) {
 
-                foreach ($properties as $property) {
-                    if (!empty($attr_properties[$property->attribute->name])) {
-                        array_push($attr_properties[$property->attribute->name], $property);
-                    } else {
+                    foreach ($properties as $property) {
+                        if (!empty($attr_properties[$property->attribute->name])) {
+                            array_push($attr_properties[$property->attribute->name], $property);
+                        } else {
 
-                        $attr_properties[$property->attribute->name][0] = $property;
+                            $attr_properties[$property->attribute->name][0] = $property;
+                        }
+                    }
+                }
+
+                if (count($attr_properties) > 0) {
+                    foreach ($attr_properties as $value) {
+                        $cartItemSelectedAttribute['cart_item_id'] = $new_item->id;
+                        $cartItemSelectedAttribute['category_attribute_id'] = $value[0]->category_attribute_id;
+                        $cartItemSelectedAttribute['category_value_id'] = $value[0]->id;
+                        $cartItemSelectedAttribute['value'] = $value[0]->value;
+                        CartItemSelectedAttribute::create($cartItemSelectedAttribute);
                     }
                 }
             }
-
-            if (count($attr_properties) > 0) {
-                foreach ($attr_properties as $value) {
-                    $cartItemSelectedAttribute['cart_item_id'] = $new_item->id;
-                    $cartItemSelectedAttribute['category_attribute_id'] = $value[0]->category_attribute_id;
-                    $cartItemSelectedAttribute['category_value_id'] = $value[0]->id;
-                    $cartItemSelectedAttribute['value'] = $value[0]->value;
-                    CartItemSelectedAttribute::create($cartItemSelectedAttribute);
-                }
-            }
         }
 
-
-
-
-
-        $pay_price = 0;
-        $discount_price = 0;
-        foreach ($cart_items as $cart_item) {
-
-            $product_price = $cart_item->product->price;
-
-            //check for price increase
-            if (count($cart_item->cartItemSelectedAttributes) > 0) {
-                foreach ($cart_item->cartItemSelectedAttributes as $selected_attr) {
-                    $value = json_decode($selected_attr->value);
-                    $product_price += $value->price_increase;
-                }
-            }
-
-            if (!empty($cart_item->color_id)) {
-                $color_price = $cart_item->color->price_increase;
-                $product_price += $color_price;
-            }
-
-
-            $pay_price += $product_price;
-            if (!empty($cart_item->product->amazingSale)) {
-                $discount_price = + ($cart_item->product->amazingSale->first()->percentage * $product_price) / 100;
-            }
-        }
-
-        $total_pay_price = $pay_price - $discount_price;
+        $cart_calculations = $cartServices->calculate();
 
         return response()->json([
             'items' => $cart_items->toArray(),
             'cart_count' => e2p_numbers($cart_items->count()),
             'status' => !$is_item_exists,
-            'pay_price' => price_formater($pay_price),
-            'discount_price' => price_formater($discount_price),
-            'total_pay_price' => price_formater($total_pay_price)
+            'pay_price' => price_formater($cart_calculations['pay_price']),
+            'discount_price' => price_formater($cart_calculations['discount_price']),
+            'total_pay_price' => price_formater($cart_calculations['total_pay_price'])
         ]);
     }
 

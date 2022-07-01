@@ -90,9 +90,10 @@ class Product extends Model
         return !empty($is_favorite) ? true : false;
     }
 
-    public function isInCart($attributes, CartServices $cartServices)
+    public function isInCart($attributes, $default_attributes = false)
     {
-        return $cartServices->isInCart($this, $attributes);
+        $cartServices = new CartServices();
+        return $cartServices->isInCart($this, $attributes, $default_attributes);
     }
 
     public function getPrice($attributes, $default_attributes = false)

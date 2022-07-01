@@ -76,14 +76,8 @@
                                 class="text-gray-700 w-10 h-10 rounded-lg text-xl hover-transition hover:bg-gray-200">
                                 @if ($cart_items->count() > 0)
                                     @php
-                                        $is_item_in_cart = false;
+                                        $is_item_in_cart = $amazingSale->product->isInCart([], true);
                                         
-                                        foreach ($cart_items as $cart_item) {
-                                            if ($cart_item->product_id == $amazingSale->product->id) {
-                                                $is_item_in_cart = true;
-                                                break;
-                                            }
-                                        }
                                     @endphp
 
                                     @if ($is_item_in_cart)
@@ -166,14 +160,7 @@
                                 class="text-gray-700 w-10 h-10 rounded-lg text-xl hover-transition hover:bg-gray-200">
                                 @if ($cart_items->count() > 0)
                                     @php
-                                        $is_item_in_cart = false;
-                                        
-                                        foreach ($cart_items as $cart_item) {
-                                            if ($cart_item->product_id == $leastMarketableProduct->id) {
-                                                $is_item_in_cart = true;
-                                                break;
-                                            }
-                                        }
+                                        $is_item_in_cart = $leastMarketableProduct->isInCart([], true);
                                     @endphp
 
                                     @if ($is_item_in_cart)

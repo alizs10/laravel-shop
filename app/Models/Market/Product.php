@@ -2,6 +2,8 @@
 
 namespace App\Models\Market;
 
+use App\Http\Services\CartServices;
+use App\Http\Services\ProductServices;
 use App\Models\User;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -86,5 +88,16 @@ class Product extends Model
         $user = User::find($user_id);
         $is_favorite = $user->favorites()->where('product_id', $this->id)->first();
         return !empty($is_favorite) ? true : false;
+    }
+
+    public function isInCart($attributes, CartServices $cartServices)
+    {
+        return $cartServices->isInCart($this, $attributes);
+    }
+
+    public function getPrice($attributes, $default_attributes = false)
+    {
+        $productServices = new ProductServices();
+        return $productServices->getPrice($this, $attributes, $default_attributes);
     }
 }

@@ -123,36 +123,8 @@ class CartServices
 
         //check for defaults attributes
         if ($has_defaults_attributes !== "false") {
-        
-
-            $default_guaranty_id = null;
-            $default_color_id = null;
-            $default_category_values = [];
-
-            if (!empty($product->colors->toArray())) {
-                $default_color_id = $product->colors->first()->id;
-            }
-
-            $properties = $product->properties()->get();
-
-            if ($properties->count() > 0) {
-                $category_attribute_ids = [];
-                foreach ($properties as $property) {
-                    if (!in_array($property->category_attribute_id, $category_attribute_ids)) {
-                        array_push($category_attribute_ids, $property->category_attribute_id);
-                        $default_value = $properties->where('category_attribute_id', $property->category_attribute_id)->first();
-                        array_push($default_category_values, $default_value->id);
-                    }
-                }
-            }
-
-            $default_attributes = [
-                'category_values' => $default_category_values,
-                'color_id' => $default_color_id,
-                'guaranty_id' => $default_guaranty_id
-            ];
-          
-
+            $productServices = new ProductServices();
+            $default_attributes = $productServices->getDefaultAttributes($product);
             return $this->checkCategoryValues($same_products, $default_attributes);
         }
     

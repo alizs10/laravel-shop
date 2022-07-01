@@ -32,11 +32,12 @@ function addToCart(btn) {
     let formData = {
         '_token': $('meta[name=csrf-token]').attr('content'),
         'attributes': {
-            'category_values': [],
+            'category_values': {},
             'color_id': null,
             'guaranty_id': null,
-        } 
-        
+        },
+        'has_default_attributes': false,
+
     };
 
     let attributes = $('select[name^="product_attributes"]')
@@ -50,6 +51,8 @@ function addToCart(btn) {
         attributes.each(function (key, value) {
             formData['attributes']['category_values'][key] = value.value
         })
+    } else {
+        formData['has_default_attributes'] = true;
     }
 
 
@@ -59,7 +62,6 @@ function addToCart(btn) {
         data: formData,
         dataType: "json",
         success: function (response) {
-            console.log(response.items);
             // increase cart number
             cartNumber = response.cart_count;
             if (response.items.length == 0) {

@@ -216,8 +216,10 @@
                 
                 if ($is_product_in_cart) {
                     //check for color price increase
-                    $product_color_price = $cartItem->color->price_increase;
-                    $product_price += $product_color_price;
+                    if (!empty($cartItem->color)) {
+                        $product_color_price = $cartItem->color->price_increase;
+                        $product_price += $product_color_price ?: 0;
+                    }
                 
                     //check for product attributes price increase
                     if (!empty($cartItem->cartItemSelectedAttributes)) {

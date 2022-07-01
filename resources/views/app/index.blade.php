@@ -70,22 +70,28 @@
                                 <i class="fa-regular fa-heart"></i>
                             </button>
                             <button onclick="addToCart(this)"
-                                data-url="{{ route('app.product.toggle-product', $amazingSale->product_id) }}"
-                                class="text-gray-700 w-10 h-10 rounded-lg text-xl hover-transition hover:bg-gray-200">
-                                @if ($cart_items->count() > 0)
-                                    @foreach ($cart_items as $cart_item)
-                                        @if ($cart_item->product_id == $amazingSale->product_id)
-                                            <i class="fa-solid fa-cart-circle-check"></i>
-                                        @break
+                            data-url="{{ route('app.product.toggle-product', $amazingSale->product->id) }}"
+                            class="text-gray-700 w-10 h-10 rounded-lg text-xl hover-transition hover:bg-gray-200">
+                            @if ($cart_items->count() > 0)
+                                @php
+                                    $is_item_in_cart = false;
+                                    
+                                    foreach ($cart_items as $cart_item) {
+                                        if ($cart_item->product_id == $amazingSale->product->id) {
+                                            $is_item_in_cart = true;
+                                            break;
+                                        }
+                                    }
+                                @endphp
 
-                                    @else
-                                        <i class="fa-solid fa-cart-circle-plus"></i>
-                                    @endif
-                                @endforeach
+                                @if ($is_item_in_cart)
+                                    <i class="fa-solid fa-cart-circle-check"></i>
+                                @else
+                                    <i class="fa-solid fa-cart-circle-plus"></i>
+                                @endif
                             @else
                                 <i class="fa-solid fa-cart-circle-plus"></i>
                             @endif
-
                         </button>
                     </div>
                 </div>

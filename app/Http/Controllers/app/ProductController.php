@@ -4,6 +4,7 @@ namespace App\Http\Controllers\app;
 
 use App\Http\Controllers\Controller;
 use App\Http\Services\CartServices;
+use App\Http\Services\ProductServices;
 use App\Models\CartItem;
 use App\Models\CartItemSelectedAttribute;
 use App\Models\Comment;
@@ -125,11 +126,19 @@ class ProductController extends Controller
     public function toggleProduct(Request $request, Product $product, CartServices $cartServices)
     {
         $attributes = [];
+        $has_defaults_attributes = false;
+        
         if ($request->has('attributes')) {
             $attributes = $request->only('attributes')['attributes'];
+            array_key_exists('category_values', $attributes) ?: $attributes['category_values'] = [];
+            !array_key_exists('has_defaults_attributes', $request->only('has_defaults_attributes')) ?: $has_defaults_attributes = $request->only('attributes')['has_defaults_attributes'];
+        }
+        if ($request->has('has_default_attributes')) {
+            $has_defaults_attributes = $request->get('has_default_attributes');
         }
 
-        $is_item_exists = $cartServices->isInCart($product, $attributes);
+        
+        $is_item_exists = $cartServices->isInCart($product, $attributes, $has_defaults_attributes);
 
         if ($is_item_exists) {
             $is_item_exists->cartItemSelectedAttributes()->delete();
@@ -144,12 +153,14 @@ class ProductController extends Controller
 
             //check if has attributes
             if (!empty($attributes)) {
-                $new_item_input['color_id'] = $attributes['color_id'];
+                if ($attributes['color_id']) {
+                    $new_item_input['color_id'] = $attributes['color_id'];
+                } else {
+                    //check for color
+                    $product_default_color = $product->colors->first();
+                    $new_item_input['color_id'] = !empty($product_default_color) ? $product_default_color->id : null;
+                }
                 $new_item_input['guaranty_id'] = $attributes['guaranty_id'];
-            } else {
-                //check for color
-                $product_default_color = $product->colors->first();
-                $new_item_input['color_id'] = !empty($product_default_color) ? $product_default_color->id : null;
             }
 
             $user = Auth::user();
@@ -159,7 +170,7 @@ class ProductController extends Controller
             $cart_items->push($new_item);
 
             //check for default attributes values
-            if (!empty($attributes)) {
+            if (!empty($attributes['category_values'])) {
                 foreach ($attributes['category_values'] as $category_value_id) {
                     $property = PropertyValue::find($category_value_id);
                     $new_attr_input['category_attribute_id'] = $property->attribute->id;
@@ -232,57 +243,26 @@ class ProductController extends Controller
         ]);
     }
 
-    public function getPrice(Request $request, Product $product)
+    public function getPrice(Request $request, Product $product, ProductServices $productServices)
     {
         $request->validate([
             'attributes[]' => 'nullable|array',
             'attributes.*' => 'numeric|exists:category_values,id',
             'color_id' => 'nullable|numeric|exists:product_colors,id',
+            'quaranty_id' => 'nullable',
         ]);
 
-        $color = false;
+        $attributes = [
+            'category_values' => $request->get('attributes'),
+            'color_id' => $request->get('color_id'),
+            'quaranty_id' => $request->get('quaranty_id'),
+        ];
 
-        if (!empty($request->get('color_id'))) {
-            $color_id = $request->get('color_id');
-            $color = ProductColor::find($color_id);
-            if ($product->id != $color->product_id) {
-                return false;
-            }
-        }
-
-
-
-        $product_price = $product->price;
-        $discount_amount = 0;
-
-        //check for color price increase
-        if ($color) {
-            $product_color_price = $color->price_increase;
-            $product_price += $product_color_price;
-        }
-
-        //check for product attributes price increase
-        if ($request->has('attributes')) {
-            $category_value_ids = $request->get('attributes');
-            $category_values = PropertyValue::whereIn('id', $category_value_ids)->get();
-            if ($category_values->count() > 0) {
-                foreach ($category_values as $category_value) {
-                    $product_price += json_decode($category_value->value)->price_increase;
-                }
-            }
-        }
-
-        //check for product discount
-        if (!empty($product->amazingSale)) {
-            $discount_amount = ($product->amazingSale->percentage * $product_price) / 100;
-        }
-
-
-        $ultimate_price = $product_price - $discount_amount;
+        $get_price = $productServices->getPrice($product, $attributes);
 
         return response()->json([
-            'product_price' => price_formater($product_price),
-            'ultimate_price' => price_formater($ultimate_price)
+            'product_price' => price_formater($get_price['product_price']),
+            'ultimate_price' => price_formater($get_price['ultimate_price'])
         ]);
     }
 }

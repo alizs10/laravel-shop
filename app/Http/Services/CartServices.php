@@ -109,9 +109,8 @@ class CartServices
             return false;
         }
 
-        
-        $same_products = $cart_items->where('product_id', $product->id)->get();
-        dd($same_products);
+
+        $same_products = $cart_items->where('product_id', $product->id)->all();
 
         if (empty($same_products)) {
             return false;
@@ -120,7 +119,7 @@ class CartServices
         if (empty($attributes)) {
             foreach ($same_products as $same_product) {
                 if ($same_product->color_id == null && $same_product->guaranty_id == null && empty($same_product->cartItemSelectedAttributes)) {
-                    return true;
+                    return $same_product;
                     exit;
                 }
             }
@@ -135,7 +134,7 @@ class CartServices
             $is_color_id_match = false;
             $is_guaranty_id_match = false;
             $is_category_values_match = false;
-            
+
             //first => color_id
             if ($same_product->color_id == $attributes['color_id']) {
                 $is_color_id_match = true;
@@ -150,15 +149,23 @@ class CartServices
                 $is_category_values_match = true;
             }
 
-            $cart_item_attribute_value_ids = $same_product->cartItemSelectedAttributes->get('id')->toArray();
-            if (!$is_category_values_match && count($cart_item_attribute_value_ids) == count($attributes['category_values'])) {
-                if ($attributes['category_values'] == $cart_item_attribute_value_ids) {
-                    $is_category_values_match = true;
+            $cart_item_category_values = $same_product->cartItemSelectedAttributes()->get('category_value_id')->toArray();
+            $cart_item_category_value_ids = [];
+            if (!empty($cart_item_category_values)) {
+                foreach ($cart_item_category_values as $cart_item_category_value) {
+                    array_push($cart_item_category_value_ids, $cart_item_category_value['category_value_id']);
+                }
+                if (!$is_category_values_match && count($cart_item_category_value_ids) == count($attributes['category_values'])) {
+                    if ($attributes['category_values'] == $cart_item_category_value_ids) {
+                        $is_category_values_match = true;
+                    }
                 }
             }
 
+
+
             if ($is_category_values_match && $is_guaranty_id_match && $is_color_id_match) {
-                return true;
+                return $same_product;
                 exit;
             }
         }

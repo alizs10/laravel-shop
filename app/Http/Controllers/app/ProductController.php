@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
-    public function index(Product $product)
+    public function index(Product $product, CartServices $cartServices)
     {
         //comments
         $user_comment_likes_ids = [];
@@ -53,15 +53,7 @@ class ProductController extends Controller
 
         //is in cart
         $is_product_in_cart = false;
-
-        $user = Auth::user();
-        if (empty($user)) {
-            $ip_address = request()->ip();
-            $cart_items = CartItem::where('ip_address', $ip_address)->get();
-        } else {
-            $cart_items = $user->cart_items;
-        }
-
+        $cart_items = $cartServices->getCartItems();
         $cartItem = $cart_items->where('product_id', $product->id)->first();
         if (!empty($cartItem)) {
             $is_product_in_cart = true;
@@ -140,8 +132,8 @@ class ProductController extends Controller
         $is_item_exists = $cartServices->isInCart($product, $attributes);
 
         if ($is_item_exists) {
-            $exists_item = CartItem::where('product_id', $product->id)->first();
-            $exists_item->cartItemSelectedAttributes->delete();
+            $is_item_exists->cartItemSelectedAttributes()->delete();
+            $is_item_exists->delete();
         }
 
         $cart_items = $cartServices->getCartItems();

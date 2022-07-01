@@ -122,12 +122,23 @@
                             </span>
 
 
+                            @php
+                                
+                                if ($cartItem && !empty($cartItem->cartItemSelectedAttributes->toArray())) {
+                                    $selected_attr = $cartItem
+                                        ->cartItemSelectedAttributes()
+                                        ->where('category_attribute_id', $attr_values[0]->category_attribute_id)
+                                        ->first();
+                                }
+                                
+                            @endphp
                             <select onchange="changeAttributeValue(this)"
                                 data-url="{{ route('app.product.get-price', $product->id) }}"
                                 class="form-input dark:border-gray-700" name="product_attributes[]"
                                 id="product-attribute-{{ $loop->iteration }}">
                                 @foreach ($attr_values as $attr_value)
-                                    <option class="text-black" value="{{ $attr_value->id }}">
+                                    <option class="text-black" value="{{ $attr_value->id }}"
+                                        @if ($is_product_in_cart && $selected_attr->category_value_id == $attr_value->id) selected @endif>
                                         {{ json_decode($attr_value->value)->value . ' ' . $attr_value->attribute->unit }}
                                     </option>
                                 @endforeach
@@ -147,7 +158,7 @@
                         <div class="flex flex-wrap gap-2" id="product-colors">
 
                             @foreach ($product->colors as $color)
-                                <span onclick="colorSelector(this, {{$color->id}})"
+                                <span onclick="colorSelector(this, {{ $color->id }})"
                                     data-url="{{ route('app.product.get-price', $product->id) }}"
                                     class="cursor-pointer text-xs rounded-lg px-2 py-1 border-2 flex items-center gap-2
                                     @if ($is_product_in_cart && $cartItem->color_id == $color->id) selected @elseif (!$is_product_in_cart && $product->colors->first()->id == $color->id) selected @endif"
@@ -216,7 +227,7 @@
                     }
                 } else {
                     //check for color price increase
-                    if (!empty($product->colors)) {
+                    if (!empty($product->colors->toArray())) {
                         $product_color_price = $product->colors->first()->price_increase;
                         $product_price += $product_color_price;
                     }

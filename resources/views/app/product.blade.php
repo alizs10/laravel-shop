@@ -188,7 +188,7 @@
                             value="{{ $product->colors->first()->id }}" />
                     @endif
                 @endif
-                @if ($product->marketable_number > 0)
+                @if ($product->isMarketable([], true))
                     <span class="mt-2 flex gap-x-2 items-center text-sm font-bold text-emerald-700 dark:text-emerald-600">
                         <span class="flex gap-x-1 items-center">
                             <i class="fa-regular fa-check-double text-lg"></i>

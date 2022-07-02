@@ -101,4 +101,10 @@ class Product extends Model
         $productServices = new ProductServices();
         return $productServices->getPrice($this, $attributes, $default_attributes);
     }
+
+    public function isMarketable($attributes, $default_attributes = false)
+    {
+        $productServices = new ProductServices();
+        return $productServices->isMarketable($this, $attributes, $default_attributes);
+    }
 }

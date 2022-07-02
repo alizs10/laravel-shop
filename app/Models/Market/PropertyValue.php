@@ -17,6 +17,9 @@ class PropertyValue extends Model
         'category_attribute_id',
         'product_id',
         'type',
+        'marketable_number',
+        'frozen_number',
+        'sold_number',
         
     ];
 

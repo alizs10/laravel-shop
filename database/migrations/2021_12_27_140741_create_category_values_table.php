@@ -19,6 +19,9 @@ class CreateCategoryValuesTable extends Migration
             $table->foreignId('product_id')->constrained('products')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('category_attribute_id')->constrained('category_attributes')->onUpdate('cascade')->onDelete('cascade');
             $table->tinyInteger('type')->default(0)->comment('0 => single, 1 => multiple and affect on price');
+            $table->tinyInteger('marketable_number')->default(0);
+            $table->tinyInteger('frozen_number')->default(0);
+            $table->tinyInteger('sold_number')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });

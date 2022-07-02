@@ -9,16 +9,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ProductCategory extends Model
 {
-    use HasFactory, SoftDeletes, Sluggable;
+    use HasFactory, SoftDeletes;
 
-    public function sluggable(): array
-    {
-        return [
-            'slug' => [
-                'source' => 'name'
-            ]
-        ];
-    }
 
     protected $fillable = ['name', 'slug', 'description', 'image', 'status', 'tags', 'parent_id', 'show_in_menu'];
 

@@ -192,6 +192,7 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
+        $product->amazingSale()->delete();
         $product->delete();
         return redirect()->route('admin.market.product.index')->with('alertify-error', 'محصول موردنظر با موفقیت حذف شد');
     }

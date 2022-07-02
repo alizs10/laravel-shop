@@ -32,6 +32,8 @@
     </section>
     <!-- slidershow ends -->
 
+    
+    @if (count($amazingSaleProducts->toArray()) > 0)
     <!-- amazing sales starts -->
     <section class="flex flex-col gap-y-2 p-2 rounded-lg mt-4 bg-red-500 text-white">
         <div class="flex justify-between items-center text-base">
@@ -99,6 +101,7 @@
         </div>
     </section>
     <!-- amazing sales ends -->
+    @endif
 
 
     <!-- add starts -->
@@ -109,7 +112,7 @@
     </section>
     <!-- add ends -->
 
-
+    @if (count($leastMarketableProducts->toArray()) > 0)
     <!-- recommended products starts -->
     <section class="flex flex-col gap-y-2 p-2 rounded-lg mt-4 bg-gray-300 dark:bg-gray-700 text-white">
         <div class="flex justify-between items-center text-black dark:text-white text-base">
@@ -182,6 +185,7 @@
         </div>
     </section>
     <!-- recommended products ends -->
+    @endif
 
     <!-- add starts -->
     <section class="rounded-lg my-4 overflow-hidden">

@@ -3,7 +3,9 @@ function getPrice(url) {
     let formData = {
         '_token': $('meta[name=csrf-token]').attr('content'),
         'attributes': [],
-        'color_id': null
+        'color_id': null,
+        'guaranty_id': null,
+        'has_defaults_attributes': false
     };
 
     let attributes = $('select[name^="product_attributes"]')
@@ -17,6 +19,7 @@ function getPrice(url) {
         formData['attributes'][key] = value.value
     })
 
+    
     return $.ajax({
         type: "post",
         url,
@@ -35,6 +38,14 @@ async function changeAttributeValue(attr) {
     if (res) {
         $('#product-price').html(res.product_price + ' تومان')
         $('#ultimate-price').html(res.ultimate_price + ' تومان')
+        
+        if (res.status) {
+            $('#product-toggle-product-btn span').find('svg').removeClass('fa-plus').addClass('fa-check')
+            $('#product-toggle-product-btn span').find('span').html('موجود در سبد شما')
+        } else {
+            $('#product-toggle-product-btn span').find('svg').removeClass('fa-check').addClass('fa-plus')
+            $('#product-toggle-product-btn span').find('span').html('افزودن به سبد خرید')
+        }
     }
 }
 
@@ -49,6 +60,15 @@ async function colorSelector(colorBtn, color_id) {
     if (res) {
         $('#product-price').html(res.product_price + ' تومان')
         $('#ultimate-price').html(res.ultimate_price + ' تومان')
+
+        
+        if (res.status) {
+            $('#product-toggle-product-btn span').find('svg').removeClass('fa-plus').addClass('fa-check')
+            $('#product-toggle-product-btn span').find('span').html('موجود در سبد شما')
+        } else {
+            $('#product-toggle-product-btn span').find('svg').removeClass('fa-check').addClass('fa-plus')
+            $('#product-toggle-product-btn span').find('span').html('افزودن به سبد خرید')
+        }
 
         selected.removeClass('selected');
         selected.find('svg').remove()

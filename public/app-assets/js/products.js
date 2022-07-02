@@ -36,7 +36,7 @@ function addToCart(btn) {
             'color_id': null,
             'guaranty_id': null,
         },
-        'has_default_attributes': false,
+        'has_defaults_attributes': false,
 
     };
 
@@ -52,7 +52,7 @@ function addToCart(btn) {
             formData['attributes']['category_values'][key] = value.value
         })
     } else {
-        formData['has_default_attributes'] = true;
+        formData['has_defaults_attributes'] = true;
     }
 
 

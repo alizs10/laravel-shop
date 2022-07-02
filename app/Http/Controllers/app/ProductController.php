@@ -131,15 +131,16 @@ class ProductController extends Controller
         if ($request->has('attributes')) {
             $attributes = $request->only('attributes')['attributes'];
             array_key_exists('category_values', $attributes) ?: $attributes['category_values'] = [];
-            !array_key_exists('has_defaults_attributes', $request->only('has_defaults_attributes')) ?: $has_defaults_attributes = $request->only('attributes')['has_defaults_attributes'];
         }
-        if ($request->has('has_default_attributes')) {
-            $has_defaults_attributes = $request->get('has_default_attributes');
+        
+        if ($request->has('has_defaults_attributes')) {
+            $has_defaults_attributes = $request->get('has_defaults_attributes');
+            $has_defaults_attributes = $has_defaults_attributes === "false" ? false : true;
         }
 
         
         $is_item_exists = $cartServices->isInCart($product, $attributes, $has_defaults_attributes);
-
+      
         if ($is_item_exists) {
             $is_item_exists->cartItemSelectedAttributes()->delete();
             $is_item_exists->delete();
@@ -243,26 +244,35 @@ class ProductController extends Controller
         ]);
     }
 
-    public function getPrice(Request $request, Product $product, ProductServices $productServices)
+    public function getPrice(Request $request, Product $product, ProductServices $productServices, CartServices $cartServices)
     {
         $request->validate([
             'attributes[]' => 'nullable|array',
             'attributes.*' => 'numeric|exists:category_values,id',
             'color_id' => 'nullable|numeric|exists:product_colors,id',
-            'quaranty_id' => 'nullable',
+            'guaranty_id' => 'nullable',
+            'has_defaults_attributes' => 'nullable|in:true,false',
         ]);
 
         $attributes = [
             'category_values' => $request->get('attributes'),
             'color_id' => $request->get('color_id'),
-            'quaranty_id' => $request->get('quaranty_id'),
+            'guaranty_id' => $request->get('guaranty_id'),
         ];
 
-        $get_price = $productServices->getPrice($product, $attributes);
+        $has_defaults_attributes = false;
+        if ($request->has('has_default_attributes')) {
+            $has_defaults_attributes = $request->get('has_defaults_attributes');
+            $has_defaults_attributes = $has_defaults_attributes === "false" ? false : true;
+        }
 
+        $get_price = $productServices->getPrice($product, $attributes);
+        $is_in_cart = $cartServices->isInCart($product, $attributes, $has_defaults_attributes);
+       
         return response()->json([
             'product_price' => price_formater($get_price['product_price']),
-            'ultimate_price' => price_formater($get_price['ultimate_price'])
+            'ultimate_price' => price_formater($get_price['ultimate_price']),
+            'status' => $is_in_cart !== false ? true : false,
         ]);
     }
 }

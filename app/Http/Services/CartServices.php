@@ -110,9 +110,6 @@ class CartServices
             return false;
         }
 
-        
-
-
         $same_products = $cart_items->where('product_id', $product->id)->all();
 
         if (empty($same_products)) {
@@ -121,14 +118,12 @@ class CartServices
 
        
 
-        //check for defaults attributes
-        if ($has_defaults_attributes !== "false") {
+        //set defaults attributes
+        if ($has_defaults_attributes) {
+          
             $productServices = new ProductServices();
-            $default_attributes = $productServices->getDefaultAttributes($product);
-            return $this->checkCategoryValues($same_products, $default_attributes);
+            $attributes = $productServices->getDefaultAttributes($product);
         }
-    
-
 
         //check for attributes
         return $this->checkCategoryValues($same_products, $attributes);
@@ -170,6 +165,8 @@ class CartServices
 
             //third => category values
             if (empty($attributes['category_values']) && empty($same_product->cartItemSelectedAttributes->toArray())) {
+          
+
                 $is_category_values_match = true;
             } else {
                 $cart_item_category_values = $same_product->cartItemSelectedAttributes()->get('category_value_id')->toArray();
@@ -186,7 +183,7 @@ class CartServices
                 }
             }
            
-
+        
             if ($is_category_values_match && $is_guaranty_id_match && $is_color_id_match) {
                 return $same_product;
                 exit;

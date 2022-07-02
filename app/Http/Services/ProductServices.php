@@ -99,6 +99,8 @@ class ProductServices
             $attributes = $this->getDefaultAttributes($product);
         }
 
+        
+
         //check for product color
         if (!empty($product->colors->toArray())) {
             $product_colors = $product->colors;
@@ -109,11 +111,10 @@ class ProductServices
 
             return false;
         }
-
         //check for attributes
         if (!empty($attributes['category_values'])) {
             foreach ($attributes['category_values'] as $property_value_id) {
-                $product_property = PropertyValue::find($property_value_id)->first();
+                $product_property = PropertyValue::find($property_value_id);
                 if ($product_property && $product_property->product_id == $product->id) {
                     return $product_property->marketable_number > 0 ? true : false;
                 }

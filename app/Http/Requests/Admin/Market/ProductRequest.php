@@ -26,7 +26,7 @@ class ProductRequest extends FormRequest
         if ($this->isMethod('post')) {
             return [
                 'name' => 'required|max:255|min:2',
-                'introduction' => 'required|max:1000|min:2',
+                'introduction' => 'required|min:2',
                 'status' => 'required|numeric|in:0,1',
                 'marketable' => 'required|numeric|in:0,1',
                 'tags' => 'required|max:255|min:2',
@@ -46,7 +46,7 @@ class ProductRequest extends FormRequest
         else {
             return [
                 'name' => 'required|max:255|min:2',
-                'introduction' => 'required|max:1000|min:2',
+                'introduction' => 'required|min:2',
                 'status' => 'required|numeric|in:0,1',
                 'marketable' => 'required|numeric|in:0,1',
                 'tags' => 'required|max:255|min:2',

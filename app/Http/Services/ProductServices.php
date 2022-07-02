@@ -104,11 +104,11 @@ class ProductServices
         //check for product color
         if (!empty($product->colors->toArray())) {
             $product_colors = $product->colors;
-            $color = $product_colors->where(['color_id' => $attributes['color_id']])->first();
+            $color = $product_colors->where('id', $attributes['color_id'])->first();
             if ($color) {
                 return $color->marketable_number > 0 ? true : false;
             } 
-
+            dd($color);
             return false;
         }
         //check for attributes
@@ -118,6 +118,7 @@ class ProductServices
                 if ($product_property && $product_property->product_id == $product->id) {
                     return $product_property->marketable_number > 0 ? true : false;
                 }
+              
 
                 return false;
             }

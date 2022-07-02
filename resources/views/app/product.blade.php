@@ -281,7 +281,7 @@
                         </span>
                     </span>
 
-                    @if ($product->marketable_number == 0)
+                    @if (!$product->isMarketable([], true))
                         <button class="w-full py-2 flex-center rounded-lg bg-gray-500 text-white text-sm flex gap-2">
                             <i class="fa-regular fa-bell"></i>
                             موجود شد اطلاع بده!

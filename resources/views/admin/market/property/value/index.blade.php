@@ -36,6 +36,7 @@
                     <th>فرم کالا</th>
                     <th>مقدار</th>
                     <th>افزایش قیمت</th>
+                    <th>موجودی</th>
                     <th>عملیات</th>
                 </tr>
             </thead>
@@ -47,8 +48,8 @@
                         <td>{{ $value->product->name }}</td>
                         <td>{{ $value->attribute->name }}</td>
                         <td>{{ json_decode($value->value)->value }}</td>
-                        
                         <td>{{ json_decode($value->value)->price_increase . ' تومان' }}</td>
+                        <td>{{ $value->marketable_number == 0 ? 'ناموجود' : $value->marketable_number }}</td>
                         <td>
                             <span class="flex items-center gap-x-1">
                                 <a href="{{ route('admin.market.property.value.edit', $value->id) }}"

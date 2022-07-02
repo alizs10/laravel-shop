@@ -26,7 +26,8 @@ class PropertyValueRequest extends FormRequest
         return [
             'product_id' => 'required|numeric|exists:products,id',
             'value' => 'required|string|min:1|max:90',
-            'price_increase' => 'required|numeric'
+            'price_increase' => 'required|numeric',
+            'marketable_number' => 'required|numeric|min:0'
         ];
     }
 }

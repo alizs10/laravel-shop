@@ -71,6 +71,11 @@
                     class="text-xs {{ $errors->has('price_increase') ? 'text-red-600 dark:text-red-400' : '' }}">افزایش قیمت</label>
                 <input type="text" class="form-input" name="price_increase" id="price_increase" value="{{ old('price_increase') }}">
             </div>
+            <div class="col-span-2 md:col-span-1 flex flex-col gap-y-1">
+                <label for="price_increase"
+                    class="text-xs {{ $errors->has('marketable_number') ? 'text-red-600 dark:text-red-400' : '' }}">تعداد موجودی</label>
+                <input type="text" class="form-input" name="marketable_number" id="marketable_number" value="{{ old('marketable_number') }}">
+            </div>
 
 
             <button class="col-span-2 py-2 rounded-lg bg-emerald-600 text-white text-sm md:text-base">ثبت</button>

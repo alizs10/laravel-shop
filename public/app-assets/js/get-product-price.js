@@ -52,7 +52,7 @@ async function changeAttributeValue(attr) {
 
             $('#marketable-status').removeClass('text-red-500').addClass('text-emerald-700 dark:text-emerald-600')
             $('#marketable-status').find('svg').removeClass('fa-xmark').addClass('fa-check-double')
-            $('#marketable-text-status').html('موجود')
+            $('#marketable-text-status').html('موجود در انبار')
 
         } else {
             $('#product-toggle-product-btn').attr('disabled', true)
@@ -81,6 +81,8 @@ async function colorSelector(colorBtn, color_id) {
         $('#ultimate-price').html(res.ultimate_price + ' تومان')
 
         if (res.marketable) {
+            $('#product-toggle-product-btn').attr('disabled', false)
+            $('#product-toggle-product-btn').removeClass('bg-gray-500').addClass('bg-red-500')
             if (res.status) {
                 $('#product-toggle-product-btn span').find('svg').removeClass('fa-plus').addClass('fa-check')
                 $('#product-toggle-product-btn span').find('span').html('موجود در سبد شما')
@@ -91,9 +93,11 @@ async function colorSelector(colorBtn, color_id) {
 
             $('#marketable-status').removeClass('text-red-500').addClass('text-emerald-700 dark:text-emerald-600')
             $('#marketable-status').find('svg').removeClass('fa-xmark').addClass('fa-check-double')
-            $('#marketable-text-status').html('موجود')
+            $('#marketable-text-status').html('موجود در انبار')
 
         } else {
+            $('#product-toggle-product-btn').attr('disabled', true)
+            $('#product-toggle-product-btn').removeClass('bg-red-500').addClass('bg-gray-500')
             $('#product-toggle-product-btn span').find('svg').removeClass('fa-check').removeClass('fa-plus').addClass('fa-bell')
             $('#product-toggle-product-btn span').find('span').html('موجود شد اطلاع بده!')
             

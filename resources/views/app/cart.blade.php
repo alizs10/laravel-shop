@@ -118,7 +118,11 @@
 
                                     <span>گارانتی اصالات و سلامت فیزیکی کالا</span>
                                 </span>
-                                @if ($cart_item->product->marketable_number > 0)
+                                @php
+                                    $cartItemAttributes = $cart_item->cartAttributes();
+                                    $is_marketable = $cart_item->product->isMarketable($cartItemAttributes, false);
+                                @endphp
+                                @if ($is_marketable)
                                     <span
                                         class="mt-2 flex gap-x-2 items-center text-xxs xs:text-xs lg:text-sm font-bold text-emerald-700 dark:text-emerald-600">
                                         <span class="flex gap-x-1 items-center">
@@ -169,12 +173,14 @@
                                         $ultimate_price = $final_product_price - $discount_amount;
                                     @endphp
                                     @if (!empty($cart_item->product->amazingSale))
-                                        <span id="discount-amount-{{ $cart_item->id }}" class="text-red-500 text-xxs xs:text-xs lg:text-sm">
+                                        <span id="discount-amount-{{ $cart_item->id }}"
+                                            class="text-red-500 text-xxs xs:text-xs lg:text-sm">
                                             تخفیف {{ price_formater($discount_amount) }} تومان
                                         </span>
                                     @endif
 
-                                    <span id="ultimate-price-{{ $cart_item->id }}" class="text-black dark:text-white text-xs xs:text-base">
+                                    <span id="ultimate-price-{{ $cart_item->id }}"
+                                        class="text-black dark:text-white text-xs xs:text-base">
                                         {{ price_formater($ultimate_price) }} تومان
                                     </span>
                                 </span>
@@ -204,7 +210,7 @@
                     $discount_price = 0;
                     foreach ($cart_items as $cart_item) {
                         $product_price = $cart_item->product->price;
-                        
+                    
                         //check for product color price increase
                         if (!empty($cart_item->color)) {
                             $product_price += $cart_item->color->price_increase;

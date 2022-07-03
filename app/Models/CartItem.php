@@ -50,7 +50,7 @@ class CartItem extends Model
         return $this->product->toArray();
     }
 
-    public function cartAttributes()
+    public function itemAttributes()
     {
         $cartServices = new CartServices();
         return $cartServices->getAttributes($this);

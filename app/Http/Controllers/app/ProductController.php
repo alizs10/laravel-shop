@@ -39,16 +39,20 @@ class ProductController extends Controller
 
         // product properties
         $product_attributes_select_type = [];
+        $product_attributes_simple_type = [];
 
-        foreach ($product->category->attributes as $category_attribute) {
-            foreach ($category_attribute->values as $category_attribute_value) {
 
-                if ($category_attribute_value->product_id == $product->id && $category_attribute_value->type == 1) {
-                    $product_attributes_select_type[$category_attribute->name] = $category_attribute->values;
-                }
+
+        foreach ($product->properties as $key => $product_property) {
+            if ($product_property->type == 0) {
+                $product_attributes_simple_type[$product_property->attribute->name] = $product_property;
+            } else if ($product_property->type == 1) {
+                $product_attributes_select_type[$product_property->attribute->name][$key] = $product_property;
             }
         }
 
+
+       
         //related products
         $related_products = Product::where('cat_id', $product->cat_id)->get()->except(['id' => $product->id]);
 
@@ -60,7 +64,7 @@ class ProductController extends Controller
             $is_product_in_cart = true;
         }
 
-        return view('app.product', compact('product', 'related_products', 'user_comment_likes_ids', 'product_attributes_select_type', 'is_product_in_cart', 'cartItem'));
+        return view('app.product', compact('product', 'related_products', 'user_comment_likes_ids', 'product_attributes_select_type', 'product_attributes_simple_type', 'is_product_in_cart', 'cartItem'));
     }
 
     public function likeComment(Comment $comment)
@@ -127,23 +131,23 @@ class ProductController extends Controller
     {
         $attributes = [];
         $has_defaults_attributes = false;
-        
+
         if ($request->has('attributes')) {
             $attributes = $request->only('attributes')['attributes'];
             array_key_exists('category_values', $attributes) ?: $attributes['category_values'] = [];
         }
-        
+
         if ($request->has('has_defaults_attributes')) {
             $has_defaults_attributes = $request->get('has_defaults_attributes');
             $has_defaults_attributes = $has_defaults_attributes === "false" ? false : true;
         }
 
         if (!$productServices->isMarketable($product, $attributes, $has_defaults_attributes)) {
-           return false;
+            return false;
         }
-        
+
         $is_item_exists = $cartServices->isInCart($product, $attributes, $has_defaults_attributes);
-      
+
         if ($is_item_exists) {
             $is_item_exists->cartItemSelectedAttributes()->delete();
             $is_item_exists->delete();
@@ -272,7 +276,7 @@ class ProductController extends Controller
         $get_price = $productServices->getPrice($product, $attributes);
         $is_in_cart = $cartServices->isInCart($product, $attributes, $has_defaults_attributes);
         $is_marketable = $productServices->isMarketable($product, $attributes, $has_defaults_attributes);
-       
+
         return response()->json([
             'product_price' => price_formater($get_price['product_price']),
             'ultimate_price' => price_formater($get_price['ultimate_price']),

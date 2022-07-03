@@ -8,17 +8,21 @@ function getPrice(url) {
         'has_defaults_attributes': false
     };
 
-    let attributes = $('select[name^="product_attributes"]')
+    let select_attributes = $('select[name^="product_attributes"]')
+    let simple_attributes = $('input[name^="product_attributes"]')
     let color_id = $('input[name="color_id"]')
 
     if (color_id.length > 0) {
         formData['color_id'] = color_id[0].value
     }
 
-    attributes.each(function (key, value) {
+    select_attributes.each(function (key, value) {
         formData['attributes'][key] = value.value
     })
 
+    simple_attributes.each(function (key, value) {
+        formData['attributes'][key] = value.value
+    })
 
     return $.ajax({
         type: "post",

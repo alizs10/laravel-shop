@@ -80,7 +80,7 @@
                                             {{ $selected_attribute->attribute->name }}:
                                         </span>
 
-                                        <span>{{ json_decode($selected_attribute->value)->value }}</span>
+                                        <span>{{ json_decode($selected_attribute->value)->value . ' ' . $selected_attribute->attribute->unit }}</span>
                                     </span>
                                 @endforeach
 
@@ -119,7 +119,7 @@
                                     <span>گارانتی اصالات و سلامت فیزیکی کالا</span>
                                 </span>
                                 @php
-                                    $cartItemAttributes = $cart_item->cartAttributes();
+                                    $cartItemAttributes = $cart_item->itemAttributes();
                                     $is_marketable = $cart_item->product->isMarketable($cartItemAttributes, false);
                                 @endphp
                                 @if ($is_marketable)
@@ -209,24 +209,28 @@
                     $pay_price = 0;
                     $discount_price = 0;
                     foreach ($cart_items as $cart_item) {
-                        $product_price = $cart_item->product->price;
+                        $cartItemAttributes = $cart_item->itemAttributes();
+                        $is_marketable = $cart_item->product->isMarketable($cartItemAttributes, false);
+                        if ($is_marketable) {
+                            $product_price = $cart_item->product->price;
                     
-                        //check for product color price increase
-                        if (!empty($cart_item->color)) {
-                            $product_price += $cart_item->color->price_increase;
-                        }
-                    
-                        //check for product attributes price increase
-                        if (!empty($cart_item->cartItemSelectedAttributes)) {
-                            foreach ($cart_item->cartItemSelectedAttributes as $selected_attribute) {
-                                $product_price += json_decode($selected_attribute->value)->price_increase;
+                            //check for product color price increase
+                            if (!empty($cart_item->color)) {
+                                $product_price += $cart_item->color->price_increase;
                             }
-                        }
                     
-                        $pay_price += $product_price * $cart_item->number;
+                            //check for product attributes price increase
+                            if (!empty($cart_item->cartItemSelectedAttributes)) {
+                                foreach ($cart_item->cartItemSelectedAttributes as $selected_attribute) {
+                                    $product_price += json_decode($selected_attribute->value)->price_increase;
+                                }
+                            }
                     
-                        if (!empty($cart_item->product->amazingSale)) {
-                            $discount_price = +($cart_item->product->amazingSale->first()->percentage * $product_price * $cart_item->number) / 100;
+                            $pay_price += $product_price * $cart_item->number;
+                    
+                            if (!empty($cart_item->product->amazingSale)) {
+                                $discount_price = +($cart_item->product->amazingSale->first()->percentage * $product_price * $cart_item->number) / 100;
+                            }
                         }
                     }
                     

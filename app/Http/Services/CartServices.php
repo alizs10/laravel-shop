@@ -169,6 +169,7 @@ class CartServices
 
     private function checkCategoryValues($same_products, $attributes)
     {
+
         foreach ($same_products as $same_product) {
 
             $is_color_id_match = false;
@@ -186,8 +187,6 @@ class CartServices
 
             //third => category values
             if (empty($attributes['category_values']) && empty($same_product->cartItemSelectedAttributes->toArray())) {
-          
-
                 $is_category_values_match = true;
             } else {
                 $cart_item_category_values = $same_product->cartItemSelectedAttributes()->get('category_value_id')->toArray();

@@ -97,6 +97,19 @@
                     </span>
                 @endforeach
 
+                @if (count($product_attributes_simple_type) > 0)
+                    @foreach ($product_attributes_simple_type as $attr => $attr_values)
+                        <span class="mt-2 flex gap-x-2 items-center text-xxs">
+                            <span class="flex gap-x-1 items-start">
+                                <i class="fa-regular fa-circle-small text-xs"></i>
+                                {{ $attr }}:
+                            </span>
+                            <input type="hidden" name="product_attributes[]" value="{{$attr_values->id}}">
+                            <span class="text-sm"> {{ json_decode($attr_values->value)->value . ' ' . $attr_values->attribute->unit }}</span>
+                        </span>
+                    @endforeach
+                @endif
+
                 <span class="mt-2 flex gap-x-2 items-center text-sm">
                     <span class="flex gap-x-1 items-center">
                         <i class="fa-regular fa-shield-check text-lg"></i>
@@ -191,7 +204,7 @@
 
                 @php
                     if ($cartItem) {
-                        $cartItemAttributes = $cartItem->cartAttributes();
+                        $cartItemAttributes = $cartItem->itemAttributes();
                         $is_marketable = $product->isMarketable($cartItemAttributes, false);
                     } else {
                         $is_marketable = $product->isMarketable([], true);
@@ -291,31 +304,32 @@
                         </span>
                     </span>
 
-                
-                        <button id="product-toggle-product-btn" onclick="addToCart(this)"
-                            data-url="{{ route('app.product.toggle-product', $product->id) }}"
-                            class="block py-2 text-center rounded-lg @if ($is_marketable) bg-red-500 @else bg-gray-500 @endif text-white text-sm" @if (!$is_marketable) disabled @endif>
 
-                            @if (!$is_marketable)
+                    <button id="product-toggle-product-btn" onclick="addToCart(this)"
+                        data-url="{{ route('app.product.toggle-product', $product->id) }}"
+                        class="block py-2 text-center rounded-lg @if ($is_marketable) bg-red-500 @else bg-gray-500 @endif text-white text-sm"
+                        @if (!$is_marketable) disabled @endif>
+
+                        @if (!$is_marketable)
+                            <span class="flex-center gap-2">
+                                <i class="fa-regular fa-bell"></i>
+                                <span>موجود شد اطلاع بده!</span>
+                            </span>
+                        @else
+                            @if ($is_product_in_cart)
                                 <span class="flex-center gap-2">
-                                    <i class="fa-regular fa-bell"></i>
-                                    <span>موجود شد اطلاع بده!</span>
+                                    <i class="fa-solid fa-check"></i>
+                                    <span>موجود در سبد شما</span>
                                 </span>
                             @else
-                                @if ($is_product_in_cart)
-                                    <span class="flex-center gap-2">
-                                        <i class="fa-solid fa-check"></i>
-                                        <span>موجود در سبد شما</span>
-                                    </span>
-                                @else
-                                    <span class="flex-center gap-2">
-                                        <i class="fa-solid fa-plus"></i>
-                                        <span>افزودن به سبد خرید</span>
-                                    </span>
-                                @endif
+                                <span class="flex-center gap-2">
+                                    <i class="fa-solid fa-plus"></i>
+                                    <span>افزودن به سبد خرید</span>
+                                </span>
                             @endif
+                        @endif
 
-                        </button>
+                    </button>
 
                 </div>
             </div>

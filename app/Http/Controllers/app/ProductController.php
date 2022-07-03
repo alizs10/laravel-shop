@@ -123,7 +123,7 @@ class ProductController extends Controller
         return redirect()->route('app.product.index', $product->id);
     }
 
-    public function toggleProduct(Request $request, Product $product, CartServices $cartServices)
+    public function toggleProduct(Request $request, Product $product, CartServices $cartServices, ProductServices $productServices)
     {
         $attributes = [];
         $has_defaults_attributes = false;
@@ -138,6 +138,9 @@ class ProductController extends Controller
             $has_defaults_attributes = $has_defaults_attributes === "false" ? false : true;
         }
 
+        if (!$productServices->isMarketable($product, $attributes, $has_defaults_attributes)) {
+           return false;
+        }
         
         $is_item_exists = $cartServices->isInCart($product, $attributes, $has_defaults_attributes);
       
@@ -268,11 +271,13 @@ class ProductController extends Controller
 
         $get_price = $productServices->getPrice($product, $attributes);
         $is_in_cart = $cartServices->isInCart($product, $attributes, $has_defaults_attributes);
+        $is_marketable = $productServices->isMarketable($product, $attributes, $has_defaults_attributes);
        
         return response()->json([
             'product_price' => price_formater($get_price['product_price']),
             'ultimate_price' => price_formater($get_price['ultimate_price']),
             'status' => $is_in_cart !== false ? true : false,
+            'marketable' => $is_marketable,
         ]);
     }
 }

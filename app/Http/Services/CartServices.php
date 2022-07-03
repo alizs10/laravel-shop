@@ -146,6 +146,27 @@ class CartServices
         return $cart_items;
     }
 
+    public function getAttributes($cartItem)
+    {
+        $attributes = [
+            'category_values' => [],
+            'color_id' => null,
+            'guaranty_id' => null,
+        ];
+
+        $attributes['color_id'] = $cartItem->color_id;
+        $attributes['guaranty_id'] = $cartItem->guaranty_id;
+        $selected_attributes = $cartItem->cartItemSelectedAttributes;
+
+        if (!empty($selected_attributes->toArray())) {
+            foreach ($selected_attributes as $selected_attribute) {
+                array_push($attributes['category_values'], $selected_attribute->category_value_id);
+            }
+        }
+
+        return $attributes;
+    }
+
     private function checkCategoryValues($same_products, $attributes)
     {
         foreach ($same_products as $same_product) {

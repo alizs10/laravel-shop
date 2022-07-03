@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Services\CartServices;
 use App\Models\Market\Product;
 use App\Models\Market\ProductColor;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -47,5 +48,11 @@ class CartItem extends Model
     public function getItemProductAttribute()
     {
         return $this->product->toArray();
+    }
+
+    public function cartAttributes()
+    {
+        $cartServices = new CartServices();
+        return $cartServices->getAttributes($this);
     }
 }

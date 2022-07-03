@@ -188,22 +188,32 @@
                             value="{{ $product->colors->first()->id }}" />
                     @endif
                 @endif
-                @if ($product->isMarketable([], true))
-                    <span class="mt-2 flex gap-x-2 items-center text-sm font-bold text-emerald-700 dark:text-emerald-600">
+
+                @php
+                    if ($cartItem) {
+                        $cartItemAttributes = $cartItem->cartAttributes();
+                        $is_marketable = $product->isMarketable($cartItemAttributes, false);
+                    } else {
+                        $is_marketable = $product->isMarketable([], true);
+                    }
+                @endphp
+                @if ($is_marketable)
+                    <span id="marketable-status"
+                        class="mt-2 flex gap-x-2 items-center text-sm font-bold text-emerald-700 dark:text-emerald-600">
                         <span class="flex gap-x-1 items-center">
                             <i class="fa-regular fa-check-double text-lg"></i>
                         </span>
 
-                        <span>موجود در انبار</span>
+                        <span id="marketable-text-status">موجود در انبار</span>
                     </span>
                 @else
-                    <span class="mt-2 flex gap-x-2 items-center text-sm font-bold text-red-500">
+                    <span id="marketable-status" class="mt-2 flex gap-x-2 items-center text-sm font-bold text-red-500">
 
                         <span class="flex gap-x-1 items-center">
                             <i class="fa-regular fa-xmark text-lg"></i>
                         </span>
 
-                        <span>نا موجود</span>
+                        <span id="marketable-text-status">نا موجود</span>
                     </span>
                 @endif
             </div>
@@ -281,17 +291,17 @@
                         </span>
                     </span>
 
-                    @if (!$product->isMarketable([], true))
-                        <button class="w-full py-2 flex-center rounded-lg bg-gray-500 text-white text-sm flex gap-2">
-                            <i class="fa-regular fa-bell"></i>
-                            موجود شد اطلاع بده!
-                        </button>
-                    @else
+                
                         <button id="product-toggle-product-btn" onclick="addToCart(this)"
                             data-url="{{ route('app.product.toggle-product', $product->id) }}"
-                            class="block py-2 text-center rounded-lg bg-red-500 text-white text-sm">
+                            class="block py-2 text-center rounded-lg @if ($is_marketable) bg-red-500 @else bg-gray-500 @endif text-white text-sm" @if (!$is_marketable) disabled @endif>
 
-                            @if ($cart_items->count() > 0)
+                            @if (!$is_marketable)
+                                <span class="flex-center gap-2">
+                                    <i class="fa-regular fa-bell"></i>
+                                    <span>موجود شد اطلاع بده!</span>
+                                </span>
+                            @else
                                 @if ($is_product_in_cart)
                                     <span class="flex-center gap-2">
                                         <i class="fa-solid fa-check"></i>
@@ -303,15 +313,9 @@
                                         <span>افزودن به سبد خرید</span>
                                     </span>
                                 @endif
-                            @else
-                                <span class="flex-center gap-2">
-                                    <i class="fa-solid fa-plus"></i>
-                                    <span>افزودن به سبد خرید</span>
-                                </span>
                             @endif
 
                         </button>
-                    @endif
 
                 </div>
             </div>

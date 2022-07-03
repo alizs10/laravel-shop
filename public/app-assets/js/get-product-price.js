@@ -19,7 +19,7 @@ function getPrice(url) {
         formData['attributes'][key] = value.value
     })
 
-    
+
     return $.ajax({
         type: "post",
         url,
@@ -38,13 +38,32 @@ async function changeAttributeValue(attr) {
     if (res) {
         $('#product-price').html(res.product_price + ' تومان')
         $('#ultimate-price').html(res.ultimate_price + ' تومان')
-        
-        if (res.status) {
-            $('#product-toggle-product-btn span').find('svg').removeClass('fa-plus').addClass('fa-check')
-            $('#product-toggle-product-btn span').find('span').html('موجود در سبد شما')
+
+        if (res.marketable) {
+            $('#product-toggle-product-btn').attr('disabled', false)
+            $('#product-toggle-product-btn').removeClass('bg-gray-500').addClass('bg-red-500')
+            if (res.status) {
+                $('#product-toggle-product-btn span').find('svg').removeClass('fa-plus').addClass('fa-check')
+                $('#product-toggle-product-btn span').find('span').html('موجود در سبد شما')
+            } else {
+                $('#product-toggle-product-btn span').find('svg').removeClass('fa-check').addClass('fa-plus')
+                $('#product-toggle-product-btn span').find('span').html('افزودن به سبد خرید')
+            }
+
+            $('#marketable-status').removeClass('text-red-500').addClass('text-emerald-700 dark:text-emerald-600')
+            $('#marketable-status').find('svg').removeClass('fa-xmark').addClass('fa-check-double')
+            $('#marketable-text-status').html('موجود')
+
         } else {
-            $('#product-toggle-product-btn span').find('svg').removeClass('fa-check').addClass('fa-plus')
-            $('#product-toggle-product-btn span').find('span').html('افزودن به سبد خرید')
+            $('#product-toggle-product-btn').attr('disabled', true)
+            $('#product-toggle-product-btn').removeClass('bg-red-500').addClass('bg-gray-500')
+            $('#product-toggle-product-btn span').find('svg').removeClass('fa-check').removeClass('fa-plus').addClass('fa-bell')
+            $('#product-toggle-product-btn span').find('span').html('موجود شد اطلاع بده!')
+            
+            $('#marketable-status').removeClass('text-emerald-700 dark:text-emerald-600').addClass('text-red-500')
+            $('#marketable-status').find('svg').removeClass('fa-check-double').addClass('fa-xmark')
+            $('#marketable-text-status').html('ناموجود')
+
         }
     }
 }
@@ -61,13 +80,27 @@ async function colorSelector(colorBtn, color_id) {
         $('#product-price').html(res.product_price + ' تومان')
         $('#ultimate-price').html(res.ultimate_price + ' تومان')
 
-        
-        if (res.status) {
-            $('#product-toggle-product-btn span').find('svg').removeClass('fa-plus').addClass('fa-check')
-            $('#product-toggle-product-btn span').find('span').html('موجود در سبد شما')
+        if (res.marketable) {
+            if (res.status) {
+                $('#product-toggle-product-btn span').find('svg').removeClass('fa-plus').addClass('fa-check')
+                $('#product-toggle-product-btn span').find('span').html('موجود در سبد شما')
+            } else {
+                $('#product-toggle-product-btn span').find('svg').removeClass('fa-check').addClass('fa-plus')
+                $('#product-toggle-product-btn span').find('span').html('افزودن به سبد خرید')
+            }
+
+            $('#marketable-status').removeClass('text-red-500').addClass('text-emerald-700 dark:text-emerald-600')
+            $('#marketable-status').find('svg').removeClass('fa-xmark').addClass('fa-check-double')
+            $('#marketable-text-status').html('موجود')
+
         } else {
-            $('#product-toggle-product-btn span').find('svg').removeClass('fa-check').addClass('fa-plus')
-            $('#product-toggle-product-btn span').find('span').html('افزودن به سبد خرید')
+            $('#product-toggle-product-btn span').find('svg').removeClass('fa-check').removeClass('fa-plus').addClass('fa-bell')
+            $('#product-toggle-product-btn span').find('span').html('موجود شد اطلاع بده!')
+            
+            $('#marketable-status').removeClass('text-emerald-700 dark:text-emerald-600').addClass('text-red-500')
+            $('#marketable-status').find('svg').removeClass('fa-check-double').addClass('fa-xmark')
+            $('#marketable-text-status').html('ناموجود')
+
         }
 
         selected.removeClass('selected');

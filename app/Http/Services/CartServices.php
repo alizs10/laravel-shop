@@ -80,16 +80,15 @@ class CartServices
     public function moveCartItems()
     {
         $user = Auth::user();
-
         if (empty($user)) {
             return false;
         }
 
-        $ip_address = request()->ip();
-        $cart_items = CartItem::where('ip_address', $ip_address)->get();
+        // get cart items with ip address
+        $ip_address_cart_items = $this->getCartItems(true);
 
-        if (!empty($cart_items)) {
-            foreach ($cart_items as $cart_item) {
+        if (!empty($ip_address_cart_items)) {
+            foreach ($ip_address_cart_items as $cart_item) {
                 $cart_item->update([
                     'user_id' => $user->id,
                     'ip_address' => null,
@@ -132,14 +131,14 @@ class CartServices
         return false;
     }
 
-    public function getCartItems()
+    public function getCartItems($ip_address_only = false)
     {
         $user = Auth::user();
-        if (empty($user)) {
+        if (empty($user) || $ip_address_only) {
             $ip_address = request()->ip();
             $cart_items = CartItem::where('ip_address', $ip_address)->get();
         } else {
-            $cart_items = $user->cart_items->get();
+            $cart_items = $user->cart_items;
         }
 
 

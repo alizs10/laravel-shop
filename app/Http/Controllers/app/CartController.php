@@ -143,10 +143,12 @@ class CartController extends Controller
         $user = Auth::user();
         if (empty($user)) {
             session(['back_url' => route('app.cart.index')]);
+            session(['move_cart_items' => true]);
             return redirect()->route('auth.index');
+            exit;
         }
 
-        $cart_items = $user->cart_items->all();
+        $cart_items = $user->cart_items;
         $default_address = $user->addresses()->where('status', 1)->first();
         $default_delivery = Delivery::where('status', 1)->first();
 
@@ -176,8 +178,21 @@ class CartController extends Controller
             $order_item_input['guaranty_id'] = $cart_item->guaranty_id;
 
 
-            $order->items()->create($order_item_input);
+            $order_item = $order->items()->create($order_item_input);
+
+
+            //move cart items selected attributes to order item selected attributes
+            foreach ($cart_item->cartItemSelectedAttributes as $cart_item_selected_attribute) {
+                $selected_attribute_input['order_item_id'] = $order_item->id;
+                $selected_attribute_input['category_attribute_id'] = $cart_item_selected_attribute->category_attribute_id;
+                $selected_attribute_input['category_value_id'] = $cart_item_selected_attribute->category_value_id;
+                $selected_attribute_input['value'] = $cart_item_selected_attribute->value;
+                $order_item->orderItemSelectedAttributes()->create($selected_attribute_input);
+                
+            }
+            $cart_item->cartItemSelectedAttributes()->delete();
         }
+        $user->cart_items()->delete();
 
         $order_final_amount = 0;
         foreach ($order->items as $order_item) {
@@ -185,6 +200,8 @@ class CartController extends Controller
         }
 
         $order->update(['order_final_amount' => $order_final_amount]);
+
+        
 
         return redirect()->route('app.shipping.index', $order->id);
     }

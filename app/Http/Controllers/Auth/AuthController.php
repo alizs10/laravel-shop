@@ -111,6 +111,11 @@ class AuthController extends Controller
             $cart_services->moveCartItems();
             if (session('back_url')) {
                 $back_url = session()->pull('back_url');
+                if (session('move_cart_items')) {
+                    $cartServices = new CartServices();
+                    $cartServices->moveCartItems();
+                    session()->remove('move_cart_items');
+                }
                 return redirect($back_url);
             }
             return redirect()->route('app.home');
@@ -143,6 +148,11 @@ class AuthController extends Controller
                 $cart_services->moveCartItems();
                 if (session('back_url')) {
                     $back_url = session()->pull('back_url');
+                    if (session('move_cart_items')) {
+                        $cartServices = new CartServices();
+                        $cartServices->moveCartItems();
+                        session()->remove('move_cart_items');
+                    }
                     return redirect($back_url);
                 }
                 return redirect()->route('app.home');
@@ -284,6 +294,11 @@ class AuthController extends Controller
                 $cart_services->moveCartItems();
                 if (session('back_url')) {
                     $back_url = session()->pull('back_url');
+                    if (session('move_cart_items')) {
+                        $cartServices = new CartServices();
+                        $cartServices->moveCartItems();
+                        session()->remove('move_cart_items');
+                    }
                     return redirect($back_url);
                 }
                 return redirect()->route('app.home');

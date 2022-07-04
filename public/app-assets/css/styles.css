@@ -713,6 +713,11 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-bottom: 1rem;
 }
 
+.my-2{
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
 .my-8{
   margin-top: 2rem;
   margin-bottom: 2rem;
@@ -1023,12 +1028,12 @@ Ensure the default browser behavior of the `hidden` attribute.
   grid-template-columns: repeat(7, minmax(0, 1fr));
 }
 
-.grid-cols-10{
-  grid-template-columns: repeat(10, minmax(0, 1fr));
-}
-
 .grid-cols-1{
   grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+.grid-cols-10{
+  grid-template-columns: repeat(10, minmax(0, 1fr));
 }
 
 .grid-rows-6{
@@ -1491,6 +1496,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .leading-5{
   line-height: 1.25rem;
+}
+
+.leading-8{
+  line-height: 2rem;
 }
 
 .text-black{
@@ -2061,6 +2070,10 @@ Ensure the default browser behavior of the `hidden` attribute.
     grid-template-columns: repeat(10, minmax(0, 1fr));
   }
 
+  .md\:grid-cols-2{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .md\:grid-cols-3{
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
@@ -2293,6 +2306,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
   .lg\:grid-cols-12{
     grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+
+  .lg\:grid-cols-3{
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .lg\:flex-row{

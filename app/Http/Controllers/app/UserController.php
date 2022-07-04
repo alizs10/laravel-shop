@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\app\AddressRequset;
 use App\Http\Requests\app\UserProfileRequest;
 use App\Models\Address;
+use App\Models\Market\Order;
 use App\Models\Province;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -100,6 +101,11 @@ class UserController extends Controller
         $user = Auth::user();
         $orders = $user->orders()->where('order_status', $orders_type)->get();
         return view('app.orders', compact('orders', 'orders_type'));
+    }
+
+    public function orderDetails(Order $order)
+    {
+        return view('app.order-details', compact('order'));
     }
 
     //favorites

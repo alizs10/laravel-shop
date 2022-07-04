@@ -37,7 +37,8 @@ class Order extends Model
         "order_status",
     ];
 
-    public function items() {
+    public function items()
+    {
         return $this->hasMany(OrderItem::class);
     }
 
@@ -55,7 +56,7 @@ class Order extends Model
     {
         return $this->belongsTo(Delivery::class);
     }
-    
+
     public function coupon()
     {
         return $this->belongsTo(Coupon::class);
@@ -77,25 +78,23 @@ class Order extends Model
     {
         switch ($this->order_status) {
             case '0':
-                return 'در حال بررسی';
+                return 'در انتظار پرداخت';
                 break;
             case '1':
-               return 'در حال پردازش';
+                return 'در حال پردازش';
                 break;
             case '2':
-               return 'در حال ارسال';
+                return 'تحویل شده';
                 break;
             case '3':
-               return 'ارسال شده';
+                return 'لغو شده';
                 break;
             case '4':
-               return 'لغو شده';
+                return 'مرجوع شده';
                 break;
-            case '5':
-               return 'مرجوع شده';
+            default:
+                return 'در انتظار پرداخت';
                 break;
-
-
         }
     }
     public function deliveryStatus()
@@ -105,10 +104,10 @@ class Order extends Model
                 return 'در حال آماده سازی';
                 break;
             case '1':
-               return 'در حال ارسال';
+                return 'در حال ارسال';
                 break;
             case '2':
-               return 'ارسال شده';
+                return 'ارسال شده';
                 break;
         }
     }

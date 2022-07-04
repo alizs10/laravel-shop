@@ -87,11 +87,19 @@ class UserController extends Controller
 
     //orders
 
-    public function orders()
+    public function orders(Request $request)
     {
+        // 0 => still, 1 => proccessing, 2 => delivered, 3 => canceled, 4 => returned
+        $order_types_array = [0, 1, 2, 3, 4];
+        $orders_type = 0;
+        if ($request->has('type')) {
+            $orders_type = in_array($request->get('type'), $order_types_array) ? $request->get('type') : 0;
+        }
+       
+        
         $user = Auth::user();
-        $orders = $user->orders;
-        return view('app.orders', compact('orders'));
+        $orders = $user->orders()->where('order_status', $orders_type)->get();
+        return view('app.orders', compact('orders', 'orders_type'));
     }
 
     //favorites

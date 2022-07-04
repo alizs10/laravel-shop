@@ -36,7 +36,7 @@ class CreateOrdersTable extends Migration
             $table->longText('public_discount_object')->nullable();
             $table->decimal('order_public_discount_amount', 20, 3)->nullable();
             $table->decimal('order_total_products_discount_amount', 20, 3)->nullable();
-            $table->tinyInteger('order_status')->default(0);
+            $table->tinyInteger('order_status')->default(0)->comment('0 => still, 1 => proccessing, 2 => delivered, 3 => canceled, 4 => returned');
             $table->timestamps();
             $table->softDeletes();
         });

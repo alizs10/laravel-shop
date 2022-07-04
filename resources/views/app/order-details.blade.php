@@ -11,7 +11,7 @@
         <i class="fa-light fa-angles-left text-xs md:text-sm"></i>
         <span href="" class="text-xs xs:text-sm md:text-base text-red-500">لیست سفارشات</span>
         <i class="fa-light fa-angles-left text-xs md:text-sm"></i>
-        <span href="" class="text-xs xs:text-sm md:text-base text-red-500">در حال پردازش</span>
+        <span href="" class="text-xs xs:text-sm md:text-base text-red-500">{{ $order->status() }}</span>
         <i class="fa-light fa-angles-left text-xs md:text-sm"></i>
         <span href="" class="text-xs xs:text-sm md:text-base text-red-500">جزییات سفارش</span>
 
@@ -35,11 +35,11 @@
                 class="my-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 p-3 bg-white dark:bg-gray-700 rounded-lg shadow-md">
                 <span class="col-span-1 text-xs leading-7">
                     <span class="text-xxs text-gray-500 dark:text-gray-400">تاریخ ثبت سفارش:</span>
-                    ۱۳ اسفند ۱۴۰۰
+                    {{ e2p_numbers(showPersianDate($order->created_at)) }}
                 </span>
                 <span class="col-span-1 text-xs leading-7">
                     <span class="text-xxs text-gray-500 dark:text-gray-400">کد سفارش:</span>
-                    LSC-87789115
+                    LSC-{{ $order->id }}
                 </span>
                 <span class="col-span-1 text-xs leading-7">
                     <span class="text-xxs text-gray-500 dark:text-gray-400">وضعیت سفارش:</span>
@@ -47,15 +47,16 @@
                 </span>
                 <span class="col-span-1 text-xs leading-7">
                     <span class="text-xxs text-gray-500 dark:text-gray-400">آدرس:</span>
-                    خوزستان دزفول خیابان جمشیدی پلاک ۴۵
+
+                    {{ $order->address->city->province->name . '، ' . $order->address->city->name . '، ' . $order->address->address }}
                 </span>
                 <span class="col-span-1 text-xs leading-7">
                     <span class="text-xxs text-gray-500 dark:text-gray-400">نام تحویل گیرنده:</span>
-                    محمدرضا شایع
+                    {{ json_decode($order->address_object)->receiver_name }}
                 </span>
                 <span class="col-span-1 text-xs leading-7">
                     <span class="text-xxs text-gray-500 dark:text-gray-400">شماره تماس تحویل گیرنده:</span>
-                    ۰۹۱۳۵۴۶۸۷۷۸
+                    {{ e2p_numbers(json_decode($order->address_object)->receiver_mobile) }}
                 </span>
             </div>
 
@@ -65,84 +66,117 @@
 
             <div class="flex flex-col gap-2 mt-2">
 
-                <div class="grid grid-cols-9 gap-3 p-3 bg-white dark:bg-gray-700 rounded-lg shadow-md">
+                @foreach ($order->items as $order_item)
+                    <div class="grid grid-cols-9 gap-3 p-3 bg-white dark:bg-gray-700 rounded-lg shadow-md">
 
-                    <div class="col-span-4 xs:col-span-3 lg:col-span-2 h-fit flex flex-col gap-2">
-                        <a href="" class="w-full rounded-lg overflow-hidden">
-                            <img src="../images/product-2.webp" alt="">
-                        </a>
+                        <div class="col-span-4 xs:col-span-3 lg:col-span-2 h-fit flex flex-col gap-2">
+                            <a href="{{ route('app.product.index', $order_item->product_id) }}"
+                                class="w-full rounded-lg overflow-hidden">
+                                <img src="{{ asset('storage\\' . $order_item->product->image['indexArray']['medium']) }}"
+                                    alt="">
+                            </a>
 
+                            <span class="text-center mt-2">تعداد: {{ e2p_numbers($order_item->number) }}</span>
+                        </div>
 
-                        <span class="text-center mt-2">تعداد: ۱</span>
+                        <div class="col-span-5 xs:col-span-6 lg:col-span-7 flex flex-col gap-2">
+                            <span class="text-xs xs:text-sm text-bold">{{ $order_item->product->name }}</span>
 
-                    </div>
+                            @foreach ($order_item->orderItemSelectedAttributes as $selected_attribute)
+                                <span
+                                    class="mt-2 flex gap-x-2 items-center text-xxxs xs:text-xs lg:text-xs text-gray-500 dark:text-gray-400">
+                                    <span class="flex gap-x-1 items-center">
+                                        <i class="fa-regular fa-circle-small text-xxs xs:text-sm lg:text-base"></i>
+                                        {{ $selected_attribute->attribute->name }}:
+                                    </span>
 
-                    <div class="col-span-5 xs:col-span-6 lg:col-span-7 flex flex-col gap-2">
-                        <span class="text-xs xs:text-sm text-bold">گوشی سامسونگ گلکسی S22 اولترا</span>
-                        <span
-                            class="mt-2 flex gap-x-2 items-center text-xxxs xs:text-xs lg:text-xs text-gray-500 dark:text-gray-400">
-                            <span class="flex gap-x-1 items-center">
-                                <i class="fa-regular fa-circle-small text-xxs xs:text-sm lg:text-base"></i>
-                                حافظه داخلی:
+                                    <span>{{ json_decode($selected_attribute->value)->value . ' ' . $selected_attribute->attribute->unit }}</span>
+                                </span>
+                            @endforeach
+
+                            @if (!empty($order_item->color_id))
+                                <span
+                                    class="flex gap-x-2 items-center text-gray-500 dark:text-gray-400 text-xxxs xs:text-xs lg:text-xs">
+                                    <span class="flex gap-x-1 items-center">
+                                        <i class="fa-regular fa-palette text-xxs xs:text-sm lg:text-base"></i>
+                                    </span>
+
+                                    <span class="flex gap-2">رنگ:
+                                        <span class="flex gap-2 items-center">
+                                            <span style="background-color: {{ '#' . $order_item->color->color_code }}"
+                                                class="p-1 rounded-full"></span>
+                                            <span>{{ $order_item->color->color_name }}</span>
+                                        </span>
+                                    </span>
+                                </span>
+                            @endif
+                            <span
+                                class="flex gap-x-2 items-center text-gray-500 dark:text-gray-400 text-xxxs xs:text-xs lg:text-xs">
+                                <span class="flex gap-x-1 items-center">
+                                    <i class="fa-regular fa-calendar-week text-xxs xs:text-sm lg:text-base"></i>
+
+                                </span>
+
+                                <span>ضمانت 7 روزه بازگشت کالا</span>
+                            </span>
+                            <span
+                                class="flex gap-x-2 items-center text-gray-500 dark:text-gray-400 text-xxxs xs:text-xs lg:text-xs">
+                                <span class="flex gap-x-1 items-center">
+                                    <i class="fa-regular fa-shield-check text-xxs xs:text-sm lg:text-base"></i>
+
+                                </span>
+
+                                <span>گارانتی اصالات و سلامت فیزیکی کالا</span>
                             </span>
 
-                            <span>512 گیگابایت</span>
-                        </span>
-                        <span
-                            class="flex gap-x-2 items-center text-xxxs xs:text-xs lg:text-xs text-gray-500 dark:text-gray-400">
-                            <span class="flex gap-x-1 items-center">
-                                <i class="fa-regular fa-circle-small text-xxs xs:text-sm lg:text-base"></i>
-                                مقدار رم:
-                            </span>
 
-                            <span>12 گیگابایت</span>
-                        </span>
-                        <span
-                            class="flex gap-x-2 items-center text-gray-500 dark:text-gray-400 text-xxxs xs:text-xs lg:text-xs">
-                            <span class="flex gap-x-1 items-center">
-                                <i class="fa-regular fa-palette text-xxs xs:text-sm lg:text-base"></i>
-                            </span>
 
-                            <span class="flex gap-2">رنگ:
-                                <span class="flex gap-2 items-center">
-                                    <span class="p-1 rounded-full bg-black"></span>
-                                    <span>مشکی</span>
+                            <span class="mt-4 flex flex-col gap-2">
+                                @php
+                                    
+                                    $product_price = $order_item->product->price;
+                                    
+                                    //check for product color price increase
+                                    if (!empty($order_item->color)) {
+                                        $product_price += $order_item->color->price_increase;
+                                    }
+                                    
+                                    //check for product attributes price increase
+                                    if (!empty($order_item->orderItemSelectedAttributes)) {
+                                        foreach ($order_item->orderItemSelectedAttributes as $selected_attribute) {
+                                            $product_price += json_decode($selected_attribute->value)->price_increase;
+                                        }
+                                    }
+                                    
+                                    $final_product_price = $product_price * $order_item->number;
+                                    
+                                    if (!empty($order_item->product->amazingSale)) {
+                                        $discount_amount = ($order_item->product->amazingSale->percentage * $final_product_price) / 100;
+                                    } else {
+                                        $discount_amount = 0;
+                                    }
+                                    
+                                    $ultimate_price = $final_product_price - $discount_amount;
+                                @endphp
+                                @if (!empty($order_item->product->amazingSale))
+                                    <span id="discount-amount-{{ $order_item->id }}"
+                                        class="text-red-500 text-xxs xs:text-xs lg:text-sm">
+                                        تخفیف {{ price_formater($discount_amount) }} تومان
+                                    </span>
+                                @endif
+
+                                <span id="ultimate-price-{{ $order_item->id }}"
+                                    class="text-black dark:text-white text-xs xs:text-base">
+                                    {{ price_formater($ultimate_price) }} تومان
                                 </span>
                             </span>
-                        </span>
-                        <span
-                            class="flex gap-x-2 items-center text-gray-500 dark:text-gray-400 text-xxxs xs:text-xs lg:text-xs">
-                            <span class="flex gap-x-1 items-center">
-                                <i class="fa-regular fa-calendar-week text-xxs xs:text-sm lg:text-base"></i>
-
-                            </span>
-
-                            <span>ضمانت 7 روزه بازگشت کالا</span>
-                        </span>
-                        <span
-                            class="flex gap-x-2 items-center text-gray-500 dark:text-gray-400 text-xxxs xs:text-xs lg:text-xs">
-                            <span class="flex gap-x-1 items-center">
-                                <i class="fa-regular fa-shield-check text-xxs xs:text-sm lg:text-base"></i>
-
-                            </span>
-
-                            <span>گارانتی اصالات و سلامت فیزیکی کالا</span>
-                        </span>
 
 
-                        <span class="mt-4 flex flex-col gap-2">
-                            <span class="text-red-500 text-xxs xs:text-xs lg:text-sm">
-                                تخفیف ۲۸٬۲۰۰ تومان
-                            </span>
-                            <span class="text-black dark:text-white text-xs xs:text-base">
-                                ۴۲۸٬۲۰۰ تومان
-                            </span>
-                        </span>
-
+                        </div>
 
                     </div>
+                @endforeach
 
-                </div>
 
             </div>
 
@@ -166,7 +200,7 @@
                 <span
                     class="flex flex-col md:flex-row gap-2 md:justify-between items-center text-xxs xs:text-xs md:text-xxs lg:text-xs">
                     <span>مبلغ سفارش</span>
-                    <span>۴۰۱٬۲۰۰ تومان</span>
+                    <span>{{ price_formater($order->order_final_amount) }} تومان</span>
                 </span>
 
                 <button

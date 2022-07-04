@@ -2,6 +2,7 @@
 
 namespace App\Models\Market;
 
+use App\Http\Services\CartServices;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -28,6 +29,11 @@ class OrderItem extends Model
         return $this->belongsTo(Product::class);
     }
 
+    public function color()
+    {
+        return $this->belongsTo(ProductColor::class, 'color_id');
+    }
+
     public function order()
     {
         return $this->belongsTo(Order::class);
@@ -37,5 +43,11 @@ class OrderItem extends Model
     public function orderItemSelectedAttributes()
     {
         return $this->hasMany(OrderItemSelectedAttributes::class, 'order_item_id');
+    }
+
+    public function itemAttributes()
+    {
+        $cartServices = new CartServices();
+        return $cartServices->getAttributes($this);
     }
 }

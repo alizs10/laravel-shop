@@ -215,10 +215,16 @@
                                 تومان</span>
 
                             <div class="flex gap-2">
-                                <a class="px-3 py-2 xs:px-4 xs:py-3 text-xs rounded-lg text-white bg-gray-500"
-                                    href="">فاکتور</a>
-                                <a class="px-3 py-2 xs:px-4 xs:py-3 text-xs rounded-lg text-white bg-emerald-600"
-                                    href="">جزییات</a>
+                                <a class="px-3 py-2 xs:px-4 xs:py-3 text-xs flex-center gap-2 rounded-lg text-white bg-gray-500"
+                                    href="">
+                                <i class="fa-light fa-receipt"></i>
+                                    فاکتور
+                                </a>
+                                <a class="px-3 py-2 xs:px-4 xs:py-3 text-xs flex-center gap-2 rounded-lg text-white bg-emerald-600"
+                                    href="{{ route('app.user.orders.details', $order->id) }}">
+                                <i class="fa-light fa-info"></i>
+                                    جزییات
+                                </a>
                             </div>
                         </div>
                     </div>

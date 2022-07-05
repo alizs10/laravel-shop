@@ -43,7 +43,7 @@
                 </span>
                 <span class="col-span-1 text-xs leading-7">
                     <span class="text-xxs text-gray-500 dark:text-gray-400">وضعیت سفارش:</span>
-                    تحویل شده
+                    {{$order->status()}}
                 </span>
                 <span class="col-span-1 text-xs leading-7">
                     <span class="text-xxs text-gray-500 dark:text-gray-400">آدرس:</span>

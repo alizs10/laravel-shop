@@ -41,9 +41,11 @@ class ProductController extends Controller
         $product_attributes_select_type = [];
         $product_attributes_simple_type = [];
 
+        $properties = $product->properties->filter(function ($property) {
+            return $property->marketable_number > 0;
+        })->values();
 
-
-        foreach ($product->properties as $key => $product_property) {
+        foreach ($properties as $key => $product_property) {
             if ($product_property->type == 0) {
                 $product_attributes_simple_type[$product_property->attribute->name] = $product_property;
             } else if ($product_property->type == 1) {

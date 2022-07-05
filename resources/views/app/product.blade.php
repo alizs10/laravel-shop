@@ -209,6 +209,7 @@
                     } else {
                         $is_marketable = $product->isMarketable([], true);
                     }
+                    
                 @endphp
                 @if ($is_marketable)
                     <span id="marketable-status"
@@ -233,49 +234,6 @@
             <!-- product details ends -->
 
             <!-- add to cart starts -->
-
-            @php
-                $product_price = $product->price;
-                
-                if ($is_product_in_cart) {
-                    //check for color price increase
-                    if (!empty($cartItem->color)) {
-                        $product_color_price = $cartItem->color->price_increase;
-                        $product_price += $product_color_price ?: 0;
-                    }
-                
-                    //check for product attributes price increase
-                    if (!empty($cartItem->cartItemSelectedAttributes)) {
-                        foreach ($cartItem->cartItemSelectedAttributes as $selected_attribute) {
-                            $product_price += json_decode($selected_attribute->value)->price_increase;
-                        }
-                    }
-                } else {
-                    //check for color price increase
-                    if (!empty($product->colors->toArray())) {
-                        $product_color_price = $product->colors->first()->price_increase;
-                        $product_price += $product_color_price;
-                    }
-                
-                    //check for product defaults attributes price increase
-                    $properties = $product->properties()->get();
-                    $attr_properties = [];
-                    if ($properties->count() > 0) {
-                        foreach ($properties as $property) {
-                            if (!empty($attr_properties[$property->attribute->name])) {
-                                array_push($attr_properties[$property->attribute->name], $property);
-                            } else {
-                                $attr_properties[$property->attribute->name][0] = $property;
-                            }
-                        }
-                    }
-                
-                    foreach ($attr_properties as $key => $value) {
-                        $product_price += json_decode($value[0]->value)->price_increase;
-                    }
-                }
-            @endphp
-
             <div class="hidden md:col-span-4 md:block">
                 <div class="p-4 rounded-lg overflow-hidden bg-white dark:bg-gray-900 flex flex-col gap-4">
                     <span class="flex items-start justify-between">
@@ -288,18 +246,16 @@
                             @if (!empty($product->amazingSale))
                                 <span class="flex gap-2">
                                     <span id="product-price"
-                                        class="line-through">{{ price_formater($product_price) }}</span>
+                                        class="line-through">{{ price_formater($product->product_price) }}</span>
                                     <span
                                         class="flex-center rounded-full h-7 w-7 bg-red-500 text-white text-xs">{{ e2p_numbers($product->amazingSale->percentage) }}٪</span>
                                 </span>
                             @endif
                             @if (!empty($product->amazingSale))
-                                @php
-                                    $ultimate_price = $product_price - ($product->amazingSale->percentage * $product_price) / 100;
-                                @endphp
-                                <span id="ultimate-price">{{ price_formater($ultimate_price) }} تومان</span>
+                                
+                                <span id="ultimate-price">{{ price_formater($product->ultimate_price) }} تومان</span>
                             @else
-                                <span id="ultimate-price">{{ price_formater($product_price) }} تومان</span>
+                                <span id="ultimate-price">{{ price_formater($product->product_price) }} تومان</span>
                             @endif
                         </span>
                     </span>

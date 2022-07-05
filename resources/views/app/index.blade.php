@@ -131,23 +131,21 @@
                         src="{{ asset('storage\\' . $leastMarketableProduct->image['indexArray']['medium']) }}"
                         alt="">
                     <div class="flex justify-between items-center">
-                        @php
-                            $product_prices = $leastMarketableProduct->getPrice([], true);
-                        @endphp
+                       
                         @if (!is_null($leastMarketableProduct->amazingSale))
                             <span class="flex flex-col gap-y-1 text-xs">
                                 <span class="flex gap-x-2 items-center">
-                                    <span class="line-through">{{ price_formater($product_prices['product_price']) }}</span>
+                                    <span class="line-through">{{ price_formater($leastMarketableProduct->product_price) }}</span>
                                     <div class="h-7 w-7 rounded-lg bg-red-600 text-white flex-center text-xs">
                                         {{ e2p_numbers($leastMarketableProduct->amazingSale->percentage) }}%</div>
                                 </span>
                                 <span
-                                    class="text-red-500 font-bold">{{ price_formater($product_prices['ultimate_price']) }}</span>
+                                    class="text-red-500 font-bold">{{ price_formater($leastMarketableProduct->ultimate_price) }}</span>
                                 <span class="text-red-500 font-bold">تومان</span>
                             </span>
                         @else
                             <span class="flex flex-col gap-y-1 text-xs">
-                                <span>{{ price_formater($product_prices['ultimate_price']) }}</span>
+                                <span>{{ price_formater($leastMarketableProduct->ultimate_price) }}</span>
                                 <span class="font-bold">تومان</span>
                             </span>
                         @endif

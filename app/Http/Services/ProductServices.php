@@ -24,8 +24,18 @@ class ProductServices
             }
         }
 
+        //check if marketable
+        $is_marketable = $this->isMarketable($product, $attributes);
 
+        if (!$is_marketable) {
 
+            return [
+                'product_price' => 0,
+                'ultimate_price' => 0
+            ]; 
+        }
+
+        //calculate price
         $product_price = $product->price;
         $discount_amount = 0;
 
@@ -68,11 +78,20 @@ class ProductServices
         $default_category_values = [];
 
         if (!empty($product->colors->toArray())) {
-            $default_color_id = $product->colors->first()->id;
+            $product_colors = $product->colors->filter(function ($color) {
+                return $color->marketable_number > 0;
+            })->values();
+
+            if (empty($product_colors->toArray())) {
+                return false;
+            }
+            $default_color_id = $product_colors->first()->id;
         }
 
-        $properties = $product->properties()->get();
-
+        $properties = $product->properties->filter(function ($property) {
+            return $property->marketable_number > 0;
+        })->values();
+        
         if ($properties->count() > 0) {
             $category_attribute_ids = [];
             foreach ($properties as $property) {
@@ -82,6 +101,9 @@ class ProductServices
                     array_push($default_category_values, $default_value->id);
                 }
             }
+        }
+        else {
+            return false;
         }
 
         $default_attributes = [

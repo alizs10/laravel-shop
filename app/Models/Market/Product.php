@@ -83,6 +83,18 @@ class Product extends Model
         return $this->hasMany(PropertyValue::class, 'product_id');
     }
 
+    public function getProductPriceAttribute()
+    {
+        $prices = $this->getPrice([], true);
+        return $prices['product_price'];
+    }
+
+    public function getUltimatePriceAttribute()
+    {
+        $prices = $this->getPrice([], true);
+        return $prices['ultimate_price'];
+    }
+
     public function isFavorite($user_id)
     {
         $user = User::find($user_id);

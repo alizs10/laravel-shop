@@ -250,6 +250,7 @@
 @endsection
 
 @section('scripts')
+    <script src="{{ asset('app-assets/js/addresses-page.js') }}"></script>
     <script src="{{ asset('app-assets/js/shipping-page.js') }}"></script>
     @if ($errors->any())
         <script>

@@ -48,7 +48,7 @@ class UserController extends Controller
         $inputs['user_id'] = Auth::user()->id;
 
         Address::create($inputs);
-        return redirect()->route('app.user.addresses');
+        return redirect()->back();
     }
 
     public function addressesChangeStatus(Address $address)

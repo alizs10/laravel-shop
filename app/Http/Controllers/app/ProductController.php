@@ -156,6 +156,9 @@ class ProductController extends Controller
         }
 
         $cart_items = $cartServices->getCartItems();
+        if ($has_defaults_attributes) {
+            $attributes = $productServices->getDefaultAttributes($product);
+        }
 
         //create new cart item
         if (!$is_item_exists) {

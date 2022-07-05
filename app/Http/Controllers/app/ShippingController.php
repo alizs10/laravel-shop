@@ -50,18 +50,20 @@ class ShippingController extends Controller
             return false;
         }
 
+        $order_final_amount = $order->order_final_amount - $order->delivery_amount;
+        $order_final_amount += $delivery->amount;
+
         $order->update([
             'delivery_id' => $delivery->id,
             'delivery_object' => $delivery,
             'delivery_amount' => $delivery->amount,
+            'order_final_amount' => $order_final_amount
         ]);
-
-        $pay_price = $order->order_final_amount + $order->delivery_amount;
 
         return response()->json([
             'status' => true,
             'delivery_amount' => price_formater($delivery->amount),
-            'pay_price' => price_formater($pay_price)
+            'pay_price' => price_formater($order_final_amount)
         ]);
     }
 }

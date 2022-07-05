@@ -217,14 +217,21 @@
                             <div class="flex gap-2">
                                 <a class="px-3 py-2 xs:px-4 xs:py-3 text-xs flex-center gap-2 rounded-lg text-white bg-gray-500"
                                     href="">
-                                <i class="fa-light fa-receipt"></i>
+                                    <i class="fa-light fa-receipt"></i>
                                     فاکتور
                                 </a>
                                 <a class="px-3 py-2 xs:px-4 xs:py-3 text-xs flex-center gap-2 rounded-lg text-white bg-emerald-600"
                                     href="{{ route('app.user.orders.details', $order->id) }}">
-                                <i class="fa-light fa-info"></i>
+                                    <i class="fa-light fa-info"></i>
                                     جزییات
                                 </a>
+                                @if ($order->order_status == 0)
+                                    <a class="px-3 py-2 xs:px-4 xs:py-3 text-xs flex-center gap-2 rounded-lg text-white bg-red-500"
+                                        href="{{ route('app.shipping.index', $order->id) }}">
+                                        <i class="fa-light fa-info"></i>
+                                        پرداخت
+                                    </a>
+                                @endif
                             </div>
                         </div>
                     </div>

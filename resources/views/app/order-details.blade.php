@@ -43,7 +43,7 @@
                 </span>
                 <span class="col-span-1 text-xs leading-7">
                     <span class="text-xxs text-gray-500 dark:text-gray-400">وضعیت سفارش:</span>
-                    {{$order->status()}}
+                    {{ $order->status() }}
                 </span>
                 <span class="col-span-1 text-xs leading-7">
                     <span class="text-xxs text-gray-500 dark:text-gray-400">آدرس:</span>
@@ -189,10 +189,15 @@
                 <span>مبلغ مجموع کالاها</span>
                 <span>۴۲۸٬۴۵۰ تومان</span>
             </span>
+          
             <span
                 class="text-red-500 flex justify-between items-center md:pb-2 md:border-b-2 border-gray-200 dark:border-gray-700">
                 <span>تخفیف</span>
                 <span>۲۸٬۴۵۰ تومان</span>
+            </span>
+            <span class="flex justify-between items-center">
+                <span>هزینه ارسال</span>
+                <span>{{price_formater($order->delivery_amount)}} تومان</span>
             </span>
 
             <div
@@ -202,13 +207,28 @@
                     <span>مبلغ سفارش</span>
                     <span>{{ price_formater($order->order_final_amount) }} تومان</span>
                 </span>
+                @if ($order->order_status == 0)
+                    <a href="{{ route('app.shipping.index', $order->id) }}"
+                        class="md:w-full flex-center gap-2 px-4 py-2 bg-red-500 text-xxs xs:text-sm rounded-lg mt-2 text-white">
+                        پرداخت
+                    </a>
+                @else
+                    <button
+                        class="md:w-full flex-center gap-2 px-4 py-2 bg-gray-500 text-xxs xs:text-sm rounded-lg mt-2 text-white">
+                        <i class="fa-light fa-receipt text-base"></i>
+                        مشاهده فاکتور
+                    </button>
+                @endif
 
+            </div>
+
+            @if ($order->order_status == 0)
                 <button
                     class="md:w-full flex-center gap-2 px-4 py-2 bg-gray-500 text-xxs xs:text-sm rounded-lg mt-2 text-white">
                     <i class="fa-light fa-receipt text-base"></i>
                     مشاهده فاکتور
                 </button>
-            </div>
+            @endif
 
         </div>
     </section>

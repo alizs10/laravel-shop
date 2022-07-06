@@ -130,6 +130,7 @@ Route::namespace('App')->group(function () {
     //payment
     Route::prefix('payment')->group(function () {
         Route::get('/{order}', [AppPaymentController::class, 'index'])->name('app.payment.index');
+        Route::post('/{order}/check-coupon', [AppPaymentController::class, 'checkCoupon'])->name('app.payment.check-coupon');
         Route::get('/result', [AppPaymentController::class, 'result'])->name('app.payment.result');
     });
 

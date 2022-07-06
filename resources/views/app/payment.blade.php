@@ -1,11 +1,16 @@
 @extends('app.layouts.master')
+@section('head-tag')
+    <meta name="csrf-token" content="{{ Session::token() }}">
+    <link rel="stylesheet" href="{{ asset('app-assets/packages/spin-js/spin.css') }}">
+@endsection
 
 @section('content')
     <!-- payment starts -->
     <section class="grid grid-cols-9 gap-4 mt-4">
 
         <div class="my-8 col-span-9 flex-center">
-            <div class="relative flex justify-between items-center w-4/5 h-2 md:h-3 rounded-full bg-gray-100 dark:bg-gray-800">
+            <div
+                class="relative flex justify-between items-center w-4/5 h-2 md:h-3 rounded-full bg-gray-100 dark:bg-gray-800">
                 <div class="absolute top-0 right-0 left-1/2 bg-emerald-600 h-2 md:h-3 rounded-full"></div>
                 <span class="rounded-full flex-center bg-emerald-600 w-10 h-10 relative">
                     <span class="text-xxs xs:text-xs absolute -top-6 whitespace-nowrap">
@@ -35,12 +40,14 @@
             </span>
 
             <div class="w-full md:w-2/3 grid grid-cols-9 gap-x-2">
-                <input class="col-span-7 form-input dark:border-gray-700" type="text" name="" id="">
-                <button class="col-span-2 bg-red-500 rounded-lg text-white text-xs flex-center">
+                <input class="col-span-7 form-input dark:border-gray-700" type="text" name="discount_code"
+                    id="">
+                <button id="check-coupon-btn" data-url="{{ route('app.payment.check-coupon', $order->id) }}"
+                    class="col-span-2 bg-red-500 rounded-lg text-white text-xs flex-center">
                     اعمال
                 </button>
             </div>
-
+            <span id="coupon-message" class="text-xs xs:text-sm text-red-500"></span>
             <span class="text-sm xs:text-base text-gray-500 dark:text-gray-400">
                 انتخاب شیوه پرداخت
             </span>
@@ -74,21 +81,21 @@
 
             <span class="flex justify-between items-center">
                 <span>مبلغ سفارش شما</span>
-                <span>{{price_formater($order->order_final_amount)}} تومان</span>
+                <span>{{ price_formater($order->order_final_amount) }} تومان</span>
             </span>
             <span
                 class="text-red-500 flex justify-between items-center md:pb-2 md:border-b-2 border-gray-200 dark:border-gray-700">
                 <span>تخفیف</span>
                 <span>۲۸٬۴۵۰ تومان</span>
             </span>
-            
+
             <div
                 class="fixed drop-shadow-lg right-0 bottom-0 left-0 z-30 md:z-0 flex justify-between items-center md:block md:static bg-gray-200 dark:bg-gray-800 md:bg-transparent p-3 md:p-0">
 
                 <span
                     class="flex flex-col md:flex-row gap-2 md:justify-between items-center text-xxs xs:text-xs md:text-xxs lg:text-xs">
                     <span>مبلغ پرداختی</span>
-                    <span>{{price_formater($order->order_final_amount)}} تومان</span>
+                    <span>{{ price_formater($order->order_final_amount) }} تومان</span>
                 </span>
 
                 <button class="md:w-full px-4 py-2 bg-red-500 text-xxs xs:text-sm rounded-lg mt-2 text-white">
@@ -99,4 +106,8 @@
         </div>
     </section>
     <!-- payment ends -->
+@endsection
+@section('scripts')
+    {{-- <script type="module" src="{{ asset('app-assets/packages/spin-js/spin.js') }}"></script> --}}
+    <script type="module" src="{{ asset('app-assets/js/payment-page.js') }}"></script>
 @endsection

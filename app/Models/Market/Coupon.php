@@ -23,6 +23,8 @@ class Coupon extends Model
         "valid_until"
     ];
 
+    protected $casts = ["valid_from" => "timestamp"];
+
     public function user()
     {
         return $this->belongsTo(User::class);

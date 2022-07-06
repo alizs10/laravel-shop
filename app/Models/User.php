@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Market\Coupon;
+use App\Models\Market\CouponUser;
 use App\Models\Market\Favorite;
 use App\Models\Market\Order;
 use App\Models\Market\Product;
@@ -118,5 +120,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(Order::class, 'user_id');
     }
+
+    public function coupons()
+    {
+        return $this->belongsToMany(Coupon::class)->using(CouponUser::class);
+    }
+
 
 }

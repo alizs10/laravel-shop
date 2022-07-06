@@ -38,6 +38,7 @@ use App\Http\Controllers\Admin\User\PermissionController;
 use App\Http\Controllers\Admin\User\RoleController;
 use App\Http\Controllers\app\CartController;
 use App\Http\Controllers\app\HomeController;
+use App\Http\Controllers\app\PaymentController as AppPaymentController;
 use App\Http\Controllers\app\ProductController as AppProductController;
 use App\Http\Controllers\app\SearchController;
 use App\Http\Controllers\app\ShippingController;
@@ -123,6 +124,13 @@ Route::namespace('App')->group(function () {
         Route::get('/{order}', [ShippingController::class, 'index'])->name('app.shipping.index');
         Route::get('/{order}/select-address/{address}', [ShippingController::class, 'selectAddress'])->name('app.shipping.select-address');
         Route::get('/{order}/select-delivery/{delivery}', [ShippingController::class, 'selectDelivery'])->name('app.shipping.select-delivery');
+        Route::get('/{order}/store-payment', [ShippingController::class, 'storePayment'])->name('app.shipping.store-payment');
+    });
+
+    //payment
+    Route::prefix('payment')->group(function () {
+        Route::get('/{order}', [AppPaymentController::class, 'index'])->name('app.payment.index');
+        Route::get('/result', [AppPaymentController::class, 'result'])->name('app.payment.result');
     });
 
     //search-page

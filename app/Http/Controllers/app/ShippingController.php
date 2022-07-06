@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Address;
 use App\Models\Market\Delivery;
 use App\Models\Market\Order;
+use App\Models\Market\Payment;
 use App\Models\Province;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -65,5 +66,17 @@ class ShippingController extends Controller
             'delivery_amount' => price_formater($delivery->amount),
             'pay_price' => price_formater($order_final_amount)
         ]);
+    }
+
+
+    public function storePayment(Order $order)
+    {
+        $paymentInputs['amount'] = $order->order_final_amount;
+        $paymentInputs['user_id'] = $order->user_id;
+        
+        $payment = Payment::create($paymentInputs);
+        $order->update(['payment_id' => $payment->id]);
+
+        return redirect()->route('app.payment.index', $order->id);
     }
 }

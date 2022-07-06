@@ -124,7 +124,7 @@
             </span>
 
             <div
-                class="fixed drop-shadow-lg right-0 bottom-0 left-0 z-30 md:z-0 flex justify-between items-center md:block md:static bg-gray-200 dark:bg-gray-800 md:bg-transparent p-3 md:p-0">
+                class="fixed right-0 bottom-0 left-0 z-30 md:z-0 flex justify-between items-center md:block md:static bg-gray-200 dark:bg-gray-800 md:bg-transparent p-3 md:p-0">
                 
                 <span
                     class="flex flex-col md:flex-row gap-2 md:justify-between items-center text-xxs xs:text-xs md:text-xxs lg:text-xs">
@@ -132,9 +132,9 @@
                     <span id="pay_price" >{{ price_formater($order->order_final_amount) }} تومان</span>
                 </span>
 
-                <button class="md:w-full px-4 py-2 bg-red-500 text-xxs xs:text-sm rounded-lg mt-2 text-white">
+                <a href="{{ route('app.shipping.store-payment', $order->id)}}" class="md:w-full px-4 py-2 bg-red-500 text-xxs xs:text-sm rounded-lg mt-2 text-white">
                     پرداخت
-                </button>
+                </a>
             </div>
 
         </div>

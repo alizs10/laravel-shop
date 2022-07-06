@@ -83,19 +83,23 @@
                 <span>مبلغ سفارش شما</span>
                 <span>{{ price_formater($order->order_final_amount) }} تومان</span>
             </span>
-            <span
-                class="text-red-500 flex justify-between items-center md:pb-2 md:border-b-2 border-gray-200 dark:border-gray-700">
-                <span>تخفیف</span>
-                <span>۲۸٬۴۵۰ تومان</span>
-            </span>
+            @if (!empty($order->coupon_id))
+                <span
+                    class="text-red-500 flex justify-between items-center md:pb-2 md:border-b-2 border-gray-200 dark:border-gray-700">
+                    <span>تخفیف</span>
+                    <span>{{ price_formater($order->order_coupon_discount_amount) }} تومان</span>
+                </span>
+            @endif
 
             <div
                 class="fixed drop-shadow-lg right-0 bottom-0 left-0 z-30 md:z-0 flex justify-between items-center md:block md:static bg-gray-200 dark:bg-gray-800 md:bg-transparent p-3 md:p-0">
-
+                @php
+                    $payment_amount = !empty($order->coupon_id) ? $order->order_final_amount - $order->order_coupon_discount_amount : $order->order_final_amount;
+                @endphp
                 <span
                     class="flex flex-col md:flex-row gap-2 md:justify-between items-center text-xxs xs:text-xs md:text-xxs lg:text-xs">
                     <span>مبلغ پرداختی</span>
-                    <span>{{ price_formater($order->order_final_amount) }} تومان</span>
+                    <span>{{ price_formater($payment_amount) }} تومان</span>
                 </span>
 
                 <button class="md:w-full px-4 py-2 bg-red-500 text-xxs xs:text-sm rounded-lg mt-2 text-white">

@@ -7,6 +7,7 @@ use App\Models\Market\Coupon;
 use App\Models\Market\Order;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Prophecy\Call\Call;
 
 class PaymentController extends Controller
@@ -35,9 +36,42 @@ class PaymentController extends Controller
             ]);
         }
 
+        //check if coupon's used before
+        $user = Auth::user();
+
+        if ($coupon->type == 1 && $coupon->user_id != $user->id) {
+            return response()->json([
+                'status' => false,
+                "message" => "این کد تخفیف برای شما قابل استفاده نمی باشد"
+            ]);
+        }
+
+        $used_coupon = $user->coupons()->where('code', $discount_code)->first();
+        if (!empty($used_coupon)) {
+            return response()->json([
+                'status' => false,
+                "message" => "کد تخفیف قبلا استفاده شده است"
+            ]);
+        }
+
+        if ($coupon->amount_type == 0) {
+            $discount_amount = $order->order_final_amount * $coupon->amount / 100;
+        } else {
+            $discount_amount = $order->order_final_amount - $coupon->amount;
+        }
+        $discount_amount = $coupon->maximum_discount > $discount_amount ? $discount_amount : $coupon->maximum_discount;
+
+
+        $orderInputs['coupon_id'] = $coupon->id;
+        $orderInputs['coupon_object'] = $coupon;
+        $orderInputs['order_coupon_discount_amount'] = $discount_amount;
+        $user->coupons()->attach(["coupon_id" => $coupon->id]);
+        $order->update($orderInputs);
+
         return response()->json([
             'status' => true,
-            "message" => "کد تخفیف با موفقیت اعمال شد"
+            "message" => "کد تخفیف با موفقیت اعمال شد",
+            "discount_amount" => $discount_amount,
         ]);
     }
 

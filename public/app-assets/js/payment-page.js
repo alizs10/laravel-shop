@@ -29,6 +29,8 @@ export function checkCoupon(btn) {
     let discount_code = $('input[name="discount_code"]').val();
     formData.discount_code = discount_code;
 
+    let base_url = window.location.origin;
+
     //loading
     var spinner = new Spinner(opts).spin();
     $(btn).html(spinner.el)
@@ -42,6 +44,24 @@ export function checkCoupon(btn) {
             console.log(response);
             $(btn).html("اعمال")
             $('#coupon-message').html(response.message)
+
+            if (response.status) {
+                $('input[name="discount_code"]').val("")
+                $('#coupon-container').remove()
+                $('#coupon-price-container').remove()
+                $("#price-container").children().eq(0).removeClass('md:pb-2 md:border-b-2 border-gray-200 dark:border-gray-700')
+                $("#container").children().eq(2).after(`<div id="coupon-container" class="flex gap-2 items-center text-xs xs:text-sm">
+                <span class="text-red-500">کوپن: ${response.coupon.code}</span>
+                <a class="text-gray-500 dark:text-gray-400" href="${base_url + '/payment/' + response.order.id + '/remove-coupon/' + response.coupon.id}">حذف</a>
+            </div>`)
+                $("#price-container").children().eq(0).after(`
+                <span
+                    class="text-red-500 flex justify-between items-center md:pb-2 md:border-b-2 border-gray-200 dark:border-gray-700">
+                    <span>تخفیف</span>
+                    <span>${response.order_coupon_discount_amount} تومان</span>
+                </span>`)
+            }
+
         },
         error: function (jqXHR, textStatus, errorThrown) {
             $(btn).html("اعمال")

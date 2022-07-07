@@ -72,8 +72,31 @@ class PaymentController extends Controller
             'status' => true,
             "message" => "کد تخفیف با موفقیت اعمال شد",
             "discount_amount" => $discount_amount,
+            "order" => $order,
+            "coupon" => $coupon,
+            "order_coupon_discount_amount" => price_formater($discount_amount)
         ]);
     }
+
+    public function removeCoupon(Order $order, Coupon $coupon)
+    {
+
+        $user = Auth::user();
+        if ($order->user_id != $user->id) {
+            return redirect()->back();
+            exit;
+        }
+        $user->coupons()->detach(["coupon_id" => $coupon->id]);
+        $order->update([
+            "coupon_id" => null,
+            "coupon_object" => null,
+            "order_coupon_discount_amount" => null,
+        ]);
+
+
+        return redirect()->route('app.payment.index', $order->id);
+    }
+
 
     public function result()
     {

@@ -33,7 +33,7 @@
             </div>
         </div>
 
-        <div
+        <div id="container"
             class="col-span-9 md:col-span-6 lg:col-span-6 lg:h-fit flex flex-col gap-2 p-3 bg-gray-100 dark:bg-gray-800 rounded-lg">
             <span class="text-sm xs:text-base text-gray-500 dark:text-gray-400">
                 کد تخفیف دارید؟
@@ -48,6 +48,12 @@
                 </button>
             </div>
             <span id="coupon-message" class="text-xs xs:text-sm text-red-500"></span>
+            @if (!empty($order->coupon_id))
+            <div id="coupon-container" class="flex gap-2 items-center text-xs xs:text-sm">
+                <span class="text-red-500">کوپن: {{ json_decode($order->coupon_object)->code }}</span>
+                <a class="text-gray-500 dark:text-gray-400" href="{{ route('app.payment.remove-coupon', [$order->id, $order->coupon_id]) }}">حذف</a>
+            </div>
+            @endif
             <span class="text-sm xs:text-base text-gray-500 dark:text-gray-400">
                 انتخاب شیوه پرداخت
             </span>
@@ -76,15 +82,15 @@
 
         </div>
 
-        <div
+        <div id="price-container"
             class="col-span-9 md:col-span-3 lg:col-span-3 text-xs md:text-xxs lg:text-xs flex flex-col gap-2 h-fit p-3 bg-gray-100 dark:bg-gray-800 rounded-lg">
 
-            <span class="flex justify-between items-center">
+            <span class="flex justify-between items-center @if (empty($order->coupon_id)) md:pb-2 md:border-b-2 border-gray-200 dark:border-gray-700 @endif">
                 <span>مبلغ سفارش شما</span>
                 <span>{{ price_formater($order->order_final_amount) }} تومان</span>
             </span>
             @if (!empty($order->coupon_id))
-                <span
+                <span id="coupon-price-container"
                     class="text-red-500 flex justify-between items-center md:pb-2 md:border-b-2 border-gray-200 dark:border-gray-700">
                     <span>تخفیف</span>
                     <span>{{ price_formater($order->order_coupon_discount_amount) }} تومان</span>

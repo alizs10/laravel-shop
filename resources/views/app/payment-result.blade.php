@@ -22,17 +22,17 @@
                     <i class="fa-solid fa-check text-base text-white dark:text-gray-800"></i>
                 </span>
                 <!-- <span class="rounded-full flex-center bg-gray-500 w-10 h-10 relative">
-                        <span class="text-xxs xs:text-xs absolute -top-6 whitespace-nowrap">
-                            پرداخت
-                        </span>
-                        <i class="fa-regular fa-xmark text-xs text-gray-800 dark:text-gray-800"></i>
-                    </span> -->
+                                <span class="text-xxs xs:text-xs absolute -top-6 whitespace-nowrap">
+                                    پرداخت
+                                </span>
+                                <i class="fa-regular fa-xmark text-xs text-gray-800 dark:text-gray-800"></i>
+                            </span> -->
                 <!-- <span class="rounded-full flex-center bg-gray-100 dark:bg-gray-800 w-10 h-10 relative">
-                        <span class="text-xxs xs:text-xs absolute -top-6 whitespace-nowrap">
-                            اتمام خرید و ارسال
-                        </span>
-                        <i class="fa-regular fa-flag text-xs text-gray-500 dark:text-gray-400"></i>
-                    </span> -->
+                                <span class="text-xxs xs:text-xs absolute -top-6 whitespace-nowrap">
+                                    اتمام خرید و ارسال
+                                </span>
+                                <i class="fa-regular fa-flag text-xs text-gray-500 dark:text-gray-400"></i>
+                            </span> -->
                 <span class="rounded-full flex-center bg-green-600 dark:bg-green-400 w-10 h-10 relative">
                     <span class="text-xxs xs:text-xs absolute -top-6 whitespace-nowrap">
                         اتمام خرید و ارسال
@@ -42,26 +42,32 @@
             </div>
         </div>
 
-        <div class="col-span-9 flex flex-col justify-center items-center gap-2 p-3 bg-gray-100 dark:bg-gray-800 rounded-lg">
-
-            <i class="fa-solid fa-circle-check text-7xl md:text-9xl text-green-600 dark:text-green-400"></i>
-            <span class="text-lg">پرداخت موفقیت آمیز بود</span>
-            <span class="text-sm">از اعتماد شما سپاس گذاریم :)</span>
-            <span class="text-sm">کد تراکنش: ۴۵۶۵۸۹۷۸۴۱۲۱۵۶۴۱۳۲۱۵۴</span>
-            <a href="" class="text-xs rounded-lg px-3 py-2 bg-gray-200 dark:bg-gray-500 dark:text-white">پیگیری
-                سفارش</a>
-
-        </div>
-        <!--
+        @if ($status === "OK")
             <div
                 class="col-span-9 flex flex-col justify-center items-center gap-2 p-3 bg-gray-100 dark:bg-gray-800 rounded-lg">
-                
+
+                <i class="fa-solid fa-circle-check text-7xl md:text-9xl text-green-600 dark:text-green-400"></i>
+                <span class="text-lg">پرداخت موفقیت آمیز بود</span>
+                <span class="text-sm">از اعتماد شما سپاس گذاریم :)</span>
+                <span class="text-sm">کد تراکنش: {{ e2p_numbers($transaction_id) }}</span>
+                <a href="{{ route('app.user.orders.details', $order->id) }}" class="text-xs rounded-lg px-3 py-2 bg-gray-200 dark:bg-gray-500 dark:text-white">پیگیری
+                    سفارش</a>
+
+            </div>
+        @else
+            <div
+                class="col-span-9 flex flex-col justify-center items-center gap-2 p-3 bg-gray-100 dark:bg-gray-800 rounded-lg">
+
                 <i class="fa-solid fa-face-frown text-7xl md:text-9xl text-gray-400 dark:text-gray-500"></i>
                 <span class="text-base text-gray-500">پرداخت موفقیت آمیز نبود</span>
-                <span class="text-sm">کد تراکنش: ۴۵۶۵۸۹۷۸۴۱۲۱۵۶۴۱۳۲۱۵۴</span>
-                <a href="" class="text-xs rounded-lg px-3 py-2 bg-gray-200 dark:bg-gray-500 dark:text-white">پیگیری سفارش</a>
+                <span class="text-base text-red-500">{{$verify}}</span>
+                <span class="text-sm">کد تراکنش: {{ e2p_numbers($transaction_id) }}</span>
+                <a href="{{ route('app.user.orders.details', $order->id) }}" class="text-xs rounded-lg px-3 py-2 bg-gray-200 dark:bg-gray-500 dark:text-white">پیگیری
+                    سفارش</a>
 
-            </div> -->
+            </div>
+        @endif
+
 
     </section>
     <!-- payment result ends -->

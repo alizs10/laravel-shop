@@ -124,9 +124,12 @@ class PaymentController extends Controller
         $status = $request->get('Status');
 
         $verify = $paymentServices->verifyPayment($transaction_id);
-        if ($verify === true) {
-            dd("yep");
-        }
-        return view('app.payment-result');
+      
+          
+        
+
+        $online_payment = OnlinePayment::where("transaction_id", $transaction_id)->first();
+        $order = $online_payment->payment->first()->order;
+        return view('app.payment-result', compact('status', 'transaction_id', 'order', 'verify'));
     }
 }

@@ -12,7 +12,7 @@ class OnlinePayment extends Model
 
     protected $fillable = [
         'amount',
-        'user_id ',
+        'user_id',
         'status',
         'gateway',
         'transaction_id',
@@ -20,7 +20,7 @@ class OnlinePayment extends Model
         'bank_second_response',
     ];
 
-    public function payments()
+    public function payment()
     {
         return $this->morphMany(Payment::class, 'paymentable');
     }

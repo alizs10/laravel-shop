@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\app;
 
 use App\Http\Controllers\Controller;
+use App\Http\Services\PaymentServices;
 use App\Models\Market\Coupon;
+use App\Models\Market\OnlinePayment;
 use App\Models\Market\Order;
+
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -97,9 +100,33 @@ class PaymentController extends Controller
         return redirect()->route('app.payment.index', $order->id);
     }
 
-
-    public function result()
+    public function store(Order $order, PaymentServices $paymentServices)
     {
+        if ($order->payment_type == 0) {
+            $paymentInput["type"] = 0;
+            $paymentInput["amount"] = $order->order_final_amount - ($order->order_coupon_discount_amount ?? 0);
+            $paymentInput["user_id"] = $order->user_id;
+            $paymentInput["gateway"] = "زرین پال";
+            $online_payment = OnlinePayment::create($paymentInput);
+            $order->payment->update([
+                "paymentable_id" => $online_payment->id,
+                "paymentable_type" => OnlinePayment::class,
+            ]);
+        }
+
+        return $paymentServices->payment($online_payment);
+    }
+
+    public function result(Request $request, PaymentServices $paymentServices)
+    {
+        
+        $transaction_id = $request->get('Authority');
+        $status = $request->get('Status');
+
+        $verify = $paymentServices->verifyPayment($transaction_id);
+        if ($verify === true) {
+            dd("yep");
+        }
         return view('app.payment-result');
     }
 }

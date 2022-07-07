@@ -1,62 +1,64 @@
 <?php
 
-namespace App\Services;
+namespace App\Http\Services;
 
+use App\Models\Market\OnlinePayment;
+use App\Models\Market\Payment as MarketPayment;
 use App\Models\Payment as ModelsPayment;
-use Shetabit\Multipay\Invoice;
-use Shetabit\Payment\Facade\Payment;
 use Shetabit\Multipay\Exceptions\InvalidPaymentException;
+// At the top of the file.
+use Shetabit\Multipay\Invoice;
+use Shetabit\Multipay\Payment;
 
 class PaymentServices
 {
-
-    protected $url = "http://localhost:3000/panel/payment/";
-
-    public function payment($payment)
+    public function payment($online_payment)
     {
+        // load the config file from your project
+        $paymentConfig = require(__DIR__ . '/../../../config/payment.php');
+        $payment = new Payment($paymentConfig);
+
         // Create new invoice.
-        $invoice = (new Invoice)->amount($payment->amount);
+        $invoice = (new Invoice)->amount($online_payment->amount);
+        $url = route('app.payment.result');
 
         // Purchase the given invoice.
-        return Payment::callbackUrl($this->url)->purchase(
+        return $payment->callbackUrl($url)->purchase(
             $invoice,
-            function ($driver, $transactionId) use($payment) {
+            function ($driver, $transactionId) use ($online_payment) {
                 // We can store $transactionId in database.
-                $payment->update(['transaction_id' => $transactionId]);
+                $online_payment->update(['transaction_id' => $transactionId]);
             }
-        )->pay()->toJson();
+        )->pay()->render();
     }
 
     public function verifyPayment($transaction_id)
     {
-        $payment = ModelsPayment::where(["transaction_id" => $transaction_id])->first();
-        $user_id = $payment->user_id;
-        $plan_id = $payment->order->plan_id;
-        
+        $online_payment = OnlinePayment::where("transaction_id", $transaction_id)->first();
+
+        // load the config file from your project
+        $paymentConfig = require(__DIR__ . '/../../../config/payment.php');
+        $payment = new Payment($paymentConfig);
+
         try {
-            $receipt = Payment::amount($payment->amount)->transactionId($transaction_id)->verify();
-            $payment->order()->update(['status' => 1]);
-            $result = $payment->update([
-                'status' => 1,
-                'reference_id' => $receipt->getReferenceId(),
-                'payment_date' => now()
+            $receipt = $payment->amount($online_payment->amount)->transactionId($online_payment->transaction_id)->verify();
+            $ref_id = $receipt->getReferenceId();
+            $online_payment->update([
+                "reference_id" => $ref_id,
+                "status" => 1
+            ]);
+            $online_payment->payment()->update([
+                "status" => 1
+            ]);
+        
+            $online_payment->payment()->first()->order()->update([
+                "payment_status" => 1,
+                "order_status" => 1
             ]);
 
-            if ($result) {
-                $planServices = new PlansServices;
-                $is_given = $planServices->giveUser($user_id, $plan_id);
-                return [true, $result, $is_given];
-            }
-
-            return [false, $result];
-
+            return true;
         } catch (InvalidPaymentException $exception) {
-            $result = $payment->update([
-                'status' => 0,
-                'payment_date' => now()
-            ]);
-            $payment->order()->update(['status' => 3]);
-            return [false, $exception->getMessage()]; 
+            return $exception->getMessage();
         }
     }
 }

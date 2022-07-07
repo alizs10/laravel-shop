@@ -108,9 +108,9 @@
                     <span>{{ price_formater($payment_amount) }} تومان</span>
                 </span>
 
-                <button class="md:w-full px-4 py-2 bg-red-500 text-xxs xs:text-sm rounded-lg mt-2 text-white">
+                <a href="{{ route('app.payment.store', $order->id) }}" class="md:w-full px-4 py-2 bg-red-500 text-xxs xs:text-sm rounded-lg mt-2 text-white">
                     پرداخت
-                </button>
+                </a>
             </div>
 
         </div>

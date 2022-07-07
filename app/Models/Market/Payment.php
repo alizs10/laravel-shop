@@ -30,6 +30,11 @@ class Payment extends Model
         return $this->morphTo();
     }
 
+    public function order()
+    {
+        return $this->hasOne(Order::class, "payment_id");
+    }
+
     public function status()
     {
         switch ($this->status) {
@@ -77,6 +82,7 @@ class Payment extends Model
                 break;
         }
     }
+    
     public function gateway()
     {
         switch ($this->type) {

@@ -98,13 +98,13 @@
             @php
                 $user_orders = auth()
                     ->user()
-                    ->orders();
+                    ->orders;
                 
-                $still_orders = $user_orders->where('order_status', 0)->get();
-                $proccessing_orders = $user_orders->where('order_status', 1)->get();
-                $delivered_orders = $user_orders->where('order_status', 2)->get();
-                $canceled_orders = $user_orders->where('order_status', 3)->get();
-                $returned_orders = $user_orders->where('order_status', 4)->get();
+                $still_orders = $user_orders->where('order_status', 0);
+                $proccessing_orders = $user_orders->where('order_status', 1);
+                $delivered_orders = $user_orders->where('order_status', 2);
+                $canceled_orders = $user_orders->where('order_status', 3);
+                $returned_orders = $user_orders->where('order_status', 4);
             @endphp
             <div class="grid grid-cols-3 xs:grid-cols-5 mt-2 bg-white dark:bg-gray-700 rounded-lg overflow-hidden">
                 <a href="{{ route('app.user.orders') . '?type=0' }}"
@@ -125,6 +125,7 @@
                         <i class="fa-light fa-loader"></i>
                     </span>
                     <span class="hidden lg:block">در حال پردازش</span>
+                   
                     @if (count($proccessing_orders) > 0)
                         <span
                             class="w-6 h-6 bg-red-500 flex-center text-white text-xs rounded-lg">{{ e2p_numbers(count($proccessing_orders)) }}</span>

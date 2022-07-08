@@ -7,6 +7,7 @@ use App\Models\Content\AdvertisementBaner;
 use App\Models\Market\AmazingSale;
 use App\Models\Market\Brand;
 use App\Models\Market\Product;
+use App\Models\Market\ProductCategory;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -33,5 +34,16 @@ class HomeController extends Controller
         return view('app.index', compact('amazingSaleProducts', 'leastMarketableProducts', 'products', 'slideshowBaners', 'banerTwo', 'banerOne', 'banerThree', 'brands'));
     }
 
+    public function search(Request $request)
+    {
+        $search_for = "%" . $request->get("search") . "%";
+        $product_categories_results = ProductCategory::where('name', 'like', $search_for)->get();
+        $products_results = Product::where('name', 'LIKE', $search_for)->get();
+
+        return response()->json([
+            "categories" => $product_categories_results,
+            "products" => $products_results,
+        ]);
+    }
     
 }

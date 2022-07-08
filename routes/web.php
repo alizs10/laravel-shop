@@ -100,6 +100,9 @@ Route::namespace('App')->group(function () {
     //home
     Route::get('/', [HomeController::class, 'index'])->name('app.home');
 
+    //search
+    Route::get('/search', [HomeController::class, 'search'])->name('app.search');
+
     //product
     Route::prefix('product')->group(function () {
         Route::get('/{product}', [AppProductController::class, 'index'])->name('app.product.index');

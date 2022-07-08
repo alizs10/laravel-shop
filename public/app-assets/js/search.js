@@ -2,6 +2,7 @@ let searchWinVisibility = false;
 
 function toggleSearchWindow() {
     $('#search-window').toggleClass('hidden')
+    $('body').toggleClass('overflow-hidden')
     if (!searchWinVisibility) {
         searchWinVisibility = true
         $('#search-input').focus();

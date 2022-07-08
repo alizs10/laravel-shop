@@ -953,6 +953,12 @@ Ensure the default browser behavior of the `hidden` attribute.
   width: 1.75rem;
 }
 
+.w-fit{
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
 .w-4{
   width: 1rem;
 }
@@ -967,6 +973,12 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .w-12{
   width: 3rem;
+}
+
+.min-w-fit{
+  min-width: -webkit-fit-content;
+  min-width: -moz-fit-content;
+  min-width: fit-content;
 }
 
 .shrink{
@@ -1062,6 +1074,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .flex-wrap{
   flex-wrap: wrap;
+}
+
+.flex-nowrap{
+  flex-wrap: nowrap;
 }
 
 .items-start{

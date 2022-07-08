@@ -66,7 +66,8 @@
                         <span>نتایج جستجو برای</span>
                         <span id="search-inp-value"></span>
                     </span>
-                    <span class="text-sm mr-4">
+
+                    {{-- <span class="text-sm mr-4">
                         در دسته بندی ها
                     </span>
 
@@ -139,7 +140,7 @@
                         </a>
 
 
-                    </ul>
+                    </ul> --}}
                 </div>
 
             </section>

@@ -60,6 +60,7 @@ export function checkCoupon(btn) {
                     <span>تخفیف</span>
                     <span>${response.order_coupon_discount_amount} تومان</span>
                 </span>`)
+                $("#payment-price").html(response.payment_price + ' تومان')
             }
 
         },

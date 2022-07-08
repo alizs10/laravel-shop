@@ -240,11 +240,13 @@
                     <span>جمع سبد خرید شما</span>
                     <span id="pay_price">{{ price_formater($pay_price) }} تومان</span>
                 </span>
-                <span
-                    class="text-red-500 flex justify-between items-center md:pb-2 md:border-b-2 border-gray-200 dark:border-gray-700">
-                    <span>سود شما از این خرید</span>
-                    <span id="discount_price">{{ price_formater($discount_price) }} تومان</span>
-                </span>
+                @if ($discount_price > 0)
+                    <span
+                        class="text-red-500 flex justify-between items-center md:pb-2 md:border-b-2 border-gray-200 dark:border-gray-700">
+                        <span>سود شما از این خرید</span>
+                        <span id="discount_price">{{ price_formater($discount_price) }} تومان</span>
+                    </span>
+                @endif
 
                 <div
                     class="fixed right-0 bottom-0 left-0 z-30 md:z-0 flex justify-between items-center md:block md:static bg-gray-200 dark:bg-gray-800 md:bg-transparent p-3 md:p-0">

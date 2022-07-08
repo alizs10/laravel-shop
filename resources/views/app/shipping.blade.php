@@ -116,7 +116,7 @@
 
             <span class="flex justify-between items-center">
                 <span>مبلغ سفارش شما</span>
-                <span>{{ price_formater($order->order_final_amount - $order->delivery_amount) }} تومان</span>
+                <span>{{ price_formater($order->order_final_amount) }} تومان</span>
             </span>
             <span class="flex justify-between items-center md:pb-2 md:border-b-2 border-gray-200 dark:border-gray-700">
                 <span>هزینه ارسال</span>
@@ -129,7 +129,7 @@
                 <span
                     class="flex flex-col md:flex-row gap-2 md:justify-between items-center text-xxs xs:text-xs md:text-xxs lg:text-xs">
                     <span>مبلغ پرداختی</span>
-                    <span id="pay_price" >{{ price_formater($order->order_final_amount) }} تومان</span>
+                    <span id="pay_price" >{{ price_formater($order->order_final_amount + $order->delivery_amount) }} تومان</span>
                 </span>
 
                 <a href="{{ route('app.shipping.store-payment', $order->id)}}" class="md:w-full px-4 py-2 bg-red-500 text-xxs xs:text-sm rounded-lg mt-2 text-white">

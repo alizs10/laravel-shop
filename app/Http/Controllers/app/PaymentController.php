@@ -30,7 +30,7 @@ class PaymentController extends Controller
         $coupon = Coupon::where(
             'code',
             $discount_code
-        )->where('valid_until', ">", Carbon::now())->first();
+        )->where('valid_until', ">", Carbon::now())->where("status", 1)->first();
 
         if (empty($coupon)) {
             return response()->json([
@@ -77,7 +77,8 @@ class PaymentController extends Controller
             "discount_amount" => $discount_amount,
             "order" => $order,
             "coupon" => $coupon,
-            "order_coupon_discount_amount" => price_formater($discount_amount)
+            "order_coupon_discount_amount" => price_formater($discount_amount),
+            "payment_price" => price_formater($order->order_final_amount - $discount_amount + $order->delivery_amount),
         ]);
     }
 
@@ -104,7 +105,7 @@ class PaymentController extends Controller
     {
         if ($order->payment_type == 0) {
             $paymentInput["type"] = 0;
-            $paymentInput["amount"] = $order->order_final_amount - ($order->order_coupon_discount_amount ?? 0);
+            $paymentInput["amount"] = $order->order_final_amount - ($order->order_coupon_discount_amount ?? 0) + $order->delivery_amount;
             $paymentInput["user_id"] = $order->user_id;
             $paymentInput["gateway"] = "زرین پال";
             $online_payment = OnlinePayment::create($paymentInput);
@@ -125,9 +126,6 @@ class PaymentController extends Controller
 
         $verify = $paymentServices->verifyPayment($transaction_id);
       
-          
-        
-
         $online_payment = OnlinePayment::where("transaction_id", $transaction_id)->first();
         $order = $online_payment->payment->first()->order;
         return view('app.payment-result', compact('status', 'transaction_id', 'order', 'verify'));

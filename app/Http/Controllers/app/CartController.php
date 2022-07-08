@@ -200,7 +200,6 @@ class CartController extends Controller
         foreach ($order->items as $order_item) {
             $order_final_amount += $order_item->final_total_price;
         }
-        $order_final_amount += $order->delivery_amount;
 
         $order->update(['order_final_amount' => $order_final_amount]);
 

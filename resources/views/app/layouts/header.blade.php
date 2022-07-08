@@ -67,80 +67,9 @@
                         <span id="search-inp-value"></span>
                     </span>
 
-                    {{-- <span class="text-sm mr-4">
-                        در دسته بندی ها
-                    </span>
+                    <div id="search-results-container" class="flex flex-col gap-y-2"></div>
 
-                    <ul class="mx-4 flex flex-nowrap gap-x-2 overflow-x-scroll">
-                        <a href=""
-                            class="min-w-fit bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 hover-transition rounded-lg p-2 flex items-center gap-x-2">
-                            <img class="w-20 rounded-lg" src="../images/product-1.jfif" alt="">
-                            <span class="flex flex-col gap-y-1">
-                                <span class="text-xs font-bold">گوشی موبایل</span>
-                                <span class="text-xxs">دسته بندی ها</span>
-                            </span>
-                        </a>
-                        <a href=""
-                            class="min-w-fit bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 hover-transition rounded-lg p-2 flex items-center gap-x-2">
-                            <img class="w-20 rounded-lg" src="../images/product-1.jfif" alt="">
-                            <span class="flex flex-col gap-y-1">
-                                <span class="text-xs font-bold">گوشی موبایل</span>
-                                <span class="text-xxs">دسته بندی ها</span>
-                            </span>
-                        </a>
-                        <a href=""
-                            class="min-w-fit bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 hover-transition rounded-lg p-2 flex items-center gap-x-2">
-                            <img class="w-20 rounded-lg" src="../images/product-1.jfif" alt="">
-                            <span class="flex flex-col gap-y-1">
-                                <span class="text-xs font-bold">گوشی موبایل</span>
-                                <span class="text-xxs">دسته بندی ها</span>
-                            </span>
-                        </a>
-
-
-                    </ul>
-
-
-                    <span class="text-sm mr-4">
-                        در محصولات
-                    </span>
-
-                    <ul class="mx-4 flex flex-nowrap gap-x-2 overflow-x-scroll">
-                        <a href=""
-                            class="min-w-fit bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 hover-transition rounded-lg p-2 flex items-center gap-x-2 w-fit">
-                            <img class="w-20 rounded-lg" src="../images/product-1.jfif" alt="">
-                            <span class="flex flex-col gap-y-1">
-                                <span class="text-sm font-bold">گوشی سامسونگ گلکسی اس 22</span>
-                                <span class="text-xs">در دسته بندی گوشی موبایل</span>
-                            </span>
-                        </a>
-                        <a href=""
-                            class="min-w-fit bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 hover-transition rounded-lg p-2 flex items-center gap-x-2 w-fit">
-                            <img class="w-20 rounded-lg" src="../images/product-1.jfif" alt="">
-                            <span class="flex flex-col gap-y-1">
-                                <span class="text-sm font-bold">گوشی سامسونگ گلکسی اس 22</span>
-                                <span class="text-xs">در دسته بندی گوشی موبایل</span>
-                            </span>
-                        </a>
-                        <a href=""
-                            class="min-w-fit bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 hover-transition rounded-lg p-2 flex items-center gap-x-2 w-fit">
-                            <img class="w-20 rounded-lg" src="../images/product-1.jfif" alt="">
-                            <span class="flex flex-col gap-y-1">
-                                <span class="text-sm font-bold">گوشی سامسونگ گلکسی اس 22</span>
-                                <span class="text-xs">در دسته بندی گوشی موبایل</span>
-                            </span>
-                        </a>
-                        <a href=""
-                            class="min-w-fit bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 hover-transition rounded-lg p-2 flex items-center gap-x-2 w-fit">
-                            <img class="w-20 rounded-lg" src="../images/product-1.jfif" alt="">
-                            <span class="flex flex-col gap-y-1">
-                                <span class="text-sm font-bold">گوشی سامسونگ گلکسی اس 22</span>
-                                <span class="text-xs">در دسته بندی گوشی موبایل</span>
-                            </span>
-                        </a>
-
-
-                    </ul> --}}
+                   
                 </div>
 
             </section>

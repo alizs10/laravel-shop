@@ -53,6 +53,12 @@
                         value="{{ old('name', $menu->name) }}">
                 </div>
                 <div class="col-span-2 md:col-span-1 flex flex-col gap-y-1">
+                    <label for="icon"
+                        class="text-xs {{ $errors->has('icon') ? 'text-red-600 dark:text-red-400' : '' }}">آیکون منو</label>
+                    <input type="text" class="form-input" name="icon" id="icon"
+                        value="{{ old('icon', $menu->icon) }}">
+                </div>
+                <div class="col-span-2 md:col-span-1 flex flex-col gap-y-1">
                     <label for="slug"
                         class="text-xs {{ $errors->has('slug') ? 'text-red-600 dark:text-red-400' : '' }}">اسلاگ</label>
                     <input type="text" class="form-input" name="slug" id="slug"

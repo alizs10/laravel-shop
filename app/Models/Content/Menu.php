@@ -11,7 +11,7 @@ class Menu extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['name', 'parent_id', 'url', 'status'];
+    protected $fillable = ['name', 'icon', 'parent_id', 'url', 'status'];
 
     public function url()
     {
@@ -21,6 +21,5 @@ class Menu extends Model
     public function parent($parent_id)
     {
         return $parent_name = Menu::find($parent_id)->name;
-        
     }
 }

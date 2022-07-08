@@ -15,7 +15,7 @@
         @foreach ($menus as $menu)
             <a href=""
                 class="text-sm lg:text-xs flex items-center gap-x-4 lg:gap-x-2 py-2 lg:border-b-2 lg:border-white dark:lg:border-gray-800 lg:hover-transition lg:hover:border-red-500 dark:lg:hover:border-red-500">
-                <i class="fa-regular fa-basket-shopping text-lg lg:text-sm"></i>
+                <i class="{{$menu->icon}} text-lg lg:text-sm"></i>
                 {{$menu->name}}</a>
         @endforeach
 

@@ -44,7 +44,7 @@ class ViewServiceProvider extends ServiceProvider
         // application
         View::composer('app.*', function ($view) {
             //menus
-            $menus = Menu::whereNull('parent_id')->get();
+            $menus = Menu::whereNull('parent_id')->where("status", 1)->get();
             //cart
             $cartServices = new CartServices();
             $cart_items = $cartServices->getCartItems();

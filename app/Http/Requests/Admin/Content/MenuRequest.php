@@ -26,6 +26,7 @@ class MenuRequest extends FormRequest
         if ($this->isMethod('post')) {
             return [
                 'name' => 'required|max:255|min:2',
+                'icon' => 'nullable|max:255|min:2',
                 'slug' => 'required|string|max:50|min:1',
                 'parent_id' => 'nullable|exists:App\Models\Content\Menu,id',
                 'status' => 'required|numeric|in:0,1'

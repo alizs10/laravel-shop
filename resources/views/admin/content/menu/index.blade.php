@@ -41,7 +41,12 @@
                         <tr>
 
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $menu->name }}</td>
+                            <td>
+                                @if (!empty($menu->icon))
+                                    <i class="{{ $menu->icon }} text-sm ml-2"></i>
+                                @endif
+                                {{ $menu->name }}
+                            </td>
                             <td>{{ $menu->parent_id ? $menu->parent($menu->parent_id) : 'اصلی' }}</td>
                             <td>{{ $menu->url }}</td>
                             <td>
@@ -58,8 +63,8 @@
                                         <i class="fa-light fa-pen-to-square"></i>
                                         ویرایش
                                     </a>
-                                    <form class="m-0"
-                                        action="{{ route('admin.content.menu.destroy', $menu->id) }}" method="POST">
+                                    <form class="m-0" action="{{ route('admin.content.menu.destroy', $menu->id) }}"
+                                        method="POST">
                                         @csrf
                                         {{ method_field('delete') }}
                                         <button class="btn bg-red-400 text-black flex-center gap-1 delBtn">

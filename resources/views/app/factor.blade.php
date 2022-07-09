@@ -62,7 +62,7 @@
             </span>
             <span class="border-r border-black py-2 pr-2">
 
-                شماره شناسه نامه: {{ $order->user->national_code }}
+                شماره شناسه نامه: {{ e2p_numbers($order->user->national_code) }}
             </span>
             <span class="border-r border-black py-2 pr-2">
 
@@ -78,17 +78,17 @@
                 نشانی: {{ $order->address->address }}
             </span>
             <span class="border-r border-black py-2 pr-2">
-                واحد: {{ $order->address->unit ?? '-' }}
+                واحد: {{ $order->address->unit ? e2p_numbers($order->address->unit) : '-' }}
             </span>
 
         </div>
         <div class="text-xs grid grid-cols-3">
             <span class="py-2 mr-2">
 
-                پلاک: {{ $order->address->no }}
+                پلاک: {{ e2p_numbers($order->address->no) }}
             </span>
             <span class="border-r border-black py-2 pr-2">
-                کد پستی: {{ $order->address->postal_code }}
+                کد پستی: {{ e2p_numbers($order->address->postal_code) }}
             </span>
             <span class="border-r border-black py-2 pr-2">
                 نام و نام خانوادگی تحویل گیرنده: {{ $order->address->receiver_name }}
@@ -96,7 +96,7 @@
         </div>
         <div class="text-xs grid grid-cols-3 border-t border-black">
             <span class="py-2 mr-2">
-                شماره تماس تحویل گیرنده: {{ $order->address->receiver_mobile }}
+                شماره تماس تحویل گیرنده: {{ e2p_numbers($order->address->receiver_mobile) }}
             </span>
         </div>
         <h1 class="text-sm font-bold text-center w-full py-2 border-y border-black">مشخصات کالاها</h1>
@@ -120,55 +120,57 @@
                 قیمت کل
             </span>
         </div>
-
+        @php
+            $order_numbers = 0;
+            $all_final_products_price = 0;
+            $all_discounts = 0;
+        @endphp
         @foreach ($order->items as $item)
-        <div class="text-xs grid grid-cols-12 border-t border-black">
-            <span class="col-span-3 py-2 mr-2">
-               {{$item->product->name}}
-            </span>
-            <span class="col-span-1 border-r border-black py-2 pr-2">
-                {{e2p_numbers($item->number)}}
-            </span>
-            <span class="col-span-2 border-r border-black py-2 pr-2">
-                {{price_formater($item->final_product_price)}} تومان
-            </span>
-            <span class="col-span-2 border-r border-black py-2 pr-2">
-                @php
-                    $discount_amount = 0;
-                    if(!empty($item->amazing_sale_id))
-                    {
-                        $discount_amount = 10;
-                    }
-                @endphp
-                {{price_formater($discount_amount)}} تومان
-            </span>
-            <span class="col-span-2 border-r border-black py-2 pr-2">
-                {{price_formater($item->final_product_price - $discount_amount)}} تومان
-            </span>
-            <span class="col-span-2 border-r border-black py-2 pr-2">
-                {{price_formater($item->final_total_price)}} تومان
-            </span>
-        </div>
+            @php
+                $order_numbers += $item->number;
+                $all_final_products_price += $item->final_product_price;
+                $all_discounts += $item->product_unit_price - $item->final_product_price;
+            @endphp
+            <div class="text-xs grid grid-cols-12 border-t border-black">
+                <span class="col-span-3 py-2 mr-2">
+                    {{ $item->product->name }}
+                </span>
+                <span class="col-span-1 border-r border-black py-2 pr-2">
+                    {{ e2p_numbers($item->number) }}
+                </span>
+                <span class="col-span-2 border-r border-black py-2 pr-2">
+                    {{ price_formater($item->product_unit_price) }} تومان
+                </span>
+                <span class="col-span-2 border-r border-black py-2 pr-2">
+                    {{ price_formater($item->product_unit_price - $item->final_product_price) }} تومان
+                </span>
+                <span class="col-span-2 border-r border-black py-2 pr-2">
+                    {{ price_formater($item->final_product_price) }} تومان
+                </span>
+                <span class="col-span-2 border-r border-black py-2 pr-2">
+                    {{ price_formater($item->final_total_price) }} تومان
+                </span>
+            </div>
         @endforeach
-        
+
         <div class="text-xs grid grid-cols-12 border-t border-black font-bold">
             <span class="col-span-3 py-2 mr-2">
                 جمع
             </span>
             <span class="col-span-1 border-r border-black py-2 pr-2">
-                ۴
+                {{ e2p_numbers($order_numbers) }}
             </span>
             <span class="col-span-2 border-r border-black py-2 pr-2">
-
+                -
             </span>
             <span class="col-span-2 border-r border-black py-2 pr-2">
-                ۱۰٬۰۰۰ تومان
+                {{ price_formater($all_discounts) }} تومان
             </span>
             <span class="col-span-2 border-r border-black py-2 pr-2">
-                ۲۱۰٬۰۰۰ تومان
+                {{ price_formater($all_final_products_price) }} تومان
             </span>
             <span class="col-span-2 border-r border-black py-2 pr-2">
-                {{price_formater($order->order_final_amount)}} تومان
+                {{ price_formater($order->order_final_amount) }} تومان
             </span>
         </div>
     </div>

@@ -162,19 +162,17 @@ class CartController extends Controller
         $order = $user->orders()->create($order_input);
 
         foreach ($cart_items as $cart_item) {
-            $product_discount = 0;
             $order_item_input['product_id'] = $cart_item->product_id;
             $order_item_input['product_object'] = $cart_item->product;
             if (!empty($cart_item->product->amazingSale)) {
                 $order_item_input['amazing_sale_id'] = $cart_item->product->amazingSale->id;
                 $order_item_input['amazing_sale_object'] = $cart_item->product->amazingSale;
-                $product_discount = ($cart_item->product->price * $cart_item->product->amazingSale->percentage);
             }
             $order_item_input['number'] = $cart_item->number;
             $item_attributes = $cart_item->itemAttributes();
             $item_prices = $cart_item->product->getPrice($item_attributes);
-            $final_product_price = $cart_item->product->price - $product_discount;
-            $order_item_input['final_product_price'] = $item_prices['ultimate_price'];
+            $order_item_input['product_unit_price'] = $item_prices['product_price'];
+            $order_item_input['final_product_price'] = $item_prices['ultimate_price']; //procut price after discount
             $order_item_input['final_total_price'] = $item_prices['ultimate_price'] * $cart_item->number;
             $order_item_input['color_id'] = $cart_item->color_id;
             $order_item_input['guaranty_id'] = $cart_item->guaranty_id;

@@ -21,7 +21,8 @@ class CreateOrderItemsTable extends Migration
             $table->foreignId('amazing_sale_id')->nullable()->constrained('amazing_sales')->onUpdate('cascade')->onDelete('cascade');
             $table->longText('amazing_sale_object')->nullable();
             $table->integer('number')->default(1);
-            $table->decimal('final_product_price', 20, 3)->nullable();
+            $table->decimal('product_unit_price', 20, 3)->comment("just product price");
+            $table->decimal('final_product_price', 20, 3)->nullable()->comment("product price after dicount");
             $table->decimal('final_total_price', 20, 3)->nullable()->comment('number * final_product_price');
             $table->foreignId('color_id')->nullable()->constrained('product_colors')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('guaranty_id')->nullable()->constrained('guaranties')->onUpdate('cascade')->onDelete('cascade');

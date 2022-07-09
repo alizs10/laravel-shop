@@ -21,6 +21,7 @@ class OrderItem extends Model
         'color_id',
         'guaranty_id',
         'number',
+        'product_unit_price',
         'final_product_price',
         'final_total_price',
     ];

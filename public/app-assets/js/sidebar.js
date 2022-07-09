@@ -36,9 +36,9 @@ $('.cat').hover(function () {
     let id = $(this).attr('id');
     id = id.slice(2, id.length);
 
-    if (!$('#c-s-' + id).hasClass('c-s-active')) {
+    if (!$('.c-s-' + id).hasClass('c-s-active')) {
         $('.c-s-active').toggleClass('hidden c-s-active');
-        $('#c-s-' + id).toggleClass('hidden c-s-active');
+        $('.c-s-' + id).toggleClass('hidden c-s-active');
 
         $('.cat-active').toggleClass('text-red-500 cat-active')
         $(this).toggleClass('cat-active text-red-500')

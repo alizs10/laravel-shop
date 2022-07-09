@@ -13,10 +13,10 @@
         class="col-span-12 lg:col-span-11 lg:order-last flex flex-col lg:flex-row lg:gap-x-2 lg:p-0 border-b lg:border-none border-gray-100 text-gray-500 dark:text-gray-400 dark:border-gray-700 h-fit">
 
         @foreach ($menus as $menu)
-            <a href=""
+            <a href="{{ $menu->url }}"
                 class="text-sm lg:text-xs flex items-center gap-x-4 lg:gap-x-2 py-2 lg:border-b-2 lg:border-white dark:lg:border-gray-800 lg:hover-transition lg:hover:border-red-500 dark:lg:hover:border-red-500">
-                <i class="{{$menu->icon}} text-lg lg:text-sm"></i>
-                {{$menu->name}}</a>
+                <i class="{{ $menu->icon }} text-lg lg:text-sm"></i>
+                {{ $menu->name }}</a>
         @endforeach
 
     </ul>
@@ -138,8 +138,18 @@
 
             <!-- cats -->
             <div class="flex flex-col col-span-3 bg-gray-100 dark:bg-gray-900">
-
-                <span id="c-1"
+                @foreach ($product_categories as $key => $cat)
+                    <span id="c-{{ $cat->id }}"
+                        class="cat  flex flex-col items-center py-2 cursor-pointer hover-transition @if ($key == 0) cat-active  text-red-500 @endif">
+                        <div class="flex justify-between w-full py-2">
+                            <span class="text-xs mr-2">{{ $cat->name }}</span>
+                            <span class="ml-2 text-xs">
+                                <i class="fa-solid fa-angle-left"></i>
+                            </span>
+                        </div>
+                    </span>
+                @endforeach
+                {{-- <span id="c-1"
                     class="cat cat-active flex flex-col items-center py-2 cursor-pointer hover-transition text-red-500">
                     <div class="flex justify-between w-full py-2">
                         <span class="text-xs mr-2">کالاهای دیجیتال</span>
@@ -155,24 +165,30 @@
                             <i class="fa-solid fa-angle-left"></i>
                         </span>
                     </div>
-                </span>
+                </span> --}}
 
             </div>
             <!-- cats -->
 
             <!-- subs -->
             <div class="col-span-9 grid grid-cols-9">
-                <ul id="c-s-1" class="cat-sub c-s-active col-span-3 flex flex-col">
-                    <span class="flex justify-between py-3 text-red-500 cursor-pointer">
-                        <span class="text-xs mr-6">گوشی و لوازم جانبی موبایل</span>
-                    </span>
-                    <ul class="w-full flex flex-col">
-                        <a href="" class="mr-10 text-xs py-3">گوشی موبایل</a>
-                        <a href="" class="mr-10 text-xs py-3">هندزفری</a>
-                        <a href="" class="mr-10 text-xs py-3">کابل شارژر و مبدل</a>
-                    </ul>
-                </ul>
-                <ul id="c-s-2" class="cat-sub hidden col-span-3 flex flex-col">
+                @foreach ($product_categories as $key => $cat)
+                    @foreach ($cat->children as $cat_child)
+                        <ul
+                            class="cat-sub c-s-{{ $cat_child->parent_id }} @if ($key == 0) c-s-active @else hidden @endif col-span-3 flex flex-col">
+                            <span class="flex justify-between py-3 text-red-500 cursor-pointer">
+                                <span class="text-xs mr-6">{{ $cat_child->name }}</span>
+                            </span>
+                            <ul class="w-full flex flex-col">
+                                @foreach ($cat_child->children as $cat_child_child)
+                                    <a href="" class="mr-10 text-xs py-3">{{ $cat_child_child->name }}</a>
+                                @endforeach
+
+                            </ul>
+                        </ul>
+                    @endforeach
+                @endforeach
+                {{-- <ul id="c-s-2" class="cat-sub hidden col-span-3 flex flex-col">
                     <span class="flex justify-between py-3 text-red-500 cursor-pointer">
                         <span class="text-xs mr-6">یشبیسبشیب</span>
                     </span>
@@ -181,7 +197,7 @@
                         <a href="" class="mr-10 text-xs py-3">شسیب</a>
                         <a href="" class="mr-10 text-xs py-3">ییبی</a>
                     </ul>
-                </ul>
+                </ul> --}}
 
             </div>
             <!-- subs -->

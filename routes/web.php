@@ -158,6 +158,7 @@ Route::namespace('App')->group(function () {
         //orders
         Route::get('orders', [UserController::class, 'orders'])->name('app.user.orders');
         Route::get('orders/{order}', [UserController::class, 'orderDetails'])->name('app.user.orders.details');
+        Route::get('orders/{order}/factor', [UserController::class, 'factor'])->name('app.user.orders.factor');
 
         //favorites
         Route::get('favorites', [UserController::class, 'favorites'])->name('app.user.favorites');

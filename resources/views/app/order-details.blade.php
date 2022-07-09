@@ -207,7 +207,8 @@
                 <span
                     class="flex flex-col md:flex-row gap-2 md:justify-between items-center text-xxs xs:text-xs md:text-xxs lg:text-xs">
                     <span>مبلغ پرداختی</span>
-                    <span>{{ price_formater($order->order_final_amount + $order->delivery_amount - ($order->order_coupon_discount_amount ?? 0)) }} تومان</span>
+                    <span>{{ price_formater($order->order_final_amount + $order->delivery_amount - ($order->order_coupon_discount_amount ?? 0)) }}
+                        تومان</span>
                 </span>
                 @if ($order->order_status == 0)
                     <a href="{{ route('app.shipping.index', $order->id) }}"
@@ -215,21 +216,21 @@
                         پرداخت
                     </a>
                 @else
-                    <button
+                    <a href="{{ route('app.user.orders.factor', $order->id) }}" target="_blank"
                         class="md:w-full flex-center gap-2 px-4 py-2 bg-gray-500 text-xxs xs:text-sm rounded-lg mt-2 text-white">
                         <i class="fa-light fa-receipt text-base"></i>
                         مشاهده فاکتور
-                    </button>
+                    </a>
                 @endif
 
             </div>
 
             @if ($order->order_status == 0)
-                <button
+                <a href="{{ route('app.user.orders.factor', $order->id) }}" target="_blank"
                     class="md:w-full flex-center gap-2 px-4 py-2 bg-gray-500 text-xxs xs:text-sm rounded-lg mt-2 text-white">
                     <i class="fa-light fa-receipt text-base"></i>
                     مشاهده فاکتور
-                </button>
+                </a>
             @endif
 
         </div>

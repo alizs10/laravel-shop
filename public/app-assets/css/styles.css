@@ -716,6 +716,11 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-right: 0.5rem;
 }
 
+.mx-8{
+  margin-left: 2rem;
+  margin-right: 2rem;
+}
+
 .my-4{
   margin-top: 1rem;
   margin-bottom: 1rem;
@@ -789,6 +794,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .mb-10{
   margin-bottom: 2.5rem;
+}
+
+.ml-8{
+  margin-left: 2rem;
 }
 
 .mr-8{
@@ -1221,6 +1230,11 @@ Ensure the default browser behavior of the `hidden` attribute.
   border-width: 2px;
 }
 
+.border-y{
+  border-top-width: 1px;
+  border-bottom-width: 1px;
+}
+
 .border-b-2{
   border-bottom-width: 2px;
 }
@@ -1231,6 +1245,14 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .border-t-2{
   border-top-width: 2px;
+}
+
+.border-r{
+  border-right-width: 1px;
+}
+
+.border-t{
+  border-top-width: 1px;
 }
 
 .border-solid{
@@ -1254,6 +1276,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 .border-gray-200{
   --tw-border-opacity: 1;
   border-color: rgb(229 231 235 / var(--tw-border-opacity));
+}
+
+.border-black{
+  --tw-border-opacity: 1;
+  border-color: rgb(0 0 0 / var(--tw-border-opacity));
 }
 
 .border-emerald-500{
@@ -1440,6 +1467,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .pb-3{
   padding-bottom: 0.75rem;
+}
+
+.pr-2{
+  padding-right: 0.5rem;
 }
 
 .pb-2{

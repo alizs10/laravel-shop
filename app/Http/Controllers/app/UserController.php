@@ -108,6 +108,11 @@ class UserController extends Controller
         return view('app.order-details', compact('order'));
     }
 
+    public function factor(Order $order)
+    {
+        return view('app.factor', compact('order'));
+    }
+
     //favorites
 
 

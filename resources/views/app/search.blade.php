@@ -45,28 +45,23 @@
                         </div>
 
                         <div class="flex flex-col gap-4 mx-4 lg:mt-4">
-                            <span id="cat-filter-0" onclick="toggleSubCategoryFilter(0)"
-                                class="flex items-center cursor-pointer gap-2">
-                                <i class="fa fa-angle-left text-sm"></i>
-                                <span class="text-xs">کالاهای دیجیتال</span>
-                            </span>
-                            <span id="cat-filter-1" data-parent-id="0" onclick="toggleSubCategoryFilter(1)"
-                                class="hidden flex items-center cursor-pointer gap-2 mr-4">
-                                <i class="fa fa-angle-left text-sm"></i>
-                                <span class="text-xs">گوشی موبایل</span>
-                            </span>
-                            <span data-parent-id="1" onclick=""
-                                class="hidden flex items-center cursor-pointer gap-2 mr-8">
-                                <span class="text-xs">گوشی های سامسونگ</span>
-                            </span>
-                            <span data-parent-id="1" onclick=""
-                                class="hidden flex items-center cursor-pointer gap-2 mr-8">
-                                <span class="text-xs">گوشی های شیایومی</span>
-                            </span>
-                            <span data-parent-id="1" onclick=""
-                                class="hidden flex items-center cursor-pointer gap-2 mr-8">
-                                <span class="text-xs">گوشی های اپل</span>
-                            </span>
+                            <a href="" class="flex items-center cursor-pointer gap-2">
+                                <i class="fa-light fa-grid-2 text-sm"></i>
+                                <span class="flex justify-between items-center w-full">
+                                    <span class="text-xs">همه دسته بندی ها</span>
+                                    <i class="fa-solid fa-check text-red-500 text-lg"></i>
+                                </span>
+                            </a>
+                            @foreach ($categories as $category)
+                                <a href="" class="flex items-center cursor-pointer gap-2 mr-4">
+                                    <i class="fa fa-angle-left text-sm"></i>
+                                    <span class="flex justify-between items-center w-full">
+                                        <span class="text-xs">{{ $category->name }}</span>
+                                        <i class="fa-solid fa-check text-red-500 text-lg"></i>
+                                    </span>
+                                </a>
+                            @endforeach
+
                         </div>
 
                     </div>
@@ -120,21 +115,25 @@
                     <span class="flex justify-between items-center">
                         <span>فقط کالاهای مجود</span>
 
-                        <span class="flex items-center @if($filters && $filters['exists'] === true) justify-end bg-red-500 @else bg-gray-200 dark:bg-gray-700 @endif rounded-lg p-1 w-12">
+                        <span
+                            class="flex items-center @if ($filters && $filters['exists'] === true) justify-end bg-red-500 @else bg-gray-200 dark:bg-gray-700 @endif rounded-lg p-1 w-12">
 
                             <span onclick="toggleProductsExistFilter(this)"
                                 class="w-5 h-5 rounded-full bg-white cursor-pointer"></span>
-                            <input type="hidden" name="exists" @if($filters && $filters['exists'] === true) value="true" @else value="false" @endif />
+                            <input type="hidden" name="exists"
+                                @if ($filters && $filters['exists'] === true) value="true" @else value="false" @endif />
                         </span>
                     </span>
                 </div>
 
             </div>
 
-            <button onclick="applySearchFilter()"
-                class="fixed lg:static lg:mx-2 lg:rounded-lg lg:mt-2 text-sm xs:text-base bottom-0 right-0 left-0 block text-center py-2 xs:py-3 bg-red-500 text-white">اعمال
-                فیلتر</button>
 
+            <div class="mx-2">
+                <button onclick="applySearchFilter()"
+                    class="fixed lg:static lg:w-full lg:rounded-lg lg:mt-2 text-sm xs:text-base bottom-0 right-0 left-0 block text-center py-2 xs:py-3 bg-red-500 text-white">اعمال
+                    فیلتر</button>
+            </div>
         </section>
 
         <!-- filters ends -->
@@ -147,15 +146,18 @@
                     <span>نتایج جستجو برای "<span id="searched-word">{{ $search }}</span>"</span>
                     <span class="text-red-500">{{ e2p_numbers($results->count()) }} مورد</span>
                 </span>
-                @if (!empty($filters))
-                    <span class="flex flex-col gap-2 text-xxs xs:text-xs">
-                        <span class="flex justify-between items-center text-xs xs:text-sm">
-                            <span>فیلتر ها:</span>
-                            <button onclick="toggleFilters()"
-                                class="lg:hidden w-10 h-10 text-gray-700 dark:text-gray-200 rounded-lg text-xl hover-transition hover:bg-gray-200 dark:hover:bg-gray-700">
-                                <i class="fa-regular fa-filter"></i>
-                            </button>
-                        </span>
+                <span class="flex flex-col gap-2 text-xxs xs:text-xs">
+                    <span class="flex justify-between items-center text-xs xs:text-sm">
+                        @if (!empty($filters))
+                            <span>فیلتر ها</span>
+                        @endif
+
+                        <button onclick="toggleFilters()"
+                            class="lg:hidden w-10 h-10 text-gray-700 dark:text-gray-200 rounded-lg text-xl hover-transition hover:bg-gray-200 dark:hover:bg-gray-700">
+                            <i class="fa-regular fa-filter"></i>
+                        </button>
+                    </span>
+                    @if (!empty($filters))
                         <span class="flex flex-wrap gap-2">
                             @if ($filters['price'])
                                 <span class="rounded-lg p-2 bg-red-500 text-white">قیمت</span>
@@ -168,8 +170,8 @@
                             @endif
 
                         </span>
-                    </span>
-                @endif
+                    @endif
+                </span>
             </div>
 
             <!-- search results starts -->

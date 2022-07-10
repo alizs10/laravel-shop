@@ -2381,6 +2381,10 @@ Ensure the default browser behavior of the `hidden` attribute.
     display: block;
   }
 
+  .lg\:inline-block{
+    display: inline-block;
+  }
+
   .lg\:flex{
     display: flex;
   }

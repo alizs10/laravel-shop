@@ -4,6 +4,7 @@ namespace App\Http\Controllers\app;
 
 use App\Http\Controllers\Controller;
 use App\Models\Market\Product;
+use App\Models\Market\ProductCategory;
 use Illuminate\Http\Request;
 
 class SearchController extends Controller
@@ -48,7 +49,9 @@ class SearchController extends Controller
         !$cat_id ?: $query->where('cat_id', $cat_id);
         // !$exists ?: $query->where('price', [$price]);
 
+        $categories = ProductCategory::whereNull("parent_id")->get();
+
         $results = $query->get();
-        return view('app.search', compact('results', 'search', 'filters'));
+        return view('app.search', compact('results', 'search', 'filters', 'categories'));
     }
 }

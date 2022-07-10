@@ -4,11 +4,13 @@ function toggleFilters() {
 }
 function togglePriceFilter() {
    $('#price-filter').children().eq(1).toggleClass('hidden');
+   $('#price-filter').children().eq(0).find('svg').toggleClass('fa-angle-left fa-angle-down');
+
 
 }
 function toggleCategoryFilter() {
    $('#category-filter').children().eq(1).toggleClass('hidden');
-
+   $('#category-filter').children().eq(0).find('svg').toggleClass('fa-angle-left fa-angle-down');
 }
 
 function toggleProductsExistFilter(btn) {
@@ -19,20 +21,6 @@ function toggleProductsExistFilter(btn) {
    $("input[name=exists]").val(!existsValue)
 }
 
-function toggleSubCategoryFilter(cat_filter_id) {
-   $('[data-parent-id="' + cat_filter_id + '"]').toggleClass('hidden')
-
-   if ($('[data-parent-id="' + cat_filter_id + '"]').hasClass('hidden')) {
-      let categories = $('span[data-parent-id]')
-      if (categories.length > 0) {
-         for (let index = 0; index < categories.length; index++) {
-            const cat = categories[index];
-            $('[data-parent-id="' + (cat_filter_id + index + 1) + '"]').addClass('hidden')
-         }
-      }
-   }
-
-}
 
 // filter on price
 

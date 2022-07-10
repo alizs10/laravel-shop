@@ -12,7 +12,11 @@ function toggleCategoryFilter() {
 }
 
 function toggleProductsExistFilter(btn) {
+   let existsValue = $("input[name=exists]").val()
+   existsValue = existsValue === "true" ? true : false;
+   
    $(btn).parent().toggleClass('justify-end bg-gray-200 dark:bg-gray-700 bg-red-500')
+   $("input[name=exists]").val(!existsValue)
 }
 
 function toggleSubCategoryFilter(cat_filter_id) {
@@ -115,6 +119,16 @@ function e2pNumbers(number) {
 
    return pNumber;
 }
+function p2eNumbers(number) {
+   let persianNumbers = ['۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹', '۰']
+   let englishNumbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']
+   for (let i = 0; i < persianNumbers.length; i++) {
+      let req = new RegExp(persianNumbers[i], "g");
+      number = number.replace(req, englishNumbers[i])
+   }
+
+   return number;
+}
 
 function priceFormatter(price) {
    return parseInt(price).toLocaleString('en-US');
@@ -132,4 +146,28 @@ function setEndPrice() {
    let ratio = 1 - ((priceRange.getBoundingClientRect().left - rect.getBoundingClientRect().left) / rect.getBoundingClientRect().width)
    let price = $("input[name=end-price]").attr('max') * ratio.toFixed(2);
    $("input[name=end-price]").val(e2pNumbers(price.toFixed(0)))
+}
+
+function applySearchFilter() {
+   let base_url = window.location.origin;
+   let query = "?";
+   let price_start = $("input[name=start-price]").val()
+   let price_end = $("input[name=end-price]").val()
+   let price = `${p2eNumbers(price_start).replace(/[,]/g, "")}-${p2eNumbers(price_end).replace(/[,]/g, "")}`;
+   let reg = new RegExp(/(\d{1,20})-(\d{1,20})/g)
+   if (reg.test(price)) {
+      query += `price=${price}&`
+   }
+   let existsValue = $("input[name=exists]").val()
+   console.log(existsValue);
+   query += `exists=${existsValue}&`;
+   let searchedWord = $("#searched-word").html();
+
+   if (query.at(-1) === "&") {
+      query = query.substring(0, query.length - 1);
+   }
+   
+   if (searchedWord) {
+      window.location.href = base_url + "/search-filter/" + searchedWord + query;
+   }
 }

@@ -103,6 +103,9 @@ Route::namespace('App')->group(function () {
     //search
     Route::get('/search', [HomeController::class, 'search'])->name('app.search');
 
+    //search-page
+    Route::get('/search-filter/{search}', [SearchController::class, 'index'])->name('app.search.index');
+
     //product
     Route::prefix('product')->group(function () {
         Route::get('/{product}', [AppProductController::class, 'index'])->name('app.product.index');
@@ -138,9 +141,6 @@ Route::namespace('App')->group(function () {
         Route::get('/{order}/remove-coupon/{coupon}', [AppPaymentController::class, 'removeCoupon'])->name('app.payment.remove-coupon');
         Route::get('/{order}/store', [AppPaymentController::class, 'store'])->name('app.payment.store');
     });
-
-    //search-page
-    Route::get('/search/{search}', [SearchController::class, 'index'])->name('app.search.index');
 
     //user profile
     Route::prefix('user')->middleware('auth')->group(function () {

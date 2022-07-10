@@ -73,6 +73,7 @@ class ShippingController extends Controller
     {
         $paymentInputs['amount'] = $order->order_final_amount;
         $paymentInputs['user_id'] = $order->user_id;
+        $paymentInputs['type'] = 0;
         
         $payment = Payment::create($paymentInputs);
         $order->update(['payment_id' => $payment->id]);

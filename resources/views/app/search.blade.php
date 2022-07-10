@@ -20,7 +20,7 @@
 
         <!-- filters starts -->
         <section id="filters"
-            class="hidden lg:block fixed lg:static lg:col-span-2 top-0 right-0 bottom-0 lg:bottom-auto lg:pb-4 left-0 z-30 lg:z-0 bg-white lg:rounded-lg dark:bg-gray-900 lg:bg-gray-100 lg:dark:bg-gray-800 transition-all duration-300 lg:shadow-lg">
+            class="hidden lg:block fixed lg:static lg:col-span-2 top-0 right-0 bottom-0 lg:bottom-auto lg:pb-4 left-0 z-30 lg:z-0 bg-white lg:rounded-lg dark:bg-gray-900 lg:bg-gray-100 lg:dark:bg-gray-800 transition-all duration-300 lg:h-fit lg:shadow-lg">
 
             <div class="flex flex-col gap-y-4">
                 <div class="flex justify-between items-center">
@@ -120,18 +120,20 @@
                     <span class="flex justify-between items-center">
                         <span>فقط کالاهای مجود</span>
 
-                        <span class="flex items-center rounded-lg bg-gray-200 dark:bg-gray-700 p-1 w-12">
+                        <span class="flex items-center @if($filters && $filters['exists'] === true) justify-end bg-red-500 @else bg-gray-200 dark:bg-gray-700 @endif rounded-lg p-1 w-12">
 
                             <span onclick="toggleProductsExistFilter(this)"
                                 class="w-5 h-5 rounded-full bg-white cursor-pointer"></span>
+                            <input type="hidden" name="exists" @if($filters && $filters['exists'] === true) value="true" @else value="false" @endif />
                         </span>
                     </span>
                 </div>
 
             </div>
 
-            <a class="fixed lg:static lg:mx-2 lg:rounded-lg lg:mt-2 text-sm xs:text-base bottom-0 right-0 left-0 block text-center py-2 xs:py-3 bg-red-500 text-white"
-                href="">اعمال فیلتر</a>
+            <button onclick="applySearchFilter()"
+                class="fixed lg:static lg:mx-2 lg:rounded-lg lg:mt-2 text-sm xs:text-base bottom-0 right-0 left-0 block text-center py-2 xs:py-3 bg-red-500 text-white">اعمال
+                فیلتر</button>
 
         </section>
 
@@ -142,24 +144,32 @@
         <section class="col-span-9 lg:col-span-7 flex flex-col gap-3 rounded-lg bg-gray-100 dark:bg-gray-800 shadow-lg p-3">
             <div class="flex flex-col gap-2 pb-2 border-b border-white">
                 <span class="flex justify-between items-center text-xxs xs:text-xs">
-                    <span>نتایج جستجو برای "{{$search}}"</span>
-                    <span class="text-red-500">{{e2p_numbers($results->count())}} مورد</span>
+                    <span>نتایج جستجو برای "<span id="searched-word">{{ $search }}</span>"</span>
+                    <span class="text-red-500">{{ e2p_numbers($results->count()) }} مورد</span>
                 </span>
-                <span class="flex flex-col gap-2 text-xxs xs:text-xs">
-                    <span class="flex justify-between items-center text-xs xs:text-sm">
-                        <span>فیلتر ها:</span>
-                        <button onclick="toggleFilters()"
-                            class="lg:hidden w-10 h-10 text-gray-700 dark:text-gray-200 rounded-lg text-xl hover-transition hover:bg-gray-200 dark:hover:bg-gray-700">
-                            <i class="fa-regular fa-filter"></i>
-                        </button>
+                @if (!empty($filters))
+                    <span class="flex flex-col gap-2 text-xxs xs:text-xs">
+                        <span class="flex justify-between items-center text-xs xs:text-sm">
+                            <span>فیلتر ها:</span>
+                            <button onclick="toggleFilters()"
+                                class="lg:hidden w-10 h-10 text-gray-700 dark:text-gray-200 rounded-lg text-xl hover-transition hover:bg-gray-200 dark:hover:bg-gray-700">
+                                <i class="fa-regular fa-filter"></i>
+                            </button>
+                        </span>
+                        <span class="flex flex-wrap gap-2">
+                            @if ($filters['price'])
+                                <span class="rounded-lg p-2 bg-red-500 text-white">قیمت</span>
+                            @endif
+                            @if ($filters['cat'])
+                                <span class="rounded-lg p-2 bg-red-500 text-white">دسته بندی</span>
+                            @endif
+                            @if ($filters['exists'])
+                                <span class="rounded-lg p-2 bg-red-500 text-white">فقط کالاهای موجود</span>
+                            @endif
+
+                        </span>
                     </span>
-                    <span class="flex flex-wrap gap-2">
-                        <span class="rounded-lg p-2 bg-red-500 text-white">قیمت</span>
-                        <span class="rounded-lg p-2 bg-red-500 text-white">برند</span>
-                        <span class="rounded-lg p-2 bg-red-500 text-white">دسته بندی</span>
-                        <span class="rounded-lg p-2 bg-red-500 text-white">جستجو بین نتایج</span>
-                    </span>
-                </span>
+                @endif
             </div>
 
             <!-- search results starts -->

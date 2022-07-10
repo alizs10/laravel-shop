@@ -69,7 +69,7 @@
 
                     <div id="search-results-container" class="flex flex-col gap-y-2"></div>
 
-                    <div class="flex justify-end">
+                    <div id="show-all-results" class="flex justify-end hidden">
 
                         <a href="" class="text-sm ml-4 text-gray-500 dark:text-gray-400 flex gap-x-2 items-center">
                             مشاهده نتایج

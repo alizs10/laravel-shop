@@ -14,7 +14,14 @@ function toggleSearchWindow() {
 function handleSearchInp() {
     $('#search-inp-value').parent().removeClass('hidden')
     $('#search-inp-value').html('"' + + '"')
-    $('#search-inp-value').html(`"${$('#search-input').val()}"`)
+    let value = $('#search-input').val();
+    $('#search-inp-value').html(`"${value}"`)
+    if(value.length > 0) {
+        $('#show-all-results').removeClass('hidden')
+        $('#show-all-results a').attr('href', `/search-filter/${value}`);
+    } else {
+        $('#show-all-results').addClass('hidden')
+    }
 
     searchFor($('#search-input').val())
 }

@@ -198,10 +198,10 @@
                     @if (!empty($filters))
                         <span class="flex flex-wrap gap-2">
                             @if ($filters['price'])
-                                <span class="rounded-lg p-2 bg-red-500 text-white">قیمت</span>
+                                <span class="rounded-lg p-2 bg-red-500 text-white">قیمت: از {{price_formater($filters['price'][0])}} تا {{price_formater($filters['price'][1])}}</span>
                             @endif
                             @if ($filters['cat'])
-                                <span class="rounded-lg p-2 bg-red-500 text-white">دسته بندی</span>
+                                <span class="rounded-lg p-2 bg-red-500 text-white">دسته بندی: {{ $selected_category->name ?? '-' }}</span>
                             @endif
                             @if ($filters['exists'])
                                 <span class="rounded-lg p-2 bg-red-500 text-white">فقط کالاهای موجود</span>

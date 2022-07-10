@@ -33,10 +33,10 @@
                 <div id="category-filter" class="py-2 px-4">
                     <span onclick="toggleCategoryFilter()" class="flex justify-between items-center cursor-pointer">
                         <span>فیلتر دسته بندی</span>
-                        <i class="fa fa-angle-left"></i>
+                        <i class="fa @if ($filters) @if (!array_key_exists('cat', $filters)) fa-angle-left @else fa-angle-down @endif @else fa-angle-left @endif"></i>
                     </span>
                     <div
-                        class="hidden fixed lg:static top-0 right-0 bottom-0 left-0 bg-white dark:bg-gray-900 lg:bg-transparent lg:dark:bg-transparent z-10 flex flex-col gap-4">
+                        class="@if ($filters) @if (!array_key_exists('cat', $filters)) hidden @endif @else hidden @endif fixed lg:static top-0 right-0 bottom-0 left-0 bg-white dark:bg-gray-900 lg:bg-transparent lg:dark:bg-transparent z-10 flex flex-col gap-4">
                         <div class="flex justify-between items-center lg:hidden">
                             <span class="text-sm mt-4 mr-4">فیلتر دسته بندی</span>
                             <button class="ml-4 mt-4 text-xl" onclick="toggleCategoryFilter()">
@@ -45,22 +45,59 @@
                         </div>
 
                         <div class="flex flex-col gap-4 mx-4 lg:mt-4">
-                            <a href="" class="flex items-center cursor-pointer gap-2">
+                            <a href="?" class="flex items-center cursor-pointer gap-2">
                                 <i class="fa-light fa-grid-2 text-sm"></i>
                                 <span class="flex justify-between items-center w-full">
                                     <span class="text-xs">همه دسته بندی ها</span>
-                                    <i class="fa-solid fa-check text-red-500 text-lg"></i>
+                                    @if ($filters)
+                                        @if (!array_key_exists('cat', $filters))
+                                            <i class="fa-solid fa-check text-red-500 text-lg"></i>
+                                        @endif
+                                    @else
+                                        <i class="fa-solid fa-check text-red-500 text-lg"></i>
+
+                                    @endif
                                 </span>
                             </a>
-                            @foreach ($categories as $category)
-                                <a href="" class="flex items-center cursor-pointer gap-2 mr-4">
+                            @if ($selected_category)
+                                <a href="?cat={{ $selected_category->id }}"
+                                    class="flex items-center cursor-pointer gap-2 mr-4">
                                     <i class="fa fa-angle-left text-sm"></i>
                                     <span class="flex justify-between items-center w-full">
-                                        <span class="text-xs">{{ $category->name }}</span>
-                                        <i class="fa-solid fa-check text-red-500 text-lg"></i>
+                                        <span class="text-xs">{{ $selected_category->name }}</span>
+                                        @if ($filters && array_key_exists('cat', $filters) && $filters['cat'] == $selected_category->id)
+                                            <i class="fa-solid fa-check text-red-500 text-lg"></i>
+                                        @endif
                                     </span>
                                 </a>
-                            @endforeach
+
+                                @foreach ($selected_category->children as $child_cat)
+                                    <a href="?cat={{ $child_cat->id }}"
+                                        class="flex items-center cursor-pointer gap-2 mr-8">
+                                        <i class="fa fa-angle-left text-sm"></i>
+                                        <span class="flex justify-between items-center w-full">
+                                            <span class="text-xs">{{ $child_cat->name }}</span>
+                                            @if ($filters && array_key_exists('cat', $filters) && $filters['cat'] == $child_cat->id)
+                                                <i class="fa-solid fa-check text-red-500 text-lg"></i>
+                                            @endif
+                                        </span>
+                                    </a>
+                                @endforeach
+                            @else
+                                @foreach ($categories as $category)
+                                    <a href="?cat={{ $category->id }}"
+                                        class="flex items-center cursor-pointer gap-2 mr-4">
+                                        <i class="fa fa-angle-left text-sm"></i>
+                                        <span class="flex justify-between items-center w-full">
+                                            <span class="text-xs">{{ $category->name }}</span>
+                                            @if ($filters && array_key_exists('cat', $filters) && $filters['cat'] == $category->id)
+                                                <i class="fa-solid fa-check text-red-500 text-lg"></i>
+                                            @endif
+                                        </span>
+                                    </a>
+                                @endforeach
+                            @endif
+
 
                         </div>
 
@@ -116,12 +153,13 @@
                         <span>فقط کالاهای مجود</span>
 
                         <span
-                            class="flex items-center @if ($filters && $filters['exists'] === true) justify-end bg-red-500 @else bg-gray-200 dark:bg-gray-700 @endif rounded-lg p-1 w-12">
+                            class="flex items-center @if ($filters) @if ($filters['exists'] === true) justify-end bg-red-500 @else bg-gray-200 dark:bg-gray-700 @endif @endif rounded-lg p-1 w-12">
 
                             <span onclick="toggleProductsExistFilter(this)"
                                 class="w-5 h-5 rounded-full bg-white cursor-pointer"></span>
                             <input type="hidden" name="exists"
-                                @if ($filters && $filters['exists'] === true) value="true" @else value="false" @endif />
+                                @if ($filters) @if ($filters['exists'] === true) value="true" @else value="false" @endif
+                                @endif />
                         </span>
                     </span>
                 </div>

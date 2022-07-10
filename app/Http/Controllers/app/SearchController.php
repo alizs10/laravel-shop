@@ -41,8 +41,9 @@ class SearchController extends Controller
         ];
 
         if (!$price && !$cat_id && !$exists) {
-            $filters = null;
+            $filters = false;
         }
+       
 
         $query = Product::where('name', 'LIKE', '%' . $search . '%');
         !$price ?: $query->whereBetween('price', [$price]);
@@ -50,8 +51,12 @@ class SearchController extends Controller
         // !$exists ?: $query->where('price', [$price]);
 
         $categories = ProductCategory::whereNull("parent_id")->get();
+        $selected_category = false;
+        if ($cat_id) {
+            $selected_category = ProductCategory::find($cat_id);
+        }
 
         $results = $query->get();
-        return view('app.search', compact('results', 'search', 'filters', 'categories'));
+        return view('app.search', compact('results', 'search', 'filters', 'categories', 'selected_category'));
     }
 }

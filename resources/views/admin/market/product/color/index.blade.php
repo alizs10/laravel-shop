@@ -38,6 +38,7 @@
                         <th>رنگ</th>
                         <th>کد رنگ</th>
                         <th>افزایش قیمت</th>
+                        <th>موجودی</th>
                         <th>عملیات</th>
                     </tr>
                 </thead>
@@ -52,6 +53,7 @@
                             </td>
                             <td>{{ '#' . $color->color_code }}</td>
                             <td>{{ $color->price_increase . ' تومان' }}</td>
+                            <td>{{ $color->marketable_number }}</td>
                             <td>
                                 <span class="flex items-center gap-x-1">
                                     <a href="{{ route('admin.market.product.color.edit', $color->id) }}"

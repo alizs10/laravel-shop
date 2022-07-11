@@ -83,7 +83,7 @@ class PropertyValueController extends Controller
         $inputs = $request->all();
         $inputs['value'] = json_encode(['value' => $request->value, 'price_increase' => $request->price_increase]);
         $value->update($inputs);
-        return redirect()->route('admin.market.property.value.index', $value->category_attribute_id)->with('alertify-warning', 'مقدار فرم کالا با موفقیت ویرایش شد');
+        return redirect()->back()->with('alertify-warning', 'مقدار فرم کالا با موفقیت ویرایش شد');
     }
 
     /**

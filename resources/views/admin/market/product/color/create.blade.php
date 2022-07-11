@@ -68,6 +68,12 @@
                         value="{{ old('price_increase') }}">
                 </div>
                 <div class="col-span-2 md:col-span-1 flex flex-col gap-y-1">
+                    <label for="marketable_number"
+                        class="text-xs {{ $errors->has('marketable_number') ? 'text-red-600 dark:text-red-400' : '' }}">موجودی</label>
+                    <input type="text" class="form-input" name="marketable_number" id="marketable_number"
+                        value="{{ old('marketable_number') }}">
+                </div>
+                <div class="col-span-2 md:col-span-1 flex flex-col gap-y-1">
                     <label for="color_code"
                         class="text-xs {{ $errors->has('color_code') ? 'text-red-600 dark:text-red-400' : '' }}">کد
                         رنگ</label>

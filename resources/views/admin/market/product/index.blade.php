@@ -67,6 +67,11 @@
 
                                     <div class="hidden absolute top-10 left-0 z-30 w-56 h-fit rounded-lg bg-white dark:bg-slate-900 flex flex-col overflow-hidden"
                                         id={{ "dropdown-{$product->id}" }}>
+                                        <a href="{{ route('admin.market.product.store.index', $product->id) }}"
+                                            class="py-2 w-full text-sm h-full flex items-center gap-x-2 hover-transition hover:bg-slate-100 dark:hover:bg-slate-800">
+                                            <i class="fa-regular fa-garage mr-2"></i>
+                                            انبار
+                                        </a>
                                         <a href="{{ route('admin.market.product.color.index', $product->id) }}"
                                             class="py-2 w-full text-sm h-full flex items-center gap-x-2 hover-transition hover:bg-slate-100 dark:hover:bg-slate-800">
                                             <i class="fa-regular fa-palette mr-2"></i>

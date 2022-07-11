@@ -28,7 +28,7 @@ class HomeController extends Controller
 
         $amazingSaleProducts = AmazingSale::all();
         $amazingSaleProducts = $amazingSaleProducts->filter(function ($item) {
-            return $item->ultimate_price > 0;
+            return $item->product->ultimate_price > 0;
         })->values();
         $products = Product::all();
         $leastMarketableProducts = $products->sortBy('marketable_number', SORT_NATURAL)->filter(function ($item) {

@@ -47,4 +47,10 @@ class OrderItem extends Model
         return $this->hasMany(OrderItemSelectedAttributes::class, 'order_item_id');
     }
 
+    public function itemAttributes()
+    {
+        $orderServices = new OrderServices();
+        return $orderServices->getAttributes($this);
+    }
+
 }

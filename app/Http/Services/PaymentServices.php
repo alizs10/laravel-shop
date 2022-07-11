@@ -47,14 +47,22 @@ class PaymentServices
                 "reference_id" => $ref_id,
                 "status" => 1
             ]);
-            $online_payment->payment()->update([
+
+            $payment_obj = $online_payment->payment()->first();
+            $payment_obj->update([
                 "status" => 1
             ]);
         
-            $online_payment->payment()->first()->order()->update([
+            $payment_obj->order()->update([
                 "payment_status" => 1,
                 "order_status" => 1
             ]);
+
+            foreach ($payment_obj->order->items as $order_item) {
+                $attributes = $order_item->itemAttributes();
+                $productServices = new ProductServices();
+                $productServices->sold($attributes);
+            }
 
             return true;
         } catch (InvalidPaymentException $exception) {

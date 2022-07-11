@@ -35,6 +35,8 @@
                         <th>#</th>
                         <th>خصوصیت</th>
                         <th>موجودی</th>
+                        <th>در سبد</th>
+                        <th>فروش</th>
                         <th>عملیات</th>
                     </tr>
                 </thead>
@@ -47,6 +49,8 @@
                                 <td>{{ $color->color_name }}</td>
 
                                 <td>{{ $color->marketable_number }}</td>
+                                <td>{{ $color->frozen_number }}</td>
+                                <td>{{ $color->sold_number }}</td>
                                 <td>
                                     <span class="flex items-center gap-x-1">
                                         <a href="{{ route('admin.market.product.color.edit', $color->id) }}"
@@ -68,8 +72,9 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $property->attribute->name . ' ' . json_decode($property->value)->value }}
                                     </td>
-
                                     <td>{{ $property->marketable_number }}</td>
+                                    <td>{{ $property->frozen_number }}</td>
+                                    <td>{{ $property->sold_number }}</td>
                                     <td>
                                         <span class="flex items-center gap-x-1">
                                             <a href="{{ route('admin.market.property.value.edit', $property->id) }}"

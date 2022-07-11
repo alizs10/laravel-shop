@@ -235,4 +235,46 @@ class ProductServices
             return true;
         }
     }
+
+    public function sold($attributes, $product_id = null)
+    {
+
+        if (!empty($attributes['color_id'])) {
+            $color = ProductColor::find($attributes['color_id']);
+
+            if ($color->frozen_number <= 0) {
+                return false;
+            }
+            $color->decrement("frozen_number");
+            $color->increment("sold_number");
+
+            return true;
+        }
+        if (!empty($attributes['category_values'])) {
+            $property_values = PropertyValue::where("id", array_values($attributes['category_values']))->get();
+
+            foreach ($property_values as $property_value) {
+                if ($property_value->frozen_number <= 0) {
+                    return false;
+                }
+                $property_value->decrement("frozen_number");
+                $property_value->increment("sold_number");
+
+                return true;
+            }
+        }
+
+
+
+        if ($product_id !== null) {
+            $product = Product::find($product_id);
+            if ($product->frozen_number <= 0) {
+                return false;
+            }
+            $product->decrement("frozen_number");
+            $product->increment("sold_number");
+
+            return true;
+        }
+    }
 }

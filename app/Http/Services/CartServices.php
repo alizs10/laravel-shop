@@ -101,7 +101,7 @@ class CartServices
 
     public function isInCart($product, $attributes = [], $has_defaults_attributes = false)
     {
-
+        
         // attributes => category_values, color_id, guaranty_id
         $cart_items = $this->getCartItems();
 
@@ -138,7 +138,7 @@ class CartServices
             $ip_address = request()->ip();
             $cart_items = CartItem::where('ip_address', $ip_address)->get();
         } else {
-            $cart_items = $user->cart_items;
+            $cart_items = $user->cart_items()->get();
         }
 
 

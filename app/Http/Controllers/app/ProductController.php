@@ -151,12 +151,6 @@ class ProductController extends Controller
 
         $is_item_exists = $cartServices->isInCart($product, $attributes, $has_defaults_attributes);
 
-        $property_value = null;
-        if (!empty($attributes)) {
-            if ($attributes['category_values']) {
-                # code...
-            }
-        }
 
         if ($has_defaults_attributes) {
             $attributes = $productServices->getDefaultAttributes($product);
@@ -166,14 +160,15 @@ class ProductController extends Controller
         if ($is_item_exists) {
             $frozen = $productServices->unfroze($attributes);
             $is_item_exists->cartItemSelectedAttributes()->delete();
-            $is_item_exists->delete();
+            $isDel = $is_item_exists->delete();
+          
         } else {
             $frozen = $productServices->froze($attributes);
         }
 
        
         $cart_items = $cartServices->getCartItems();
-      
+       
 
         //create new cart item
         if (!$is_item_exists) {

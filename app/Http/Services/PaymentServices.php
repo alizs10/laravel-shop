@@ -36,6 +36,10 @@ class PaymentServices
     {
         $online_payment = OnlinePayment::where("transaction_id", $transaction_id)->first();
 
+        if (empty($online_payment)) {
+            return false;
+        }
+
         // load the config file from your project
         $paymentConfig = require(__DIR__ . '/../../../config/payment.php');
         $payment = new Payment($paymentConfig);

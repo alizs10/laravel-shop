@@ -2,6 +2,7 @@
 
 namespace App\Http\Services;
 
+use App\Models\Market\Product;
 use App\Models\Market\ProductColor;
 use App\Models\Market\PropertyValue;
 
@@ -32,7 +33,7 @@ class ProductServices
             return [
                 'product_price' => 0,
                 'ultimate_price' => 0
-            ]; 
+            ];
         }
 
         //calculate price
@@ -68,7 +69,6 @@ class ProductServices
             'product_price' => $product_price,
             'ultimate_price' => $ultimate_price
         ];
-
     }
 
     public function getDefaultAttributes($product)
@@ -91,7 +91,7 @@ class ProductServices
         $properties = $product->properties->filter(function ($property) {
             return $property->marketable_number > 0;
         })->values();
-        
+
         if ($properties->count() > 0) {
             $category_attribute_ids = [];
             foreach ($properties as $property) {
@@ -101,8 +101,7 @@ class ProductServices
                     array_push($default_category_values, $default_value->id);
                 }
             }
-        }
-        else {
+        } else {
             return false;
         }
 
@@ -121,7 +120,7 @@ class ProductServices
             $attributes = $this->getDefaultAttributes($product);
         }
 
-        
+
 
         //check for product color
         if (!empty($product->colors->toArray())) {
@@ -129,7 +128,7 @@ class ProductServices
             $color = $product_colors->where('id', $attributes['color_id'])->first();
             if ($color) {
                 return $color->marketable_number > 0 ? $color->marketable_number : false;
-            } 
+            }
             dd($color);
             return false;
         }
@@ -140,12 +139,100 @@ class ProductServices
                 if ($product_property && $product_property->product_id == $product->id) {
                     return $product_property->marketable_number > 0 ? $product_property->marketable_number : false;
                 }
-              
+
                 return false;
             }
         }
 
         return false;
+    }
 
+    public function froze($attributes, $product_id = null)
+    {
+
+        if (!empty($attributes['color_id'])) {
+            $color = ProductColor::find($attributes['color_id']);
+
+            if ($color->marketable_number <= 0) {
+                return false;
+            }
+            $color->increment("frozen_number");
+            $color->decrement("marketable_number");
+
+            return true;
+        }
+        if (!empty($attributes['category_values'])) {
+
+            $property_values = PropertyValue::where("id", array_values($attributes['category_values']))->get();
+
+            foreach ($property_values as $property_value) {
+                if ($property_value->marketable_number <= 0) {
+
+                    return false;
+                }
+
+                $property_value->increment("frozen_number");
+                $property_value->decrement("marketable_number");
+
+                return true;
+            }
+        }
+
+
+
+        if ($product_id !== null) {
+            $product = Product::find($product_id);
+            if ($product->marketable_number <= 0) {
+                return false;
+            }
+            $product->increment("frozen_number");
+            $product->decrement("marketable_number");
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public function unfroze($attributes, $product_id = null)
+    {
+
+        if (!empty($attributes['color_id'])) {
+            $color = ProductColor::find($attributes['color_id']);
+
+            if ($color->frozen_number <= 0) {
+                return false;
+            }
+            $color->decrement("frozen_number");
+            $color->increment("marketable_number");
+
+            return true;
+        }
+        if (!empty($attributes['category_values'])) {
+            $property_values = PropertyValue::where("id", array_values($attributes['category_values']))->get();
+
+            foreach ($property_values as $property_value) {
+                if ($property_value->frozen_number <= 0) {
+                    return false;
+                }
+                $property_value->decrement("frozen_number");
+                $property_value->increment("marketable_number");
+
+                return true;
+            }
+        }
+
+
+
+        if ($product_id !== null) {
+            $product = Product::find($product_id);
+            if ($product->frozen_number <= 0) {
+                return false;
+            }
+            $product->decrement("frozen_number");
+            $product->increment("marketable_number");
+
+            return true;
+        }
     }
 }

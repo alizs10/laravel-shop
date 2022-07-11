@@ -4,6 +4,7 @@ namespace App\Http\Controllers\app;
 
 use App\Http\Controllers\Controller;
 use App\Http\Services\CartServices;
+use App\Http\Services\ProductServices;
 use App\Models\CartItem;
 use App\Models\Market\Delivery;
 use App\Models\Market\ProductCategory;
@@ -119,7 +120,7 @@ class CartController extends Controller
         ]);
     }
 
-    public function destroy(CartItem $cart_item)
+    public function destroy(CartItem $cart_item, ProductServices $productServices)
     {
         $user = Auth::user();
 
@@ -133,6 +134,9 @@ class CartController extends Controller
             }
         }
 
+        $attributes = $cart_item->itemAttributes();
+        $productServices->unfroze($attributes);
+        $cart_item->cartItemSelectedAttributes()->delete();
         $cart_item->delete();
 
         return redirect()->back();

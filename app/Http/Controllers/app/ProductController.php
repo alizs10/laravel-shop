@@ -54,7 +54,7 @@ class ProductController extends Controller
         }
 
 
-       
+
         //related products
         $related_products = Product::where('cat_id', $product->cat_id)->get()->except(['id' => $product->id]);
 
@@ -131,6 +131,7 @@ class ProductController extends Controller
 
     public function toggleProduct(Request $request, Product $product, CartServices $cartServices, ProductServices $productServices)
     {
+        //attributes => arrat => category_value, color_id, guaranty_id
         $attributes = [];
         $has_defaults_attributes = false;
 
@@ -150,15 +151,29 @@ class ProductController extends Controller
 
         $is_item_exists = $cartServices->isInCart($product, $attributes, $has_defaults_attributes);
 
-        if ($is_item_exists) {
-            $is_item_exists->cartItemSelectedAttributes()->delete();
-            $is_item_exists->delete();
+        $property_value = null;
+        if (!empty($attributes)) {
+            if ($attributes['category_values']) {
+                # code...
+            }
         }
 
-        $cart_items = $cartServices->getCartItems();
         if ($has_defaults_attributes) {
             $attributes = $productServices->getDefaultAttributes($product);
         }
+
+        
+        if ($is_item_exists) {
+            $frozen = $productServices->unfroze($attributes);
+            $is_item_exists->cartItemSelectedAttributes()->delete();
+            $is_item_exists->delete();
+        } else {
+            $frozen = $productServices->froze($attributes);
+        }
+
+       
+        $cart_items = $cartServices->getCartItems();
+      
 
         //create new cart item
         if (!$is_item_exists) {

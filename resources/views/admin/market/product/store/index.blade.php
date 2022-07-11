@@ -22,8 +22,7 @@
     <section class="flex flex-col gap-y-2 p-2 w-full">
         <div class="flex justify-between items-center">
             <span class="text-sm md:text-lg">انبار ({{ $product->name }})</span>
-            <a href="{{ route('admin.market.product.index') }}"
-                class="btn bg-blue-600 text-white">بازگشت</a>
+            <a href="{{ route('admin.market.product.index') }}" class="btn bg-blue-600 text-white">بازگشت</a>
         </div>
 
 
@@ -46,7 +45,7 @@
 
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $color->color_name }}</td>
-                             
+
                                 <td>{{ $color->marketable_number }}</td>
                                 <td>
                                     <span class="flex items-center gap-x-1">
@@ -61,29 +60,32 @@
 
                             </tr>
                         @endforeach
+                    @else
+                        @if ($product->properties->count() > 0)
+                            @foreach ($product->properties as $property)
+                                <tr>
+
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $property->attribute->name . ' ' . json_decode($property->value)->value }}
+                                    </td>
+
+                                    <td>{{ $property->marketable_number }}</td>
+                                    <td>
+                                        <span class="flex items-center gap-x-1">
+                                            <a href="{{ route('admin.market.property.value.edit', $property->id) }}"
+                                                class="btn bg-yellow-500 text-black flex-center gap-1">
+                                                <i class="fa-light fa-pen-to-square"></i>
+                                                ویرایش
+                                            </a>
+
+                                        </span>
+                                    </td>
+
+                                </tr>
+                            @endforeach
+                        @endif
                     @endif
-                    @if ($product->properties->count() > 0)
-                        @foreach ($product->properties as $property)
-                            <tr>
 
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $property->attribute->name . ' ' . json_decode($property->value)->value }}</td>
-                             
-                                <td>{{ $property->marketable_number }}</td>
-                                <td>
-                                    <span class="flex items-center gap-x-1">
-                                        <a href="{{ route('admin.market.property.value.edit', $property->id) }}"
-                                            class="btn bg-yellow-500 text-black flex-center gap-1">
-                                            <i class="fa-light fa-pen-to-square"></i>
-                                            ویرایش
-                                        </a>
-
-                                    </span>
-                                </td>
-
-                            </tr>
-                        @endforeach
-                    @endif
 
 
                 </tbody>

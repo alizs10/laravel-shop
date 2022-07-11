@@ -104,8 +104,9 @@
                                 <i class="fa-regular fa-circle-small text-xs"></i>
                                 {{ $attr }}:
                             </span>
-                            <input type="hidden" name="product_attributes[]" value="{{$attr_values->id}}">
-                            <span class="text-sm"> {{ json_decode($attr_values->value)->value . ' ' . $attr_values->attribute->unit }}</span>
+                            <input type="hidden" name="product_attributes[]" value="{{ $attr_values->id }}">
+                            <span class="text-sm">
+                                {{ json_decode($attr_values->value)->value . ' ' . $attr_values->attribute->unit }}</span>
                         </span>
                     @endforeach
                 @endif
@@ -236,29 +237,36 @@
             <!-- add to cart starts -->
             <div class="hidden md:col-span-4 md:block">
                 <div class="p-4 rounded-lg overflow-hidden bg-white dark:bg-gray-900 flex flex-col gap-4">
-                    <span class="flex items-start justify-between">
-                        <span class="flex items-center gap-2 text-sm">
-                            <i class="fa-regular fa-tag text-lg"></i>
-                            قیمت محصول
-                        </span>
+                    @if ($product->ultimate_price > 0)
+                        <span class="flex items-start justify-between">
+                            <span class="flex items-center gap-2 text-sm">
+                                <i class="fa-regular fa-tag text-lg"></i>
+                                قیمت محصول
+                            </span>
 
-                        <span class="flex flex-col gap-2">
-                            @if (!empty($product->amazingSale))
-                                <span class="flex gap-2">
-                                    <span id="product-price"
-                                        class="line-through">{{ price_formater($product->product_price) }}</span>
-                                    <span
-                                        class="flex-center rounded-full h-7 w-7 bg-red-500 text-white text-xs">{{ e2p_numbers($product->amazingSale->percentage) }}٪</span>
-                                </span>
-                            @endif
-                            @if (!empty($product->amazingSale))
-                                
-                                <span id="ultimate-price">{{ price_formater($product->ultimate_price) }} تومان</span>
-                            @else
-                                <span id="ultimate-price">{{ price_formater($product->product_price) }} تومان</span>
-                            @endif
+                            <span class="flex flex-col gap-2">
+                                @if (!empty($product->amazingSale))
+                                    <span class="flex gap-2">
+                                        <span id="product-price"
+                                            class="line-through">{{ price_formater($product->product_price) }}</span>
+                                        <span
+                                            class="flex-center rounded-full h-7 w-7 bg-red-500 text-white text-xs">{{ e2p_numbers($product->amazingSale->percentage) }}٪</span>
+                                    </span>
+                                @endif
+                                @if (!empty($product->amazingSale))
+                                    <span id="ultimate-price">{{ price_formater($product->ultimate_price) }}
+                                        تومان</span>
+                                @else
+                                    <span id="ultimate-price">{{ price_formater($product->product_price) }} تومان</span>
+                                @endif
+                            </span>
                         </span>
-                    </span>
+                        @else
+                        <span class="text-xs text-gray-500 flex gap-x-2 items-center">
+                            <i class="fa-regular fa-xmark"></i>
+                            <span>این محصول ناموجود می باشد</span>
+                        </span>
+                    @endif
 
 
                     <button id="product-toggle-product-btn" onclick="addToCart(this)"

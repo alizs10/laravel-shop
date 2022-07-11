@@ -128,7 +128,7 @@ class ProductServices
             $product_colors = $product->colors;
             $color = $product_colors->where('id', $attributes['color_id'])->first();
             if ($color) {
-                return $color->marketable_number > 0 ? true : false;
+                return $color->marketable_number > 0 ? $color->marketable_number : false;
             } 
             dd($color);
             return false;
@@ -138,10 +138,9 @@ class ProductServices
             foreach ($attributes['category_values'] as $property_value_id) {
                 $product_property = PropertyValue::find($property_value_id);
                 if ($product_property && $product_property->product_id == $product->id) {
-                    return $product_property->marketable_number > 0 ? true : false;
+                    return $product_property->marketable_number > 0 ? $product_property->marketable_number : false;
                 }
               
-
                 return false;
             }
         }

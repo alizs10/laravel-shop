@@ -33,10 +33,15 @@
                 <div id="category-filter" class="py-2 px-4">
                     <span onclick="toggleCategoryFilter()" class="flex justify-between items-center cursor-pointer">
                         <span>فیلتر دسته بندی</span>
-                        <i class="fa @if ($filters) @if (!array_key_exists('cat', $filters)) fa-angle-left @else fa-angle-down @endif @else fa-angle-left @endif"></i>
+                        <i
+                            class="fa @if ($filters) @if (!array_key_exists('cat', $filters)) fa-angle-left @else fa-angle-down @endif
+@else
+fa-angle-left @endif"></i>
                     </span>
                     <div
-                        class="@if ($filters) @if (!array_key_exists('cat', $filters)) hidden @endif @else hidden @endif fixed lg:static top-0 right-0 bottom-0 left-0 bg-white dark:bg-gray-900 lg:bg-transparent lg:dark:bg-transparent z-10 flex flex-col gap-4">
+                        class="@if ($filters) @if (!array_key_exists('cat', $filters)) hidden @endif
+@else
+hidden @endif fixed lg:static top-0 right-0 bottom-0 left-0 bg-white dark:bg-gray-900 lg:bg-transparent lg:dark:bg-transparent z-10 flex flex-col gap-4">
                         <div class="flex justify-between items-center lg:hidden">
                             <span class="text-sm mt-4 mr-4">فیلتر دسته بندی</span>
                             <button class="ml-4 mt-4 text-xl" onclick="toggleCategoryFilter()">
@@ -49,8 +54,9 @@
                                 <i class="fa-light fa-grid-2 text-sm"></i>
                                 <span class="flex justify-between items-center w-full">
                                     <span class="text-xs">همه دسته بندی ها</span>
+
                                     @if ($filters)
-                                        @if (!array_key_exists('cat', $filters))
+                                        @if (!array_key_exists('cat', $filters) || !$filters['cat'])
                                             <i class="fa-solid fa-check text-red-500 text-lg"></i>
                                         @endif
                                     @else
@@ -153,7 +159,9 @@
                         <span>فقط کالاهای مجود</span>
 
                         <span
-                            class="flex items-center @if ($filters) @if ($filters['exists'] === true) justify-end bg-red-500 @else bg-gray-200 dark:bg-gray-700 @endif @endif rounded-lg p-1 w-12">
+                            class="flex items-center @if ($filters) @if ($filters['exists'] === true) justify-end bg-red-500 @else bg-gray-200 dark:bg-gray-700 @endif
+@else
+bg-gray-200 dark:bg-gray-700 @endif rounded-lg p-1 w-12">
 
                             <span onclick="toggleProductsExistFilter(this)"
                                 class="w-5 h-5 rounded-full bg-white cursor-pointer"></span>
@@ -178,7 +186,8 @@
 
 
 
-        <section class="col-span-9 lg:col-span-7 flex flex-col gap-3 rounded-lg bg-gray-100 dark:bg-gray-800 shadow-lg p-3">
+        <section
+            class="col-span-9 lg:col-span-7 h-fit flex flex-col gap-3 rounded-lg bg-gray-100 dark:bg-gray-800 shadow-lg p-3">
             <div class="flex flex-col gap-2 pb-2 border-b border-white">
                 <span class="flex justify-between items-center text-xxs xs:text-xs">
                     <span>نتایج جستجو برای "<span id="searched-word">{{ $search }}</span>"</span>
@@ -198,14 +207,23 @@
                     @if (!empty($filters))
                         <span class="flex flex-wrap gap-2">
                             @if ($filters['price'])
-                                <span class="rounded-lg p-2 bg-red-500 text-white">قیمت: از {{price_formater($filters['price'][0])}} تا {{price_formater($filters['price'][1])}}</span>
+                                <span class="rounded-lg p-2 bg-red-500 text-white">قیمت: از
+                                    {{ price_formater($filters['price'][0]) }} تا
+                                    {{ price_formater($filters['price'][1]) }}</span>
                             @endif
-                            @if ($filters['cat'])
-                                <span class="rounded-lg p-2 bg-red-500 text-white">دسته بندی: {{ $selected_category->name ?? '-' }}</span>
+                            @if ($filters['cat'] || !$filters['cat'])
+                                <span class="rounded-lg p-2 bg-red-500 text-white">دسته بندی:
+                                    {{ $selected_category->name ?? 'همه' }}</span>
                             @endif
-                            @if ($filters['exists'])
-                                <span class="rounded-lg p-2 bg-red-500 text-white">فقط کالاهای موجود</span>
-                            @endif
+
+                            <span class="rounded-lg p-2 bg-red-500 text-white">
+                                @if ($filters['exists'])
+                                    فقط کالاهای موجود
+                                @else
+                                    همه کالاها
+                                @endif
+                            </span>
+
 
                         </span>
                     @endif
@@ -215,66 +233,83 @@
             <!-- search results starts -->
 
             <section class="grid grid-cols-8 gap-2">
+                @if ($results->count() > 0)
+                    @foreach ($results as $result)
+                        <div
+                            class="col-span-8 xs:col-span-4 md:col-span-2 flex flex-col gap-y-2 p-2 rounded-lg bg-white text-black">
+                            <a href="{{ route('app.product.index', $result->id) }}">
+                                <img class="w-full"
+                                    src="{{ asset('storage\\' . $result->image['indexArray']['medium']) }}"
+                                    alt="">
+                            </a>
+                            <div class="flex justify-between items-center">
 
-                @foreach ($results as $result)
-                    <div
-                        class="col-span-8 xs:col-span-4 md:col-span-2 flex flex-col gap-y-2 p-2 rounded-lg bg-white text-black">
-                        <a href="{{ route('app.product.index', $result->id) }}">
-                            <img class="w-full" src="{{ asset('storage\\' . $result->image['indexArray']['medium']) }}"
-                                alt="">
-                        </a>
-                        <div class="flex justify-between items-center">
-
-                            @if (!is_null($result->amazingSale))
-                                <span class="flex flex-col gap-y-1 text-xs">
-                                    <span class="flex gap-x-2 items-center">
-                                        <span class="line-through">{{ $result->price }}</span>
-                                        <div class="h-7 w-7 rounded-lg bg-red-600 text-white flex-center text-xs">
-                                            {{ $result->amazingSale->percentage }}%</div>
-                                    </span>
-                                    <span class="text-red-500 font-bold">{{ $result->amazingSale->price }}</span>
-                                    <span class="text-red-500 font-bold">تومان</span>
-                                </span>
-                            @else
-                                <span class="flex flex-col gap-y-1 text-xs">
-                                    <span>{{ $result->price }}</span>
-                                    <span class="font-bold">تومان</span>
-                                </span>
-                            @endif
-
-                            <div class="flex flex-col items-center gax-y-2">
-                                <button onclick="addToFavorites(this)"
-                                    class="text-gray-700 w-10 h-10 rounded-lg text-xl hover-transition hover:bg-gray-200">
-                                    <i class="fa-regular fa-heart"></i>
-                                </button>
-                                <button onclick="addToCart(this)"
-                                    data-url="{{ route('app.product.toggle-product', $result->id) }}"
-                                    class="text-gray-700 w-10 h-10 rounded-lg text-xl hover-transition hover:bg-gray-200">
-                                    @if ($cart_items->count() > 0)
-                                        @php
-                                            $is_item_in_cart = false;
-                                            
-                                            foreach ($cart_items as $cart_item) {
-                                                if ($cart_item->product_id == $result->id) {
-                                                    $is_item_in_cart = true;
-                                                    break;
-                                                }
-                                            }
-                                        @endphp
-
-                                        @if ($is_item_in_cart)
-                                            <i class="fa-solid fa-cart-circle-check"></i>
-                                        @else
-                                            <i class="fa-solid fa-cart-circle-plus"></i>
-                                        @endif
+                                @if ($result->ultimate_price > 0)
+                                    @if (!is_null($result->amazingSale))
+                                        <span class="flex flex-col gap-y-1 text-xs">
+                                            <span class="flex gap-x-2 items-center">
+                                                <span
+                                                    class="line-through">{{ price_formater($result->product_price) }}</span>
+                                                <div class="h-7 w-7 rounded-lg bg-red-600 text-white flex-center text-xs">
+                                                    {{ e2p_numbers($result->amazingSale->percentage) }}%</div>
+                                            </span>
+                                            <span
+                                                class="text-red-500 font-bold">{{ price_formater($result->ultimate_price) }}</span>
+                                            <span class="text-red-500 font-bold">تومان</span>
+                                        </span>
                                     @else
-                                        <i class="fa-solid fa-cart-circle-plus"></i>
+                                        <span class="flex flex-col gap-y-1 text-xs">
+                                            <span>{{ price_formater($result->ultimate_price) }}</span>
+                                            <span class="font-bold">تومان</span>
+                                        </span>
                                     @endif
-                                </button>
+                                @else
+                                    <span class="text-xs text-gray-500 flex gap-x-2 items-center">
+                                        <i class="fa-regular fa-xmark"></i>
+                                        <span>ناموجود</span>
+                                    </span>
+                                @endif
+
+
+
+                                <div class="flex flex-col items-center gax-y-2">
+                                    <button onclick="addToFavorites(this)"
+                                        data-url="{{ route('app.user.favorites.toggle', $result->id) }}"
+                                        class="text-gray-700 w-10 h-10 rounded-lg text-xl hover-transition hover:bg-gray-200">
+                                        <i class="fa-regular fa-heart"></i>
+                                    </button>
+                                    @if ($result->ultimate_price > 0)
+                                        <button onclick="addToCart(this)"
+                                            data-url="{{ route('app.product.toggle-product', $result->id) }}"
+                                            class="text-gray-700 w-10 h-10 rounded-lg text-xl hover-transition hover:bg-gray-200">
+                                            @if ($cart_items->count() > 0)
+                                                @php
+                                                    $is_item_in_cart = $result->isInCart([], true);
+                                                @endphp
+
+                                                @if ($is_item_in_cart)
+                                                    <i class="fa-solid fa-cart-circle-check"></i>
+                                                @else
+                                                    <i class="fa-solid fa-cart-circle-plus"></i>
+                                                @endif
+                                            @else
+                                                <i class="fa-solid fa-cart-circle-plus"></i>
+                                            @endif
+                                        </button>
+                                    @endif
+
+                                </div>
                             </div>
                         </div>
+                    @endforeach
+                @else
+                    <div class="col-span-8 flex flex-col justify-center gap-y-2 text-gray-500 dark:text-gray-400">
+                        <i class="fa-light fa-face-frown text-9xl"></i>
+                        <span class="text-center">محصولی یافت نشد‍</span>
                     </div>
-                @endforeach
+                @endif
+
+
 
 
 

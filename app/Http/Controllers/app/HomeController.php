@@ -27,8 +27,11 @@ class HomeController extends Controller
 
 
         $amazingSaleProducts = AmazingSale::all();
+        $amazingSaleProducts = $amazingSaleProducts->filter(function ($item) {
+            return $item->ultimate_price > 0;
+        })->values();
         $products = Product::all();
-        $leastMarketableProducts = $products->sortBy('marketable_number', SORT_NATURAL)->filter(function ($item){
+        $leastMarketableProducts = $products->sortBy('marketable_number', SORT_NATURAL)->filter(function ($item) {
             return $item->ultimate_price > 0;
         })->values();
         return view('app.index', compact('amazingSaleProducts', 'leastMarketableProducts', 'products', 'slideshowBaners', 'banerTwo', 'banerOne', 'banerThree', 'brands'));
@@ -45,5 +48,4 @@ class HomeController extends Controller
             "products" => $products_results,
         ]);
     }
-    
 }

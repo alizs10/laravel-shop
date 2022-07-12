@@ -29,7 +29,6 @@
                 <thead class="text-xxs md:text-sm">
                     <tr>
                         <th>#</th>
-                        <th>کد تراکنش</th>
                         <th>درگاه</th>
                         <th>مبلغ پرداختی</th>
                         <th>پرداخت کننده</th>
@@ -43,9 +42,8 @@
                         <tr>
 
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $payment->transactionId() }}</td>
                             <td>{{ $payment->gateway() }}</td>
-                            <td>{{ $payment->amount }}</td>
+                            <td>{{ price_formater($payment->amount) . " تومان" }}</td>
                             <td>{{ $payment->user->fullName }}</td>
                             <td>{{ $payment->status() }}</td>
                             <td>{{ $payment->type() }}</td>
@@ -53,17 +51,17 @@
                                 <span class="flex items-center gap-x-1">
 
                                     <a href="{{ route('admin.market.payment.show', $payment->id) }}"
-                                        class="btn bg-blue-600 text-white flex-center gap-1">
+                                        class="px-3 py-2 rounded-lg bg-blue-600 text-white text-xs flex-center gap-1">
                                         <i class="fa-solid fa-eye"></i>
                                         مشاهده
                                     </a>
                                     <a href="{{ route('admin.market.payment.cancel', $payment->id) }}"
-                                        class="btn bg-yellow-500 text-black flex-center gap-1">
+                                        class="px-3 py-2 rounded-lg bg-yellow-500 text-black text-xs flex-center gap-1">
                                         <i class="fa-solid fa-xmark"></i>
                                         لغو کردن
                                     </a>
                                     <a href="{{ route('admin.market.payment.refund', $payment->id) }}"
-                                        class="btn bg-red-500 text-white dark:bg-red-400 dark:text-black flex-center gap-1">
+                                        class="px-3 py-2 rounded-lg bg-red-500 text-white text-xs dark:bg-red-400 dark:text-black flex-center gap-1">
                                         <i class="fa-solid fa-share"></i>
                                         برگشت وجه
                                     </a>

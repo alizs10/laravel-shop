@@ -46,35 +46,30 @@
 
             <table class="table-auto w-full dark:text-white md:border-collapse">
 
-                <thead class="text-xxs md:text-sm">
+                <thead class="text-xxs md:text-xs">
                     <tr>
                         <th>#</th>
                         <th>کد سفارش</th>
-                        <th>مبلغ سفارش (بدون تخفیف)</th>
-                        <th>مبلغ کل تخفیف</th>
                         <th>مبلغ نهایی</th>
                         <th>وضعیت پرداخت</th>
                         <th>شیوه پرداخت</th>
-                        <th>بانک</th>
+                        <th>درگاه</th>
                         <th>شیوه ارسال</th>
                         <th>وضعیت ارسال</th>
                         <th>وضعیت سفارش</th>
                         <th>عملیات</th>
                     </tr>
                 </thead>
-                <tbody class="text-xxs md:text-sm">
+                <tbody class="text-xxs md:text-xs">
 
                     @foreach ($orders as $order)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $order->id }}</td>
-                            <td>{{ $order->order_final_amount }} هزارتومان</td>
-                            <td>{{ $order->order_total_products_discount_amount }} هزار تومان</td>
-                            <td>{{ $order->order_final_amount - $order->order_total_products_discount_amount }} هزارتومان
-                            </td>
-                            <td>{{ $order->payment->status }}</td>
-                            <td>{{ $order->payment->type }}</td>
-                            <td>{{ $order->payment->paymentable->gateway }}</td>
+                            <td>{{ 'LSC-' . $order->id }}</td>
+                            <td>{{ price_formater($order->payment->amount) }} تومان</td>
+                            <td>{{ $order->payment->status() }}</td>
+                            <td>{{ $order->payment->type() }}</td>
+                            <td>{{ $order->payment->paymentable->gateway ?? '-' }}</td>
                             <td>{{ $order->delivery->name }}</td>
                             <td>{{ $order->deliveryStatus() }}</td>
                             <td>{{ $order->status() }}</td>
@@ -102,7 +97,8 @@
                                             <i class="fa-light fa-rectangle-list mr-2"></i>
                                             تغییر وضعیت سفارش</a>
                                         <form class="w-full m-0"
-                                            action="{{ route('admin.market.order.destroy', $order->id) }}" method="POST">
+                                            action="{{ route('admin.market.order.destroy', $order->id) }}"
+                                            method="POST">
                                             @csrf
                                             {{ method_field('delete') }}
                                             <button

@@ -45,10 +45,7 @@ class Payment extends Model
                 return "موفق";
                 break;
             case '2':
-                return "لغو شده";
-                break;
-            case '3':
-                return "برگشت وجه";
+                return "در انتظار پرداخت";
                 break;
         }
     }
@@ -72,10 +69,10 @@ class Payment extends Model
     {
         switch ($this->type) {
             case '0':
-                return $this->paymentable->transaction_id;
+                return $this->paymentable->transaction_id ?? '-';
                 break;
             case '1':
-                return $this->paymentable->transaction_id;
+                return $this->paymentable->transaction_id ?? '-';
                 break;
             case '2':
                 return "-";
@@ -87,7 +84,7 @@ class Payment extends Model
     {
         switch ($this->type) {
             case '0':
-                return $this->paymentable->gateway;
+                return $this->paymentable->gateway ?? '-';
                 break;
             case '1':
                 return "-";

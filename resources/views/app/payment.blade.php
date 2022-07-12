@@ -101,7 +101,7 @@
                 <span>{{ price_formater($order->delivery_amount) }} تومان</span>
             </span>
             <div
-                class="fixed drop-shadow-lg right-0 bottom-0 left-0 z-30 md:z-0 flex justify-between items-center md:block md:static bg-gray-200 dark:bg-gray-800 md:bg-transparent p-3 md:p-0">
+                class="fixed right-0 bottom-0 left-0 z-30 md:z-0 flex justify-between items-center md:block md:static bg-gray-200 dark:bg-gray-800 md:bg-transparent p-3 md:p-0">
                 @php
                     $payment_amount = $order->order_final_amount - ($order->order_coupon_discount_amount ?? 0) + $order->delivery_amount;
                 @endphp
@@ -111,7 +111,7 @@
                     <span id="payment-price">{{ price_formater($payment_amount) }} تومان</span>
                 </span>
 
-                <a href="{{ route('app.payment.store', $order->id) }}" class="md:w-full px-4 py-2 bg-red-500 text-xxs xs:text-sm rounded-lg mt-2 text-white">
+                <a href="{{ route('app.payment.store', $order->id) }}" class="md:block text-center px-4 py-2 bg-red-500 text-xxs xs:text-sm rounded-lg mt-2 text-white">
                     پرداخت
                 </a>
             </div>

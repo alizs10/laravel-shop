@@ -132,7 +132,7 @@
                     <span id="pay_price" >{{ price_formater($order->order_final_amount + $order->delivery_amount) }} تومان</span>
                 </span>
 
-                <a href="{{ route('app.shipping.store-payment', $order->id)}}" class="md:w-full px-4 py-2 bg-red-500 text-xxs xs:text-sm rounded-lg mt-2 text-white">
+                <a href="{{ route('app.shipping.store-payment', $order->id)}}" class="md:block text-center px-4 py-2 bg-red-500 text-xxs xs:text-sm rounded-lg mt-2 text-white">
                     پرداخت
                 </a>
             </div>

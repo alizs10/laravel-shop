@@ -1,5 +1,5 @@
 <aside
-    class="fixed lg:relative top-0 lg:top-24 lg:mt-2 z-30 bottom-0 lg:bottom-auto -right-full lg:right-0 w-3/4 sm:w-1/3 lg:w-full grid grid-cols-12 lg:items-center lg:justify-end lg:shadow-md bg-white dark:bg-gray-800 transition-all duration-300 overflow-y-scroll lg:overflow-visible">
+        class="fixed top-0 lg:top-24 lg:mt-2 z-30 bottom-0 lg:bottom-auto lg:p-0 -right-full lg:right-0 w-3/4 sm:w-1/3 lg:w-full grid grid-cols-12 lg:items-center lg:justify-end lg:shadow-md bg-white dark:bg-gray-800 transition-all duration-300 overflow-y-scroll lg:overflow-visible">
     <div class="lg:hidden col-span-12 pt-2 pb-3  border-gray-100 dark:border-gray-700">
         <span class="text-red-500 font-bold flex items-center gap-x-4 text-xl mr-2">
             <i class="fa-duotone fa-bag-shopping text-2xl"></i>
@@ -14,54 +14,18 @@
 
         @foreach ($menus as $menu)
             <a href="{{ $menu->url }}"
-                class="text-sm lg:text-xs flex items-center gap-x-4 lg:gap-x-2 py-2 lg:border-b-2 lg:border-white dark:lg:border-gray-800 lg:hover-transition lg:hover:border-red-500 dark:lg:hover:border-red-500">
-                <i class="{{ $menu->icon }} text-lg lg:text-sm"></i>
+                class="text-sm lg:text-xxs flex items-center gap-x-4 lg:gap-x-2 py-2 lg:p-0 mr-2 lg:pb-1 lg:border-b-2 lg:border-white dark:lg:border-gray-800 lg:hover-transition lg:hover:border-red-500 dark:lg:hover:border-red-500">
+                <i class="{{ $menu->icon }} text-lg lg:text-xs"></i>
                 {{ $menu->name }}</a>
         @endforeach
 
     </ul>
-    {{-- <ul
-            class="col-span-12 lg:col-span-11 lg:order-last flex flex-col lg:flex-row lg:gap-x-2 lg:p-0 border-b lg:border-none border-gray-100 text-gray-500 dark:text-gray-400 dark:border-gray-700 h-fit">
-            <a href=""
-                class="text-sm lg:text-xs flex items-center gap-x-4 lg:gap-x-2 py-2 lg:border-b-2 lg:border-white dark:lg:border-gray-800 lg:hover-transition lg:hover:border-red-500 dark:lg:hover:border-red-500">
-                <i class="fa-regular fa-basket-shopping text-lg lg:text-sm"></i>
-                سوپرمارکت</a>
-            <a href=""
-                class="text-sm lg:text-xs flex items-center gap-x-4 lg:gap-x-2 py-2 lg:border-b-2 lg:border-white dark:lg:border-gray-800 lg:hover-transition lg:hover:border-red-500 dark:lg:hover:border-red-500">
-                <i class="fa-regular fa-badge-percent text-lg lg:text-sm"></i>
-                تخفیف های شگفت انگیز</a>
-            <a href=""
-                class="text-sm lg:text-xs flex items-center gap-x-4 lg:gap-x-2 py-2 lg:border-b-2 lg:border-white dark:lg:border-gray-800 lg:hover-transition lg:hover:border-red-500 dark:lg:hover:border-red-500">
-                <i class="fa-regular fa-fire text-lg lg:text-sm"></i>
-                پرفروش ترین</a>
-            <a href=""
-                class="text-sm lg:text-xs flex items-center gap-x-4 lg:gap-x-2 py-2 lg:border-b-2 lg:border-white dark:lg:border-gray-800 lg:hover-transition lg:hover:border-red-500 dark:lg:hover:border-red-500">
-                <i class="fa-regular fa-shop text-lg lg:text-sm"></i>
-                فروشنده شوید</a>
-
-            <a href=""
-                class="text-sm lg:text-xs flex items-center gap-x-4 lg:gap-x-2 py-2 lg:border-b-2 lg:border-white dark:lg:border-gray-800 lg:hover-transition lg:hover:border-red-500 dark:lg:hover:border-red-500">
-                <i class="fa-regular fa-cart-plus text-lg lg:text-sm"></i>
-                لاراول پلاس</a>
-            <a href=""
-                class="text-sm lg:text-xs flex items-center gap-x-4 lg:gap-x-2 py-2 lg:border-b-2 lg:border-white dark:lg:border-gray-800 lg:hover-transition lg:hover:border-red-500 dark:lg:hover:border-red-500">
-                <i class="fa-regular fa-messages-question text-lg lg:text-sm"></i>
-                سوالات متداول</a>
-            <a href=""
-                class="text-sm lg:text-xs flex items-center gap-x-4 lg:gap-x-2 py-2 lg:border-b-2 lg:border-white dark:lg:border-gray-800 lg:hover-transition lg:hover:border-red-500 dark:lg:hover:border-red-500">
-                <i class="fa-regular fa-square-info text-lg lg:text-sm"></i>
-                درباره لاراول
-            </a>
-            <a href=""
-                class="text-sm lg:text-xs flex items-center gap-x-4 lg:gap-x-2 py-2 lg:border-b-2 lg:border-white lg:dark:border-gray-800 lg:hover-transition lg:hover:border-red-500 dark:lg:hover:border-red-500">
-                <i class="fa-regular fa-headset text-lg lg:text-sm"></i>
-                ارتباط با ما</a>
-        </ul> --}}
+   
 
     <div class="col-span-12 lg:col-span-1 mt-3 lg:m-0">
         <span id="toggleCategories"
-            class="col-span-12 lg:col-span-1 lg:block lg:text-center text-xs font-bold lg:cursor-pointer lg:self-center lg:border-l-2 lg:py-2 lg:border-b-2 lg:border-white dark:lg:border-b-gray-800">دسته
-            بندی ها</span>
+        class="col-span-12 lg:col-span-1 lg:block lg:pt-1 lg:flex-center lg:pb-2 lg:text-center text-xxs font-bold lg:cursor-pointer lg:self-center lg:border-l-2 lg:border-b-2 border-gray-100 dark:border-gray-800">دسته
+        بندی ها</span>
 
 
         <!-- categories for small screens -->
@@ -133,7 +97,7 @@
 
         <!-- categories for big screens -->
         <div id="categories"
-            class="hidden absolute top-8 z-20 right-4 left-4 bottom-auto rounded-b-lg overflow-hidden
+            class="hidden absolute top-4 z-20 right-4 left-4 bottom-auto rounded-b-lg overflow-hidden
             col-span-12 flex-col lg:grid-cols-12 bg-white dark:bg-gray-800">
 
             <!-- cats -->

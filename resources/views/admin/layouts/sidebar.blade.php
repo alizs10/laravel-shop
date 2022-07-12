@@ -252,11 +252,16 @@
                 <i class="fa-light fa-folder-tree text-xl"></i>
                 دسته بندی
             </a>
-            <a href="{{ route('admin.content.post.index') }}"
-                class="sidebar-link {{ sideBarMenuActiver(route('admin.content.post.index')) }}">
-                <i class="fa-light fa-square-pen text-xl"></i>
-                پست ها
-            </a>
+
+            @if (!empty(
+                auth()->user()->roles()->where('name', 'نویسنده')->first()
+            ))
+                <a href="{{ route('admin.content.post.index') }}"
+                    class="sidebar-link {{ sideBarMenuActiver(route('admin.content.post.index')) }}">
+                    <i class="fa-light fa-square-pen text-xl"></i>
+                    پست ها
+                </a>
+            @endif
             <a href="{{ route('admin.content.comment.index') }}"
                 class="sidebar-link {{ sideBarMenuActiver(route('admin.content.comment.index')) }}">
                 <i class="fa-light fa-comments text-xl"></i>
@@ -301,6 +306,10 @@
                 سطوح دسترسی
             </a>
 
+            @if (!empty(
+                auth()->user()->roles()->where('name', 'ادمین تیکت ها')->first()
+            ))
+               
             <span class="text-gray-500 text-xs">بخش تیکت ها</span>
 
             <button
@@ -379,6 +388,7 @@
                 </ul>
 
             </button>
+            @endif
 
 
             <span class="text-gray-500 text-xs">بخش اطلاع رسانی</span>

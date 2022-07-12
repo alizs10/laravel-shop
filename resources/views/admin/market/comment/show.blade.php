@@ -42,7 +42,7 @@
         <div class="rounded-lg p-2 bg-emerald-300 flex flex-col gap-y-2">
             <span class="flex justify-between items-center text-gray-700">
                 <span class="text-sm">
-                    {{ $comment->user->fullName . ' - ' . $comment->commentable->name }}
+                    {{ ($comment->user->fullName  ?? 'ناشناس') . ' - ' . ($comment->commentable->name) }}
                 </span>
                 <span class="text-xs">{{ showPersianDate($comment->created_at) }}</span>
             </span>

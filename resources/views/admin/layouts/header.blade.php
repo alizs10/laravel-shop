@@ -20,21 +20,21 @@
                     <ul class="w-full">
 
                         <li>
-                            <a href=""
+                            <a href="{{ route('app.user.profile') }}"
                                 class="flex flex-col gap-y-2 py-2 bg-slate-100 dark:bg-slate-900 hover:bg-slate-200 dark:hover:bg-slate-700 hover-transition">
                                 <span class="flex gap-x-2 text-xs mr-2 items-center">
                                     <i class="fa-light fa-user"></i>
                                     پروفایل کاربری
                                 </span>
                             </a>
-                            <a href=""
+                            <a href="{{ route('admin.setting.index') }}"
                                 class="flex flex-col gap-y-2 py-2 bg-slate-100 dark:bg-slate-900 hover:bg-slate-200 dark:hover:bg-slate-700 hover-transition">
                                 <span class="flex gap-x-2 text-xs mr-2 items-center">
                                     <i class="fa-light fa-gears"></i>
                                     تنظیمات
                                 </span>
                             </a>
-                            <a href=""
+                            <a href="{{ route('auth.logout') }}"
                                 class="flex flex-col gap-y-2 py-2 bg-slate-100 dark:bg-slate-900 hover:bg-slate-200 dark:hover:bg-slate-700 hover-transition">
                                 <span class="flex gap-x-2 text-xs mr-2 items-center">
                                     <i class="fa-light fa-door-open"></i>
@@ -125,7 +125,7 @@
                     <ul class="w-full">
                         @foreach ($unseenComments as $unseenComment)
                             <li>
-                                <a href=""
+                                <a href="{{ route('admin.market.comment.show', $unseenComment->id)}}"
                                     class="flex flex-col gap-y-2 py-2 bg-slate-100 dark:bg-slate-900 hover:bg-slate-200 dark:hover:bg-slate-700 hover-transition">
                                     <div class="flex justify-between mx-2">
                                         <span class="flex gap-x-2">

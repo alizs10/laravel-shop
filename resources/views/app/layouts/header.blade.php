@@ -71,7 +71,8 @@
 
                     <div id="show-all-results" class="flex justify-end hidden">
 
-                        <a href="" class="text-sm ml-4 text-gray-500 dark:text-gray-400 flex gap-x-2 items-center">
+                        <a href=""
+                            class="text-sm ml-4 text-gray-500 dark:text-gray-400 flex gap-x-2 items-center">
                             مشاهده نتایج
                             <i class="fa-regular fa-arrow-left"></i>
                         </a>
@@ -99,6 +100,13 @@
                         </span>
                         <div
                             class="hidden flex-col absolute top-12 left-0 w-48 bg-gray-100 dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden">
+                            @if (auth()->user()->user_type == 1)
+                                <a href="{{ route('admin.home') }}"
+                                    class="text-base flex gap-x-1 items-center py-2 hover-transition hover:bg-gray-200 dark:hover:bg-gray-700">
+                                    <i class="fa-light fa-user-crown mr-2"></i>
+                                    <span class="text-xs">پنل ادمین</span>
+                                </a>
+                            @endif
                             <a href="{{ route('app.user.profile') }}"
                                 class="text-base flex gap-x-1 items-center py-2 hover-transition hover:bg-gray-200 dark:hover:bg-gray-700">
                                 <i class="fa-light fa-square-user mr-2"></i>

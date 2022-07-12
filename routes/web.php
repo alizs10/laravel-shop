@@ -46,6 +46,7 @@ use App\Http\Controllers\app\ShippingController;
 use App\Http\Controllers\app\UserController;
 use App\Http\Controllers\app\UserProfileController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Middleware\isAdmin;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -177,7 +178,7 @@ Route::namespace('App')->group(function () {
 |--------------------------------------------------------------------------
 */
 
-Route::namespace('Admin')->prefix('admin')->group(function () {
+Route::namespace('Admin')->prefix('admin')->middleware(isAdmin::class)->group(function () {
 
     Route::get('/', [AdminDashboardController::class, 'index'])->name('admin.home');
 

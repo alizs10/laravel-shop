@@ -18,7 +18,9 @@
     <section class="flex flex-col gap-y-2 p-2 w-full">
         <div class="flex justify-between items-center">
             <span class="text-sm md:text-lg">سطوح دسترسی</span>
-            <a href="{{ route('admin.user.role.create') }}" class="btn bg-blue-600 text-white">افزودن نقش جدید</a>
+            @can('create', \App\Models\User\Role::class)
+                <a href="{{ route('admin.user.role.create') }}" class="btn bg-blue-600 text-white">افزودن نقش جدید</a>
+            @endcan
         </div>
 
 
@@ -52,13 +54,15 @@
 
                             </td>
 
+                            @can('update', \App\Models\User\Role::class)
+                                <td>
+                                    <input type="checkbox" id="status-{{ $role->id }}"
+                                        data-url="{{ route('admin.user.role.status', $role->id) }}"
+                                        onchange="changeStatus({{ $role->id }})"
+                                        @if ($role->status === 1) checked @endif>
+                                </td>
+                            @endcan
 
-                            <td>
-                                <input type="checkbox" id="status-{{ $role->id }}"
-                                    data-url="{{ route('admin.user.role.status', $role->id) }}"
-                                    onchange="changeStatus({{ $role->id }})"
-                                    @if ($role->status === 1) checked @endif>
-                            </td>
                             <td>
                                 <span class="flex items-center gap-x-1">
 
@@ -68,21 +72,24 @@
                                         <i class="fa-light fa-key-skeleton"></i>
                                         دسترسی ها
                                     </a>
-                                    <a href="{{ route('admin.user.role.edit', $role->id) }}"
-                                        class="btn bg-yellow-500 text-black flex-center gap-1">
-                                        <i class="fa-light fa-pen-to-square"></i>
-                                        ویرایش
-                                    </a>
-                                    <form class="m-0"
-                                        action="{{ route('admin.user.role.destroy', $role->id) }}" method="POST">
-                                        @csrf
-                                        {{ method_field('delete') }}
-                                        <button class="btn bg-red-400 text-black flex-center gap-1 delBtn">
-                                            <i class="fa-light fa-trash-can"></i>
-                                            حذف
-                                        </button>
-                                    </form>
-
+                                    @can('update', \App\Models\User\Role::class)
+                                        <a href="{{ route('admin.user.role.edit', $role->id) }}"
+                                            class="btn bg-yellow-500 text-black flex-center gap-1">
+                                            <i class="fa-light fa-pen-to-square"></i>
+                                            ویرایش
+                                        </a>
+                                    @endcan
+                                    @can('delete', \App\Models\User\Role::class)
+                                        <form class="m-0" action="{{ route('admin.user.role.destroy', $role->id) }}"
+                                            method="POST">
+                                            @csrf
+                                            {{ method_field('delete') }}
+                                            <button class="btn bg-red-400 text-black flex-center gap-1 delBtn">
+                                                <i class="fa-light fa-trash-can"></i>
+                                                حذف
+                                            </button>
+                                        </form>
+                                    @endcan
 
                                 </span>
                             </td>

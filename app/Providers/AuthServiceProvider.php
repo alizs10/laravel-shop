@@ -19,6 +19,8 @@ use App\Policies\Ticket\TicketAdminPolicy;
 use App\Policies\Ticket\TicketCategoryPolicy;
 use App\Policies\Ticket\TicketPolicy;
 use App\Policies\Ticket\TicketPriorityPolicy;
+use App\Policies\User\RolePolicy;
+use App\Policies\User\UserPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -38,6 +40,9 @@ class AuthServiceProvider extends ServiceProvider
         TicketAdmin::class => TicketAdminPolicy::class,
         TicketPriority::class => TicketPriorityPolicy::class,
         TicketCategory::class => TicketCategoryPolicy::class,
+        User::class => UserPolicy::class,
+        Role::class => RolePolicy::class,
+        
     ];
 
     /**

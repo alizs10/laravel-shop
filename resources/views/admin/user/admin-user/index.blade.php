@@ -18,8 +18,9 @@
     <section class="flex flex-col gap-y-2 p-2 w-full">
         <div class="flex justify-between items-center">
             <span class="text-sm md:text-lg">ادمین ها</span>
-            <a href="{{ route('admin.user.admin-user.create') }}" class="btn bg-blue-600 text-white">افزودن ادمین جدید</a>
-
+            @can('create', \App\Models\User::class)
+                <a href="{{ route('admin.user.admin-user.create') }}" class="btn bg-blue-600 text-white">افزودن ادمین جدید</a>
+            @endcan
         </div>
 
 
@@ -59,40 +60,48 @@
                                     <p class="text-danger">بدون نقش</p>
                                 @endif
                             </td>
-                            <td>
-                                <input type="checkbox" id="activation-{{ $admin->id }}"
-                                    data-url="{{ route('admin.user.admin-user.activation', $admin->id) }}"
-                                    onchange="changeActivation({{ $admin->id }})"
-                                    @if ($admin->activation === 1) checked @endif>
-                            </td>
-                            <td>
-                                <input type="checkbox" id="status-{{ $admin->id }}"
-                                    data-url="{{ route('admin.user.admin-user.status', $admin->id) }}"
-                                    onchange="changeStatus({{ $admin->id }})"
-                                    @if ($admin->status === 1) checked @endif>
-                            </td>
+                            @can('update', \App\Models\User::class)
+                                <td>
+                                    <input type="checkbox" id="activation-{{ $admin->id }}"
+                                        data-url="{{ route('admin.user.admin-user.activation', $admin->id) }}"
+                                        onchange="changeActivation({{ $admin->id }})"
+                                        @if ($admin->activation === 1) checked @endif>
+                                </td>
+                                <td>
+                                    <input type="checkbox" id="status-{{ $admin->id }}"
+                                        data-url="{{ route('admin.user.admin-user.status', $admin->id) }}"
+                                        onchange="changeStatus({{ $admin->id }})"
+                                        @if ($admin->status === 1) checked @endif>
+                                </td>
+                            @endcan
+
                             <td>
                                 <span class="flex items-center gap-x-1">
+                                    @can('index', \App\Models\User\Role::class)
+                                        <a href="{{ route('admin.user.admin-user.roles', $admin->id) }}"
+                                            class="btn bg-blue-600 text-white flex-center gap-1">
+                                            <i class="fa-light fa-user-tag"></i>
+                                            نقش
+                                        </a>
+                                    @endcan
+                                    @can('update', \App\Models\User::class)
+                                        <a href="{{ route('admin.user.admin-user.edit', $admin->id) }}"
+                                            class="btn bg-yellow-500 text-black flex-center gap-1">
+                                            <i class="fa-light fa-pen-to-square"></i>
+                                            ویرایش
+                                        </a>
 
-                                    <a href="{{ route('admin.user.admin-user.roles', $admin->id) }}"
-                                        class="btn bg-blue-600 text-white flex-center gap-1">
-                                        <i class="fa-light fa-user-tag"></i>
-                                        نقش
-                                    </a>
-                                    <a href="{{ route('admin.user.admin-user.edit', $admin->id) }}"
-                                        class="btn bg-yellow-500 text-black flex-center gap-1">
-                                        <i class="fa-light fa-pen-to-square"></i>
-                                        ویرایش
-                                    </a>
-                                    <form class="m-0" action="{{ route('admin.user.admin-user.destroy', $admin->id) }}" method="POST">
-                                        @csrf
-                                        {{ method_field('delete') }}
-                                        <button class="btn bg-red-400 text-black flex-center gap-1 delBtn">
-                                            <i class="fa-light fa-trash-can"></i>
-                                            حذف از لیست
-                                        </button>
-                                    </form>
 
+                                        <form class="m-0"
+                                            action="{{ route('admin.user.admin-user.destroy', $admin->id) }}" method="POST">
+                                            @csrf
+                                            {{ method_field('delete') }}
+                                            <button class="btn bg-red-400 text-black flex-center gap-1 delBtn">
+                                                <i class="fa-light fa-trash-can"></i>
+                                                حذف از لیست
+                                            </button>
+                                        </form>
+                                    @endcan
 
                                 </span>
                             </td>

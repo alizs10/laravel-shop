@@ -287,25 +287,25 @@
                 پیج ساز
             </a>
 
-            <span class="text-gray-500 text-xs">بخش کاربران</span>
+            @can('index', \App\Models\User::class)
+                <span class="text-gray-500 text-xs">بخش کاربران</span>
 
-            <a href="{{ route('admin.user.admin-user.index') }}"
-                class="sidebar-link {{ sideBarMenuActiver(route('admin.user.admin-user.index')) }}">
-                <i class="fa-light fa-users-crown text-xl"></i>
-                ادمین ها
-            </a>
-            <a href="{{ route('admin.user.customer.index') }}"
-                class="sidebar-link {{ sideBarMenuActiver(route('admin.user.customer.index')) }}">
-                <i class="fa-light fa-users text-xl"></i>
-                مشتریان
-            </a>
-            <a href="{{ route('admin.user.role.index') }}"
-                class="sidebar-link {{ sideBarMenuActiver(route('admin.user.role.index')) }}">
-                <i class="fa-light fa-lock-keyhole text-xl"></i>
-                سطوح دسترسی
-            </a>
-
-
+                <a href="{{ route('admin.user.admin-user.index') }}"
+                    class="sidebar-link {{ sideBarMenuActiver(route('admin.user.admin-user.index')) }}">
+                    <i class="fa-light fa-users-crown text-xl"></i>
+                    ادمین ها
+                </a>
+                <a href="{{ route('admin.user.customer.index') }}"
+                    class="sidebar-link {{ sideBarMenuActiver(route('admin.user.customer.index')) }}">
+                    <i class="fa-light fa-users text-xl"></i>
+                    مشتریان
+                </a>
+                <a href="{{ route('admin.user.role.index') }}"
+                    class="sidebar-link {{ sideBarMenuActiver(route('admin.user.role.index')) }}">
+                    <i class="fa-light fa-lock-keyhole text-xl"></i>
+                    سطوح دسترسی
+                </a>
+            @endcan
             <span class="text-gray-500 text-xs">بخش تیکت ها</span>
 
             <button

@@ -15,10 +15,11 @@ class RolePermissionSeeder extends Seeder
     public function run()
     {
         DB::table('permissions')->insert([
+            ['name' => 'دیدن نقش', 'status' => 1],
             ['name' => 'ایجاد نقش', 'status' => 1],
             ['name' => 'ویرایش نقش', 'status' => 1],
-            ['name' => 'دیدن نقش', 'status' => 1],
-            ['name' => 'حذف نقش', 'status' => 1]
+            ['name' => 'حذف نقش', 'status' => 1],
+            ['name' => 'همه دسترسی ها (نقش)', 'status' => 1],
         ]);
     }
 }

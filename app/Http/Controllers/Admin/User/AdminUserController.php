@@ -20,6 +20,7 @@ class AdminUserController extends Controller
      */
     public function index()
     {
+        $this->authorize('index', User::class);
         $admins = User::where('user_type', 1)->simplePaginate(15);
         return view('admin.user.admin-user.index', compact('admins'));
     }
@@ -31,6 +32,7 @@ class AdminUserController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', User::class);
         return view('admin.user.admin-user.create');
     }
 
@@ -42,6 +44,7 @@ class AdminUserController extends Controller
      */
     public function store(AdminUserRequest $request, ImageService $imageService)
     {
+        $this->authorize('create', User::class);
         $inputs = $request->all();
         if ($inputs['activation'] == 1) {
             $inputs['activation_date'] = now();
@@ -84,6 +87,7 @@ class AdminUserController extends Controller
      */
     public function edit(User $admin)
     {
+        $this->authorize('update', User::class);
         return view('admin.user.admin-user.edit', compact('admin'));
     }
 
@@ -96,6 +100,7 @@ class AdminUserController extends Controller
      */
     public function update(AdminUserRequest $request, User $admin, ImageService $imageService)
     {
+        $this->authorize('update', User::class);
         $inputs = $request->all();
 
         if ($request->hasFile('avatar')) {
@@ -123,6 +128,7 @@ class AdminUserController extends Controller
      */
     public function destroy(User $admin)
     {
+        $this->authorize('delete', User::class);
         $admin->user_type = 0;
         $result = $admin->save();
         if (!$result) {
@@ -135,6 +141,7 @@ class AdminUserController extends Controller
 
     public function status(User $admin)
     {
+        $this->authorize('update', User::class);
         $admin->status = $admin->status == 0 ? 1 : 0;
         $result = $admin->save();
 
@@ -150,6 +157,7 @@ class AdminUserController extends Controller
 
     public function activation(User $admin)
     {
+        $this->authorize('update', User::class);
         $admin->activation = $admin->activation == 0 ? 1 : 0;
         $result = $admin->save();
 
@@ -165,6 +173,8 @@ class AdminUserController extends Controller
 
     public function roles(User $admin)
     {
+        $this->authorize('index', Role::class);
+
         $roles = Role::all();
         $adminRolesIdArray = RoleUser::select('role_id')->where('user_id', $admin->id)->get()->pluck('role_id')->toArray();
         return view('admin.user.admin-user.roles', compact('roles', 'admin', 'adminRolesIdArray'));
@@ -172,17 +182,18 @@ class AdminUserController extends Controller
 
     public function setRole(Request $request, User $admin)
     {
+        $this->authorize('create', Role::class);
 
         $request->validate([
             'role_id' => 'nullable|array|min:1',
             'role_id.*' => 'nullable|numeric|exists:roles,id'
         ]);
-     
+
 
         if ($request->has('role_id')) {
-            
+
             $inputs = $request->only('role_id');
-            
+
             $admin->roles()->sync($inputs['role_id']);
         } else {
             $admin->roles()->sync([]);

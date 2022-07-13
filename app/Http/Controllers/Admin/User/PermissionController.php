@@ -61,6 +61,7 @@ class PermissionController extends Controller
      */
     public function edit(Role $role)
     {
+        $this->authorize('update', Role::class);
         $permissions = Permission::all();
         $permissionsRoleIDsArray = PermissionRole::select('permission_id')->where('role_id', $role->id)->get()->pluck('permission_id')->toArray();
         return view('admin.user.role.permissions', compact('role', 'permissions', 'permissionsRoleIDsArray'));
@@ -75,6 +76,8 @@ class PermissionController extends Controller
      */
     public function update(PermissionRequest $request, Role $role)
     {
+        $this->authorize('update', Role::class);
+
         $inputs = $request->all();
         global $oldPermissionsRoleIDsArray;
         $oldPermissionsRoleIDsArray = PermissionRole::select('permission_id')->where('role_id', $role->id)->get()->pluck('permission_id')->toArray();

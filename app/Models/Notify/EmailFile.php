@@ -18,4 +18,10 @@ class EmailFile extends Model
     {
         return $this->belongsTo(Email::class, 'public_mail_id');
     }
+
+    public const CAN_VIEW_ID = 163;
+    public const CAN_CREATE_ID = 161;
+    public const CAN_UPDATE_ID = 162;
+    public const CAN_DELETE_ID = 164;
+    public const CAN_ALL_ID = 165;
 }

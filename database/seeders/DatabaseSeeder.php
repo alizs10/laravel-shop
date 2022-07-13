@@ -6,6 +6,7 @@ use Database\Seeders\Permissions\CommentPermissionSeeder;
 
 use Database\Seeders\Permissions\FAQPermissionSeeder;
 use Database\Seeders\Permissions\MenuPermissionSeeder;
+use Database\Seeders\Permissions\Notify\EmailFilePermissionSeeder;
 use Database\Seeders\Permissions\Notify\EmailPermissionSeeder;
 use Database\Seeders\Permissions\Notify\SMSPermissionSeeder;
 use Database\Seeders\Permissions\PagePermissionSeeder;
@@ -39,9 +40,10 @@ class DatabaseSeeder extends Seeder
             // TicketAdminPermissionSeeder::class,
             // TicketCategoryPermissionSeeder::class,
             // TicketPriorityPermissionSeeder::class,
-            EmailPermissionSeeder::class,
-            SMSPermissionSeeder::class,
-            SettingPermissionSeeder::class,
+            // EmailPermissionSeeder::class,
+            // EmailFilePermissionSeeder::class,
+            // SMSPermissionSeeder::class,
+            // SettingPermissionSeeder::class,
         ]);
     }
 }

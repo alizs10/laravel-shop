@@ -18,6 +18,7 @@ class EmailFileController extends Controller
      */
     public function index(Email $email)
     {
+        $this->authorize('index', EmailFile::class);
         return view('admin.notify.email-files.index', compact('email'));
     }
 
@@ -28,6 +29,8 @@ class EmailFileController extends Controller
      */
     public function create(Email $email)
     {
+        $this->authorize('create', EmailFile::class);
+
         return view('admin.notify.email-files.create', compact('email'));
     }
 
@@ -39,6 +42,7 @@ class EmailFileController extends Controller
      */
     public function store(EmailFileRequest $request, Email $email, FileService $fileService)
     {
+        $this->authorize('create', EmailFile::class);
 
         $inputs = $request->all();
 
@@ -91,6 +95,7 @@ class EmailFileController extends Controller
      */
     public function edit(EmailFile $file)
     {
+        $this->authorize('edit', EmailFile::class);
         $emails = Email::all();
         return view('admin.notify.email-files.edit', compact('file', 'emails'));
     }
@@ -104,13 +109,13 @@ class EmailFileController extends Controller
      */
     public function update(EmailFileRequest $request, EmailFile $file, FileService $fileService)
     {
+        $this->authorize('edit', EmailFile::class);
         $inputs = $request->all();
 
         if ($file->file_name !== $inputs['file_name']) {
             $inputs['file_name'] = str_replace(' ', '-', $inputs['file_name']);
             $newPath = $fileService->renameFile($file->file_path, $file->file_name, $inputs['file_name'], $file->file_save_path);
             $inputs['file_path'] = $newPath;
-            
         }
 
         if ($inputs['file_save_path'] != $file->file_save_path) {
@@ -144,6 +149,7 @@ class EmailFileController extends Controller
      */
     public function destroy(EmailFile $file, FileService $fileService)
     {
+        $this->authorize('delete', EmailFile::class);
         $result = $fileService->deleteFile($file->file_path, $file->file_save_path);
         if ($result) {
             $file->delete();

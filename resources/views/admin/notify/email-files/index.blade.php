@@ -54,22 +54,25 @@
                             <td>{{ $file->file_size . ' بایت' }}</td>
                             <td>
                                 <span class="flex items-center gap-x-1 text-xs">
-
-                                    <a href="{{ route('admin.notify.email-files.edit', $file->id) }}"
-                                        class="btn bg-yellow-500 text-black flex-center gap-1">
-                                        <i class="fa-light fa-pen-to-square"></i>
-                                        ویرایش
-                                    </a>
-                                    <form class="m-0"
-                                        action="{{ route('admin.notify.email-files.destroy', $file->id) }}"
-                                        method="POST">
-                                        @csrf
-                                        {{ method_field('delete') }}
-                                        <button class="btn bg-red-400 text-black flex-center gap-1 delBtn">
-                                            <i class="fa-light fa-trash-can"></i>
-                                            حذف
-                                        </button>
-                                    </form>
+                                    @can('update', \App\Models\Notify\EmailFile::class)
+                                        <a href="{{ route('admin.notify.email-files.edit', $file->id) }}"
+                                            class="btn bg-yellow-500 text-black flex-center gap-1">
+                                            <i class="fa-light fa-pen-to-square"></i>
+                                            ویرایش
+                                        </a>
+                                    @endcan
+                                    @can('delete', \App\Models\Notify\EmailFile::class)
+                                        <form class="m-0"
+                                            action="{{ route('admin.notify.email-files.destroy', $file->id) }}"
+                                            method="POST">
+                                            @csrf
+                                            {{ method_field('delete') }}
+                                            <button class="btn bg-red-400 text-black flex-center gap-1 delBtn">
+                                                <i class="fa-light fa-trash-can"></i>
+                                                حذف
+                                            </button>
+                                        </form>
+                                    @endcan
 
 
                                 </span>

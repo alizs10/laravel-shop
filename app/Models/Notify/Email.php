@@ -18,4 +18,10 @@ class Email extends Model
     {
         return $this->hasMany(EmailFile::class, 'public_mail_id');
     }
+
+    public const CAN_VIEW_ID = 151;
+    public const CAN_CREATE_ID = 149;
+    public const CAN_UPDATE_ID = 150;
+    public const CAN_DELETE_ID = 152;
+    public const CAN_ALL_ID = 153;
 }

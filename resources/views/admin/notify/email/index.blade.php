@@ -53,26 +53,32 @@
                             </td>
                             <td>
                                 <span class="flex items-center gap-x-1 text-xs">
-
+                                    @can('index', \App\Models\Notify\EmailFile::class)
                                     <a href="{{ route('admin.notify.email-files.index', $email->id) }}"
                                         class="btn bg-blue-600 text-white flex-center gap-1">
                                         <i class="fa-light fa-paperclip"></i>
                                         فایل های ضمیمه شده ({{ count($email->files) }})
                                     </a>
-                                    <a href="{{ route('admin.notify.email.edit', $email->id) }}"
-                                        class="btn bg-yellow-500 text-black flex-center gap-1">
-                                        <i class="fa-light fa-pen-to-square"></i>
-                                        ویرایش
-                                    </a>
-                                    <form class="m-0"
-                                    action="{{ route('admin.notify.email.destroy', $email->id) }}" method="POST">
-                                        @csrf
-                                        {{ method_field('delete') }}
-                                        <button class="btn bg-red-400 text-black flex-center gap-1 delBtn">
-                                            <i class="fa-light fa-trash-can"></i>
-                                            حذف
-                                        </button>
-                                    </form>
+                                    @endcan
+
+                                    @can('update', \App\Models\Notify\Email::class)
+                                        <a href="{{ route('admin.notify.email.edit', $email->id) }}"
+                                            class="btn bg-yellow-500 text-black flex-center gap-1">
+                                            <i class="fa-light fa-pen-to-square"></i>
+                                            ویرایش
+                                        </a>
+                                    @endcan
+                                    @can('delete', \App\Models\Notify\Email::class)
+                                        <form class="m-0" action="{{ route('admin.notify.email.destroy', $email->id) }}"
+                                            method="POST">
+                                            @csrf
+                                            {{ method_field('delete') }}
+                                            <button class="btn bg-red-400 text-black flex-center gap-1 delBtn">
+                                                <i class="fa-light fa-trash-can"></i>
+                                                حذف
+                                            </button>
+                                        </form>
+                                    @endcan
 
 
                                 </span>

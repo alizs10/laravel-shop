@@ -389,12 +389,14 @@
 
             <span class="text-gray-500 text-xs">بخش اطلاع رسانی</span>
 
+            @can('index', \App\Models\Notify\Email::class)
+                <a href="{{ route('admin.notify.email.index') }}"
+                    class="sidebar-link {{ sideBarMenuActiver(route('admin.notify.email.index')) }}">
+                    <i class="fa-light fa-envelopes text-xl"></i>
+                    اطلاعیه ایمیلی
+                </a>
+            @endcan
 
-            <a href="{{ route('admin.notify.email.index') }}"
-                class="sidebar-link {{ sideBarMenuActiver(route('admin.notify.email.index')) }}">
-                <i class="fa-light fa-envelopes text-xl"></i>
-                اطلاعیه ایمیلی
-            </a>
             <a href="{{ route('admin.notify.sms.index') }}"
                 class="sidebar-link {{ sideBarMenuActiver(route('admin.notify.sms.index')) }}">
                 <i class="fa-light fa-message-sms text-xl"></i>
@@ -402,7 +404,7 @@
             </a>
 
 
-            @can('index', \App\Models\setting\Setting::class)
+            @can('index', \App\Models\Setting\Setting::class)
                 <span class="text-gray-500 text-xs">بخش تنظیمات</span>
                 <a href="{{ route('admin.setting.index') }}"
                     class="sidebar-link {{ sideBarMenuActiver(route('admin.setting.index')) }}">

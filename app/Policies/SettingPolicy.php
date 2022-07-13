@@ -9,7 +9,6 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 class SettingPolicy
 {
     use HandlesAuthorization;
-
     
     public function index(User $user)
     {

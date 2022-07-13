@@ -15,7 +15,7 @@
 @section('content')
     <section class="flex flex-col gap-y-2 p-2 w-full">
         <span class="text-sm md:text-lg">تنظیمات</span>
-      
+
         <section class="bg-slate-200 dark:bg-slate-700 rounded-lg w-full">
 
             <table class="table-auto w-full dark:text-white md:border-collapse">
@@ -33,14 +33,15 @@
                 </thead>
                 <tbody class="text-xxs md:text-sm">
 
-                 
-                        <tr>
-                            <td>۱</td>
-                            <td>{{ $setting->title }}</td>
-                            <td>{{ Str::limit($setting->description, 15, ' ...') }}</td>
-                            <td>{{ Str::limit($setting->keywords, 15, ' ...') }}</td>
-                            <td><img class="w-20" src="{{ asset($setting->logo) }}" alt="logo"></td>
-                            <td><img class="w-20" src="{{ asset($setting->icon) }}" alt="icon"></td>
+
+                    <tr>
+                        <td>۱</td>
+                        <td>{{ $setting->title }}</td>
+                        <td>{{ Str::limit($setting->description, 15, ' ...') }}</td>
+                        <td>{{ Str::limit($setting->keywords, 15, ' ...') }}</td>
+                        <td><img class="w-20" src="{{ asset($setting->logo) }}" alt="logo"></td>
+                        <td><img class="w-20" src="{{ asset($setting->icon) }}" alt="icon"></td>
+                        @can('update', \App\Models\Setting\Setting::class)
                             <td>
                                 <a href="{{ route('admin.setting.edit', $setting->id) }}"
                                     class="btn bg-yellow-500 text-black flex-center gap-1">
@@ -48,8 +49,10 @@
                                     ویرایش
                                 </a>
                             </td>
-                        </tr>
-             
+                        @endcan
+
+                    </tr>
+
 
 
                 </tbody>

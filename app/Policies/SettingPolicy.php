@@ -24,15 +24,16 @@ class SettingPolicy
     }
 
 
-    public function update(User $user, Setting $setting)
+    public function update(User $user)
     {
-        //
-    }
+        $permissions_ids = [];
+        foreach ($user->roles as $role) {
+            foreach ($role->permissions as $permission) {
+                array_push($permissions_ids, $permission->id);
+            }
+        }
 
-
-    public function delete(User $user, Setting $setting)
-    {
-        //
+        return in_array(Setting::CAN_UPDATE_ID, $permissions_ids);
     }
 
 }

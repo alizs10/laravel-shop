@@ -69,6 +69,7 @@ class SettingController extends Controller
      */
     public function edit(Setting $setting)
     {
+        $this->authorize('update', Setting::class);
         return view('admin.setting.edit', compact('setting'));
     }
 
@@ -81,6 +82,7 @@ class SettingController extends Controller
      */
     public function update(SettingRequest $request, Setting $setting, ImageService $imageService)
     {
+        $this->authorize('update', Setting::class);
         $inputs = $request->all();
 
         if ($request->hasFile('logo')) {

@@ -16,6 +16,7 @@ class TicketCategoryController extends Controller
      */
     public function index()
     {
+        $this->authorize('index', TicketCategory::class);
         $categories = TicketCategory::simplePaginate(15);
         return view('admin.ticket.category.index', compact('categories'));
     }
@@ -27,6 +28,7 @@ class TicketCategoryController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', TicketCategory::class);
         return view('admin.ticket.category.create');
     }
 
@@ -38,6 +40,7 @@ class TicketCategoryController extends Controller
      */
     public function store(TicketCategoryRequest $request)
     {
+        $this->authorize('create', TicketCategory::class);
         $inputs = $request->all();
         $result = TicketCategory::create($inputs);
         return redirect()->route('admin.ticket.category.index')->with('alertify-success', 'دسته بندی جدید با موفقیت اضافه شد.');
@@ -62,6 +65,7 @@ class TicketCategoryController extends Controller
      */
     public function edit(TicketCategory $category)
     {
+        $this->authorize('update', TicketCategory::class);
         return view('admin.ticket.category.edit', compact('category'));
     }
 
@@ -74,6 +78,7 @@ class TicketCategoryController extends Controller
      */
     public function update(TicketCategoryRequest $request, TicketCategory $category)
     {
+        $this->authorize('update', TicketCategory::class);
         $inputs = $request->all();
         $category->update($inputs);
         return redirect()->route('admin.ticket.category.index')->with('alertify-warning', 'دسته بندی موردنظر با موفقیت ویرایش شد.');
@@ -87,12 +92,14 @@ class TicketCategoryController extends Controller
      */
     public function destroy(TicketCategory $category)
     {
+        $this->authorize('delete', TicketCategory::class);
         $category->delete();
         return redirect()->route('admin.ticket.category.index')->with('alertify-error', 'دسته بندی موردنظر با موفقیت حذف شد.');
     }
 
     public function status(TicketCategory $category)
     {
+        $this->authorize('update', TicketCategory::class);
         $category->status = $category->status == 0 ? 1 : 0;
         $result = $category->save();
 

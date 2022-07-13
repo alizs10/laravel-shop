@@ -8,6 +8,7 @@ use App\Models\Notify\EmailFile;
 use App\Models\Notify\SMS;
 use App\Models\Ticket\Ticket;
 use App\Models\Ticket\TicketAdmin;
+use App\Models\Ticket\TicketCategory;
 use App\Models\Ticket\TicketPriority;
 use App\Models\User;
 use App\Models\User\Role;
@@ -15,6 +16,7 @@ use App\Policies\Notify\EmailFilePolicy;
 use App\Policies\Notify\EmailPolicy;
 use App\Policies\Notify\SMSPolicy;
 use App\Policies\Ticket\TicketAdminPolicy;
+use App\Policies\Ticket\TicketCategoryPolicy;
 use App\Policies\Ticket\TicketPolicy;
 use App\Policies\Ticket\TicketPriorityPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -35,6 +37,7 @@ class AuthServiceProvider extends ServiceProvider
         Ticket::class => TicketPolicy::class,
         TicketAdmin::class => TicketAdminPolicy::class,
         TicketPriority::class => TicketPriorityPolicy::class,
+        TicketCategory::class => TicketCategoryPolicy::class,
     ];
 
     /**

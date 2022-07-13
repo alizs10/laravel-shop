@@ -18,7 +18,10 @@
     <section class="flex flex-col gap-y-2 p-2 w-full">
         <div class="flex justify-between items-center">
             <span class="text-sm md:text-lg">دسته بندی</span>
-            <a href="{{ route('admin.ticket.category.create') }}" class="btn bg-blue-600 text-sm text-white">افزودن دسته بندی جدید</a>
+            @can('create', \App\Models\Ticket\TicketCategory::class)
+                <a href="{{ route('admin.ticket.category.create') }}" class="btn bg-blue-600 text-sm text-white">افزودن دسته
+                    بندی جدید</a>
+            @endcan
         </div>
 
 
@@ -40,30 +43,36 @@
 
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $category->name }}</td>
-                            <td>
-                                <input type="checkbox" id="status-{{ $category->id }}"
-                                    data-url="{{ route('admin.ticket.category.status', $category->id) }}"
-                                    onchange="changeStatus({{ $category->id }})" @if ($category->status === 1)
-                                checked
-                                @endif>
-                            </td>
+                            @can('update', \App\Models\Ticket\TicketCategory::class)
+                                <td>
+                                    <input type="checkbox" id="status-{{ $category->id }}"
+                                        data-url="{{ route('admin.ticket.category.status', $category->id) }}"
+                                        onchange="changeStatus({{ $category->id }})"
+                                        @if ($category->status === 1) checked @endif>
+                                </td>
+                            @endcan
+
                             <td>
                                 <span class="flex items-center gap-x-1">
-
-                                    <a href="{{ route('admin.ticket.category.edit', $category->id) }}"
-                                        class="btn bg-yellow-500 text-black flex-center gap-1">
-                                        <i class="fa-light fa-pen-to-square"></i>
-                                        ویرایش
-                                    </a>
-                                    <form class="m-0" action="{{ route('admin.ticket.category.destroy', $category->id) }}" method="POST">
-                                        @csrf
-                                        {{ method_field('delete') }}
-                                        <button class="btn bg-red-400 text-black flex-center gap-1 delBtn">
-                                            <i class="fa-light fa-trash-can"></i>
-                                            حذف
-                                        </button>
-                                    </form>
-
+                                    @can('update', \App\Models\Ticket\TicketCategory::class)
+                                        <a href="{{ route('admin.ticket.category.edit', $category->id) }}"
+                                            class="btn bg-yellow-500 text-black flex-center gap-1">
+                                            <i class="fa-light fa-pen-to-square"></i>
+                                            ویرایش
+                                        </a>
+                                    @endcan
+                                    @can('delete', \App\Models\Ticket\TicketCategory::class)
+                                        <form class="m-0"
+                                            action="{{ route('admin.ticket.category.destroy', $category->id) }}"
+                                            method="POST">
+                                            @csrf
+                                            {{ method_field('delete') }}
+                                            <button class="btn bg-red-400 text-black flex-center gap-1 delBtn">
+                                                <i class="fa-light fa-trash-can"></i>
+                                                حذف
+                                            </button>
+                                        </form>
+                                    @endcan
 
                                 </span>
                             </td>

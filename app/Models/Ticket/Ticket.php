@@ -54,4 +54,10 @@ class Ticket extends Model
     {
         return $this->belongsTo(TicketPriority::class, 'priority_id');
     }
+
+    public const CAN_VIEW_ID = 166;
+    public const CAN_ANSWER_ID = 167;
+    public const CAN_UPDATE_ID = 168;
+    public const CAN_DELETE_ID = 169;
+    public const CAN_ALL_ID = 170;
 }

@@ -18,7 +18,7 @@
     <section class="flex flex-col gap-y-2 p-2 w-full">
         <div class="flex justify-between items-center">
             <span class="text-sm md:text-lg">{{ $page }}</span>
-         
+
         </div>
 
 
@@ -40,37 +40,41 @@
                 </thead>
                 <tbody class="text-xxs md:text-sm">
                     @foreach ($tickets as $ticket)
-                        <tr>
+                        @can('view', $ticket)
+                            <tr>
 
-                            <td>{{ $loop->iteration }}</td>
-                            <td>{{ $ticket->user->fullName }}</td>
-                            <td>{{ $ticket->subject }}</td>
-                            <td>{{ $ticket->category->name }}</td>
-                            <td>{{ $ticket->priority->name }}</td>
-                            <td>{{ $ticket->referencedTo->user->fullName }}</td>
-                            <td>{{ $ticket->parent->user->fullName ?? '-' }}</td>
-                            <td>
-                                <span class="flex items-center gap-x-1">
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $ticket->user->fullName }}</td>
+                                <td>{{ $ticket->subject }}</td>
+                                <td>{{ $ticket->category->name }}</td>
+                                <td>{{ $ticket->priority->name }}</td>
+                                <td>{{ $ticket->referencedTo->user->fullName }}</td>
+                                <td>{{ $ticket->parent->user->fullName ?? '-' }}</td>
+                                <td>
+                                    <span class="flex items-center gap-x-1">
+                                        @can('answer', \App\Models\Ticket\Ticket::class)
+                                            <a href="{{ route('admin.ticket.show', $ticket->id) }}"
+                                                class="btn bg-blue-600 text-white flex-center gap-1">
+                                                <i class="fa-light fa-eye"></i>
+                                                مشاهده
+                                            </a>
+                                        @endcan
+                                        @can('update', \App\Models\Ticket\Ticket::class)
+                                            @if ($ticket->parent == null)
+                                                <a href="{{ route('admin.ticket.status', $ticket->id) }}"
+                                                    class="btn {{ $ticket->status == 1 ? 'bg-emerald-400' : 'bg-yellow-500' }} text-white flex-center gap-1">
+                                                    <i class="fa-light fa-arrows-repeat"></i>
+                                                    {{ $ticket->status == 1 ? 'باز کردن' : 'بستن' }}
+                                                </a>
+                                            @endif
+                                        @endcan
 
-                                    <a href="{{ route('admin.ticket.show', $ticket->id) }}"
-                                        class="btn bg-blue-600 text-white flex-center gap-1">
-                                        <i class="fa-light fa-eye"></i>
-                                        مشاهده
-                                    </a>
-                                    @if ($ticket->parent == null)
-                                        <a href="{{ route('admin.ticket.status', $ticket->id) }}"
-                                            class="btn {{ $ticket->status == 1 ? 'bg-emerald-400' : 'bg-yellow-500'}} text-white flex-center gap-1">
-                                            <i class="fa-light fa-arrows-repeat"></i>
-                                            {{ $ticket->status == 1 ? 'باز کردن' : 'بستن' }}
-                                        </a>
-                                    @endif
 
+                                    </span>
+                                </td>
 
-
-                                </span>
-                            </td>
-
-                        </tr>
+                            </tr>
+                        @endcan
                     @endforeach
 
                 </tbody>

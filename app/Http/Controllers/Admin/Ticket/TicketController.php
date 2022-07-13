@@ -11,6 +11,7 @@ class TicketController extends Controller
 
     public function index()
     {
+        $this->authorize('index', Ticket::class);
         $page = "تمام تیکت ها";
         $tickets = Ticket::simplePaginate(15);
         return view('admin.ticket.index', compact('tickets', 'page'));
@@ -19,6 +20,8 @@ class TicketController extends Controller
 
     public function newTickets()
     {
+        $this->authorize('index', Ticket::class);
+
         $page = "تیکت های جدید";
         $tickets = Ticket::where('seen', 0)->simplePaginate(15);
         return view('admin.ticket.index', compact('tickets', 'page'));
@@ -26,6 +29,8 @@ class TicketController extends Controller
 
     public function openedTickets()
     {
+        $this->authorize('index', Ticket::class);
+
         $page = "تیکت های باز";
         $tickets = Ticket::where('status', 0)->simplePaginate(15);
         return view('admin.ticket.index', compact('tickets', 'page'));
@@ -33,6 +38,7 @@ class TicketController extends Controller
 
     public function closedTickets()
     {
+        $this->authorize('index', Ticket::class);
         $page = "تیکت های بسته";
         $tickets = Ticket::where('status', 1)->simplePaginate(15);
         return view('admin.ticket.index', compact('tickets', 'page'));
@@ -42,6 +48,7 @@ class TicketController extends Controller
 
     public function show(Ticket $ticket)
     {
+        $this->authorize('view', Ticket::class);
         if (!$ticket->seen) {
             $ticket->seen = 1;
             $result = $ticket->save();
@@ -56,6 +63,7 @@ class TicketController extends Controller
 
     public function answer(TicketRequest $request, Ticket $ticket)
     {
+        $this->authorize('answer', Ticket::class);
         $inputs = $request->all();
         $inputs['subject'] = $ticket->subject;
         $inputs['seen'] = 1;
@@ -71,6 +79,7 @@ class TicketController extends Controller
 
     public function status(Ticket $ticket)
     {
+        $this->authorize('update', Ticket::class);
         $id = $ticket->id;
         $relatedTickets = Ticket::where('ticket_id', $id)->get();
         if ($relatedTickets) {

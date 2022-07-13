@@ -326,37 +326,39 @@
 
                 <ul
                     class="{{ sidebarDropdownActiver('admin.ticket', ['new-tickets', 'opened-tickets', 'closed-tickets', 'index', 'admin.index', 'category.index', 'priority.index'])['hidden'] }} dropdown w-full mt-4 flex-col gap-y-2">
-                    <a href="{{ route('admin.ticket.new-tickets') }}"
-                        class="flex items-center gap-x-4 text-sm text-slate-900">
-                        <span
-                            class="sidebar-link {{ sidebarDropdownMenuActiver(route('admin.ticket.new-tickets')) }}">
-                            <i class="fa-solid fa-angles-left text-xxs"></i>
-                            تیکت های جدید
-                        </span>
-                    </a>
-                    <a href="{{ route('admin.ticket.opened-tickets') }}"
-                        class="flex items-center gap-x-4 text-sm text-slate-900">
-                        <span
-                            class="sidebar-link {{ sidebarDropdownMenuActiver(route('admin.ticket.opened-tickets')) }}">
-                            <i class="fa-solid fa-angles-left text-xxs"></i>
-                            تیکت های باز
-                        </span>
-                    </a>
-                    <a href="{{ route('admin.ticket.closed-tickets') }}"
-                        class="flex items-center gap-x-4 text-sm text-slate-900">
-                        <span
-                            class="sidebar-link {{ sidebarDropdownMenuActiver(route('admin.ticket.closed-tickets')) }}">
-                            <i class="fa-solid fa-angles-left text-xxs"></i>
-                            تیکت های بسته
-                        </span>
-                    </a>
-                    <a href="{{ route('admin.ticket.index') }}"
-                        class="flex items-center gap-x-4 text-sm text-slate-900">
-                        <span class="sidebar-link {{ sidebarDropdownMenuActiver(route('admin.ticket.index')) }}">
-                            <i class="fa-solid fa-angles-left text-xxs"></i>
-                            تمام تیکت ها
-                        </span>
-                    </a>
+                    @can('index', \App\Models\Ticket\Ticket::class)
+                        <a href="{{ route('admin.ticket.new-tickets') }}"
+                            class="flex items-center gap-x-4 text-sm text-slate-900">
+                            <span
+                                class="sidebar-link {{ sidebarDropdownMenuActiver(route('admin.ticket.new-tickets')) }}">
+                                <i class="fa-solid fa-angles-left text-xxs"></i>
+                                تیکت های جدید
+                            </span>
+                        </a>
+                        <a href="{{ route('admin.ticket.opened-tickets') }}"
+                            class="flex items-center gap-x-4 text-sm text-slate-900">
+                            <span
+                                class="sidebar-link {{ sidebarDropdownMenuActiver(route('admin.ticket.opened-tickets')) }}">
+                                <i class="fa-solid fa-angles-left text-xxs"></i>
+                                تیکت های باز
+                            </span>
+                        </a>
+                        <a href="{{ route('admin.ticket.closed-tickets') }}"
+                            class="flex items-center gap-x-4 text-sm text-slate-900">
+                            <span
+                                class="sidebar-link {{ sidebarDropdownMenuActiver(route('admin.ticket.closed-tickets')) }}">
+                                <i class="fa-solid fa-angles-left text-xxs"></i>
+                                تیکت های بسته
+                            </span>
+                        </a>
+                        <a href="{{ route('admin.ticket.index') }}"
+                            class="flex items-center gap-x-4 text-sm text-slate-900">
+                            <span class="sidebar-link {{ sidebarDropdownMenuActiver(route('admin.ticket.index')) }}">
+                                <i class="fa-solid fa-angles-left text-xxs"></i>
+                                تمام تیکت ها
+                            </span>
+                        </a>
+                    @endcan
                     <a href="{{ route('admin.ticket.admin.index') }}"
                         class="flex items-center gap-x-4 text-sm text-slate-900">
                         <span
@@ -397,11 +399,11 @@
                 </a>
             @endcan
             @can('index', \App\Models\Notify\SMS::class)
-            <a href="{{ route('admin.notify.sms.index') }}"
-                class="sidebar-link {{ sideBarMenuActiver(route('admin.notify.sms.index')) }}">
-                <i class="fa-light fa-message-sms text-xl"></i>
-                اطلاعیه پیامکی
-            </a>
+                <a href="{{ route('admin.notify.sms.index') }}"
+                    class="sidebar-link {{ sideBarMenuActiver(route('admin.notify.sms.index')) }}">
+                    <i class="fa-light fa-message-sms text-xl"></i>
+                    اطلاعیه پیامکی
+                </a>
             @endcan
 
 

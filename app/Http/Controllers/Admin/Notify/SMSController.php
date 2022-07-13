@@ -16,6 +16,7 @@ class SMSController extends Controller
      */
     public function index()
     {
+        $this->authorize('index', SMS::class);
         $smses = SMS::orderBy('created_at', 'desc')->simplePaginate(15);
         return view('admin.notify.sms.index', compact('smses'));
     }
@@ -27,6 +28,7 @@ class SMSController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', SMS::class);
         return view('admin.notify.sms.create');
     }
 
@@ -38,6 +40,7 @@ class SMSController extends Controller
      */
     public function store(SMSRequest $request)
     {
+        $this->authorize('create', SMS::class);
         
         $inputs = $request->all();
         $inputs['published_at'] = date('Y-m-d H:i:s', intval(substr($request->published_at, 0, 10)));
@@ -65,6 +68,7 @@ class SMSController extends Controller
      */
     public function edit(SMS $sms)
     {
+        $this->authorize('update', SMS::class);
         return view('admin.notify.sms.edit', compact('sms'));
     }
 
@@ -77,6 +81,7 @@ class SMSController extends Controller
      */
     public function update(SMSRequest $request, SMS $sms)
     {
+        $this->authorize('update', SMS::class);
         $inputs = $request->all();
         $inputs['published_at'] = date('Y-m-d H:i:s', intval(substr($request->published_at, 0, 10)));
         $sms->update($inputs);
@@ -91,12 +96,14 @@ class SMSController extends Controller
      */
     public function destroy(SMS $sms)
     {
+        $this->authorize('delete', SMS::class);
         $sms->delete();
         return redirect()->route('admin.notify.sms.index')->with('alertify-error', 'پیامک موردنظر با موفقیت حذف شد.');
     }
 
     public function status(SMS $sms)
     {
+        $this->authorize('update', SMS::class);
         $sms->status = $sms->status == 0 ? 1 : 0;
         $result = $sms->save();
 

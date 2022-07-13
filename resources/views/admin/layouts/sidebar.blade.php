@@ -396,12 +396,13 @@
                     اطلاعیه ایمیلی
                 </a>
             @endcan
-
+            @can('index', \App\Models\Notify\SMS::class)
             <a href="{{ route('admin.notify.sms.index') }}"
                 class="sidebar-link {{ sideBarMenuActiver(route('admin.notify.sms.index')) }}">
                 <i class="fa-light fa-message-sms text-xl"></i>
                 اطلاعیه پیامکی
             </a>
+            @endcan
 
 
             @can('index', \App\Models\Setting\Setting::class)

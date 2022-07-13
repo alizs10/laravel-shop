@@ -18,9 +18,10 @@
     <section class="flex flex-col gap-y-2 p-2 w-full">
         <div class="flex justify-between items-center">
             <span class="text-sm md:text-lg">اطلاعیه پیامکی</span>
-            <a href="{{ route('admin.notify.sms.create') }}" class="btn bg-blue-600 text-white">افزودن اعلامیه پیامکی جدید</a>
+            <a href="{{ route('admin.notify.sms.create') }}" class="btn bg-blue-600 text-white">افزودن اعلامیه پیامکی
+                جدید</a>
         </div>
-      
+
 
         <section class="bg-slate-200 dark:bg-slate-700 rounded-lg w-full">
 
@@ -52,20 +53,24 @@
                             </td>
                             <td>
                                 <span class="flex items-center gap-x-1">
-
-                                    <a href="{{ route('admin.notify.sms.edit', $sms->id) }}"
-                                        class="btn bg-yellow-500 text-black flex-center gap-1">
-                                        <i class="fa-light fa-pen-to-square"></i>
-                                        ویرایش
-                                    </a>
-                                    <form class="m-0" action="{{ route('admin.notify.sms.destroy', $sms->id) }}" method="POST">
-                                        @csrf
-                                        {{ method_field('delete') }}
-                                        <button class="btn bg-red-400 text-black flex-center gap-1 delBtn">
-                                            <i class="fa-light fa-trash-can"></i>
-                                            حذف
-                                        </button>
-                                    </form>
+                                    @can('update', \App\Models\Notify\SMS::class)
+                                        <a href="{{ route('admin.notify.sms.edit', $sms->id) }}"
+                                            class="btn bg-yellow-500 text-black flex-center gap-1">
+                                            <i class="fa-light fa-pen-to-square"></i>
+                                            ویرایش
+                                        </a>
+                                    @endcan
+                                    @can('delete', \App\Models\Notify\SMS::class)
+                                        <form class="m-0" action="{{ route('admin.notify.sms.destroy', $sms->id) }}"
+                                            method="POST">
+                                            @csrf
+                                            {{ method_field('delete') }}
+                                            <button class="btn bg-red-400 text-black flex-center gap-1 delBtn">
+                                                <i class="fa-light fa-trash-can"></i>
+                                                حذف
+                                            </button>
+                                        </form>
+                                    @endcan
 
 
                                 </span>

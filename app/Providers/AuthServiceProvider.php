@@ -5,10 +5,12 @@ namespace App\Providers;
 use App\Models\Content\Post;
 use App\Models\Notify\Email;
 use App\Models\Notify\EmailFile;
+use App\Models\Notify\SMS;
 use App\Models\User;
 use App\Models\User\Role;
 use App\Policies\Notify\EmailFilePolicy;
 use App\Policies\Notify\EmailPolicy;
+use App\Policies\Notify\SMSPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -23,6 +25,7 @@ class AuthServiceProvider extends ServiceProvider
         // 'App\Models\Model' => 'App\Policies\ModelPolicy',
         Email::class => EmailPolicy::class,
         EmailFile::class => EmailFilePolicy::class,
+        SMS::class => SMSPolicy::class,
     ];
 
     /**

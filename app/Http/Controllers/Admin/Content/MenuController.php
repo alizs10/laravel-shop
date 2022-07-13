@@ -17,6 +17,7 @@ class MenuController extends Controller
      */
     public function index()
     {
+        $this->authorize('index', Menu::class);
         $menus = Menu::orderBy('created_at', 'desc')->simplePaginate(15);
         return view('admin.content.menu.index', compact('menus'));
     }
@@ -28,6 +29,7 @@ class MenuController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Menu::class);
         $menus = Menu::all();
         return view('admin.content.menu.create', compact('menus'));
     }
@@ -40,6 +42,7 @@ class MenuController extends Controller
      */
     public function store(MenuRequest $request)
     {
+        $this->authorize('create', Menu::class);
         $inputs = $request->all();
         $inputs['url'] = Config::get('app.url') . '/' . $inputs['slug'];
         Menu::create($inputs);
@@ -65,6 +68,7 @@ class MenuController extends Controller
      */
     public function edit(Menu $menu)
     {
+        $this->authorize('update', Menu::class);
         $menus = Menu::all();
         return view('admin.content.menu.edit', compact('menus', 'menu'));
     }
@@ -78,6 +82,7 @@ class MenuController extends Controller
      */
     public function update(MenuRequest $request, Menu $menu)
     {
+        $this->authorize('update', Menu::class);
     
         $inputs = $request->all();
         if (!isset($inputs['parent_id']) && empty($inputs['parent_id']) && $inputs['parent_id'] === '') {
@@ -98,12 +103,14 @@ class MenuController extends Controller
      */
     public function destroy(Menu $menu)
     {
+        $this->authorize('delete', Menu::class);
         $menu->delete();
         return redirect()->route('admin.content.menu.index')->with('alertify-error', 'منو موردنظر با موفقیت حذف شد.');
     }
 
     public function status(Menu $menu)
     {
+        $this->authorize('update', Menu::class);
         $menu->status = $menu->status == 0 ? 1 : 0;
         $result = $menu->save();
 

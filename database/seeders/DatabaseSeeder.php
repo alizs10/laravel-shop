@@ -2,16 +2,17 @@
 
 namespace Database\Seeders;
 
-use Database\Seeders\Permissions\CommentPermissionSeeder;
-
-use Database\Seeders\Permissions\FAQPermissionSeeder;
-use Database\Seeders\Permissions\MenuPermissionSeeder;
+use Database\Seeders\Permissions\Content\AdvertisementBanerPermissionSeeder;
+use Database\Seeders\Permissions\Content\CommentPermissionSeeder;
+use Database\Seeders\Permissions\Content\FAQPermissionSeeder;
+use Database\Seeders\Permissions\Content\MenuPermissionSeeder;
+use Database\Seeders\Permissions\Content\PagePermissionSeeder;
+use Database\Seeders\Permissions\Content\PostCategoryPermissionSeeder;
+use Database\Seeders\Permissions\Content\PostPermissionSeeder;
 use Database\Seeders\Permissions\Notify\EmailFilePermissionSeeder;
 use Database\Seeders\Permissions\Notify\EmailPermissionSeeder;
 use Database\Seeders\Permissions\Notify\SMSPermissionSeeder;
-use Database\Seeders\Permissions\PagePermissionSeeder;
-use Database\Seeders\Permissions\PostCategoryPermissionSeeder;
-use Database\Seeders\Permissions\PostPermissionSeeder;
+
 use Database\Seeders\Permissions\RolePermissionSeeder;
 use Database\Seeders\Permissions\SettingPermissionSeeder;
 use Database\Seeders\Permissions\Ticket\TicketAdminPermissionSeeder;
@@ -31,21 +32,31 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
-            // PostPermissionSeeder::class,
+            //content
             // PostCategoryPermissionSeeder::class,
+            // PostPermissionSeeder::class,
             // FAQPermissionSeeder::class,
             // MenuPermissionSeeder::class,
             // PagePermissionSeeder::class,
             // CommentPermissionSeeder::class,
+            // AdvertisementBanerPermissionSeeder::class,
+
+            //user
             // RolePermissionSeeder::class,
             // UserPermissionSeeder::class,
+
+            //tickets
             // TicketPermissionSeeder::class,
             // TicketAdminPermissionSeeder::class,
             // TicketPriorityPermissionSeeder::class,
             // TicketCategoryPermissionSeeder::class,
+
+            //notify
             // EmailPermissionSeeder::class,
             // EmailFilePermissionSeeder::class,
             // SMSPermissionSeeder::class,
+
+            //setting
             // SettingPermissionSeeder::class,
         ]);
     }

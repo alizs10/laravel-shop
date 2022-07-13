@@ -2,7 +2,11 @@
 
 namespace App\Providers;
 
+use App\Models\Content\AdvertisementBaner;
+use App\Models\Content\Faq;
+use App\Models\Content\Page;
 use App\Models\Content\Post;
+use App\Models\Content\PostCategory;
 use App\Models\Notify\Email;
 use App\Models\Notify\EmailFile;
 use App\Models\Notify\SMS;
@@ -12,6 +16,12 @@ use App\Models\Ticket\TicketCategory;
 use App\Models\Ticket\TicketPriority;
 use App\Models\User;
 use App\Models\User\Role;
+use App\Policies\Content\AdvertisementBanerPolicy;
+use App\Policies\Content\CommentPolicy;
+use App\Policies\Content\FaqPolicy;
+use App\Policies\Content\PagePolicy;
+use App\Policies\Content\PostCategoryPolicy;
+use App\Policies\Content\PostPolicy;
 use App\Policies\Notify\EmailFilePolicy;
 use App\Policies\Notify\EmailPolicy;
 use App\Policies\Notify\SMSPolicy;
@@ -33,16 +43,29 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         // 'App\Models\Model' => 'App\Policies\ModelPolicy',
+
+        //notify
         Email::class => EmailPolicy::class,
         EmailFile::class => EmailFilePolicy::class,
         SMS::class => SMSPolicy::class,
+        
+        //tickets
         Ticket::class => TicketPolicy::class,
         TicketAdmin::class => TicketAdminPolicy::class,
         TicketPriority::class => TicketPriorityPolicy::class,
         TicketCategory::class => TicketCategoryPolicy::class,
+        
+        //user
         User::class => UserPolicy::class,
         Role::class => RolePolicy::class,
         
+        //content
+        PostCategory::class => PostCategoryPolicy::class,
+        Post::class => PostPolicy::class,
+        Comment::class => CommentPolicy::class,
+        AdvertisementBaner::class => AdvertisementBanerPolicy::class,
+        Faq::class => FaqPolicy::class,
+        Page::class => PagePolicy::class,
     ];
 
     /**

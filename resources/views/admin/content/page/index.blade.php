@@ -18,7 +18,9 @@
     <section class="flex flex-col gap-y-2 p-2 w-full">
         <div class="flex justify-between items-center">
             <span class="text-sm md:text-lg">پیج ساز</span>
-            <a href="{{ route('admin.content.page.create') }}" class="btn bg-blue-600 text-white">افزودن پیج جدید</a>
+            @can('create', \App\Models\Content\Page::class)
+                <a href="{{ route('admin.content.page.create') }}" class="btn bg-blue-600 text-white">افزودن پیج جدید</a>
+            @endcan
         </div>
 
 
@@ -44,30 +46,34 @@
                             <td>{{ $page->title }}</td>
                             <td>{{ $page->url() }}</td>
                             <td>{{ $page->tags }}</td>
-                            <td>
-                                <input type="checkbox" id="status-{{ $page->id }}"
-                                    data-url="{{ route('admin.content.page.status', $page->id) }}"
-                                    onchange="changeStatus({{ $page->id }})"
-                                    @if ($page->status === 1) checked @endif>
-                            </td>
+                            @can('update', \App\Models\Content\Page::class)
+                                <td>
+                                    <input type="checkbox" id="status-{{ $page->id }}"
+                                        data-url="{{ route('admin.content.page.status', $page->id) }}"
+                                        onchange="changeStatus({{ $page->id }})"
+                                        @if ($page->status === 1) checked @endif>
+                                </td>
+                            @endcan
                             <td>
                                 <span class="flex items-center gap-x-1">
-
-                                    <a href="{{ route('admin.content.page.edit', $page->id) }}"
-                                        class="btn bg-yellow-500 text-black flex-center gap-1">
-                                        <i class="fa-light fa-pen-to-square"></i>
-                                        ویرایش
-                                    </a>
-                                    <form class="m-0"
-                                    action="{{ route('admin.content.page.destroy', $page->id) }}" method="POST">
-                                        @csrf
-                                        {{ method_field('delete') }}
-                                        <button class="btn bg-red-400 text-black flex-center gap-1 delBtn">
-                                            <i class="fa-light fa-trash-can"></i>
-                                            حذف
-                                        </button>
-                                    </form>
-
+                                    @can('update', \App\Models\Content\Page::class)
+                                        <a href="{{ route('admin.content.page.edit', $page->id) }}"
+                                            class="btn bg-yellow-500 text-black flex-center gap-1">
+                                            <i class="fa-light fa-pen-to-square"></i>
+                                            ویرایش
+                                        </a>
+                                    @endcan
+                                    @can('delete', \App\Models\Content\Page::class)
+                                        <form class="m-0" action="{{ route('admin.content.page.destroy', $page->id) }}"
+                                            method="POST">
+                                            @csrf
+                                            {{ method_field('delete') }}
+                                            <button class="btn bg-red-400 text-black flex-center gap-1 delBtn">
+                                                <i class="fa-light fa-trash-can"></i>
+                                                حذف
+                                            </button>
+                                        </form>
+                                    @endcan
 
                                 </span>
                             </td>

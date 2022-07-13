@@ -17,6 +17,7 @@ class AdvertisementBanerController extends Controller
      */
     public function index()
     {
+        $this->authorize('index', AdvertisementBaner::class);
         $baners = AdvertisementBaner::all();
         $positions = AdvertisementBaner::$positions;
         return view('admin.content.advertisement-baner.index', compact('baners', 'positions'));
@@ -29,6 +30,7 @@ class AdvertisementBanerController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', AdvertisementBaner::class);
         $positions = AdvertisementBaner::$positions;
         return view('admin.content.advertisement-baner.create', compact('positions'));
     }
@@ -41,6 +43,7 @@ class AdvertisementBanerController extends Controller
      */
     public function store(AdvertisementBanerRequest $request, ImageService $imageService)
     {
+        $this->authorize('create', AdvertisementBaner::class);
         $inputs = $request->all();
         if ($request->hasFile('image')) {
 
@@ -74,6 +77,7 @@ class AdvertisementBanerController extends Controller
      */
     public function edit(AdvertisementBaner $baner)
     {
+        $this->authorize('update', AdvertisementBaner::class);
         $positions = AdvertisementBaner::$positions;
         return view('admin.content.advertisement-baner.edit', compact('baner', 'positions'));
     }
@@ -87,6 +91,7 @@ class AdvertisementBanerController extends Controller
      */
     public function update(AdvertisementBanerRequest $request, AdvertisementBaner $baner, ImageService $imageService)
     {
+        $this->authorize('update', AdvertisementBaner::class);
         $inputs = $request->all();
         if ($request->hasFile('image')) {
 
@@ -110,12 +115,14 @@ class AdvertisementBanerController extends Controller
      */
     public function destroy(AdvertisementBaner $baner)
     {
+        $this->authorize('delete', AdvertisementBaner::class);
         $baner->delete();
         return redirect()->route('admin.content.advertisement-baner.index')->with('alertify-error', 'بنر موردنظر با موفقیت حذف شد.');
     }
 
     public function status(AdvertisementBaner $baner)
     {
+        $this->authorize('update', AdvertisementBaner::class);
         $baner->status = $baner->status == 0 ? 1 : 0;
         $result = $baner->save();
 

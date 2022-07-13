@@ -22,4 +22,11 @@ class Menu extends Model
     {
         return $parent_name = Menu::find($parent_id)->name;
     }
+
+
+    public const CAN_VIEW_ID = 211;
+    public const CAN_CREATE_ID = 212;
+    public const CAN_UPDATE_ID = 213;
+    public const CAN_DELETE_ID = 214;
+    public const CAN_ALL_ID = 215;
 }

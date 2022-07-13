@@ -18,6 +18,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
+        $this->authorize('index', PostCategory::class);
         $postCategories = PostCategory::orderBy('created_at', 'desc')->simplePaginate(10);
         return view('admin.content.category.index', compact('postCategories'));
         
@@ -30,6 +31,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', PostCategory::class);
         return view('admin.content.category.create');
     }
 
@@ -41,6 +43,7 @@ class CategoryController extends Controller
      */
     public function store(PostCategoryRequest $request, ImageService $imageService)
     {
+        $this->authorize('create', PostCategory::class);
         $inputs = $request->all();
         
         if ($request->hasFile('image')) {
@@ -76,6 +79,7 @@ class CategoryController extends Controller
      */
     public function edit(PostCategory $postCategory)
     {
+        $this->authorize('update', PostCategory::class);
         return view('admin.content.category.edit', compact('postCategory'));
     }
 
@@ -88,6 +92,7 @@ class CategoryController extends Controller
      */
     public function update(PostCategoryRequest $request, PostCategory $postCategory, ImageService $imageService)
     {
+        $this->authorize('update', PostCategory::class);
         $inputs = $request->all();
         if ($request->hasFile('image')) {
             
@@ -118,12 +123,14 @@ class CategoryController extends Controller
      */
     public function destroy(PostCategory $postCategory)
     {
+        $this->authorize('delete', PostCategory::class);
         $postCategory->delete();
         return redirect()->route('admin.content.category.index')->with('alertify-error', 'دسته بندی موردنظر با موفقیت حذف شد.');
     }
 
     public function status(PostCategory $postCategory)
     {
+        $this->authorize('update', PostCategory::class);
         $postCategory->status = $postCategory->status == 0 ? 1 : 0;
         $result = $postCategory->save();
 

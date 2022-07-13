@@ -46,7 +46,7 @@ class PostController extends Controller
      */
     public function store(PostRequest $request, ImageService $imageService)
     {
-        $this->authorize('store', Post::class);
+        $this->authorize('create', Post::class);
 
         $inputs = $request->all();
         $inputs['published_at'] = date('Y-m-d', intval(substr($request->published_at, 0, 10)));
@@ -93,7 +93,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        $this->authorize('edit', $post);
+        $this->authorize('update', $post);
 
         $postCategories = PostCategory::all();
         return view('admin.content.post.edit', compact('post', 'postCategories'));
@@ -145,6 +145,7 @@ class PostController extends Controller
 
     public function status(Post $post)
     {
+        $this->authorize('update', $post);
    
         $post->status = $post->status == 0 ? 1 : 0;
         $result = $post->save();
@@ -163,6 +164,7 @@ class PostController extends Controller
 
     public function commentable(Post $post)
     {
+        $this->authorize('update', $post);
         $post->commentable = $post->commentable == 0 ? 1 : 0;
         $result = $post->save();
 

@@ -37,4 +37,11 @@ class Comment extends Model
         return $this->morphMany('App\Models\Like', 'likable');
     }
 
+
+
+    public const CAN_VIEW_ID = 221;
+    public const CAN_ANSWER_ID = 222;
+    public const CAN_UPDATE_ID = 223;
+    public const CAN_DELETE_ID = 224;
+    public const CAN_ALL_ID = 225;
 }

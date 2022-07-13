@@ -16,6 +16,7 @@ class CommentController extends Controller
      */
     public function index()
     {
+        $this->authorize('index', Commnet::class);
         $comments = Comment::orderBy('created_at', 'desc')->where('commentable_type', 'App\Models\Content\Post')->simplePaginate(15);
         return view('admin.content.comment.index', compact('comments'));
     }
@@ -38,6 +39,7 @@ class CommentController extends Controller
      */
     public function store(CommentRequest $request, Comment $comment)
     {
+        $this->authorize('create', Commnet::class);
         $inputs = $request->all();
         $inputs['author_id'] = 10;
         $inputs['commentable_type'] = $comment->commentable_type;
@@ -58,6 +60,7 @@ class CommentController extends Controller
      */
     public function show(Comment $comment)
     {
+        $this->authorize('index', Commnet::class);
         if (!$comment->seen) {
             $comment->seen = 1;
             $result = $comment->save();
@@ -77,6 +80,7 @@ class CommentController extends Controller
      */
     public function edit(Comment $comment)
     {
+        $this->authorize('update', Commnet::class);
         return view('admin.content.comment.edit', compact('comment'));
     }
 
@@ -89,6 +93,8 @@ class CommentController extends Controller
      */
     public function update(CommentRequest $request, Comment $comment)
     {
+        $this->authorize('update', Commnet::class);
+
         $inputs = $request->all();
         $comment->update($inputs);
         return redirect()->route('admin.content.comment.index')->with('alertify-warning', 'پاسخ شما با موفقیت ویرایش شد.');
@@ -107,6 +113,8 @@ class CommentController extends Controller
 
     public function status(Comment $comment)
     {
+        $this->authorize('update', Commnet::class);
+
         $comment->status = $comment->status == 0 ? 1 : 0;
         $result = $comment->save();
 
@@ -122,6 +130,8 @@ class CommentController extends Controller
 
     public function approve(Comment $comment)
     {
+        $this->authorize('update', Commnet::class);
+
         $comment->approved = $comment->approved == 0 ? 1 : 0;
         $result = $comment->save();
 

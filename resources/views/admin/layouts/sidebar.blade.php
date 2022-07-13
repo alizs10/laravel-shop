@@ -246,12 +246,13 @@
             </a>
 
             <span class="text-gray-500 text-xs">بخش محتوی</span>
-
-            <a href="{{ route('admin.content.category.index') }}"
-                class="sidebar-link {{ sideBarMenuActiver(route('admin.content.category.index')) }}">
-                <i class="fa-light fa-folder-tree text-xl"></i>
-                دسته بندی
-            </a>
+            @can('index', \App\Models\Content\PostCategory::class)
+                <a href="{{ route('admin.content.category.index') }}"
+                    class="sidebar-link {{ sideBarMenuActiver(route('admin.content.category.index')) }}">
+                    <i class="fa-light fa-folder-tree text-xl"></i>
+                    دسته بندی
+                </a>
+            @endcan
 
             @can('index', \App\Models\Content\Post::class)
                 <a href="{{ route('admin.content.post.index') }}"
@@ -260,33 +261,41 @@
                     پست ها
                 </a>
             @endcan
-
-            <a href="{{ route('admin.content.comment.index') }}"
-                class="sidebar-link {{ sideBarMenuActiver(route('admin.content.comment.index')) }}">
-                <i class="fa-light fa-comments text-xl"></i>
-                نظرات
-            </a>
-            <a href="{{ route('admin.content.menu.index') }}"
-                class="sidebar-link {{ sideBarMenuActiver(route('admin.content.menu.index')) }}">
-                <i class="fa-light fa-bars text-xl"></i>
-                منو
-            </a>
-            <a href="{{ route('admin.content.advertisement-baner.index') }}"
-                class="sidebar-link {{ sideBarMenuActiver(route('admin.content.advertisement-baner.index')) }}">
-                <i class="fa-light fa-rectangle-ad text-xl"></i>
-                بنرهای تبلیغاتی
-            </a>
-            <a href="{{ route('admin.content.faq.index') }}"
-                class="sidebar-link {{ sideBarMenuActiver(route('admin.content.faq.index')) }}">
-                <i class="fa-light fa-comments-question-check text-xl"></i>
-                سوالات متداول
-            </a>
-            <a href="{{ route('admin.content.page.index') }}"
-                class="sidebar-link {{ sideBarMenuActiver(route('admin.content.page.index')) }}">
-                <i class="fa-light fa-file-circle-plus text-xl"></i>
-                پیج ساز
-            </a>
-
+            @can('index', \App\Models\Comment::class)
+                <a href="{{ route('admin.content.comment.index') }}"
+                    class="sidebar-link {{ sideBarMenuActiver(route('admin.content.comment.index')) }}">
+                    <i class="fa-light fa-comments text-xl"></i>
+                    نظرات
+                </a>
+            @endcan
+            @can('index', \App\Models\Content\Menu::class)
+                <a href="{{ route('admin.content.menu.index') }}"
+                    class="sidebar-link {{ sideBarMenuActiver(route('admin.content.menu.index')) }}">
+                    <i class="fa-light fa-bars text-xl"></i>
+                    منو
+                </a>
+            @endcan
+            @can('index', \App\Models\Content\AdvertisementBaner::class)
+                <a href="{{ route('admin.content.advertisement-baner.index') }}"
+                    class="sidebar-link {{ sideBarMenuActiver(route('admin.content.advertisement-baner.index')) }}">
+                    <i class="fa-light fa-rectangle-ad text-xl"></i>
+                    بنرهای تبلیغاتی
+                </a>
+            @endcan
+            @can('index', \App\Models\Content\Faq::class)
+                <a href="{{ route('admin.content.faq.index') }}"
+                    class="sidebar-link {{ sideBarMenuActiver(route('admin.content.faq.index')) }}">
+                    <i class="fa-light fa-comments-question-check text-xl"></i>
+                    سوالات متداول
+                </a>
+            @endcan
+            @can('index', \App\Models\Content\Page::class)
+                <a href="{{ route('admin.content.page.index') }}"
+                    class="sidebar-link {{ sideBarMenuActiver(route('admin.content.page.index')) }}">
+                    <i class="fa-light fa-file-circle-plus text-xl"></i>
+                    پیج ساز
+                </a>
+            @endcan
             @can('index', \App\Models\User::class)
                 <span class="text-gray-500 text-xs">بخش کاربران</span>
 

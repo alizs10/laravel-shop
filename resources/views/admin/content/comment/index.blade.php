@@ -54,20 +54,23 @@
                                 {{ $comment->approved ? 'تایید شده' : 'در انتظار تایید' }}</td>
                             <td>
                                 <span class="flex items-center gap-x-1">
-                                    <a href="{{ route('admin.content.comment.show', $comment->id) }}"
-                                        class="btn text-white bg-blue-600 flex-center gap-1">
-                                        <i class="fa-light fa-eye"></i>
-                                        دیدن
-                                    </a>
-                                    <button data-url=" {{ route('admin.content.comment.approve', $comment->id) }}"
-                                        onclick="approve({{ $comment->id }})" id="approve-{{ $comment->id }}"
-                                        class="btn {{ $comment->approved === 1 ? 'bg-red-400' : 'bg-emerald-400' }} text-black flex-center gap-1">
+                                    @can('index', \App\Models\Comment::class)
+                                        <a href="{{ route('admin.content.comment.show', $comment->id) }}"
+                                            class="btn text-white bg-blue-600 flex-center gap-1">
+                                            <i class="fa-light fa-eye"></i>
+                                            دیدن
+                                        </a>
+                                    @endcan
+                                    @can('update', \App\Models\Comment::class)
+                                        <button data-url=" {{ route('admin.content.comment.approve', $comment->id) }}"
+                                            onclick="approve({{ $comment->id }})" id="approve-{{ $comment->id }}"
+                                            class="btn {{ $comment->approved === 1 ? 'bg-red-400' : 'bg-emerald-400' }} text-black flex-center gap-1">
 
-                                        <span>
-                                            {{ $comment->approved === 1 ? 'عدم تایید' : 'تایید' }}
-                                        </span>
-                                    </button>
-
+                                            <span>
+                                                {{ $comment->approved === 1 ? 'عدم تایید' : 'تایید' }}
+                                            </span>
+                                        </button>
+                                    @endcan
 
                                 </span>
                             </td>

@@ -22,4 +22,10 @@ class Faq extends Model
 
     protected $fillable = ['question', 'slug', 'answer', 'status', 'tags'];
 
+
+    public const CAN_VIEW_ID = 206;
+    public const CAN_CREATE_ID = 207;
+    public const CAN_UPDATE_ID = 208;
+    public const CAN_DELETE_ID = 209;
+    public const CAN_ALL_ID = 210;
 }

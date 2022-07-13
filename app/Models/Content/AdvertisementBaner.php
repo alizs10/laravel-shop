@@ -26,4 +26,11 @@ class AdvertisementBaner extends Model
         '2' => 'تبلیغ زیر محصولات پیشنهادی',
         '3' => 'تبلیغ زیر بازدید های اخیر',
     ];
+
+
+    public const CAN_VIEW_ID = 226;
+    public const CAN_CREATE_ID = 227;
+    public const CAN_UPDATE_ID = 228;
+    public const CAN_DELETE_ID = 229;
+    public const CAN_ALL_ID = 230;
 }

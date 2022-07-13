@@ -16,6 +16,7 @@ class PageController extends Controller
      */
     public function index()
     {
+        $this->authorize('index', Page::class);
         $pages = Page::orderBy('created_at')->simplePaginate(15);
         return view('admin.content.page.index', compact('pages'));
 
@@ -28,6 +29,7 @@ class PageController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Page::class);
         return view('admin.content.page.create');
     }
 
@@ -39,6 +41,7 @@ class PageController extends Controller
      */
     public function store(PageRequest $request)
     {
+        $this->authorize('create', Page::class);
         $inputs = $request->all();
         Page::create($inputs);
         return redirect()->route('admin.content.page.index')->with('alertify-success', 'صفحه جدید با موفقیت ساخته شد.');
@@ -63,6 +66,7 @@ class PageController extends Controller
      */
     public function edit(Page $page)
     {
+        $this->authorize('update', Page::class);
         return view('admin.content.page.edit', compact('page'));
     }
 
@@ -75,6 +79,7 @@ class PageController extends Controller
      */
     public function update(PageRequest $request, Page $page)
     {
+        $this->authorize('update', Page::class);
         $inputs = $request->all();
         $page->update($inputs);
         return redirect()->route('admin.content.page.index')->with('alertify-warning', 'صفحه موردنظر با موفقیت ویرایش شد.');
@@ -88,12 +93,14 @@ class PageController extends Controller
      */
     public function destroy(Page $page)
     {
+        $this->authorize('delete', Page::class);
         $page->delete();
         return redirect()->route('admin.content.page.index')->with('alertify-error', 'صفحه موردنظر با موفقیت حذف شد.');
     }
 
     public function status(Page $page)
     {
+        $this->authorize('update', Page::class);
         $page->status = $page->status == 0 ? 1 : 0;
         $result = $page->save();
 

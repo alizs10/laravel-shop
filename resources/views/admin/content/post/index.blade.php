@@ -18,7 +18,7 @@
     <section class="flex flex-col gap-y-2 p-2 w-full">
         <div class="flex justify-between items-center">
             <span class="text-sm md:text-lg">پست ها</span>
-            @can('create', \App\Models\Content\POST::class)
+            @can('create', \App\Models\Content\Post::class)
                 <a href="{{ route('admin.content.post.create') }}" class="btn bg-blue-600 text-white">افزودن پست جدید</a>
             @endcan
         </div>
@@ -57,7 +57,7 @@
                                         alt="">
                                 @endif
                             </td>
-                            @can('view', $post)
+                            @can('update', $post)
                                 <td>
                                     <input type="checkbox" id="commentable-{{ $post->id }}"
                                         data-url="{{ route('admin.content.post.commentable', $post->id) }}"
@@ -70,15 +70,17 @@
                                         onchange="changeStatus({{ $post->id }})"
                                         @if ($post->status === 1) checked @endif>
                                 </td>
-
-                                <td>
-                                    <span class="flex items-center gap-x-1">
-
+                            @endcan
+                            <td>
+                                <span class="flex items-center gap-x-1">
+                                    @can('update', $post)
                                         <a href="{{ route('admin.content.post.edit', $post->id) }}"
                                             class="btn bg-yellow-500 text-black flex-center gap-1">
                                             <i class="fa-light fa-pen-to-square"></i>
                                             ویرایش
                                         </a>
+                                    @endcan
+                                    @can('delete', $post)
                                         <form class="m-0" action="{{ route('admin.content.post.destroy', $post->id) }}"
                                             method="POST">
                                             @csrf
@@ -88,11 +90,11 @@
                                                 حذف
                                             </button>
                                         </form>
+                                    @endcan
 
+                                </span>
+                            </td>
 
-                                    </span>
-                                </td>
-                            @endcan
 
                         </tr>
                     @endforeach

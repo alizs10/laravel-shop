@@ -18,7 +18,10 @@
     <section class="flex flex-col gap-y-2 p-2 w-full">
         <div class="flex justify-between items-center">
             <span class="text-sm md:text-lg">بنرهای تبلیغاتی</span>
-            <a href="{{ route('admin.content.advertisement-baner.create') }}" class="btn bg-blue-600 text-white">افزودن بنر جدید</a>
+            @can('create', \App\Models\Content\AdvertisementBaner::class)
+                <a href="{{ route('admin.content.advertisement-baner.create') }}" class="btn bg-blue-600 text-white">افزودن
+                    بنر جدید</a>
+            @endcan
         </div>
 
 
@@ -50,30 +53,35 @@
                             </td>
                             <td>{{ Str::limit($baner->url, 30, '...') }}</td>
                             <td>{{ $positions[$baner->position] }}</td>
-                            <td>
-                                <input type="checkbox" id="status-{{ $baner->id }}"
-                                    data-url="{{ route('admin.content.advertisement-baner.status', $baner->id) }}"
-                                    onchange="changeStatus({{ $baner->id }})"
-                                    @if ($baner->status === 1) checked @endif>
-                            </td>
+                            @can('update', \App\Models\Content\AdvertisementBaner::class)
+                                <td>
+                                    <input type="checkbox" id="status-{{ $baner->id }}"
+                                        data-url="{{ route('admin.content.advertisement-baner.status', $baner->id) }}"
+                                        onchange="changeStatus({{ $baner->id }})"
+                                        @if ($baner->status === 1) checked @endif>
+                                </td>
+                            @endcan
                             <td>
                                 <span class="flex items-center gap-x-1">
-
-                                    <a href="{{ route('admin.content.advertisement-baner.edit', $baner->id) }}"
-                                        class="btn bg-yellow-500 text-black flex-center gap-1">
-                                        <i class="fa-light fa-pen-to-square"></i>
-                                        ویرایش
-                                    </a>
-                                    <form class="m-0"
-                                        action="{{ route('admin.content.advertisement-baner.destroy', $baner->id) }}" method="POST">
-                                        @csrf
-                                        {{ method_field('delete') }}
-                                        <button class="btn bg-red-400 text-black flex-center gap-1 delBtn">
-                                            <i class="fa-light fa-trash-can"></i>
-                                            حذف
-                                        </button>
-                                    </form>
-
+                                    @can('update', \App\Models\Content\AdvertisementBaner::class)
+                                        <a href="{{ route('admin.content.advertisement-baner.edit', $baner->id) }}"
+                                            class="btn bg-yellow-500 text-black flex-center gap-1">
+                                            <i class="fa-light fa-pen-to-square"></i>
+                                            ویرایش
+                                        </a>
+                                    @endcan
+                                    @can('delete', \App\Models\Content\AdvertisementBaner::class)
+                                        <form class="m-0"
+                                            action="{{ route('admin.content.advertisement-baner.destroy', $baner->id) }}"
+                                            method="POST">
+                                            @csrf
+                                            {{ method_field('delete') }}
+                                            <button class="btn bg-red-400 text-black flex-center gap-1 delBtn">
+                                                <i class="fa-light fa-trash-can"></i>
+                                                حذف
+                                            </button>
+                                        </form>
+                                    @endcan
 
                                 </span>
                             </td>

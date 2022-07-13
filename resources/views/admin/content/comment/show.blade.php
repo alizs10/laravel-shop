@@ -51,18 +51,19 @@
                 {{ html_entity_decode(strip_tags($comment->body)) }}
             </p>
         </div>
+        @can('answer', \App\Models\Comment::class)
+            <span class="text-sm {{ $errors->has('body') ? 'text-red-600 dark:text-red-400' : 'text-gray-500' }}">پاسخ
+                ادمین</span>
 
-        <span class="text-sm {{ $errors->has('body') ? 'text-red-600 dark:text-red-400' : 'text-gray-500' }}">پاسخ
-            ادمین</span>
-
-        <form action="{{ route('admin.content.comment.store', $comment->id) }}" method="POST" class="w-full">
-            @csrf
-            <section class="w-full flex flex-col gap-y-2">
-                <textarea name="body" id="body" rows="6">{{ old('body') }}</textarea>
-                <button class="col-span-2 py-2 rounded-lg bg-emerald-600 text-white text-sm md:text-base">ارسال
-                    پاسخ</button>
-            </section>
-        </form>
+            <form action="{{ route('admin.content.comment.store', $comment->id) }}" method="POST" class="w-full">
+                @csrf
+                <section class="w-full flex flex-col gap-y-2">
+                    <textarea name="body" id="body" rows="6">{{ old('body') }}</textarea>
+                    <button class="col-span-2 py-2 rounded-lg bg-emerald-600 text-white text-sm md:text-base">ارسال
+                        پاسخ</button>
+                </section>
+            </form>
+        @endcan
     </section>
 
 @endsection

@@ -33,8 +33,11 @@ class Post extends Model
         return $this->belongsTo(User::class, 'author_id');
     }
 
-    const CAN_CREATE_ID = 102;
-    const CAN_UPDATE_ID = 103;
-    const DELETE_ID = 105;
-    const CAN_VIEW_ID = 104;
+
+    public const CAN_VIEW_ID = 201;
+    public const CAN_CREATE_ID = 202;
+    public const CAN_UPDATE_ID = 203;
+    public const CAN_DELETE_ID = 204;
+    public const CAN_ALL_ID = 205;
+
 }

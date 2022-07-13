@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders\Permissions;
+namespace Database\Seeders\Permissions\Notify;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -18,7 +18,8 @@ class EmailPermissionSeeder extends Seeder
             ['name' => 'ایجاد اطلاعیه ایمیلی', 'status' => 1],
             ['name' => 'ویرایش اطلاعیه ایمیلی', 'status' => 1],
             ['name' => 'دیدن اطلاعیه ایمیلی', 'status' => 1],
-            ['name' => 'حذف اطلاعیه ایمیلی', 'status' => 1]
+            ['name' => 'حذف اطلاعیه ایمیلی', 'status' => 1],
+            ['name' => 'همه دسترسی ها (اطلاعیه های ایمیلی)', 'status' => 1],
         ]);
     }
 }

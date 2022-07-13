@@ -12,4 +12,7 @@ class Setting extends Model
     protected $fillable = ['title', 'description', 'keywords', 'icon', 'logo'];
 
     protected $casts = ['logo' => 'array', 'icon' => 'array'];
+
+    public const CAN_VIEW_ID = 159;
+    public const CAN_UPDATE_ID = 160;
 }

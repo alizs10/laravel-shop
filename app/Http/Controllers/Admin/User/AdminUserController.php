@@ -174,42 +174,19 @@ class AdminUserController extends Controller
     {
 
         $request->validate([
-            'role_id' => 'required|array|min:1',
-            'role_id.*' => 'required|numeric|exists:roles,id'
+            'role_id' => 'nullable|array|min:1',
+            'role_id.*' => 'nullable|numeric|exists:roles,id'
         ]);
+     
 
-
-        $inputs = $request->all();
-        global $oldUserRoleIDsArray;
-        $oldUserRoleIDsArray = RoleUser::select('role_id')->where('user_id', $admin->id)->get()->pluck('role_id')->toArray();
-
-        global $newUserRoleIds;
-        $newUserRoleIds = $inputs['role_id'];
-
-        foreach ($newUserRoleIds as $newValue) {
-            global $oldUserRoleIDsArray;
-            if (in_array($newValue, $oldUserRoleIDsArray)) {
-                unset($newValue, $newUserRoleIds);
-                unset($newValue, $oldUserRoleIDsArray);
-            }
+        if ($request->has('role_id')) {
+            
+            $inputs = $request->only('role_id');
+            
+            $admin->roles()->sync($inputs['role_id']);
+        } else {
+            $admin->roles()->sync([]);
         }
-        global $oldUserRoleIDsArray;
-        if ($oldUserRoleIDsArray) {
-            foreach ($oldUserRoleIDsArray as $oldUserRoleID) {
-                RoleUser::where('role_id', $oldUserRoleID)->where('user_id', $admin->id)->delete();
-            }
-        }
-        global $newUserRoleIds;
-        if ($newUserRoleIds) {
-            foreach ($newUserRoleIds as $value) {
-                RoleUser::create([
-                    'role_id' => $value,
-                    'user_id' => $admin->id,
-                    'created_at' => now()
-                ]);
-            }
-        }
-
         return redirect()->route('admin.user.admin-user.index')->with('alertify-success', 'نقش های ادمین تغییر کرد.');
     }
 }

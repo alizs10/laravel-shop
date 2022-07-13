@@ -3,14 +3,16 @@
 namespace Database\Seeders;
 
 use Database\Seeders\Permissions\CommentPermissionSeeder;
-use Database\Seeders\Permissions\EmailPermissionSeeder;
+
 use Database\Seeders\Permissions\FAQPermissionSeeder;
 use Database\Seeders\Permissions\MenuPermissionSeeder;
+use Database\Seeders\Permissions\Notify\EmailPermissionSeeder;
+use Database\Seeders\Permissions\Notify\SMSPermissionSeeder;
 use Database\Seeders\Permissions\PagePermissionSeeder;
 use Database\Seeders\Permissions\PostCategoryPermissionSeeder;
 use Database\Seeders\Permissions\PostPermissionSeeder;
 use Database\Seeders\Permissions\SettingPermissionSeeder;
-use Database\Seeders\Permissions\SMSPermissionSeeder;
+
 use Database\Seeders\Permissions\TicketAdminPermissionSeeder;
 use Database\Seeders\Permissions\TicketCategoryPermissionSeeder;
 use Database\Seeders\Permissions\TicketPermissionSeeder;
@@ -37,9 +39,9 @@ class DatabaseSeeder extends Seeder
             // TicketAdminPermissionSeeder::class,
             // TicketCategoryPermissionSeeder::class,
             // TicketPriorityPermissionSeeder::class,
-            // EmailPermissionSeeder::class,
-            // SMSPermissionSeeder::class,
-            // SettingPermissionSeeder::class,
+            EmailPermissionSeeder::class,
+            SMSPermissionSeeder::class,
+            SettingPermissionSeeder::class,
         ]);
     }
 }

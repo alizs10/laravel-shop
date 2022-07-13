@@ -15,8 +15,8 @@ class SettingPermissionSeeder extends Seeder
     public function run()
     {
         DB::table('permissions')->insert([
+            ['name' => 'دیدن تنظیمات', 'status' => 1],
             ['name' => 'ویرایش تنظیمات', 'status' => 1],
-            ['name' => 'دیدن تنظیمات', 'status' => 1]
         ]);
     }
 }

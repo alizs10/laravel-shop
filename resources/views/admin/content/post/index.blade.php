@@ -18,7 +18,9 @@
     <section class="flex flex-col gap-y-2 p-2 w-full">
         <div class="flex justify-between items-center">
             <span class="text-sm md:text-lg">پست ها</span>
-            <a href="{{ route('admin.content.post.create') }}" class="btn bg-blue-600 text-white">افزودن پست جدید</a>
+            @can('create', \App\Models\Content\POST::class)
+                <a href="{{ route('admin.content.post.create') }}" class="btn bg-blue-600 text-white">افزودن پست جدید</a>
+            @endcan
         </div>
 
 
@@ -31,9 +33,10 @@
                         <th>#</th>
                         <th>عنوان پست</th>
                         <th>دسته</th>
-                        <th>اسلاگ</th>
+                        <th>نویسنده</th>
+
                         <th>تصویر</th>
-                        <th>تگ ها</th>
+
                         <th>نظرات</th>
                         <th>وضعیت</th>
                         <th>عملیات</th>
@@ -46,46 +49,50 @@
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $post->title }}</td>
                             <td>{{ $post->postCategory->name }}</td>
-                            <td>{{ $post->slug }}</td>
+                            <td>{{ $post->author->fullName }}</td>
+
                             <td>
                                 @if ($post->image)
-                                    <img src="{{ asset('storage\\' . $post->image['indexArray']['small']) }}" alt="">
+                                    <img src="{{ asset('storage\\' . $post->image['indexArray']['small']) }}"
+                                        alt="">
                                 @endif
                             </td>
-                            <td>{{ $post->tags }}</td>
-                            <td>
-                                <input type="checkbox" id="commentable-{{ $post->id }}"
-                                    data-url="{{ route('admin.content.post.commentable', $post->id) }}"
-                                    onchange="commentable({{ $post->id }})"
-                                    @if ($post->commentable === 1) checked @endif>
-                            </td>
-                            <td>
-                                <input type="checkbox" id="status-{{ $post->id }}"
-                                    data-url="{{ route('admin.content.post.status', $post->id) }}"
-                                    onchange="changeStatus({{ $post->id }})"
-                                    @if ($post->status === 1) checked @endif>
-                            </td>
-                            <td>
-                                <span class="flex items-center gap-x-1">
+                            @can('view', $post)
+                                <td>
+                                    <input type="checkbox" id="commentable-{{ $post->id }}"
+                                        data-url="{{ route('admin.content.post.commentable', $post->id) }}"
+                                        onchange="commentable({{ $post->id }})"
+                                        @if ($post->commentable === 1) checked @endif>
+                                </td>
+                                <td>
+                                    <input type="checkbox" id="status-{{ $post->id }}"
+                                        data-url="{{ route('admin.content.post.status', $post->id) }}"
+                                        onchange="changeStatus({{ $post->id }})"
+                                        @if ($post->status === 1) checked @endif>
+                                </td>
 
-                                    <a href="{{ route('admin.content.post.edit', $post->id) }}"
-                                        class="btn bg-yellow-500 text-black flex-center gap-1">
-                                        <i class="fa-light fa-pen-to-square"></i>
-                                        ویرایش
-                                    </a>
-                                    <form class="m-0"
-                                        action="{{ route('admin.content.post.destroy', $post->id) }}" method="POST">
-                                        @csrf
-                                        {{ method_field('delete') }}
-                                        <button class="btn bg-red-400 text-black flex-center gap-1 delBtn">
-                                            <i class="fa-light fa-trash-can"></i>
-                                            حذف
-                                        </button>
-                                    </form>
+                                <td>
+                                    <span class="flex items-center gap-x-1">
+
+                                        <a href="{{ route('admin.content.post.edit', $post->id) }}"
+                                            class="btn bg-yellow-500 text-black flex-center gap-1">
+                                            <i class="fa-light fa-pen-to-square"></i>
+                                            ویرایش
+                                        </a>
+                                        <form class="m-0" action="{{ route('admin.content.post.destroy', $post->id) }}"
+                                            method="POST">
+                                            @csrf
+                                            {{ method_field('delete') }}
+                                            <button class="btn bg-red-400 text-black flex-center gap-1 delBtn">
+                                                <i class="fa-light fa-trash-can"></i>
+                                                حذف
+                                            </button>
+                                        </form>
 
 
-                                </span>
-                            </td>
+                                    </span>
+                                </td>
+                            @endcan
 
                         </tr>
                     @endforeach

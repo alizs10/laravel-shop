@@ -18,6 +18,8 @@ class SettingController extends Controller
      */
     public function index()
     {
+        $this->authorize('index', Setting::class);
+        
         $setting = Setting::first();
         if (!$setting) {
             $seeder = new SettingSeeder();

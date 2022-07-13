@@ -20,6 +20,7 @@ class PostController extends Controller
      */
     public function index()
     {
+        $this->authorize('index', Post::class);
         $posts = Post::orderBy('created_at', 'desc')->simplePaginate(15);
         return view('admin.content.post.index', compact('posts'));
     }
@@ -31,6 +32,8 @@ class PostController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Post::class);
+
         $postCategories = PostCategory::all();
         return view('admin.content.post.create', compact('postCategories'));
     }
@@ -43,7 +46,8 @@ class PostController extends Controller
      */
     public function store(PostRequest $request, ImageService $imageService)
     {
-        
+        $this->authorize('store', Post::class);
+
         $inputs = $request->all();
         $inputs['published_at'] = date('Y-m-d', intval(substr($request->published_at, 0, 10)));
     
@@ -89,6 +93,8 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
+        $this->authorize('edit', $post);
+
         $postCategories = PostCategory::all();
         return view('admin.content.post.edit', compact('post', 'postCategories'));
     }
@@ -102,6 +108,7 @@ class PostController extends Controller
      */
     public function update(PostRequest $request, Post $post, ImageService $imageService)
     {
+        $this->authorize('update', $post);
         $inputs = $request->all();
         $inputs['published_at'] = date('Y-m-d', intval(substr($request->published_at, 0, 10)));
 
@@ -128,14 +135,17 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Post $post)
+    public function delete(Post $post)
     {
+        $this->authorize('delete', $post);
+        
         $post->delete();
         return redirect()->route('admin.content.post.index')->with('alertify-error', 'پست موردنظر با موفقیت حذف شد.');
     }
 
     public function status(Post $post)
     {
+   
         $post->status = $post->status == 0 ? 1 : 0;
         $result = $post->save();
 

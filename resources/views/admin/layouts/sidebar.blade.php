@@ -253,15 +253,14 @@
                 دسته بندی
             </a>
 
-            @if (!empty(
-                auth()->user()->roles()->where('name', 'نویسنده')->first()
-            ))
+            @can('index', \App\Models\Content\Post::class)
                 <a href="{{ route('admin.content.post.index') }}"
                     class="sidebar-link {{ sideBarMenuActiver(route('admin.content.post.index')) }}">
                     <i class="fa-light fa-square-pen text-xl"></i>
                     پست ها
                 </a>
-            @endif
+            @endcan
+
             <a href="{{ route('admin.content.comment.index') }}"
                 class="sidebar-link {{ sideBarMenuActiver(route('admin.content.comment.index')) }}">
                 <i class="fa-light fa-comments text-xl"></i>
@@ -306,10 +305,7 @@
                 سطوح دسترسی
             </a>
 
-            @if (!empty(
-                auth()->user()->roles()->where('name', 'ادمین تیکت ها')->first()
-            ))
-               
+
             <span class="text-gray-500 text-xs">بخش تیکت ها</span>
 
             <button
@@ -388,7 +384,7 @@
                 </ul>
 
             </button>
-            @endif
+
 
 
             <span class="text-gray-500 text-xs">بخش اطلاع رسانی</span>
@@ -405,14 +401,16 @@
                 اطلاعیه پیامکی
             </a>
 
-            <span class="text-gray-500 text-xs">بخش تنظیمات</span>
 
+            @can('index', \App\Models\setting\Setting::class)
+                <span class="text-gray-500 text-xs">بخش تنظیمات</span>
+                <a href="{{ route('admin.setting.index') }}"
+                    class="sidebar-link {{ sideBarMenuActiver(route('admin.setting.index')) }}">
+                    <i class="fa-light fa-gear text-xl"></i>
+                    تنظیمات
+                </a>
+            @endcan
 
-            <a href="{{ route('admin.setting.index') }}"
-                class="sidebar-link {{ sideBarMenuActiver(route('admin.setting.index')) }}">
-                <i class="fa-light fa-gear text-xl"></i>
-                تنظیمات
-            </a>
         </div>
     </div>
 

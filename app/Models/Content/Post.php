@@ -2,6 +2,7 @@
 
 namespace App\Models\Content;
 
+use App\Models\User;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -26,4 +27,14 @@ class Post extends Model
     {
         return $this->morphMany('App\Models\Comment', 'commentable');
     }
+
+    public function author()
+    {
+        return $this->belongsTo(User::class, 'author_id');
+    }
+
+    const CAN_CREATE_ID = 102;
+    const CAN_UPDATE_ID = 103;
+    const DELETE_ID = 105;
+    const CAN_VIEW_ID = 104;
 }

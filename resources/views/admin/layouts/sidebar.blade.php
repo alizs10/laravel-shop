@@ -359,14 +359,17 @@
                             </span>
                         </a>
                     @endcan
-                    <a href="{{ route('admin.ticket.admin.index') }}"
-                        class="flex items-center gap-x-4 text-sm text-slate-900">
-                        <span
-                            class="sidebar-link {{ sidebarDropdownMenuActiver(route('admin.ticket.admin.index')) }}">
-                            <i class="fa-solid fa-angles-left text-xxs"></i>
-                            ادمین تیکت ها
-                        </span>
-                    </a>
+                    @can('index', \App\Models\Ticket\TicketAdmin::class)
+                        <a href="{{ route('admin.ticket.admin.index') }}"
+                            class="flex items-center gap-x-4 text-sm text-slate-900">
+                            <span
+                                class="sidebar-link {{ sidebarDropdownMenuActiver(route('admin.ticket.admin.index')) }}">
+                                <i class="fa-solid fa-angles-left text-xxs"></i>
+                                ادمین تیکت ها
+                            </span>
+                        </a>
+                    @endcan
+
                     <a href="{{ route('admin.ticket.category.index') }}"
                         class="flex items-center gap-x-4 text-sm text-slate-900">
                         <span
@@ -375,14 +378,16 @@
                             دسته بندی تیکت ها
                         </span>
                     </a>
-                    <a href="{{ route('admin.ticket.priority.index') }}"
-                        class="flex items-center gap-x-4 text-sm text-slate-900">
-                        <span
-                            class="sidebar-link {{ sidebarDropdownMenuActiver(route('admin.ticket.priority.index')) }}">
-                            <i class="fa-solid fa-angles-left text-xxs"></i>
-                            اولویت بندی تیکت ها
-                        </span>
-                    </a>
+                    @can('index', \App\Models\Ticket\TicketPriority::class)
+                        <a href="{{ route('admin.ticket.priority.index') }}"
+                            class="flex items-center gap-x-4 text-sm text-slate-900">
+                            <span
+                                class="sidebar-link {{ sidebarDropdownMenuActiver(route('admin.ticket.priority.index')) }}">
+                                <i class="fa-solid fa-angles-left text-xxs"></i>
+                                اولویت بندی تیکت ها
+                            </span>
+                        </a>
+                    @endcan
                 </ul>
 
             </button>

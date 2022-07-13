@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders\Permissions;
+namespace Database\Seeders\Permissions\Ticket;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -15,9 +15,11 @@ class TicketAdminPermissionSeeder extends Seeder
     public function run()
     {
         DB::table('permissions')->insert([
-            ['name' => 'اضافه کردن ادمین تیکت ها', 'status' => 1],
             ['name' => 'دیدن ادمین تیکت ها', 'status' => 1],
-            ['name' => 'حذف ادمین تیکت ها', 'status' => 1]
+            ['name' => 'افزودن ادمین تیکت ها', 'status' => 1],
+            ['name' => 'ویرایش ادمین تیکت ها', 'status' => 1],
+            ['name' => 'حذف ادمین تیکت ها', 'status' => 1],
+            ['name' => 'همه دسترسی ها (ادمین تیکت ها)', 'status' => 1]
         ]);
     }
 }

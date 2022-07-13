@@ -18,7 +18,10 @@
     <section class="flex flex-col gap-y-2 p-2 w-full">
         <div class="flex justify-between items-center">
             <span class="text-sm md:text-lg">ادمین تیکت ها</span>
-            <a href="{{ route('admin.ticket.admin.all') }}" class="btn bg-blue-600 text-white">افزودن ادمین جدید به لیست</a>
+            @can('create', \App\Models\Ticket\TicketAdmin::class)
+                <a href="{{ route('admin.ticket.admin.all') }}" class="btn bg-blue-600 text-white">افزودن ادمین جدید به
+                    لیست</a>
+            @endcan
         </div>
 
 
@@ -43,17 +46,17 @@
                             <td>{{ $admin->user->email }}</td>
                             <td>
                                 <span class="flex items-center gap-x-1">
-
-                                    <form class="m-0"
-                                        action="{{ route('admin.ticket.admin.destroy', $admin->id) }}" method="POST">
-                                        @csrf
-                                        {{ method_field('delete') }}
-                                        <button class="btn bg-red-400 text-black flex-center gap-1 delBtn">
-                                            <i class="fa-light fa-trash-can"></i>
-                                            حذف از لیست
-                                        </button>
-                                    </form>
-
+                                    @can('delete', \App\Models\Ticket\TicketAdmin::class)
+                                        <form class="m-0" action="{{ route('admin.ticket.admin.destroy', $admin->id) }}"
+                                            method="POST">
+                                            @csrf
+                                            {{ method_field('delete') }}
+                                            <button class="btn bg-red-400 text-black flex-center gap-1 delBtn">
+                                                <i class="fa-light fa-trash-can"></i>
+                                                حذف از لیست
+                                            </button>
+                                        </form>
+                                    @endcan
                                 </span>
                             </td>
 

@@ -11,7 +11,8 @@ class TicketAdminController extends Controller
 {
 
     public function index()
-    {
+    {   
+        $this->authorize('index', TicketAdmin::class);
         $admins = TicketAdmin::simplePaginate(15);
         return view('admin.ticket.admin.index', compact('admins'));
     }
@@ -19,12 +20,14 @@ class TicketAdminController extends Controller
 
     public function all()
     {
+        $this->authorize('create', TicketAdmin::class);
         $admins = User::where('user_type', 1)->simplePaginate(15);
         return view('admin.ticket.admin.all', compact('admins'));
     }
 
     public function set(User $admin)
     {
+        $this->authorize('create', TicketAdmin::class);
 
         $id = $admin->id;
         $adminTicket = TicketAdmin::where('user_id', $id)->first();
@@ -49,6 +52,8 @@ class TicketAdminController extends Controller
 
     public function destroy(TicketAdmin $admin)
     {
+        $this->authorize('delete', TicketAdmin::class);
+
         $admin->delete();
         return redirect()->route('admin.ticket.admin.index')->with('alertify-error', 'ادمین موردنظر از لیست حذف شد.');
     }

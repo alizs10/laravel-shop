@@ -18,8 +18,10 @@
     <section class="flex flex-col gap-y-2 p-2 w-full">
         <div class="flex justify-between items-center">
             <span class="text-sm md:text-lg">اولویت بندی</span>
-            <a href="{{ route('admin.ticket.priority.create') }}" class="btn bg-blue-600 text-sm text-white">
-                افزودن اولویت بندی جدید</a>
+            @can('create', \App\Models\Ticket\TicketPriority::class)
+                <a href="{{ route('admin.ticket.priority.create') }}" class="btn bg-blue-600 text-sm text-white">
+                    افزودن اولویت بندی جدید</a>
+            @endcan
         </div>
 
 
@@ -41,31 +43,36 @@
 
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $priority->name }}</td>
-                            <td>
-                                <input type="checkbox" id="status-{{ $priority->id }}"
-                                    data-url="{{ route('admin.ticket.priority.status', $priority->id) }}"
-                                    onchange="changeStatus({{ $priority->id }})"
-                                    @if ($priority->status === 1) checked @endif>
-                            </td>
+                            @can('update', \App\Models\Ticket\TicketPriority::class)
+                                <td>
+                                    <input type="checkbox" id="status-{{ $priority->id }}"
+                                        data-url="{{ route('admin.ticket.priority.status', $priority->id) }}"
+                                        onchange="changeStatus({{ $priority->id }})"
+                                        @if ($priority->status === 1) checked @endif>
+                                </td>
+                            @endcan
+
                             <td>
                                 <span class="flex items-center gap-x-1">
-
-                                    <a href="{{ route('admin.ticket.priority.edit', $priority->id) }}"
-                                        class="btn bg-yellow-500 text-black flex-center gap-1">
-                                        <i class="fa-light fa-pen-to-square"></i>
-                                        ویرایش
-                                    </a>
-                                    <form class="m-0"
-                                        action="{{ route('admin.ticket.priority.destroy', $priority->id) }}"
-                                        method="POST">
-                                        @csrf
-                                        {{ method_field('delete') }}
-                                        <button class="btn bg-red-400 text-black flex-center gap-1 delBtn">
-                                            <i class="fa-light fa-trash-can"></i>
-                                            حذف
-                                        </button>
-                                    </form>
-
+                                    @can('update', \App\Models\Ticket\TicketPriority::class)
+                                        <a href="{{ route('admin.ticket.priority.edit', $priority->id) }}"
+                                            class="btn bg-yellow-500 text-black flex-center gap-1">
+                                            <i class="fa-light fa-pen-to-square"></i>
+                                            ویرایش
+                                        </a>
+                                    @endcan
+                                    @can('delele', \App\Models\Ticket\TicketPriority::class)
+                                        <form class="m-0"
+                                            action="{{ route('admin.ticket.priority.destroy', $priority->id) }}"
+                                            method="POST">
+                                            @csrf
+                                            {{ method_field('delete') }}
+                                            <button class="btn bg-red-400 text-black flex-center gap-1 delBtn">
+                                                <i class="fa-light fa-trash-can"></i>
+                                                حذف
+                                            </button>
+                                        </form>
+                                    @endcan
 
                                 </span>
                             </td>

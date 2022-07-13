@@ -13,10 +13,10 @@ use Database\Seeders\Permissions\PagePermissionSeeder;
 use Database\Seeders\Permissions\PostCategoryPermissionSeeder;
 use Database\Seeders\Permissions\PostPermissionSeeder;
 use Database\Seeders\Permissions\SettingPermissionSeeder;
+use Database\Seeders\Permissions\Ticket\TicketAdminPermissionSeeder;
 use Database\Seeders\Permissions\Ticket\TicketPermissionSeeder;
-use Database\Seeders\Permissions\TicketAdminPermissionSeeder;
+use Database\Seeders\Permissions\Ticket\TicketPriorityPermissionSeeder;
 use Database\Seeders\Permissions\TicketCategoryPermissionSeeder;
-use Database\Seeders\Permissions\TicketPriorityPermissionSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -37,8 +37,8 @@ class DatabaseSeeder extends Seeder
             // CommentPermissionSeeder::class,
             // TicketPermissionSeeder::class,
             // TicketAdminPermissionSeeder::class,
-            // TicketCategoryPermissionSeeder::class,
             // TicketPriorityPermissionSeeder::class,
+            // TicketCategoryPermissionSeeder::class,
             // EmailPermissionSeeder::class,
             // EmailFilePermissionSeeder::class,
             // SMSPermissionSeeder::class,

@@ -10,6 +10,7 @@ use App\Models\Content\PostCategory;
 use App\Models\Market\AmazingSale;
 use App\Models\Market\Coupon;
 use App\Models\Market\Delivery;
+use App\Models\Market\Order;
 use App\Models\Market\Payment;
 use App\Models\Market\PublicDiscount;
 use App\Models\Notify\Email;
@@ -30,6 +31,7 @@ use App\Policies\Content\PostPolicy;
 use App\Policies\Market\AmazingSalePolicy;
 use App\Policies\Market\CouponPolicy;
 use App\Policies\Market\DeliveryPolicy;
+use App\Policies\Market\OrderPolicy;
 use App\Policies\Market\PaymentPolicy;
 use App\Policies\Market\PublicDiscountPolicy;
 use App\Policies\Notify\EmailFilePolicy;
@@ -83,6 +85,7 @@ class AuthServiceProvider extends ServiceProvider
         PublicDiscount::class => PublicDiscountPolicy::class,
         AmazingSale::class => AmazingSalePolicy::class,
         Payment::class => PaymentPolicy::class,
+        Order::class => OrderPolicy::class,
     ];
 
     /**

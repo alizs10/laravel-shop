@@ -111,4 +111,11 @@ class Order extends Model
                 break;
         }
     }
+
+
+    public const CAN_VIEW_ID = 256;
+    public const CAN_CREATE_ID = 257;
+    public const CAN_UPDATE_ID = 258;
+    public const CAN_DELETE_ID = 259;
+    public const CAN_ALL_ID = 260;
 }

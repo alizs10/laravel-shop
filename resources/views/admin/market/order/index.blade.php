@@ -88,25 +88,28 @@
                                             class="py-2 w-full text-sm h-full flex items-center gap-x-2 hover-transition hover:bg-slate-100 dark:hover:bg-slate-800">
                                             <i class="fa-regular fa-eye mr-2"></i>
                                             مشاهده فاکتور</a>
-                                        <a href="{{ route('admin.market.order.change-delivery-status', $order->id) }}"
-                                            class="py-2 w-full text-sm h-full flex items-center gap-x-2 hover-transition hover:bg-slate-100 dark:hover:bg-slate-800">
-                                            <i class="fa-light fa-truck mr-2"></i>
-                                            تغییر وضعیت ارسال</a>
-                                        <a href="{{ route('admin.market.order.change-status', $order->id) }}"
-                                            class="py-2 w-full text-sm h-full flex items-center gap-x-2 hover-transition hover:bg-slate-100 dark:hover:bg-slate-800">
-                                            <i class="fa-light fa-rectangle-list mr-2"></i>
-                                            تغییر وضعیت سفارش</a>
-                                        <form class="w-full m-0"
-                                            action="{{ route('admin.market.order.destroy', $order->id) }}"
-                                            method="POST">
-                                            @csrf
-                                            {{ method_field('delete') }}
-                                            <button
-                                                class="py-2 w-full text-sm h-full flex items-center gap-x-2 hover-transition hover:bg-slate-100 dark:hover:bg-slate-800 delBtn">
-                                                <i class="fa-regular fa-trash-can mr-2"></i>
-                                                حذف</button>
-                                        </form>
-
+                                        @can('update', \App\Models\Market\Payment::class)
+                                            <a href="{{ route('admin.market.order.change-delivery-status', $order->id) }}"
+                                                class="py-2 w-full text-sm h-full flex items-center gap-x-2 hover-transition hover:bg-slate-100 dark:hover:bg-slate-800">
+                                                <i class="fa-light fa-truck mr-2"></i>
+                                                تغییر وضعیت ارسال</a>
+                                            <a href="{{ route('admin.market.order.change-status', $order->id) }}"
+                                                class="py-2 w-full text-sm h-full flex items-center gap-x-2 hover-transition hover:bg-slate-100 dark:hover:bg-slate-800">
+                                                <i class="fa-light fa-rectangle-list mr-2"></i>
+                                                تغییر وضعیت سفارش</a>
+                                        @endcan
+                                        @can('delete', \App\Models\Market\Payment::class)
+                                            <form class="w-full m-0"
+                                                action="{{ route('admin.market.order.destroy', $order->id) }}"
+                                                method="POST">
+                                                @csrf
+                                                {{ method_field('delete') }}
+                                                <button
+                                                    class="py-2 w-full text-sm h-full flex items-center gap-x-2 hover-transition hover:bg-slate-100 dark:hover:bg-slate-800 delBtn">
+                                                    <i class="fa-regular fa-trash-can mr-2"></i>
+                                                    حذف</button>
+                                            </form>
+                                        @endcan
                                     </div>
                                 </div>
                             </td>

@@ -13,6 +13,7 @@ use Database\Seeders\Permissions\Market\AmazingSalePermissionSeeder;
 use Database\Seeders\Permissions\Market\CouponPermissionSeeder;
 use Database\Seeders\Permissions\Market\PublicDiscountPermissionSeeder;
 use Database\Seeders\Permissions\Market\DeliveryPermissionSeeder;
+use Database\Seeders\Permissions\Market\OrderPermissionSeeder;
 use Database\Seeders\Permissions\Market\PaymentPermissionSeeder;
 use Database\Seeders\Permissions\Notify\EmailFilePermissionSeeder;
 use Database\Seeders\Permissions\Notify\EmailPermissionSeeder;
@@ -45,7 +46,8 @@ class DatabaseSeeder extends Seeder
             // PublicDiscountPermissionSeeder::class,
 
             // PaymentPermissionSeeder::class,
-
+            // OrderPermissionSeederk::class,
+            
 
             //content
             // PostCategoryPermissionSeeder::class,

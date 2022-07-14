@@ -76,76 +76,79 @@
                 </ul>
 
             </button>
-            <button
-                class="sidebar-btn {{ sidebarDropdownActiver('admin.market', ['order.newOrders', 'order.processing', 'order.delivering', 'order.unpaid', 'order.expired', 'order.returned', 'order.returned', 'order.index'])['btn'] }}"
-                onclick="toggleSidebarDropdownBtn(this)">
 
-                <div class="flex justify-between w-full">
-                    <span>
-                        <i class="fa-light fa-clipboard-list text-xl"></i>
-                        سفارشات
-                    </span>
+            @can('index', \App\Models\Market\Order::class)
+                <button
+                    class="sidebar-btn {{ sidebarDropdownActiver('admin.market', ['order.newOrders', 'order.processing', 'order.delivering', 'order.unpaid', 'order.expired', 'order.returned', 'order.returned', 'order.index'])['btn'] }}"
+                    onclick="toggleSidebarDropdownBtn(this)">
 
-                    <span
-                        class="angle ml-2 transition-all duration-300 {{ sidebarDropdownActiver('admin.market', ['order.newOrders', 'order.processing', 'order.delivering', 'order.unpaid', 'order.expired', 'order.returned', 'order.returned', 'order.index'])['rotate'] }}">
-                        <i class="fa fa-angle-left"></i>
-                    </span>
-                </div>
+                    <div class="flex justify-between w-full">
+                        <span>
+                            <i class="fa-light fa-clipboard-list text-xl"></i>
+                            سفارشات
+                        </span>
 
-                <ul
-                    class="{{ sidebarDropdownActiver('admin.market', ['order.newOrders', 'order.processing', 'order.delivering', 'order.unpaid', 'order.expired', 'order.returned', 'order.returned', 'order.index'])['hidden'] }} dropdown w-full mt-4 flex-col gap-y-2">
-                    <a href="{{ route('admin.market.order.newOrders') }}"
-                        class="flex items-center gap-x-4 text-sm text-slate-900">
-                        <span class="{{ sidebarDropdownMenuActiver(route('admin.market.order.newOrders')) }}">
-                            <i class="fa-solid fa-angles-left text-xxs"></i>
-                            جدید
+                        <span
+                            class="angle ml-2 transition-all duration-300 {{ sidebarDropdownActiver('admin.market', ['order.newOrders', 'order.processing', 'order.delivering', 'order.unpaid', 'order.expired', 'order.returned', 'order.returned', 'order.index'])['rotate'] }}">
+                            <i class="fa fa-angle-left"></i>
                         </span>
-                    </a>
-                    <a href="{{ route('admin.market.order.processing') }}"
-                        class="flex items-center gap-x-4 text-sm text-slate-900">
-                        <span class="{{ sidebarDropdownMenuActiver(route('admin.market.order.processing')) }}">
-                            <i class="fa-solid fa-angles-left text-xxs"></i>
-                            در حال پردازش
-                        </span>
-                    </a>
-                    <a href="{{ route('admin.market.order.delivering') }}"
-                        class="flex items-center gap-x-4 text-sm text-slate-900">
-                        <span class="{{ sidebarDropdownMenuActiver(route('admin.market.order.delivering')) }}">
-                            <i class="fa-solid fa-angles-left text-xxs"></i>
-                            در حال ارسال
-                        </span>
-                    </a>
-                    <a href="{{ route('admin.market.order.unpaid') }}"
-                        class="flex items-center gap-x-4 text-sm text-slate-900">
-                        <span class="{{ sidebarDropdownMenuActiver(route('admin.market.order.unpaid')) }}">
-                            <i class="fa-solid fa-angles-left text-xxs"></i>
-                            پرداخت نشده
-                        </span>
-                    </a>
-                    <a href="{{ route('admin.market.order.expired') }}"
-                        class="flex items-center gap-x-4 text-sm text-slate-900">
-                        <span class="{{ sidebarDropdownMenuActiver(route('admin.market.order.expired')) }}">
-                            <i class="fa-solid fa-angles-left text-xxs"></i>
-                            باطل شده
-                        </span>
-                    </a>
-                    <a href="{{ route('admin.market.order.returned') }}"
-                        class="flex items-center gap-x-4 text-sm text-slate-900">
-                        <span class="{{ sidebarDropdownMenuActiver(route('admin.market.order.returned')) }}">
-                            <i class="fa-solid fa-angles-left text-xxs"></i>
-                            مرجوعی
-                        </span>
-                    </a>
-                    <a href="{{ route('admin.market.order.index') }}"
-                        class="flex items-center gap-x-4 text-sm text-slate-900">
-                        <span class="{{ sidebarDropdownMenuActiver(route('admin.market.order.index')) }}">
-                            <i class="fa-solid fa-angles-left text-xxs"></i>
-                            تمام سفارشات
-                        </span>
-                    </a>
-                </ul>
+                    </div>
 
-            </button>
+                    <ul
+                        class="{{ sidebarDropdownActiver('admin.market', ['order.newOrders', 'order.processing', 'order.delivering', 'order.unpaid', 'order.expired', 'order.returned', 'order.returned', 'order.index'])['hidden'] }} dropdown w-full mt-4 flex-col gap-y-2">
+                        <a href="{{ route('admin.market.order.newOrders') }}"
+                            class="flex items-center gap-x-4 text-sm text-slate-900">
+                            <span class="{{ sidebarDropdownMenuActiver(route('admin.market.order.newOrders')) }}">
+                                <i class="fa-solid fa-angles-left text-xxs"></i>
+                                جدید
+                            </span>
+                        </a>
+                        <a href="{{ route('admin.market.order.processing') }}"
+                            class="flex items-center gap-x-4 text-sm text-slate-900">
+                            <span class="{{ sidebarDropdownMenuActiver(route('admin.market.order.processing')) }}">
+                                <i class="fa-solid fa-angles-left text-xxs"></i>
+                                در حال پردازش
+                            </span>
+                        </a>
+                        <a href="{{ route('admin.market.order.delivering') }}"
+                            class="flex items-center gap-x-4 text-sm text-slate-900">
+                            <span class="{{ sidebarDropdownMenuActiver(route('admin.market.order.delivering')) }}">
+                                <i class="fa-solid fa-angles-left text-xxs"></i>
+                                در حال ارسال
+                            </span>
+                        </a>
+                        <a href="{{ route('admin.market.order.unpaid') }}"
+                            class="flex items-center gap-x-4 text-sm text-slate-900">
+                            <span class="{{ sidebarDropdownMenuActiver(route('admin.market.order.unpaid')) }}">
+                                <i class="fa-solid fa-angles-left text-xxs"></i>
+                                پرداخت نشده
+                            </span>
+                        </a>
+                        <a href="{{ route('admin.market.order.expired') }}"
+                            class="flex items-center gap-x-4 text-sm text-slate-900">
+                            <span class="{{ sidebarDropdownMenuActiver(route('admin.market.order.expired')) }}">
+                                <i class="fa-solid fa-angles-left text-xxs"></i>
+                                باطل شده
+                            </span>
+                        </a>
+                        <a href="{{ route('admin.market.order.returned') }}"
+                            class="flex items-center gap-x-4 text-sm text-slate-900">
+                            <span class="{{ sidebarDropdownMenuActiver(route('admin.market.order.returned')) }}">
+                                <i class="fa-solid fa-angles-left text-xxs"></i>
+                                مرجوعی
+                            </span>
+                        </a>
+                        <a href="{{ route('admin.market.order.index') }}"
+                            class="flex items-center gap-x-4 text-sm text-slate-900">
+                            <span class="{{ sidebarDropdownMenuActiver(route('admin.market.order.index')) }}">
+                                <i class="fa-solid fa-angles-left text-xxs"></i>
+                                تمام سفارشات
+                            </span>
+                        </a>
+                    </ul>
+
+                </button>
+            @endcan
             @can('index', \App\Models\Market\Payment::class)
                 <button
                     class="sidebar-btn {{ sidebarDropdownActiver('admin.market', ['payment.all', 'payment.online', 'payment.offline', 'payment.cash'])['btn'] }}"

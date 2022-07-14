@@ -43,7 +43,7 @@
 
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $payment->gateway() }}</td>
-                            <td>{{ price_formater($payment->amount) . " تومان" }}</td>
+                            <td>{{ price_formater($payment->amount) . ' تومان' }}</td>
                             <td>{{ $payment->user->fullName }}</td>
                             <td>{{ $payment->status() }}</td>
                             <td>{{ $payment->type() }}</td>
@@ -55,17 +55,18 @@
                                         <i class="fa-solid fa-eye"></i>
                                         مشاهده
                                     </a>
-                                    <a href="{{ route('admin.market.payment.cancel', $payment->id) }}"
-                                        class="px-3 py-2 rounded-lg bg-yellow-500 text-black text-xs flex-center gap-1">
-                                        <i class="fa-solid fa-xmark"></i>
-                                        لغو کردن
-                                    </a>
-                                    <a href="{{ route('admin.market.payment.refund', $payment->id) }}"
-                                        class="px-3 py-2 rounded-lg bg-red-500 text-white text-xs dark:bg-red-400 dark:text-black flex-center gap-1">
-                                        <i class="fa-solid fa-share"></i>
-                                        برگشت وجه
-                                    </a>
-                                  
+                                    @can('update', \App\Models\Market\Payment::class)
+                                        <a href="{{ route('admin.market.payment.cancel', $payment->id) }}"
+                                            class="px-3 py-2 rounded-lg bg-yellow-500 text-black text-xs flex-center gap-1">
+                                            <i class="fa-solid fa-xmark"></i>
+                                            لغو کردن
+                                        </a>
+                                        <a href="{{ route('admin.market.payment.refund', $payment->id) }}"
+                                            class="px-3 py-2 rounded-lg bg-red-500 text-white text-xs dark:bg-red-400 dark:text-black flex-center gap-1">
+                                            <i class="fa-solid fa-share"></i>
+                                            برگشت وجه
+                                        </a>
+                                    @endcan
 
 
                                 </span>

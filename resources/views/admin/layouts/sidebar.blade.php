@@ -146,55 +146,57 @@
                 </ul>
 
             </button>
-            <button
-                class="sidebar-btn {{ sidebarDropdownActiver('admin.market', ['payment.all', 'payment.online', 'payment.offline', 'payment.cash'])['btn'] }}"
-                onclick="toggleSidebarDropdownBtn(this)">
+            @can('index', \App\Models\Market\Payment::class)
+                <button
+                    class="sidebar-btn {{ sidebarDropdownActiver('admin.market', ['payment.all', 'payment.online', 'payment.offline', 'payment.cash'])['btn'] }}"
+                    onclick="toggleSidebarDropdownBtn(this)">
 
-                <div class="flex justify-between w-full">
-                    <span>
-                        <i class="fa-light fa-money-check-dollar text-xl"></i>
-                        پرداخت ها
-                    </span>
+                    <div class="flex justify-between w-full">
+                        <span>
+                            <i class="fa-light fa-money-check-dollar text-xl"></i>
+                            پرداخت ها
+                        </span>
 
-                    <span
-                        class="angle ml-2 transition-all duration-300 {{ sidebarDropdownActiver('admin.market', ['payment.all', 'payment.online', 'payment.offline', 'payment.cash'])['rotate'] }}">
-                        <i class="fa fa-angle-left"></i>
-                    </span>
-                </div>
+                        <span
+                            class="angle ml-2 transition-all duration-300 {{ sidebarDropdownActiver('admin.market', ['payment.all', 'payment.online', 'payment.offline', 'payment.cash'])['rotate'] }}">
+                            <i class="fa fa-angle-left"></i>
+                        </span>
+                    </div>
 
-                <ul
-                    class="{{ sidebarDropdownActiver('admin.market', ['payment.all', 'payment.online', 'payment.offline', 'payment.cash'])['hidden'] }} dropdown w-full mt-4 flex-col gap-y-2">
-                    <a href="{{ route('admin.market.payment.all') }}"
-                        class="flex items-center gap-x-4 text-sm text-slate-900">
-                        <span class="{{ sidebarDropdownMenuActiver(route('admin.market.payment.all')) }}">
-                            <i class="fa-solid fa-angles-left text-xxs"></i>
-                            کل پرداخت ها
-                        </span>
-                    </a>
-                    <a href="{{ route('admin.market.payment.online') }}"
-                        class="flex items-center gap-x-4 text-sm text-slate-900">
-                        <span class="{{ sidebarDropdownMenuActiver(route('admin.market.payment.online')) }}">
-                            <i class="fa-solid fa-angles-left text-xxs"></i>
-                            پرداخت های آنلاین
-                        </span>
-                    </a>
-                    <a href="{{ route('admin.market.payment.offline') }}"
-                        class="flex items-center gap-x-4 text-sm text-slate-900">
-                        <span class="{{ sidebarDropdownMenuActiver(route('admin.market.payment.offline')) }}">
-                            <i class="fa-solid fa-angles-left text-xxs"></i>
-                            پرداخت های آفلاین
-                        </span>
-                    </a>
-                    <a href="{{ route('admin.market.payment.cash') }}"
-                        class="flex items-center gap-x-4 text-sm text-slate-900">
-                        <span class="{{ sidebarDropdownMenuActiver(route('admin.market.payment.cash')) }}">
-                            <i class="fa-solid fa-angles-left text-xxs"></i>
-                            پرداخت های در محل
-                        </span>
-                    </a>
-                </ul>
+                    <ul
+                        class="{{ sidebarDropdownActiver('admin.market', ['payment.all', 'payment.online', 'payment.offline', 'payment.cash'])['hidden'] }} dropdown w-full mt-4 flex-col gap-y-2">
+                        <a href="{{ route('admin.market.payment.all') }}"
+                            class="flex items-center gap-x-4 text-sm text-slate-900">
+                            <span class="{{ sidebarDropdownMenuActiver(route('admin.market.payment.all')) }}">
+                                <i class="fa-solid fa-angles-left text-xxs"></i>
+                                کل پرداخت ها
+                            </span>
+                        </a>
+                        <a href="{{ route('admin.market.payment.online') }}"
+                            class="flex items-center gap-x-4 text-sm text-slate-900">
+                            <span class="{{ sidebarDropdownMenuActiver(route('admin.market.payment.online')) }}">
+                                <i class="fa-solid fa-angles-left text-xxs"></i>
+                                پرداخت های آنلاین
+                            </span>
+                        </a>
+                        <a href="{{ route('admin.market.payment.offline') }}"
+                            class="flex items-center gap-x-4 text-sm text-slate-900">
+                            <span class="{{ sidebarDropdownMenuActiver(route('admin.market.payment.offline')) }}">
+                                <i class="fa-solid fa-angles-left text-xxs"></i>
+                                پرداخت های آفلاین
+                            </span>
+                        </a>
+                        <a href="{{ route('admin.market.payment.cash') }}"
+                            class="flex items-center gap-x-4 text-sm text-slate-900">
+                            <span class="{{ sidebarDropdownMenuActiver(route('admin.market.payment.cash')) }}">
+                                <i class="fa-solid fa-angles-left text-xxs"></i>
+                                پرداخت های در محل
+                            </span>
+                        </a>
+                    </ul>
 
-            </button>
+                </button>
+            @endcan
             <button
                 class="sidebar-btn {{ sidebarDropdownActiver('admin.market.discount', ['coupon', 'public', 'amazing'])['btn'] }}"
                 onclick="toggleSidebarDropdownBtn(this)">

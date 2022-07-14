@@ -1,16 +1,15 @@
 <?php
 
-namespace App\Policies\Content;
+namespace App\Policies\Market;
 
-use App\Models\Content\Faq;
+use App\Models\Market\Payment;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class FaqPolicy
+class PaymentPolicy
 {
     use HandlesAuthorization;
 
-    
     public function index(User $user)
     {
         $permissions_ids = [];
@@ -20,7 +19,7 @@ class FaqPolicy
             }
         }
 
-        return in_array(Faq::CAN_VIEW_ID, $permissions_ids) || in_array(Faq::CAN_ALL_ID, $permissions_ids);
+        return in_array(Payment::CAN_VIEW_ID, $permissions_ids) || in_array(Payment::CAN_ALL_ID, $permissions_ids);
     }
    
     public function create(User $user)
@@ -32,7 +31,7 @@ class FaqPolicy
             }
         }
 
-        return in_array(Faq::CAN_CREATE_ID, $permissions_ids) || in_array(Faq::CAN_ALL_ID, $permissions_ids);
+        return in_array(Payment::CAN_CREATE_ID, $permissions_ids) || in_array(Payment::CAN_ALL_ID, $permissions_ids);
     }
 
   
@@ -45,7 +44,7 @@ class FaqPolicy
             }
         }
 
-        return in_array(Faq::CAN_UPDATE_ID, $permissions_ids) || in_array(Faq::CAN_ALL_ID, $permissions_ids);
+        return in_array(Payment::CAN_UPDATE_ID, $permissions_ids) || in_array(Payment::CAN_ALL_ID, $permissions_ids);
     }
 
     public function delete(User $user)
@@ -57,6 +56,6 @@ class FaqPolicy
             }
         }
 
-        return in_array(Faq::CAN_DELETE_ID, $permissions_ids) || in_array(Faq::CAN_ALL_ID, $permissions_ids);
+        return in_array(Payment::CAN_DELETE_ID, $permissions_ids) || in_array(Payment::CAN_ALL_ID, $permissions_ids);
     }
 }

@@ -94,4 +94,13 @@ class Payment extends Model
                 break;
         }
     }
+
+
+
+    public const CAN_VIEW_ID = 251;
+    public const CAN_CREATE_ID = 252;
+    public const CAN_UPDATE_ID = 253;
+    public const CAN_DELETE_ID = 254;
+    public const CAN_ALL_ID = 255;
+
 }

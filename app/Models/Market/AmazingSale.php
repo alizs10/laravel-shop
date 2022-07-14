@@ -29,4 +29,9 @@ class AmazingSale extends Model
     }
 
     
+    public const CAN_VIEW_ID = 241;
+    public const CAN_CREATE_ID = 242;
+    public const CAN_UPDATE_ID = 243;
+    public const CAN_DELETE_ID = 244;
+    public const CAN_ALL_ID = 245;
 }

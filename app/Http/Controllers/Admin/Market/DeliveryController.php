@@ -16,6 +16,7 @@ class DeliveryController extends Controller
      */
     public function index()
     {
+        $this->authorize('index', Delivery::class);
         $deliveryMethods = Delivery::all();
         return view('admin.market.delivery.index', compact('deliveryMethods'));
     }
@@ -27,6 +28,7 @@ class DeliveryController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Delivery::class);
         return view('admin.market.delivery.create');
     }
 
@@ -38,6 +40,7 @@ class DeliveryController extends Controller
      */
     public function store(DeliveryRequest $request)
     {
+        $this->authorize('create', Delivery::class);
         $inputs = $request->all();
         Delivery::create($inputs);
         return redirect()->route('admin.market.delivery.index')->with('alertify-success', 'روش ارسال جدید ثیت شد');
@@ -62,6 +65,7 @@ class DeliveryController extends Controller
      */
     public function edit(Delivery $delivery_method)
     {
+        $this->authorize('update', Delivery::class);
         return view('admin.market.delivery.edit', compact('delivery_method'));
     }
 
@@ -74,6 +78,7 @@ class DeliveryController extends Controller
      */
     public function update(DeliveryRequest $request, Delivery $delivery_method)
     {
+        $this->authorize('update', Delivery::class);
         $inputs = $request->all();
         $delivery_method->update($inputs);
         return redirect()->route('admin.market.delivery.index')->with('alertify-warning', 'روش ارسال با موفقیت ویرایش شد');
@@ -87,12 +92,14 @@ class DeliveryController extends Controller
      */
     public function destroy(Delivery $delivery_method)
     {
+        $this->authorize('delete', Delivery::class);
         $delivery_method->delete();
         return redirect()->route('admin.market.delivery.index')->with('alertify-error', 'روش ارسال با موفقیت حذف شد');
     }
 
     public function status(Delivery $delivery_method)
     {
+        $this->authorize('update', Delivery::class);
         $delivery_method->status = $delivery_method->status == 0 ? 1 : 0;
         $result = $delivery_method->save();
 

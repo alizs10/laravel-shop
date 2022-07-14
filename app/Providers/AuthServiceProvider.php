@@ -7,6 +7,10 @@ use App\Models\Content\Faq;
 use App\Models\Content\Page;
 use App\Models\Content\Post;
 use App\Models\Content\PostCategory;
+use App\Models\Market\AmazingSale;
+use App\Models\Market\Coupon;
+use App\Models\Market\Delivery;
+use App\Models\Market\PublicDiscount;
 use App\Models\Notify\Email;
 use App\Models\Notify\EmailFile;
 use App\Models\Notify\SMS;
@@ -22,6 +26,10 @@ use App\Policies\Content\FaqPolicy;
 use App\Policies\Content\PagePolicy;
 use App\Policies\Content\PostCategoryPolicy;
 use App\Policies\Content\PostPolicy;
+use App\Policies\Market\AmazingSalePolicy;
+use App\Policies\Market\CouponPolicy;
+use App\Policies\Market\DeliveryPolicy;
+use App\Policies\Market\PublicDiscountPolicy;
 use App\Policies\Notify\EmailFilePolicy;
 use App\Policies\Notify\EmailPolicy;
 use App\Policies\Notify\SMSPolicy;
@@ -66,6 +74,12 @@ class AuthServiceProvider extends ServiceProvider
         AdvertisementBaner::class => AdvertisementBanerPolicy::class,
         Faq::class => FaqPolicy::class,
         Page::class => PagePolicy::class,
+
+        //market
+        Delivery::class => DeliveryPolicy::class,
+        Coupon::class => CouponPolicy::class,
+        PublicDiscount::class => PublicDiscountPolicy::class,
+        AmazingSale::class => AmazingSalePolicy::class,
     ];
 
     /**

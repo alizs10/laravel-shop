@@ -9,6 +9,10 @@ use Database\Seeders\Permissions\Content\MenuPermissionSeeder;
 use Database\Seeders\Permissions\Content\PagePermissionSeeder;
 use Database\Seeders\Permissions\Content\PostCategoryPermissionSeeder;
 use Database\Seeders\Permissions\Content\PostPermissionSeeder;
+use Database\Seeders\Permissions\Market\AmazingSalePermissionSeeder;
+use Database\Seeders\Permissions\Market\CouponPermissionSeeder;
+use Database\Seeders\Permissions\Market\PublicDiscountPermissionSeeder;
+use Database\Seeders\Permissions\Market\DeliveryPermissionSeeder;
 use Database\Seeders\Permissions\Notify\EmailFilePermissionSeeder;
 use Database\Seeders\Permissions\Notify\EmailPermissionSeeder;
 use Database\Seeders\Permissions\Notify\SMSPermissionSeeder;
@@ -32,6 +36,14 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
+            //market
+            // DeliveryPermissionSeeder::class,
+
+            // CouponPermissionSeeder::class,
+            // AmazingSalePermissionSeeder::class,
+            // PublicDiscountPermissionSeeder::class,
+
+
             //content
             // PostCategoryPermissionSeeder::class,
             // PostPermissionSeeder::class,

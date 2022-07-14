@@ -213,38 +213,45 @@
 
                 <ul
                     class=" {{ sidebarDropdownActiver('admin.market.discount', ['coupon', 'public', 'amazing'])['hidden'] }} dropdown w-full mt-4 flex-col gap-y-2">
-                    <a href="{{ route('admin.market.discount.coupon') }}"
-                        class="flex items-center gap-x-4 text-sm text-slate-900">
-                        <span class="{{ sidebarDropdownMenuActiver(route('admin.market.discount.coupon')) }}">
-                            <i class="fa-solid fa-angles-left text-xxs"></i>
-                            کوپن های تخفیف
-                        </span>
-                    </a>
-                    <a href="{{ route('admin.market.discount.public') }}"
-                        class="flex items-center gap-x-4 text-sm text-slate-900">
-                        <span class="{{ sidebarDropdownMenuActiver(route('admin.market.discount.public')) }}">
-                            <i class="fa-solid fa-angles-left text-xxs"></i>
-                            تخفیف های عمومی
-                        </span>
-                    </a>
-                    <a href="{{ route('admin.market.discount.amazing') }}"
-                        class="flex items-center gap-x-4 text-sm text-slate-900">
-                        <span class="{{ sidebarDropdownMenuActiver(route('admin.market.discount.amazing')) }}">
-                            <i class="fa-solid fa-angles-left text-xxs"></i>
-                            تخفیف های شگفت انگیز
-                        </span>
-                    </a>
+
+                    @can('index', \App\Models\Market\Coupon::class)
+                        <a href="{{ route('admin.market.discount.coupon') }}"
+                            class="flex items-center gap-x-4 text-sm text-slate-900">
+                            <span class="{{ sidebarDropdownMenuActiver(route('admin.market.discount.coupon')) }}">
+                                <i class="fa-solid fa-angles-left text-xxs"></i>
+                                کوپن های تخفیف
+                            </span>
+                        </a>
+                    @endcan
+                    @can('index', \App\Models\Market\PublicDiscount::class)
+                        <a href="{{ route('admin.market.discount.public') }}"
+                            class="flex items-center gap-x-4 text-sm text-slate-900">
+                            <span class="{{ sidebarDropdownMenuActiver(route('admin.market.discount.public')) }}">
+                                <i class="fa-solid fa-angles-left text-xxs"></i>
+                                تخفیف های عمومی
+                            </span>
+                        </a>
+                    @endcan
+                    @can('index', \App\Models\Market\AmazingSale::class)
+                        <a href="{{ route('admin.market.discount.amazing') }}"
+                            class="flex items-center gap-x-4 text-sm text-slate-900">
+                            <span class="{{ sidebarDropdownMenuActiver(route('admin.market.discount.amazing')) }}">
+                                <i class="fa-solid fa-angles-left text-xxs"></i>
+                                تخفیف های شگفت انگیز
+                            </span>
+                        </a>
+                    @endcan
                 </ul>
 
             </button>
 
-
-            <a href="{{ route('admin.market.delivery.index') }}"
-                class="sidebar-link {{ sideBarMenuActiver(route('admin.market.delivery.index')) }}">
-                <i class="fa-light fa-truck-ramp-box text-xl"></i>
-                روش های ارسال
-            </a>
-
+            @can('index', \App\Models\Market\Delivery::class)
+                <a href="{{ route('admin.market.delivery.index') }}"
+                    class="sidebar-link {{ sideBarMenuActiver(route('admin.market.delivery.index')) }}">
+                    <i class="fa-light fa-truck-ramp-box text-xl"></i>
+                    روش های ارسال
+                </a>
+            @endcan
             <span class="text-gray-500 text-xs">بخش محتوی</span>
             @can('index', \App\Models\Content\PostCategory::class)
                 <a href="{{ route('admin.content.category.index') }}"

@@ -19,4 +19,12 @@ class Delivery extends Model
         'delivery_time_unit',
         'status'
     ];
+
+
+    public const CAN_VIEW_ID = 231;
+    public const CAN_CREATE_ID = 232;
+    public const CAN_UPDATE_ID = 233;
+    public const CAN_DELETE_ID = 234;
+    public const CAN_ALL_ID = 235;
+
 }

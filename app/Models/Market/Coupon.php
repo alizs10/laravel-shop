@@ -29,4 +29,12 @@ class Coupon extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+
+    public const CAN_VIEW_ID = 236;
+    public const CAN_CREATE_ID = 237;
+    public const CAN_UPDATE_ID = 238;
+    public const CAN_DELETE_ID = 239;
+    public const CAN_ALL_ID = 240;
+
 }

@@ -18,8 +18,10 @@
     <section class="flex flex-col gap-y-2 p-2 w-full">
         <div class="flex justify-between items-center">
             <span class="text-sm md:text-lg">روش های ارسال</span>
-            <a href="{{ route('admin.market.delivery.create') }}" class="btn bg-blue-600 text-white">ایجاد روش ارسال
-                جدید</a>
+            @can('create', \App\Models\Market\Delivery::class)
+                <a href="{{ route('admin.market.delivery.create') }}" class="btn bg-blue-600 text-white">ایجاد روش ارسال
+                    جدید</a>
+            @endcan
         </div>
 
 
@@ -45,30 +47,36 @@
                             <td>{{ $delivery->name }}</td>
                             <td>{{ $delivery->amount . ' تومان' }}</td>
                             <td>{{ $delivery->delivery_time . ' ' . $delivery->delivery_time_unit }}</td>
-                            <td>
-                                <input type="checkbox" id="status-{{ $delivery->id }}"
-                                    data-url="{{ route('admin.market.delivery.status', $delivery->id) }}"
-                                    onchange="changeStatus({{ $delivery->id }})"
-                                    @if ($delivery->status === 1) checked @endif>
-                            </td>
+                            @can('update', \App\Models\Market\Delivery::class)
+                                <td>
+                                    <input type="checkbox" id="status-{{ $delivery->id }}"
+                                        data-url="{{ route('admin.market.delivery.status', $delivery->id) }}"
+                                        onchange="changeStatus({{ $delivery->id }})"
+                                        @if ($delivery->status === 1) checked @endif>
+                                </td>
+                            @endcan
+
                             <td>
                                 <span class="flex items-center gap-x-1">
-
-                                    <a href="{{ route('admin.market.delivery.edit', $delivery->id) }}"
-                                        class="btn bg-yellow-500 text-black flex-center gap-1">
-                                        <i class="fa-light fa-pen-to-square"></i>
-                                        ویرایش
-                                    </a>
-                                    <form class="m-0"
-                                    action="{{ route('admin.market.delivery.destroy', $delivery->id) }}" method="POST">
-                                        @csrf
-                                        {{ method_field('delete') }}
-                                        <button class="btn bg-red-400 text-black flex-center gap-1 delBtn">
-                                            <i class="fa-light fa-trash-can"></i>
-                                            حذف
-                                        </button>
-                                    </form>
-
+                                    @can('update', \App\Models\Market\Delivery::class)
+                                        <a href="{{ route('admin.market.delivery.edit', $delivery->id) }}"
+                                            class="btn bg-yellow-500 text-black flex-center gap-1">
+                                            <i class="fa-light fa-pen-to-square"></i>
+                                            ویرایش
+                                        </a>
+                                    @endcan
+                                    @can('delete', \App\Models\Market\Delivery::class)
+                                        <form class="m-0"
+                                            action="{{ route('admin.market.delivery.destroy', $delivery->id) }}"
+                                            method="POST">
+                                            @csrf
+                                            {{ method_field('delete') }}
+                                            <button class="btn bg-red-400 text-black flex-center gap-1 delBtn">
+                                                <i class="fa-light fa-trash-can"></i>
+                                                حذف
+                                            </button>
+                                        </form>
+                                    @endcan
 
                                 </span>
                             </td>

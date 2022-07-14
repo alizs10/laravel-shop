@@ -17,11 +17,13 @@
 @endsection
 @section('content')
     <section class="flex flex-col gap-y-2 p-2 w-full">
-      
+
         <div class="flex justify-between items-center">
             <span class="text-sm md:text-lg">کوپن های تخفیف</span>
-            <a href="{{ route('admin.market.discount.coupon.create') }}" class="btn bg-blue-600 text-white">ایجاد کوپن
-                جدید</a>
+            @can('create', \App\Models\Market\Coupon::class)
+                <a href="{{ route('admin.market.discount.coupon.create') }}" class="btn bg-blue-600 text-white">ایجاد کوپن
+                    جدید</a>
+            @endcan
         </div>
         <div class="grid grid-cols-12 gap-2">
 
@@ -77,23 +79,25 @@
                             <td>{{ $discount->status == 0 ? 'غیرفعال' : 'فعال' }}</td>
                             <td>
                                 <span class="flex items-center gap-x-1">
-
-                                    <a href="{{ route('admin.market.discount.coupon.edit', $discount->id) }}"
-                                        class="btn bg-yellow-500 text-black flex-center gap-1">
-                                        <i class="fa-light fa-pen-to-square"></i>
-                                        ویرایش
-                                    </a>
-                                    <form class="m-0"
-                                    action="{{ route('admin.market.discount.coupon.destroy', $discount->id) }}" method="POST">
-                                        @csrf
-                                        {{ method_field('delete') }}
-                                        <button class="btn bg-red-400 text-black flex-center gap-1 delBtn">
-                                            <i class="fa-light fa-trash-can"></i>
-                                            حذف
-                                        </button>
-                                    </form>
-
-
+                                    @can('update', \App\Models\Market\Coupon::class)
+                                        <a href="{{ route('admin.market.discount.coupon.edit', $discount->id) }}"
+                                            class="btn bg-yellow-500 text-black flex-center gap-1">
+                                            <i class="fa-light fa-pen-to-square"></i>
+                                            ویرایش
+                                        </a>
+                                    @endcan
+                                    @can('delete', \App\Models\Market\Coupon::class)
+                                        <form class="m-0"
+                                            action="{{ route('admin.market.discount.coupon.destroy', $discount->id) }}"
+                                            method="POST">
+                                            @csrf
+                                            {{ method_field('delete') }}
+                                            <button class="btn bg-red-400 text-black flex-center gap-1 delBtn">
+                                                <i class="fa-light fa-trash-can"></i>
+                                                حذف
+                                            </button>
+                                        </form>
+                                    @endcan
                                 </span>
                             </td>
                         </tr>

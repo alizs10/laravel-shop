@@ -48,28 +48,30 @@
                             <td>{{ $property->category->name }}</td>
                             <td>
                                 <span class="flex items-center gap-x-1">
-
-                                    <a href="{{ route('admin.market.property.value.index', $property->id) }}"
-                                        class="btn bg-blue-600 text-white flex-center gap-1">
-                                        <i class="fa-regular fa-circle-info"></i>
-                                        ویژگی ها ({{ count($property->values) }})
-                                    </a>
-                                    <a href="{{ route('admin.market.property.edit', $property->id) }}"
-                                        class="btn bg-yellow-500 text-black flex-center gap-1">
-                                        <i class="fa-light fa-pen-to-square"></i>
-                                        ویرایش
-                                    </a>
-                                    <form class="m-0"
-                                    action="{{ route('admin.market.property.destroy', $property->id) }}"
-                                        method="POST">
-                                        @csrf
-                                        {{ method_field('delete') }}
-                                        <button class="btn bg-red-400 text-black flex-center gap-1 delBtn">
-                                            <i class="fa-light fa-trash-can"></i>
-                                            حذف
-                                        </button>
-                                    </form>
-
+                                    @can('index', \App\Models\MArket\Product::class)
+                                        <a href="{{ route('admin.market.property.value.index', $property->id) }}"
+                                            class="btn bg-blue-600 text-white flex-center gap-1">
+                                            <i class="fa-regular fa-circle-info"></i>
+                                            ویژگی ها ({{ count($property->values) }})
+                                        </a>
+                                    @endcan
+                                    @can('update', \App\Models\MArket\Product::class)
+                                        <a href="{{ route('admin.market.property.edit', $property->id) }}"
+                                            class="btn bg-yellow-500 text-black flex-center gap-1">
+                                            <i class="fa-light fa-pen-to-square"></i>
+                                            ویرایش
+                                        </a>
+                                        <form class="m-0"
+                                            action="{{ route('admin.market.property.destroy', $property->id) }}"
+                                            method="POST">
+                                            @csrf
+                                            {{ method_field('delete') }}
+                                            <button class="btn bg-red-400 text-black flex-center gap-1 delBtn">
+                                                <i class="fa-light fa-trash-can"></i>
+                                                حذف
+                                            </button>
+                                        </form>
+                                    @endcan
 
                                 </span>
                             </td>

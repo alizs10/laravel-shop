@@ -210,55 +210,60 @@
 
                 </button>
             @endcan
-            <button
-                class="sidebar-btn {{ sidebarDropdownActiver('admin.market.discount', ['coupon', 'public', 'amazing'])['btn'] }}"
-                onclick="toggleSidebarDropdownBtn(this)">
 
-                <div class="flex justify-between w-full">
-                    <span>
-                        <i class="fa-light fa-badge-percent text-xl"></i>
-                        تخفیف ها
-                    </span>
+            @if (auth()->user()->can('index', \App\Models\Market\Coupon::class) ||
+                auth()->user()->can('index', \App\Models\Market\PublicDiscount::class) ||
+                auth()->user()->can('index', \App\Models\Market\AmazingSale::class))
+                <button
+                    class="sidebar-btn {{ sidebarDropdownActiver('admin.market.discount', ['coupon', 'public', 'amazing'])['btn'] }}"
+                    onclick="toggleSidebarDropdownBtn(this)">
 
-                    <span
-                        class="angle ml-2 transition-all duration-300  {{ sidebarDropdownActiver('admin.market.discount', ['coupon', 'public', 'amazing'])['rotate'] }}">
-                        <i class="fa fa-angle-left"></i>
-                    </span>
-                </div>
+                    <div class="flex justify-between w-full">
+                        <span>
+                            <i class="fa-light fa-badge-percent text-xl"></i>
+                            تخفیف ها
+                        </span>
 
-                <ul
-                    class=" {{ sidebarDropdownActiver('admin.market.discount', ['coupon', 'public', 'amazing'])['hidden'] }} dropdown w-full mt-4 flex-col gap-y-2">
+                        <span
+                            class="angle ml-2 transition-all duration-300  {{ sidebarDropdownActiver('admin.market.discount', ['coupon', 'public', 'amazing'])['rotate'] }}">
+                            <i class="fa fa-angle-left"></i>
+                        </span>
+                    </div>
 
-                    @can('index', \App\Models\Market\Coupon::class)
-                        <a href="{{ route('admin.market.discount.coupon') }}"
-                            class="flex items-center gap-x-4 text-sm text-slate-900">
-                            <span class="{{ sidebarDropdownMenuActiver(route('admin.market.discount.coupon')) }}">
-                                <i class="fa-solid fa-angles-left text-xxs"></i>
-                                کوپن های تخفیف
-                            </span>
-                        </a>
-                    @endcan
-                    @can('index', \App\Models\Market\PublicDiscount::class)
-                        <a href="{{ route('admin.market.discount.public') }}"
-                            class="flex items-center gap-x-4 text-sm text-slate-900">
-                            <span class="{{ sidebarDropdownMenuActiver(route('admin.market.discount.public')) }}">
-                                <i class="fa-solid fa-angles-left text-xxs"></i>
-                                تخفیف های عمومی
-                            </span>
-                        </a>
-                    @endcan
-                    @can('index', \App\Models\Market\AmazingSale::class)
-                        <a href="{{ route('admin.market.discount.amazing') }}"
-                            class="flex items-center gap-x-4 text-sm text-slate-900">
-                            <span class="{{ sidebarDropdownMenuActiver(route('admin.market.discount.amazing')) }}">
-                                <i class="fa-solid fa-angles-left text-xxs"></i>
-                                تخفیف های شگفت انگیز
-                            </span>
-                        </a>
-                    @endcan
-                </ul>
+                    <ul
+                        class=" {{ sidebarDropdownActiver('admin.market.discount', ['coupon', 'public', 'amazing'])['hidden'] }} dropdown w-full mt-4 flex-col gap-y-2">
 
-            </button>
+                        @can('index', \App\Models\Market\Coupon::class)
+                            <a href="{{ route('admin.market.discount.coupon') }}"
+                                class="flex items-center gap-x-4 text-sm text-slate-900">
+                                <span class="{{ sidebarDropdownMenuActiver(route('admin.market.discount.coupon')) }}">
+                                    <i class="fa-solid fa-angles-left text-xxs"></i>
+                                    کوپن های تخفیف
+                                </span>
+                            </a>
+                        @endcan
+                        @can('index', \App\Models\Market\PublicDiscount::class)
+                            <a href="{{ route('admin.market.discount.public') }}"
+                                class="flex items-center gap-x-4 text-sm text-slate-900">
+                                <span class="{{ sidebarDropdownMenuActiver(route('admin.market.discount.public')) }}">
+                                    <i class="fa-solid fa-angles-left text-xxs"></i>
+                                    تخفیف های عمومی
+                                </span>
+                            </a>
+                        @endcan
+                        @can('index', \App\Models\Market\AmazingSale::class)
+                            <a href="{{ route('admin.market.discount.amazing') }}"
+                                class="flex items-center gap-x-4 text-sm text-slate-900">
+                                <span class="{{ sidebarDropdownMenuActiver(route('admin.market.discount.amazing')) }}">
+                                    <i class="fa-solid fa-angles-left text-xxs"></i>
+                                    تخفیف های شگفت انگیز
+                                </span>
+                            </a>
+                        @endcan
+                    </ul>
+
+                </button>
+            @endif
 
             @can('index', \App\Models\Market\Delivery::class)
                 <a href="{{ route('admin.market.delivery.index') }}"
@@ -267,7 +272,16 @@
                     روش های ارسال
                 </a>
             @endcan
-            <span class="text-gray-500 text-xs">بخش محتوی</span>
+
+            @if (auth()->user()->can('index', \App\Models\Content\PostCategory::class) ||
+                auth()->user()->can('index', \App\Models\Content\Post::class) ||
+                auth()->user()->can('index', \App\Models\Comment::class) ||
+                auth()->user()->can('index', \App\Models\Content\Menu::class) ||
+                auth()->user()->can('index', \App\Models\Content\AdvertisementBaner::class) ||
+                auth()->user()->can('index', \App\Models\Content\Page::class) ||
+                auth()->user()->can('index', \App\Models\Content\Faq::class))
+                <span class="text-gray-500 text-xs">بخش محتوی</span>
+            @endif
             @can('index', \App\Models\Content\PostCategory::class)
                 <a href="{{ route('admin.content.category.index') }}"
                     class="sidebar-link {{ sideBarMenuActiver(route('admin.content.category.index')) }}">
@@ -337,111 +351,120 @@
                     سطوح دسترسی
                 </a>
             @endcan
-            <span class="text-gray-500 text-xs">بخش تیکت ها</span>
 
-            <button
-                class="sidebar-btn {{ sidebarDropdownActiver('admin.ticket', ['new-tickets', 'opened-tickets', 'closed-tickets', 'index', 'admin.index', 'category.index', 'priority.index'])['btn'] }}"
-                onclick="toggleSidebarDropdownBtn(this)">
-
-                <div class="flex justify-between w-full">
-                    <span>
-                        <i class="fa-light fa-ticket text-xl"></i>
-                        تیکت ها
-                    </span>
-
-                    <span
-                        class="angle ml-2 transition-all duration-300 {{ sidebarDropdownActiver('admin.ticket', ['new-tickets', 'opened-tickets', 'closed-tickets', 'index', 'admin.index', 'category.index', 'priority.index'])['rotate'] }}">
-                        <i class="fa fa-angle-left"></i>
-                    </span>
-                </div>
-
-                <ul
-                    class="{{ sidebarDropdownActiver('admin.ticket', ['new-tickets', 'opened-tickets', 'closed-tickets', 'index', 'admin.index', 'category.index', 'priority.index'])['hidden'] }} dropdown w-full mt-4 flex-col gap-y-2">
-                    @can('index', \App\Models\Ticket\Ticket::class)
-                        <a href="{{ route('admin.ticket.new-tickets') }}"
-                            class="flex items-center gap-x-4 text-sm text-slate-900">
-                            <span
-                                class="sidebar-link {{ sidebarDropdownMenuActiver(route('admin.ticket.new-tickets')) }}">
-                                <i class="fa-solid fa-angles-left text-xxs"></i>
-                                تیکت های جدید
-                            </span>
-                        </a>
-                        <a href="{{ route('admin.ticket.opened-tickets') }}"
-                            class="flex items-center gap-x-4 text-sm text-slate-900">
-                            <span
-                                class="sidebar-link {{ sidebarDropdownMenuActiver(route('admin.ticket.opened-tickets')) }}">
-                                <i class="fa-solid fa-angles-left text-xxs"></i>
-                                تیکت های باز
-                            </span>
-                        </a>
-                        <a href="{{ route('admin.ticket.closed-tickets') }}"
-                            class="flex items-center gap-x-4 text-sm text-slate-900">
-                            <span
-                                class="sidebar-link {{ sidebarDropdownMenuActiver(route('admin.ticket.closed-tickets')) }}">
-                                <i class="fa-solid fa-angles-left text-xxs"></i>
-                                تیکت های بسته
-                            </span>
-                        </a>
-                        <a href="{{ route('admin.ticket.index') }}"
-                            class="flex items-center gap-x-4 text-sm text-slate-900">
-                            <span class="sidebar-link {{ sidebarDropdownMenuActiver(route('admin.ticket.index')) }}">
-                                <i class="fa-solid fa-angles-left text-xxs"></i>
-                                تمام تیکت ها
-                            </span>
-                        </a>
-                    @endcan
-                    @can('index', \App\Models\Ticket\TicketAdmin::class)
-                        <a href="{{ route('admin.ticket.admin.index') }}"
-                            class="flex items-center gap-x-4 text-sm text-slate-900">
-                            <span
-                                class="sidebar-link {{ sidebarDropdownMenuActiver(route('admin.ticket.admin.index')) }}">
-                                <i class="fa-solid fa-angles-left text-xxs"></i>
-                                ادمین تیکت ها
-                            </span>
-                        </a>
-                    @endcan
-                    @can('index', \App\Models\Ticket\TicketCategory::class)
-                        <a href="{{ route('admin.ticket.category.index') }}"
-                            class="flex items-center gap-x-4 text-sm text-slate-900">
-                            <span
-                                class="sidebar-link {{ sidebarDropdownMenuActiver(route('admin.ticket.category.index')) }}">
-                                <i class="fa-solid fa-angles-left text-xxs"></i>
-                                دسته بندی تیکت ها
-                            </span>
-                        </a>
-                    @endcan
-                    @can('index', \App\Models\Ticket\TicketPriority::class)
-                        <a href="{{ route('admin.ticket.priority.index') }}"
-                            class="flex items-center gap-x-4 text-sm text-slate-900">
-                            <span
-                                class="sidebar-link {{ sidebarDropdownMenuActiver(route('admin.ticket.priority.index')) }}">
-                                <i class="fa-solid fa-angles-left text-xxs"></i>
-                                اولویت بندی تیکت ها
-                            </span>
-                        </a>
-                    @endcan
-                </ul>
-
-            </button>
+            @if (auth()->user()->can('index', \App\Models\Ticket\Ticket::class) ||
+                auth()->user()->can('index', \App\Models\Ticket\TicketAdmin::class) ||
+                auth()->user()->can('index', \App\Models\Ticket\TicketCategory::class) ||
+                auth()->user()->can('index', \App\Models\Ticket\TicketPriority::class))
+                <span class="text-gray-500 text-xs">بخش تیکت ها</span>
 
 
+                <button
+                    class="sidebar-btn {{ sidebarDropdownActiver('admin.ticket', ['new-tickets', 'opened-tickets', 'closed-tickets', 'index', 'admin.index', 'category.index', 'priority.index'])['btn'] }}"
+                    onclick="toggleSidebarDropdownBtn(this)">
 
-            <span class="text-gray-500 text-xs">بخش اطلاع رسانی</span>
+                    <div class="flex justify-between w-full">
+                        <span>
+                            <i class="fa-light fa-ticket text-xl"></i>
+                            تیکت ها
+                        </span>
 
-            @can('index', \App\Models\Notify\Email::class)
-                <a href="{{ route('admin.notify.email.index') }}"
-                    class="sidebar-link {{ sideBarMenuActiver(route('admin.notify.email.index')) }}">
-                    <i class="fa-light fa-envelopes text-xl"></i>
-                    اطلاعیه ایمیلی
-                </a>
-            @endcan
-            @can('index', \App\Models\Notify\SMS::class)
-                <a href="{{ route('admin.notify.sms.index') }}"
-                    class="sidebar-link {{ sideBarMenuActiver(route('admin.notify.sms.index')) }}">
-                    <i class="fa-light fa-message-sms text-xl"></i>
-                    اطلاعیه پیامکی
-                </a>
-            @endcan
+                        <span
+                            class="angle ml-2 transition-all duration-300 {{ sidebarDropdownActiver('admin.ticket', ['new-tickets', 'opened-tickets', 'closed-tickets', 'index', 'admin.index', 'category.index', 'priority.index'])['rotate'] }}">
+                            <i class="fa fa-angle-left"></i>
+                        </span>
+                    </div>
+
+                    <ul
+                        class="{{ sidebarDropdownActiver('admin.ticket', ['new-tickets', 'opened-tickets', 'closed-tickets', 'index', 'admin.index', 'category.index', 'priority.index'])['hidden'] }} dropdown w-full mt-4 flex-col gap-y-2">
+                        @can('index', \App\Models\Ticket\Ticket::class)
+                            <a href="{{ route('admin.ticket.new-tickets') }}"
+                                class="flex items-center gap-x-4 text-sm text-slate-900">
+                                <span
+                                    class="sidebar-link {{ sidebarDropdownMenuActiver(route('admin.ticket.new-tickets')) }}">
+                                    <i class="fa-solid fa-angles-left text-xxs"></i>
+                                    تیکت های جدید
+                                </span>
+                            </a>
+                            <a href="{{ route('admin.ticket.opened-tickets') }}"
+                                class="flex items-center gap-x-4 text-sm text-slate-900">
+                                <span
+                                    class="sidebar-link {{ sidebarDropdownMenuActiver(route('admin.ticket.opened-tickets')) }}">
+                                    <i class="fa-solid fa-angles-left text-xxs"></i>
+                                    تیکت های باز
+                                </span>
+                            </a>
+                            <a href="{{ route('admin.ticket.closed-tickets') }}"
+                                class="flex items-center gap-x-4 text-sm text-slate-900">
+                                <span
+                                    class="sidebar-link {{ sidebarDropdownMenuActiver(route('admin.ticket.closed-tickets')) }}">
+                                    <i class="fa-solid fa-angles-left text-xxs"></i>
+                                    تیکت های بسته
+                                </span>
+                            </a>
+                            <a href="{{ route('admin.ticket.index') }}"
+                                class="flex items-center gap-x-4 text-sm text-slate-900">
+                                <span
+                                    class="sidebar-link {{ sidebarDropdownMenuActiver(route('admin.ticket.index')) }}">
+                                    <i class="fa-solid fa-angles-left text-xxs"></i>
+                                    تمام تیکت ها
+                                </span>
+                            </a>
+                        @endcan
+                        @can('index', \App\Models\Ticket\TicketAdmin::class)
+                            <a href="{{ route('admin.ticket.admin.index') }}"
+                                class="flex items-center gap-x-4 text-sm text-slate-900">
+                                <span
+                                    class="sidebar-link {{ sidebarDropdownMenuActiver(route('admin.ticket.admin.index')) }}">
+                                    <i class="fa-solid fa-angles-left text-xxs"></i>
+                                    ادمین تیکت ها
+                                </span>
+                            </a>
+                        @endcan
+                        @can('index', \App\Models\Ticket\TicketCategory::class)
+                            <a href="{{ route('admin.ticket.category.index') }}"
+                                class="flex items-center gap-x-4 text-sm text-slate-900">
+                                <span
+                                    class="sidebar-link {{ sidebarDropdownMenuActiver(route('admin.ticket.category.index')) }}">
+                                    <i class="fa-solid fa-angles-left text-xxs"></i>
+                                    دسته بندی تیکت ها
+                                </span>
+                            </a>
+                        @endcan
+                        @can('index', \App\Models\Ticket\TicketPriority::class)
+                            <a href="{{ route('admin.ticket.priority.index') }}"
+                                class="flex items-center gap-x-4 text-sm text-slate-900">
+                                <span
+                                    class="sidebar-link {{ sidebarDropdownMenuActiver(route('admin.ticket.priority.index')) }}">
+                                    <i class="fa-solid fa-angles-left text-xxs"></i>
+                                    اولویت بندی تیکت ها
+                                </span>
+                            </a>
+                        @endcan
+                    </ul>
+
+                </button>
+            @endif
+
+            @if (auth()->user()->can('index', \App\Models\Notify\Email::class) ||
+                auth()->user()->can('index', \App\Models\Notify\SMS::class))
+                <span class="text-gray-500 text-xs">بخش اطلاع رسانی</span>
+
+                @can('index', \App\Models\Notify\Email::class)
+                    <a href="{{ route('admin.notify.email.index') }}"
+                        class="sidebar-link {{ sideBarMenuActiver(route('admin.notify.email.index')) }}">
+                        <i class="fa-light fa-envelopes text-xl"></i>
+                        اطلاعیه ایمیلی
+                    </a>
+                @endcan
+                @can('index', \App\Models\Notify\SMS::class)
+                    <a href="{{ route('admin.notify.sms.index') }}"
+                        class="sidebar-link {{ sideBarMenuActiver(route('admin.notify.sms.index')) }}">
+                        <i class="fa-light fa-message-sms text-xl"></i>
+                        اطلاعیه پیامکی
+                    </a>
+                @endcan
+            @endif
 
 
             @can('index', \App\Models\Setting\Setting::class)

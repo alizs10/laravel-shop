@@ -44,19 +44,19 @@
                             <td class="flex flex-col gap-y-2">
                                 @if (count($productCategory->specs) > 0)
                                     @foreach ($productCategory->specs as $spec)
-                                    @if ($loop->iteration > 4)
-                                        <span>...</span>
+                                        @if ($loop->iteration > 4)
+                                            <span>...</span>
                                         @break
                                     @endif
-                                        <span>{{ $loop->iteration . '- ' . $spec->name }}</span>
-                                    @endforeach
-                                @else
-                                    -
-                                @endif
-                            </td>
-                            <td>
-                                <span class="flex items-center gap-x-1">
-
+                                    <span>{{ $loop->iteration . '- ' . $spec->name }}</span>
+                                @endforeach
+                            @else
+                                -
+                            @endif
+                        </td>
+                        <td>
+                            <span class="flex items-center gap-x-1">
+                                @can('update', \App\Models\MArket\Product::class)
                                     <a href="{{ route('admin.market.category-spec.create', $productCategory->id) }}"
                                         class="btn bg-blue-600 text-white flex-center gap-1">
                                         <i class="fa-solid fa-plus"></i>
@@ -67,24 +67,25 @@
                                         <i class="fa-light fa-pen-to-square"></i>
                                         مدیریت مشخصات
                                     </a>
+                                @endcan
 
 
 
-                                </span>
-                            </td>
+                            </span>
+                        </td>
 
-                        </tr>
-                    @endforeach
+                    </tr>
+                @endforeach
 
-                </tbody>
-
-
+            </tbody>
 
 
-            </table>
 
-        </section>
 
+        </table>
 
     </section>
+
+
+</section>
 @endsection

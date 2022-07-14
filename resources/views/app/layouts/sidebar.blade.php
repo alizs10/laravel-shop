@@ -1,5 +1,5 @@
 <aside
-        class="fixed top-0 lg:top-24 lg:mt-2 z-30 bottom-0 lg:bottom-auto lg:p-0 -right-full lg:right-0 w-3/4 sm:w-1/3 lg:w-full grid grid-cols-12 lg:items-center lg:justify-end lg:shadow-md bg-white dark:bg-gray-800 transition-all duration-300 overflow-y-scroll lg:overflow-visible">
+    class="fixed top-0 lg:top-24 lg:mt-2 z-30 bottom-0 lg:bottom-auto lg:p-0 -right-full lg:right-0 w-3/4 sm:w-1/3 lg:w-full grid grid-cols-12 lg:items-center lg:justify-end lg:shadow-md bg-white dark:bg-gray-800 transition-all duration-300 overflow-y-scroll lg:overflow-visible">
     <div class="lg:hidden col-span-12 pt-2 pb-3  border-gray-100 dark:border-gray-700">
         <span class="text-red-500 font-bold flex items-center gap-x-4 text-xl mr-2">
             <i class="fa-duotone fa-bag-shopping text-2xl"></i>
@@ -20,79 +20,22 @@
         @endforeach
 
     </ul>
-   
+
 
     <div class="col-span-12 lg:col-span-1 mt-3 lg:m-0">
         <span id="toggleCategories"
-        class="col-span-12 lg:col-span-1 lg:block lg:pt-1 lg:flex-center lg:pb-2 lg:text-center text-xxs font-bold lg:cursor-pointer lg:self-center lg:border-l-2 lg:border-b-2 border-gray-100 dark:border-gray-800">دسته
-        بندی ها</span>
+            class="col-span-12 lg:col-span-1 lg:block lg:pt-1 lg:flex-center lg:pb-2 lg:text-center text-xxs font-bold lg:cursor-pointer lg:self-center lg:border-l-2 lg:border-b-2 border-gray-100 dark:border-gray-800">دسته
+            بندی ها</span>
 
 
         <!-- categories for small screens -->
         <ul class="col-span-12 flex flex-col mt-3 lg:hidden">
-            <div class="flex flex-col">
-                <span id="s-c-1" class="s-cat flex flex-col items-center py-2 cursor-pointer">
-                    <div class="flex justify-between w-full py-2">
-                        <span class="text-xs mr-2">کالاهای دیجیتال</span>
-                        <span class="ml-2 text-xs">
-                            <i class="fa-solid fa-angle-left"></i>
-                        </span>
-                    </div>
-                </span>
-                <ul id="s-c-s-1" class="hidden w-full flex flex-col bg-gray-300 dark:bg-gray-900">
-                    <span class="flex justify-between py-3 text-red-500 cursor-pointer">
-                        <span class="text-xs mr-6">گوشی و لوازم جانبی موبایل</span>
-                        <span class="ml-2 text-xs">
-                            <i class="fa-solid fa-angle-up"></i>
-                        </span>
-                    </span>
-                    <ul class="w-full flex flex-col">
-                        <a href="" class="mr-10 text-xs py-3">گوشی موبایل</a>
-                        <a href="" class="mr-10 text-xs py-3">هندزفری</a>
-                        <a href="" class="mr-10 text-xs py-3">کابل شارژر و مبدل</a>
-                    </ul>
-                    <span class="flex justify-between py-3 cursor-pointer">
-                        <span class="text-xs mr-6">گوشی و لوزام جانبی موبایل</span>
-                        <span class="ml-2 text-xs">
-                            <i class="fa-solid fa-angle-down"></i>
-                        </span>
-                    </span>
-                    <a href="" class="mr-6 text-xs py-3">ساعت هوشمند</a>
-                </ul>
-            </div>
-            <div class="flex flex-col">
-                <span id="s-c-2" class="s-cat flex flex-col items-center py-2 cursor-pointer">
-                    <div class="flex justify-between w-full py-2">
-                        <span class="text-xs mr-2">کالاهای دیجیتال</span>
-                        <span class="ml-2 text-xs">
-                            <i class="fa-solid fa-angle-left"></i>
-                        </span>
-                    </div>
-                </span>
-                <ul id="s-c-s-2" class="hidden w-full flex flex-col bg-gray-300 dark:bg-gray-800">
-                    <span class="flex justify-between py-3 text-red-500 cursor-pointer">
-                        <span class="text-xs mr-6">گوشی و لوازم جانبی موبایل</span>
-                        <span class="ml-2 text-xs">
-                            <i class="fa-solid fa-angle-up"></i>
-                        </span>
-                    </span>
-                    <ul class="w-full flex flex-col">
-                        <a href="" class="mr-10 text-xs py-3">گوشی موبایل</a>
-                        <a href="" class="mr-10 text-xs py-3">هندزفری</a>
-                        <a href="" class="mr-10 text-xs py-3">کابل شارژر و مبدل</a>
-                    </ul>
-                    <span class="flex justify-between py-3 cursor-pointer">
-                        <span class="text-xs mr-6">گوشی و لوزام جانبی موبایل</span>
-                        <span class="ml-2 text-xs">
-                            <i class="fa-solid fa-angle-down"></i>
-                        </span>
-                    </span>
-                    <a href="" class="mr-6 text-xs py-3">ساعت هوشمند</a>
-                </ul>
-            </div>
+
+            {{ categoriesForSmallScreens($product_categories) }}
 
         </ul>
         <!-- categories for small screens -->
+
 
 
         <!-- categories for big screens -->

@@ -1,4 +1,4 @@
-<footer class="bg-gray-100 dark:bg-gray-800 dark:text-white relative shadow-md z-10 flex flex-col mt-24">
+<footer class="bg-gray-100 dark:bg-gray-800 dark:text-white relative shadow-md flex flex-col mt-24">
     <div class="absolute -top-10 md:-top-16 w-full flex justify-center z-0">
         <div class="h-10 md:h-16 w-5/6 bg-red-500 rounded-t-lg p-4 flex items-center">
             <span class="text-white text-sm md:text-lg">فروشگاه اینترنتی لاراول</span>

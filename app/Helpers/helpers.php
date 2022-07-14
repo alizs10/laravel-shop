@@ -55,6 +55,54 @@ function p2e_nuumbers($str)
 
 function price_formater($price)
 {
-   $formated_price = number_format($price, 0, '.', ',');
-   return e2p_numbers($formated_price);
+    $formated_price = number_format($price, 0, '.', ',');
+    return e2p_numbers($formated_price);
+}
+
+function categoriesForSmallScreens($categories)
+{
+    $container = '';
+
+    foreach ($categories as $key => $cat) {
+        $container = categoryAndSubCategoriesGenerator($cat, 0);
+    }
+
+    echo $container;
+}
+
+$categoriesContainer = "";
+
+function categoryAndSubCategoriesGenerator($category, $number)
+{
+    global $categoriesContainer;
+    if ($category->children->count() > 0) {
+        $categoriesContainer .= '
+    <span id="s-c-' . $category->id . '"
+     class="s-cat flex justify-between py-3 text-gray-500 dark:text-gray-400 cursor-pointer">
+        <span class="text-xs mr-' . (($number * 4) + 2) . '">' . $category->name . '</span>
+        <span class="ml-2 text-xs">
+            <i class="fa-solid fa-angle-left"></i>
+        </span>
+    </span>
+    ';
+    } else {
+        $categoriesContainer .= '
+        <a href="" class="mr-10 text-xs py-3">' . $category->name . '</a>
+        ';
+    }
+
+
+    if ($category->children->count() > 0) {
+        $categoriesContainer .= '
+        <ul id="s-c-s-' . $category->id . '" class="hidden w-full flex flex-col bg-gray-300 dark:bg-gray-900">
+        ';
+        foreach ($category->children as $key => $child) {
+            $categoriesContainer = categoryAndSubCategoriesGenerator($child, $key);
+        }
+        $categoriesContainer .= '
+        </ul>
+        ';
+    }
+
+    return $categoriesContainer;
 }

@@ -28,7 +28,8 @@
             <span class="text-xs xs:text-base md:text-lg text-red-500">{{ $product->name }}</span>
 
             <div class="flex items-center gap-x-4">
-                <button class="text-2xl">
+                <button onclick="addToFavorites(this, 'text-white')" data-url="{{ route('app.user.favorites.toggle', $product->id) }}"
+                    class="text-2xl @if($product->isFavorite(auth()->user()->id)) text-red-500 @endif">
                     <i class="fa-regular fa-heart"></i>
                 </button>
                 <button class="text-2xl">
@@ -37,7 +38,7 @@
                 <button class="text-2xl">
                     <i class="fa-regular fa-code-compare"></i>
                 </button>
-                <button class="text-2xl">
+                <button onclick="copyToClipboard('{{ route('app.product.index', $product->id) }}')" class="text-2xl">
                     <i class="fa-regular fa-share-nodes"></i>
                 </button>
             </div>
@@ -261,7 +262,7 @@
                                 @endif
                             </span>
                         </span>
-                        @else
+                    @else
                         <span class="text-xs text-gray-500 flex gap-x-2 items-center">
                             <i class="fa-regular fa-xmark"></i>
                             <span>این محصول ناموجود می باشد</span>
@@ -571,8 +572,17 @@
 @endsection
 
 @section('scripts')
+    <script src="{{ asset('app-assets/js/products.js') }}"></script>
     <script src="{{ asset('app-assets/js/product-images-slider.js') }}"></script>
     <script src="{{ asset('app-assets/js/product-details.js') }}"></script>
     <script src="{{ asset('app-assets/js/product-comment.js') }}"></script>
     <script src="{{ asset('app-assets/js/get-product-price.js') }}"></script>
+    <script src="{{ asset('app-assets/js/js-toast.min.js') }}"></script>
+    <script>
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(function() {
+                iqwerty.toast.toast('لینک محصول با موفقیت کپی شد');
+            })
+        }
+    </script>
 @endsection

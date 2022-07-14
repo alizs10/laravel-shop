@@ -1,4 +1,4 @@
-function addToFavorites(btn) {
+function addToFavorites(btn, colorClass = null) {
 
     let url = $(btn).attr('data-url');
     $.ajax({
@@ -6,12 +6,23 @@ function addToFavorites(btn) {
         url,
         success: function (response) {
             if (response.status) {
-                $(btn).removeClass('text-gray-700').addClass('text-red-500')
+                if (colorClass != null) {
+                    $(btn).removeClass(colorClass).addClass('text-red-500')
+                } else {
+                    $(btn).removeClass('text-gray-700').addClass('text-red-500')
+                }
             } else {
                 if (response.redirect) {
                     window.location(response.url)
                 }
-                $(btn).removeClass('text-red-500').addClass('text-gray-700')
+                if (colorClass != null) {
+                    $(btn).removeClass('text-red-500').addClass(colorClass)
+
+                } else {
+                    $(btn).removeClass('text-red-500').addClass('text-gray-700')
+
+                }
+               
             }
         },
         error: function (response) {

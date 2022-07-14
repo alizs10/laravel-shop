@@ -18,6 +18,7 @@ class GalleryController extends Controller
      */
     public function index(Product $product)
     {
+        $this->authorize('index', Product::class);
         return view('admin.market.product.gallery.index', compact('product'));
     }
 
@@ -39,6 +40,7 @@ class GalleryController extends Controller
      */
     public function store(ProductGalleryRequest $request, Product $product, ImageService $imageService)
     {
+        $this->authorize('create', Product::class);
 
         if ($request->has('image')) {
 
@@ -106,6 +108,7 @@ class GalleryController extends Controller
      */
     public function destroy(ProductGallery $image)
     {
+        $this->authorize('delete', Product::class);
         $image->delete();
         return redirect()->back()->with('alertify-danger', 'تصویر با موفقیت حذف شد');
 

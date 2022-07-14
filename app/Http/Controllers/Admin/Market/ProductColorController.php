@@ -17,6 +17,7 @@ class ProductColorController extends Controller
      */
     public function index(Product $product)
     {
+        $this->authorize('index', Product::class);
         return view('admin.market.product.color.index', compact('product'));
     }
 
@@ -27,6 +28,7 @@ class ProductColorController extends Controller
      */
     public function create(Product $product)
     {
+        $this->authorize('create', Product::class);
         return view('admin.market.product.color.create', compact('product'));
     }
 
@@ -38,6 +40,7 @@ class ProductColorController extends Controller
      */
     public function store(ProductColorRequest $request, Product $product)
     {
+        $this->authorize('create', Product::class);
         $inputs = $request->all();
         $inputs['product_id'] = $product->id;
         ProductColor::create($inputs);
@@ -63,6 +66,7 @@ class ProductColorController extends Controller
      */
     public function edit(ProductColor $color)
     {
+        $this->authorize('update', Product::class);
         return view('admin.market.product.color.edit', compact('color'));
     }
 
@@ -75,6 +79,7 @@ class ProductColorController extends Controller
      */
     public function update(ProductColorRequest $request, ProductColor $color)
     {
+        $this->authorize('update', Product::class);
         $inputs = $request->all();
         $color->update($inputs);
         return redirect()->route('admin.market.product.color.index', $color->product_id)->with('alertify-warning', 'رنگ موردنظر ویرایش شد');
@@ -89,6 +94,7 @@ class ProductColorController extends Controller
      */
     public function destroy(ProductColor $color)
     {
+        $this->authorize('delete', Product::class);
         $color->delete();
         return redirect()->back()->with('alertify-error', 'رنگ موردنظر با موفقیت حذف شد');
     }

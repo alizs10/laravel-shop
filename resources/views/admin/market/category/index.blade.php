@@ -18,8 +18,10 @@
     <section class="flex flex-col gap-y-2 p-2 w-full">
         <div class="flex justify-between items-center">
             <span class="text-sm md:text-lg">دسته بندی</span>
-            <a href="{{ route('admin.market.category.create') }}" class="btn bg-blue-600 text-white">افزودن دسته بندی
-                جدید</a>
+            @can('create', \App\Models\Market\ProductCategory::class)
+                <a href="{{ route('admin.market.category.create') }}" class="btn bg-blue-600 text-white">افزودن دسته بندی
+                    جدید</a>
+            @endcan
         </div>
 
 
@@ -50,31 +52,35 @@
                                     alt="">
                             </td>
                             <td>{{ $productCategory->tags }}</td>
-                            <td>
-                                <input type="checkbox" id="status-{{ $productCategory->id }}"
-                                    data-url="{{ route('admin.market.category.status', $productCategory->id) }}"
-                                    onchange="changeStatus({{ $productCategory->id }})"
-                                    @if ($productCategory->status === 1) checked @endif>
-                            </td>
+                            @can('update', \App\Models\Market\ProductCategory::class)
+                                <td>
+                                    <input type="checkbox" id="status-{{ $productCategory->id }}"
+                                        data-url="{{ route('admin.market.category.status', $productCategory->id) }}"
+                                        onchange="changeStatus({{ $productCategory->id }})"
+                                        @if ($productCategory->status === 1) checked @endif>
+                                </td>
+                            @endcan
                             <td>
                                 <span class="flex items-center gap-x-1">
-
-                                    <a href="{{ route('admin.market.category.edit', $productCategory->id) }}"
-                                        class="btn bg-yellow-500 text-black flex-center gap-1">
-                                        <i class="fa-light fa-pen-to-square"></i>
-                                        ویرایش
-                                    </a>
-                                    <form class="m-0"
-                                        action="{{ route('admin.market.category.destroy', $productCategory->id) }}"
-                                        method="POST">
-                                        @csrf
-                                        {{ method_field('delete') }}
-                                        <button class="btn bg-red-400 text-black flex-center gap-1 delBtn">
-                                            <i class="fa-light fa-trash-can"></i>
-                                            حذف
-                                        </button>
-                                    </form>
-
+                                    @can('update', \App\Models\Market\ProductCategory::class)
+                                        <a href="{{ route('admin.market.category.edit', $productCategory->id) }}"
+                                            class="btn bg-yellow-500 text-black flex-center gap-1">
+                                            <i class="fa-light fa-pen-to-square"></i>
+                                            ویرایش
+                                        </a>
+                                    @endcan
+                                    @can('delete', \App\Models\Market\ProductCategory::class)
+                                        <form class="m-0"
+                                            action="{{ route('admin.market.category.destroy', $productCategory->id) }}"
+                                            method="POST">
+                                            @csrf
+                                            {{ method_field('delete') }}
+                                            <button class="btn bg-red-400 text-black flex-center gap-1 delBtn">
+                                                <i class="fa-light fa-trash-can"></i>
+                                                حذف
+                                            </button>
+                                        </form>
+                                    @endcan
 
                                 </span>
                             </td>

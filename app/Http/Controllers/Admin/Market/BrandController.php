@@ -18,6 +18,7 @@ class BrandController extends Controller
      */
     public function index()
     {
+        $this->authorize('index', Brand::class);
         $brands = Brand::all();
         return view('admin.market.brand.index', compact('brands'));
     }
@@ -29,6 +30,7 @@ class BrandController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Brand::class);
         return view('admin.market.brand.create');
     }
 
@@ -40,6 +42,7 @@ class BrandController extends Controller
      */
     public function store(BrandRequest $request, ImageService $imageService)
     {
+        $this->authorize('create', Brand::class);
         $inputs = $request->all();
         
         if ($request->hasFile('logo')) {
@@ -75,6 +78,7 @@ class BrandController extends Controller
      */
     public function edit(Brand $brand)
     {
+        $this->authorize('update', Brand::class);
         return view('admin.market.brand.edit', compact('brand'));
     }
 
@@ -87,6 +91,7 @@ class BrandController extends Controller
      */
     public function update(BrandRequest $request, Brand $brand, ImageService $imageService)
     {
+        $this->authorize('update', Brand::class);
         $inputs = $request->all();
         if ($request->hasFile('logo')) {
             
@@ -113,12 +118,14 @@ class BrandController extends Controller
      */
     public function destroy(Brand $brand)
     {
+        $this->authorize('delete', Brand::class);
         $brand->delete();
         return redirect()->route('admin.market.brand.index')->with('alertify-error', 'برند با موفقیت حذف شد');
     }
 
     public function status(Brand $brand)
     {
+        $this->authorize('update', Brand::class);
         $brand->status = $brand->status == 0 ? 1 : 0;
         $result = $brand->save();
 

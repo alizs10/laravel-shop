@@ -18,7 +18,9 @@
     <section class="flex flex-col gap-y-2 p-2 w-full">
         <div class="flex justify-between items-center">
             <span class="text-sm md:text-lg">محصولات</span>
-            <a href="{{ route('admin.market.product.create') }}" class="btn bg-blue-600 text-white">افزودن محصول جدید</a>
+            @can('create', \App\Models\Market\Product::class)
+                <a href="{{ route('admin.market.product.create') }}" class="btn bg-blue-600 text-white">افزودن محصول جدید</a>
+            @endcan
         </div>
 
 
@@ -45,17 +47,20 @@
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $product->name }}</td>
                             <td>
-                                <img src="{{ asset('storage\\' . $product->image['indexArray']['small']) }}" alt="">
+                                <img src="{{ asset('storage\\' . $product->image['indexArray']['small']) }}"
+                                    alt="">
                             </td>
                             <td>{{ $product->price . ' تومان' }}</td>
                             <td>{{ $product->category->name }}</td>
                             <td>{{ showPersianDate($product->published_at, 'Y-m-d') }}</td>
-                            <td>
-                                <input type="checkbox" id="status-{{ $product->id }}"
-                                    data-url="{{ route('admin.market.product.status', $product->id) }}"
-                                    onchange="changeStatus({{ $product->id }})"
-                                    @if ($product->status === 1) checked @endif>
-                            </td>
+                            @can('create', \App\Models\Market\Product::class)
+                                <td>
+                                    <input type="checkbox" id="status-{{ $product->id }}"
+                                        data-url="{{ route('admin.market.product.status', $product->id) }}"
+                                        onchange="changeStatus({{ $product->id }})"
+                                        @if ($product->status === 1) checked @endif>
+                                </td>
+                            @endcan
                             <td>
                                 <div class="relative">
                                     <button onclick="toggleDropdown('dropdown-{{ $product->id }}')"
@@ -67,42 +72,51 @@
 
                                     <div class="hidden absolute top-10 left-0 z-30 w-56 h-fit rounded-lg bg-white dark:bg-slate-900 flex flex-col overflow-hidden"
                                         id={{ "dropdown-{$product->id}" }}>
-                                        <a href="{{ route('admin.market.product.store.index', $product->id) }}"
-                                            class="py-2 w-full text-sm h-full flex items-center gap-x-2 hover-transition hover:bg-slate-100 dark:hover:bg-slate-800">
-                                            <i class="fa-regular fa-garage mr-2"></i>
-                                            انبار
-                                        </a>
-                                        <a href="{{ route('admin.market.product.color.index', $product->id) }}"
-                                            class="py-2 w-full text-sm h-full flex items-center gap-x-2 hover-transition hover:bg-slate-100 dark:hover:bg-slate-800">
-                                            <i class="fa-regular fa-palette mr-2"></i>
-                                            رنگ ها ({{ count($product->colors) }})    
-                                        </a>
-                                        <a href="{{ route('admin.market.product.gallery.index', $product->id) }}"
-                                            class="py-2 w-full text-sm h-full flex items-center gap-x-2 hover-transition hover:bg-slate-100 dark:hover:bg-slate-800">
-                                            <i class="fa-regular fa-images mr-2"></i>
-                                            گالری ({{ count($product->gallery) }})    
-                                        </a>
-                                        <a href="{{ route('admin.market.product.spec.index', $product->id) }}"
-                                            class="py-2 w-full text-sm h-full flex items-center gap-x-2 hover-transition hover:bg-slate-100 dark:hover:bg-slate-800">
-                                            <i class="fa-regular fa-info mr-2"></i>
-                                            مشخصات کالا ({{ count($product->specs) }})    
-                                        </a>
-                                        <a href="{{ route('admin.market.product.edit', $product->id) }}"
-                                            class="py-2 w-full text-sm h-full flex items-center gap-x-2 hover-transition hover:bg-slate-100 dark:hover:bg-slate-800">
-                                            <i class="fa-regular fa-pen-to-square mr-2"></i>
-                                           ویرایش   
-                                        </a>
-                                        
-                                        <form class="w-full m-0"
-                                        action="{{ route('admin.market.product.destroy', $product->id) }}" method="POST">
-                                            @csrf
-                                            {{ method_field('delete') }}
-                                            <button
-                                                class="py-2 w-full text-sm h-full flex items-center gap-x-2 hover-transition hover:bg-slate-100 dark:hover:bg-slate-800 delBtn">
-                                                <i class="fa-regular fa-trash-can mr-2"></i>
-                                                حذف</button>
-                                        </form>
 
+                                        @can('update', \App\Models\Market\Product::class)
+                                            <a href="{{ route('admin.market.product.store.index', $product->id) }}"
+                                                class="py-2 w-full text-sm h-full flex items-center gap-x-2 hover-transition hover:bg-slate-100 dark:hover:bg-slate-800">
+                                                <i class="fa-regular fa-garage mr-2"></i>
+                                                انبار
+                                            </a>
+                                        @endcan
+                                        @can('create', \App\Models\Market\Product::class)
+                                            <a href="{{ route('admin.market.product.color.index', $product->id) }}"
+                                                class="py-2 w-full text-sm h-full flex items-center gap-x-2 hover-transition hover:bg-slate-100 dark:hover:bg-slate-800">
+                                                <i class="fa-regular fa-palette mr-2"></i>
+                                                رنگ ها ({{ count($product->colors) }})
+                                            </a>
+
+                                            <a href="{{ route('admin.market.product.gallery.index', $product->id) }}"
+                                                class="py-2 w-full text-sm h-full flex items-center gap-x-2 hover-transition hover:bg-slate-100 dark:hover:bg-slate-800">
+                                                <i class="fa-regular fa-images mr-2"></i>
+                                                گالری ({{ count($product->gallery) }})
+                                            </a>
+                                            <a href="{{ route('admin.market.product.spec.index', $product->id) }}"
+                                                class="py-2 w-full text-sm h-full flex items-center gap-x-2 hover-transition hover:bg-slate-100 dark:hover:bg-slate-800">
+                                                <i class="fa-regular fa-info mr-2"></i>
+                                                مشخصات کالا ({{ count($product->specs) }})
+                                            </a>
+                                        @endcan
+                                        @can('update', \App\Models\Market\Product::class)
+                                            <a href="{{ route('admin.market.product.edit', $product->id) }}"
+                                                class="py-2 w-full text-sm h-full flex items-center gap-x-2 hover-transition hover:bg-slate-100 dark:hover:bg-slate-800">
+                                                <i class="fa-regular fa-pen-to-square mr-2"></i>
+                                                ویرایش
+                                            </a>
+                                        @endcan
+                                        @can('delete', \App\Models\Market\Product::class)
+                                            <form class="w-full m-0"
+                                                action="{{ route('admin.market.product.destroy', $product->id) }}"
+                                                method="POST">
+                                                @csrf
+                                                {{ method_field('delete') }}
+                                                <button
+                                                    class="py-2 w-full text-sm h-full flex items-center gap-x-2 hover-transition hover:bg-slate-100 dark:hover:bg-slate-800 delBtn">
+                                                    <i class="fa-regular fa-trash-can mr-2"></i>
+                                                    حذف</button>
+                                            </form>
+                                        @endcan
                                     </div>
                                 </div>
                             </td>

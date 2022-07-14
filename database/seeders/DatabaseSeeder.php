@@ -10,11 +10,14 @@ use Database\Seeders\Permissions\Content\PagePermissionSeeder;
 use Database\Seeders\Permissions\Content\PostCategoryPermissionSeeder;
 use Database\Seeders\Permissions\Content\PostPermissionSeeder;
 use Database\Seeders\Permissions\Market\AmazingSalePermissionSeeder;
+use Database\Seeders\Permissions\Market\BrandPermissionSeeder;
 use Database\Seeders\Permissions\Market\CouponPermissionSeeder;
 use Database\Seeders\Permissions\Market\PublicDiscountPermissionSeeder;
 use Database\Seeders\Permissions\Market\DeliveryPermissionSeeder;
 use Database\Seeders\Permissions\Market\OrderPermissionSeeder;
 use Database\Seeders\Permissions\Market\PaymentPermissionSeeder;
+use Database\Seeders\Permissions\Market\ProductCategoryPermissionSeeder;
+use Database\Seeders\Permissions\Market\ProductPermissionSeeder;
 use Database\Seeders\Permissions\Notify\EmailFilePermissionSeeder;
 use Database\Seeders\Permissions\Notify\EmailPermissionSeeder;
 use Database\Seeders\Permissions\Notify\SMSPermissionSeeder;
@@ -47,6 +50,10 @@ class DatabaseSeeder extends Seeder
 
             // PaymentPermissionSeeder::class,
             // OrderPermissionSeederk::class,
+
+            // ProductCategoryPermissionSeeder::class,
+            // ProductPermissionSeeder::class,
+            // BrandPermissionSeeder::class,
             
 
             //content

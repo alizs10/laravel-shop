@@ -21,6 +21,7 @@ class ProductController extends Controller
      */
     public function index()
     {
+        $this->authorize('index', Product::class);
         $products = Product::orderBy('created_at', 'desc')->simplePaginate(15);
         return view('admin.market.product.index', compact('products'));
     }
@@ -32,6 +33,7 @@ class ProductController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Product::class);
         $productCategories = ProductCategory::all();
         $brands = Brand::all();
         return view('admin.market.product.create', compact('productCategories', 'brands'));
@@ -45,6 +47,7 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request, ImageService $imageService)
     {
+        $this->authorize('create', Product::class);
 
         $inputs = $request->all();
         $inputs['published_at'] = date('Y-m-d', intval(substr($request->published_at, 0, 10)));
@@ -106,6 +109,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
+        $this->authorize('update', Product::class);
         $productCategories = ProductCategory::all();
         $brands = Brand::all();
         return view('admin.market.product.edit', compact('product', 'productCategories', 'brands'));
@@ -121,6 +125,7 @@ class ProductController extends Controller
     public function update(ProductRequest $request, Product $product, ImageService $imageService)
     {
 
+        $this->authorize('update', Product::class);
 
         $inputs = $request->all();
         $inputs['published_at'] = date('Y-m-d', intval(substr($request->published_at, 0, 10)));
@@ -192,6 +197,7 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
+        $this->authorize('delete', Product::class);
         $product->amazingSale()->delete();
         $product->delete();
         return redirect()->route('admin.market.product.index')->with('alertify-error', 'محصول موردنظر با موفقیت حذف شد');
@@ -199,6 +205,7 @@ class ProductController extends Controller
 
     public function status(Product $product)
     {
+        $this->authorize('update', Product::class);
         $product->status = $product->status == 0 ? 1 : 0;
         $result = $product->save();
 

@@ -119,4 +119,13 @@ class Product extends Model
         $productServices = new ProductServices();
         return $productServices->isMarketable($this, $attributes, $default_attributes);
     }
+
+
+    public const CAN_VIEW_ID = 266;
+    public const CAN_CREATE_ID = 267;
+    public const CAN_UPDATE_ID = 268;
+    public const CAN_DELETE_ID = 269;
+    public const CAN_ALL_ID = 270;
+
+
 }

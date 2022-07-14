@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Market;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Market\CategorySpecRequest;
 use App\Models\Market\CategorySpec;
+use App\Models\Market\Product;
 use App\Models\Market\ProductCategory;
 use Illuminate\Http\Request;
 
@@ -17,6 +18,7 @@ class CategorySpecController extends Controller
      */
     public function index()
     {
+        $this->authorize('index', Product::class);
         $productCategories = ProductCategory::all();
         $specs = CategorySpec::all();
         return view('admin.market.category-spec.index', compact('productCategories', 'specs'));
@@ -29,6 +31,7 @@ class CategorySpecController extends Controller
      */
     public function create(ProductCategory $productCategory)
     {
+        $this->authorize('create', Product::class);
         return view('admin.market.category-spec.create', compact('productCategory'));
     }
 
@@ -40,6 +43,7 @@ class CategorySpecController extends Controller
      */
     public function store(CategorySpecRequest $request, ProductCategory $productCategory)
     {
+        $this->authorize('create', Product::class);
 
       
         $specs = $request->only('spec')['spec'];
@@ -75,6 +79,7 @@ class CategorySpecController extends Controller
      */
     public function edit(CategorySpec $spec)
     {
+        $this->authorize('update', Product::class);
         return view('admin.market.category-spec.edit', compact('spec'));
     }
 
@@ -87,6 +92,7 @@ class CategorySpecController extends Controller
      */
     public function update(CategorySpecRequest $request,CategorySpec $spec)
     {
+        $this->authorize('update', Product::class);
         $inputs  = $request->all();
         $spec->update($inputs);
 
@@ -102,6 +108,7 @@ class CategorySpecController extends Controller
      */
     public function destroy(CategorySpec $spec)
     {
+        $this->authorize('delete', Product::class);
         $spec->delete();
 
         return redirect()->route('admin.market.category-spec.manage', $spec->cat_id)->with('alertify-success', 'مشخصات کالا با موفقیت حذف شد');
@@ -110,6 +117,7 @@ class CategorySpecController extends Controller
 
     public function status(CategorySpec $spec)
     {
+        $this->authorize('update', Product::class);
         $spec->status = $spec->status == 0 ? 1 : 0;
         $result = $spec->save();
 
@@ -127,6 +135,7 @@ class CategorySpecController extends Controller
 
     public function manage(ProductCategory $productCategory)
     {
+        $this->authorize('index', Product::class);
         $specs = $productCategory->specs;
         return view('admin.market.category-spec.manage', compact('specs', 'productCategory'));
     }

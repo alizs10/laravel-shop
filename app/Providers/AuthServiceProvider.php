@@ -8,10 +8,13 @@ use App\Models\Content\Page;
 use App\Models\Content\Post;
 use App\Models\Content\PostCategory;
 use App\Models\Market\AmazingSale;
+use App\Models\Market\Brand;
 use App\Models\Market\Coupon;
 use App\Models\Market\Delivery;
 use App\Models\Market\Order;
 use App\Models\Market\Payment;
+use App\Models\Market\Product;
+use App\Models\Market\ProductCategory;
 use App\Models\Market\PublicDiscount;
 use App\Models\Notify\Email;
 use App\Models\Notify\EmailFile;
@@ -29,10 +32,13 @@ use App\Policies\Content\PagePolicy;
 use App\Policies\Content\PostCategoryPolicy;
 use App\Policies\Content\PostPolicy;
 use App\Policies\Market\AmazingSalePolicy;
+use App\Policies\Market\BrandPolicy;
 use App\Policies\Market\CouponPolicy;
 use App\Policies\Market\DeliveryPolicy;
 use App\Policies\Market\OrderPolicy;
 use App\Policies\Market\PaymentPolicy;
+use App\Policies\Market\ProductCategoryPolicy;
+use App\Policies\Market\ProductPolicy;
 use App\Policies\Market\PublicDiscountPolicy;
 use App\Policies\Notify\EmailFilePolicy;
 use App\Policies\Notify\EmailPolicy;
@@ -86,6 +92,9 @@ class AuthServiceProvider extends ServiceProvider
         AmazingSale::class => AmazingSalePolicy::class,
         Payment::class => PaymentPolicy::class,
         Order::class => OrderPolicy::class,
+        Product::class => ProductPolicy::class,
+        ProductCategory::class => ProductCategoryPolicy::class,
+        Brand::class => BrandPolicy::class,
     ];
 
     /**

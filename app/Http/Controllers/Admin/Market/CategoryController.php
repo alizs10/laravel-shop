@@ -17,6 +17,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
+        $this->authorize('index', ProductCategory::class);
         $productCategories = ProductCategory::orderBy('created_at', 'desc')->simplePaginate(10);
         return view('admin.market.category.index', compact('productCategories'));
         
@@ -29,6 +30,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', ProductCategory::class);
         $productCategories = ProductCategory::all();
         return view('admin.market.category.create', compact('productCategories'));
     }
@@ -41,6 +43,7 @@ class CategoryController extends Controller
      */
     public function store(ProductCategoryRequest $request, ImageService $imageService)
     {
+        $this->authorize('create', ProductCategory::class);
         $inputs = $request->all();
         
         if ($request->hasFile('image')) {
@@ -76,6 +79,7 @@ class CategoryController extends Controller
      */
     public function edit(ProductCategory $productCategory)
     {
+        $this->authorize('update', ProductCategory::class);
         $productCategories = ProductCategory::all()->except($productCategory->id);
         return view('admin.market.category.edit', compact('productCategory', 'productCategories'));
     }
@@ -89,6 +93,8 @@ class CategoryController extends Controller
      */
     public function update(ProductCategoryRequest $request, ProductCategory $productCategory, ImageService $imageService)
     {
+
+        $this->authorize('update', ProductCategory::class);
         $inputs = $request->all();
         if ($request->hasFile('image')) {
             
@@ -115,12 +121,14 @@ class CategoryController extends Controller
      */
     public function destroy(ProductCategory $productCategory)
     {
+        $this->authorize('delete', ProductCategory::class);
         $productCategory->delete();
         return redirect()->route('admin.market.category.index')->with('alertify-error', 'دسته بندی با موفقیت حذف شد');
     }
 
     public function status(ProductCategory $productCategory)
     {
+        $this->authorize('update', ProductCategory::class);
         $productCategory->status = $productCategory->status == 0 ? 1 : 0;
         $result = $productCategory->save();
 

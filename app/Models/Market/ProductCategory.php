@@ -40,4 +40,13 @@ class ProductCategory extends Model
     {
         return $this->hasMany(CategorySpec::class, 'cat_id');
     }
+
+
+    public const CAN_VIEW_ID = 261;
+    public const CAN_CREATE_ID = 262;
+    public const CAN_UPDATE_ID = 263;
+    public const CAN_DELETE_ID = 264;
+    public const CAN_ALL_ID = 265;
+
+
 }

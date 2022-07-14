@@ -18,7 +18,9 @@
     <section class="flex flex-col gap-y-2 p-2 w-full">
         <div class="flex justify-between items-center">
             <span class="text-sm md:text-lg">دسته بندی</span>
-            <a href="{{ route('admin.market.brand.create') }}" class="btn bg-blue-600 text-white">افزودن برند جدید</a>
+            @can('create', \App\Models\Market\Brand::class)
+                <a href="{{ route('admin.market.brand.create') }}" class="btn bg-blue-600 text-white">افزودن برند جدید</a>
+            @endcan
         </div>
 
 
@@ -44,31 +46,34 @@
                             <td>
                                 <img src="{{ asset('storage\\' . $brand->logo['indexArray']['small']) }}" alt="">
                             </td>
-                            <td>
-                                <input type="checkbox" id="status-{{ $brand->id }}"
-                                    data-url="{{ route('admin.market.brand.status', $brand->id) }}"
-                                    onchange="changeStatus({{ $brand->id }})"
-                                    @if ($brand->status === 1) checked @endif>
-                            </td>
+                            @can('update', \App\Models\Market\Brand::class)
+                                <td>
+                                    <input type="checkbox" id="status-{{ $brand->id }}"
+                                        data-url="{{ route('admin.market.brand.status', $brand->id) }}"
+                                        onchange="changeStatus({{ $brand->id }})"
+                                        @if ($brand->status === 1) checked @endif>
+                                </td>
+                            @endcan
                             <td>
                                 <span class="flex items-center gap-x-1">
-
-                                    <a href="{{ route('admin.market.brand.edit', $brand->id) }}"
-                                        class="btn bg-yellow-500 text-black flex-center gap-1">
-                                        <i class="fa-light fa-pen-to-square"></i>
-                                        ویرایش
-                                    </a>
-                                    <form class="m-0"
-                                    action="{{ route('admin.market.brand.destroy', $brand->id) }}"
-                                        method="POST">
-                                        @csrf
-                                        {{ method_field('delete') }}
-                                        <button class="btn bg-red-400 text-black flex-center gap-1 delBtn">
-                                            <i class="fa-light fa-trash-can"></i>
-                                            حذف
-                                        </button>
-                                    </form>
-
+                                    @can('update', \App\Models\Market\Brand::class)
+                                        <a href="{{ route('admin.market.brand.edit', $brand->id) }}"
+                                            class="btn bg-yellow-500 text-black flex-center gap-1">
+                                            <i class="fa-light fa-pen-to-square"></i>
+                                            ویرایش
+                                        </a>
+                                    @endcan
+                                    @can('delete', \App\Models\Market\Brand::class)
+                                        <form class="m-0" action="{{ route('admin.market.brand.destroy', $brand->id) }}"
+                                            method="POST">
+                                            @csrf
+                                            {{ method_field('delete') }}
+                                            <button class="btn bg-red-400 text-black flex-center gap-1 delBtn">
+                                                <i class="fa-light fa-trash-can"></i>
+                                                حذف
+                                            </button>
+                                        </form>
+                                    @endcan
 
                                 </span>
                             </td>

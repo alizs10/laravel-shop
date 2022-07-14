@@ -15,6 +15,7 @@ class ProductStoreController extends Controller
      */
     public function index(Product $product)
     {
+        $this->authorize('index', Product::class);
         return view('admin.market.product.store.index', compact('product'));
     }
 

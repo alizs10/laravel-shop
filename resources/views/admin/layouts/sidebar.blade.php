@@ -30,49 +30,59 @@
 
                 <ul
                     class="{{ sidebarDropdownActiver('admin.market', ['category.index', 'property.index', 'product.index', 'brand.index', 'store.index', 'comment.index'])['hidden'] }} dropdown w-full mt-4 flex-col gap-y-2">
-                    <a href="{{ route('admin.market.category.index') }}" class="flex items-center gap-x-4 text-sm">
-                        <span class="{{ sidebarDropdownMenuActiver(route('admin.market.category.index')) }}">
-                            <i class="fa-solid fa-angles-left text-xxs"></i>
-                            دسته بندی
-                        </span>
-                    </a>
-                    <a href="{{ route('admin.market.property.index') }}" class="flex items-center gap-x-4 text-sm">
-                        <span class="{{ sidebarDropdownMenuActiver(route('admin.market.property.index')) }}">
-                            <i class="fa-solid fa-angles-left text-xxs"></i>
-                            فرم کالا
-                        </span>
-                    </a>
-                    <a href="{{ route('admin.market.category-spec.index') }}"
-                        class="flex items-center gap-x-4 text-sm">
-                        <span class="{{ sidebarDropdownMenuActiver(route('admin.market.category-spec.index')) }}">
-                            <i class="fa-solid fa-angles-left text-xxs"></i>
-                            مشخصات کالا
-                        </span>
-                    </a>
-                    <a href="{{ route('admin.market.product.index') }}" class="flex items-center gap-x-4 text-sm">
-                        <span class="{{ sidebarDropdownMenuActiver(route('admin.market.product.index')) }}">
-                            <i class="fa-solid fa-angles-left text-xxs"></i>
-                            محصولات
-                        </span>
-                    </a>
-                    <a href="{{ route('admin.market.brand.index') }}" class="flex items-center gap-x-4 text-sm">
-                        <span class="{{ sidebarDropdownMenuActiver(route('admin.market.brand.index')) }}">
-                            <i class="fa-solid fa-angles-left text-xxs"></i>
-                            برند
-                        </span>
-                    </a>
-                    <a href="{{ route('admin.market.store.index') }}" class="flex items-center gap-x-4 text-sm">
-                        <span class="{{ sidebarDropdownMenuActiver(route('admin.market.store.index')) }}">
-                            <i class="fa-solid fa-angles-left text-xxs"></i>
-                            انبار
-                        </span>
-                    </a>
-                    <a href="{{ route('admin.market.comment.index') }}" class="flex items-center gap-x-4 text-sm">
-                        <span class="{{ sidebarDropdownMenuActiver(route('admin.market.comment.index')) }}">
-                            <i class="fa-solid fa-angles-left text-xxs"></i>
-                            نظرات
-                        </span>
-                    </a>
+                    @can('index', \App\Models\Market\ProductCategory::class)
+                        <a href="{{ route('admin.market.category.index') }}" class="flex items-center gap-x-4 text-sm">
+                            <span class="{{ sidebarDropdownMenuActiver(route('admin.market.category.index')) }}">
+                                <i class="fa-solid fa-angles-left text-xxs"></i>
+                                دسته بندی
+                            </span>
+                        </a>
+                    @endcan
+                    @can('index', \App\Models\Market\Product::class)
+                        <a href="{{ route('admin.market.property.index') }}" class="flex items-center gap-x-4 text-sm">
+                            <span class="{{ sidebarDropdownMenuActiver(route('admin.market.property.index')) }}">
+                                <i class="fa-solid fa-angles-left text-xxs"></i>
+                                فرم کالا
+                            </span>
+                        </a>
+                        <a href="{{ route('admin.market.category-spec.index') }}"
+                            class="flex items-center gap-x-4 text-sm">
+                            <span class="{{ sidebarDropdownMenuActiver(route('admin.market.category-spec.index')) }}">
+                                <i class="fa-solid fa-angles-left text-xxs"></i>
+                                مشخصات کالا
+                            </span>
+                        </a>
+                        <a href="{{ route('admin.market.product.index') }}" class="flex items-center gap-x-4 text-sm">
+                            <span class="{{ sidebarDropdownMenuActiver(route('admin.market.product.index')) }}">
+                                <i class="fa-solid fa-angles-left text-xxs"></i>
+                                محصولات
+                            </span>
+                        </a>
+                    @endcan
+                    @can('index', \App\Models\Market\Brand::class)
+                        <a href="{{ route('admin.market.brand.index') }}" class="flex items-center gap-x-4 text-sm">
+                            <span class="{{ sidebarDropdownMenuActiver(route('admin.market.brand.index')) }}">
+                                <i class="fa-solid fa-angles-left text-xxs"></i>
+                                برند
+                            </span>
+                        </a>
+                    @endcan
+                    @can('index', \App\Models\Market\Product::class)
+                        <a href="{{ route('admin.market.store.index') }}" class="flex items-center gap-x-4 text-sm">
+                            <span class="{{ sidebarDropdownMenuActiver(route('admin.market.store.index')) }}">
+                                <i class="fa-solid fa-angles-left text-xxs"></i>
+                                انبار
+                            </span>
+                        </a>
+                    @endcan
+                    @can('index', \App\Models\Comment::class)
+                        <a href="{{ route('admin.market.comment.index') }}" class="flex items-center gap-x-4 text-sm">
+                            <span class="{{ sidebarDropdownMenuActiver(route('admin.market.comment.index')) }}">
+                                <i class="fa-solid fa-angles-left text-xxs"></i>
+                                نظرات
+                            </span>
+                        </a>
+                    @endcan
                 </ul>
 
             </button>

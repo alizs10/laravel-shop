@@ -17,6 +17,7 @@ class ProductSpecController extends Controller
      */
     public function index(Product $product)
     {
+        $this->authorize('index', Product::class);
         return view('admin.market.product.specs.index', compact('product'));
     }
 
@@ -27,6 +28,7 @@ class ProductSpecController extends Controller
      */
     public function create(Product $product)
     {
+        $this->authorize('create', Product::class);
         return view('admin.market.product.specs.create', compact('product'));
     }
 
@@ -38,6 +40,7 @@ class ProductSpecController extends Controller
      */
     public function store(ProductSpecRequest $request, Product $product)
     {
+        $this->authorize('create', Product::class);
         $spec_values = $request->only('value')['value'];
         $category_specs = $product->category->specs;
         $inputs = [];
@@ -72,6 +75,7 @@ class ProductSpecController extends Controller
      */
     public function edit(ProductSpec $spec)
     {
+        $this->authorize('update', Product::class);
         return view('admin.market.product.specs.edit', compact('spec'));
     }
 
@@ -84,6 +88,7 @@ class ProductSpecController extends Controller
      */
     public function update(ProductSpecRequest $request, ProductSpec $spec)
     {
+        $this->authorize('update', Product::class);
         $spec->update(['value' => $request->value]);
 
         return redirect()->route('admin.market.product.spec.index', $spec->product_id)->with('alertify-success', 'مشخصات موردنظر با موفقیت ویرایش شد');
@@ -98,6 +103,7 @@ class ProductSpecController extends Controller
      */
     public function destroy(ProductSpec $spec)
     {
+        $this->authorize('delete', Product::class);
         $spec->delete();
 
         return redirect()->route('admin.market.product.spec.index', $spec->product_id)->with('alertify-success', 'مشخصات موردنظر با موفقیت حذف شد');

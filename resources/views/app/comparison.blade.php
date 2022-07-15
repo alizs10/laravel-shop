@@ -63,6 +63,16 @@
             </section>
         @endif
 
+        @if ($first_product && $second_product)
+            <section class="col-span-2 py-3 flex-center">
+                <a href="{{ route('app.compare.index', [$second_product->id, $first_product->id]) }}"
+                    class="flex-center gap-x-2 px-2 py-2 text-xxs xs:text-xs rounded-lg bg-white text-red-500 dark:bg-gray-700">
+                    <i class="fa-light fa-arrow-right-arrow-left text-lg"></i>
+                    جا به جایی
+                </a>
+            </section>
+        @endif
+
         @if ($first_product)
             @php
                 $specs = $first_product->category->specs;
@@ -97,7 +107,7 @@
 
                         @if ($second_product)
                             <span class="text-xxs xs:text-xs text-center">
-                                {{$specArr[1] ?? '-'}}
+                                {{ $specArr[1] ?? '-' }}
                             </span>
                         @endif
                     </div>

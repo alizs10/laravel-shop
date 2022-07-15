@@ -29,15 +29,15 @@
 
             <div class="flex items-center gap-x-4">
                 <button onclick="addToFavorites(this, 'text-white')" data-url="{{ route('app.user.favorites.toggle', $product->id) }}"
-                    class="text-2xl @if($product->isFavorite(auth()->user()->id)) text-red-500 @endif">
+                    class="text-2xl @if(auth()->check()) @if($product->isFavorite(auth()->user()->id)) text-red-500 @endif @endif">
                     <i class="fa-regular fa-heart"></i>
                 </button>
                 <button class="text-2xl">
                     <i class="fa-regular fa-bell"></i>
                 </button>
-                <button class="text-2xl">
+                <a href="{{ route('app.compare.index', $product->id) }}" class="text-2xl">
                     <i class="fa-regular fa-code-compare"></i>
-                </button>
+                </a>
                 <button onclick="copyToClipboard('{{ route('app.product.index', $product->id) }}')" class="text-2xl">
                     <i class="fa-regular fa-share-nodes"></i>
                 </button>

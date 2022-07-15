@@ -38,6 +38,7 @@ use App\Http\Controllers\Admin\User\CustomerController;
 use App\Http\Controllers\Admin\User\PermissionController;
 use App\Http\Controllers\Admin\User\RoleController;
 use App\Http\Controllers\app\CartController;
+use App\Http\Controllers\app\CompareController;
 use App\Http\Controllers\app\HomeController;
 use App\Http\Controllers\app\PaymentController as AppPaymentController;
 use App\Http\Controllers\app\ProductController as AppProductController;
@@ -105,6 +106,9 @@ Route::namespace('App')->group(function () {
 
     //search-page
     Route::get('/search-filter/{search}', [SearchController::class, 'index'])->name('app.search.index');
+
+    //comparison
+    Route::get('/compare-products/{product}', [CompareController::class, 'index'])->name('app.compare.index');
 
     //product
     Route::prefix('product')->group(function () {

@@ -21,7 +21,7 @@
     <section class="flex flex-col gap-y-2 p-2 w-full">
         <div class="flex justify-between items-center">
             <span class="text-sm md:text-lg">مقادیر فرم کالا ({{ $property->name }})</span>
-            @can('update', \App\Models\MArket\Product::class)
+            @can('update', \App\Models\Market\Product::class)
                 <a href="{{ route('admin.market.property.value.create', $property->id) }}"
                     class="btn bg-blue-600 text-white">افزودن مقدار جدید</a>
             @endcan
@@ -55,7 +55,7 @@
                             <td>{{ $value->marketable_number == 0 ? 'ناموجود' : $value->marketable_number }}</td>
                             <td>
                                 <span class="flex items-center gap-x-1">
-                                    @can('update', \App\Models\MArket\Product::class)
+                                    @can('update', \App\Models\Market\Product::class)
                                         <a href="{{ route('admin.market.property.value.edit', $value->id) }}"
                                             class="btn bg-yellow-500 text-black flex-center gap-1">
                                             <i class="fa-light fa-pen-to-square"></i>

@@ -48,14 +48,14 @@
                             <td>{{ $property->category->name }}</td>
                             <td>
                                 <span class="flex items-center gap-x-1">
-                                    @can('index', \App\Models\MArket\Product::class)
+                                    @can('index', \App\Models\Market\Product::class)
                                         <a href="{{ route('admin.market.property.value.index', $property->id) }}"
                                             class="btn bg-blue-600 text-white flex-center gap-1">
                                             <i class="fa-regular fa-circle-info"></i>
                                             ویژگی ها ({{ count($property->values) }})
                                         </a>
                                     @endcan
-                                    @can('update', \App\Models\MArket\Product::class)
+                                    @can('update', \App\Models\Market\Product::class)
                                         <a href="{{ route('admin.market.property.edit', $property->id) }}"
                                             class="btn bg-yellow-500 text-black flex-center gap-1">
                                             <i class="fa-light fa-pen-to-square"></i>

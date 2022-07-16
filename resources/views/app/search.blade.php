@@ -30,6 +30,57 @@
                     </button>
                 </div>
 
+                <div id="brand-filter" class="py-2 px-4">
+                    <span onclick="toggleBrandFilter()" class="flex justify-between items-center cursor-pointer">
+                        <span>فیلتر برند</span>
+                        <i class="fa fa-angle-left"></i>
+                    </span>
+                    <div
+                        class="hidden fixed lg:static top-0 right-0 bottom-0 left-0 bg-white dark:bg-gray-900 lg:bg-transparent lg:dark:bg-transparent z-10 flex flex-col gap-4">
+                        <div class="flex justify-between items-center lg:hidden">
+                            <span class="text-sm mt-4 mr-4">فیلتر برند</span>
+                            <button class="ml-4 mt-4 text-xl" onclick="toggleBrandFilter()">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+
+                        <div class="flex flex-col gap-4 mx-4 lg:mt-4">
+                            <a href="" class="flex items-center cursor-pointer gap-2">
+                                <i class="fa-light fa-grid-2 text-sm"></i>
+                                <span class="flex justify-between items-center w-full">
+                                    <span class="text-xs">همه برند ها</span>
+                                    <i class="fa-solid fa-check text-red-500 text-lg"></i>
+                                </span>
+                            </a>
+
+
+                            <label class="flex gap-x-2 text-xs" for="brand-checkbox-1">
+                                <input class="appearance-none" type="checkbox" id="brand-checkbox-1" onchange="checkboxHandler(this)">
+                                <span class="flex-center p-1 rounded-sm w-4 h-4 bg-white border border-gray-300 dark:border-none text-white transition-all duration-200">
+                                    <i class="fa-solid fa-check text-sm"></i>
+                                </span>
+                                اپل
+                            </label>
+                            <label class="flex gap-x-2 text-xs" for="brand-checkbox-2">
+                                <input class="appearance-none" type="checkbox" id="brand-checkbox-2" onchange="checkboxHandler(this)">
+                                <span class="flex-center p-1 rounded-sm w-4 h-4 bg-white border border-gray-300 dark:border-none text-white transition-all duration-200">
+                                    <i class="fa-solid fa-check text-sm"></i>
+                                </span>
+                                سامسونگ
+                            </label>
+                            <label class="flex gap-x-2 text-xs" for="brand-checkbox-3">
+                                <input class="appearance-none" type="checkbox" id="brand-checkbox-3" onchange="checkboxHandler(this)">
+                                <span class="flex-center p-1 rounded-sm w-4 h-4 bg-white border border-gray-300 dark:border-none text-white transition-all duration-200">
+                                    <i class="fa-solid fa-check text-sm"></i>
+                                </span>
+                                شیائومی
+                            </label>
+
+                        </div>
+
+                    </div>
+                </div>
+
                 <div id="category-filter" class="py-2 px-4">
                     <span onclick="toggleCategoryFilter()" class="flex justify-between items-center cursor-pointer">
                         <span>فیلتر دسته بندی</span>

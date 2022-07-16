@@ -302,7 +302,7 @@
         <div class="flex flex-row gap-x-4 py-3 overflow-x-scroll no-scrollbar">
 
             @foreach ($brands as $brand)
-                <a href=""
+                <a href="{{ route('app.search.index') . "?brand=$brand->id" }}"
                     class="rounded-lg bg-white text-black p-2 hover-transition hover:scale-110 overflow-hidden">
                     <img class="w-32" src="{{ asset('storage\\' . $brand->logo['indexArray']['small']) }}"
                         alt="brand">

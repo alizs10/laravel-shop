@@ -1040,6 +1040,12 @@ Ensure the default browser behavior of the `hidden` attribute.
   resize: both;
 }
 
+.appearance-none{
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+}
+
 .columns-3{
   -moz-columns: 3;
        columns: 3;
@@ -1222,6 +1228,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .rounded-full{
   border-radius: 9999px;
+}
+
+.rounded-sm{
+  border-radius: 0.125rem;
 }
 
 .rounded{
@@ -1756,6 +1766,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   transition-duration: 300ms;
 }
 
+.duration-200{
+  transition-duration: 200ms;
+}
+
 .ease-in-out{
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -1880,6 +1894,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .dark .dark\:hidden{
   display: none;
+}
+
+.dark .dark\:border-none{
+  border-style: none;
 }
 
 .dark .dark\:border-gray-700{

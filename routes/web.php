@@ -105,7 +105,7 @@ Route::namespace('App')->group(function () {
     Route::get('/search', [HomeController::class, 'search'])->name('app.search');
 
     //search-page
-    Route::get('/search-filter/{search}', [SearchController::class, 'index'])->name('app.search.index');
+    Route::get('/search-filter/{search?}', [SearchController::class, 'index'])->name('app.search.index');
 
     //comparison
     Route::get('/compare-products/{first_product?}/{second_product?}', [CompareController::class, 'index'])->name('app.compare.index');

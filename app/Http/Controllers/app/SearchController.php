@@ -15,7 +15,7 @@ class SearchController extends Controller
         //default filters
         $price = false;
         $cat_id = false;
-        $brand_id = false;
+        $brand_ids = false;
         $exists = false;
 
         if ($request->has("price")) {
@@ -32,8 +32,8 @@ class SearchController extends Controller
             $cat_id = $request->get("cat");
         }
 
-        if ($request->has("brand")) {
-            $brand_id = $request->get("brand");
+        if ($request->has("brands")) {
+            $brand_ids = explode(',',$request->get("brands"));
         }
 
         if ($request->has("exists")) {
@@ -43,11 +43,11 @@ class SearchController extends Controller
         $filters = [
             "price" => $price,
             "cat" => $cat_id,
-            "brand" => $brand_id,
+            "brands" => $brand_ids,
             "exists" => $exists
         ];
 
-        if (!$price && !$cat_id && !$exists) {
+        if (!$price && !$cat_id && !$exists && !$brand_ids) {
             $filters = false;
         }
 
@@ -56,16 +56,20 @@ class SearchController extends Controller
 
         !$price ?: $query->whereBetween('price', [$price]);
         !$cat_id ?: $query->where('cat_id', $cat_id);
-        !$brand_id ?: $query->where('brand_id', $brand_id);
+        !$brand_ids ?: $query->where('brand_id', $brand_ids);
 
         $categories = ProductCategory::whereNull("parent_id")->get();
+        $brands = Brand::all();
         $selected_category = false;
+        $selected_brands = false;
 
         if ($cat_id) {
             $selected_category = ProductCategory::find($cat_id);
         }
 
-
+        if ($brand_ids) {
+            $selected_brands = Brand::find($brand_ids);
+        }
 
         $results = $query->get();
         if ($exists) {
@@ -73,6 +77,6 @@ class SearchController extends Controller
                 return $item->ultimate_price > 0;
             })->values();
         }
-        return view('app.search', compact('results', 'search', 'filters', 'categories', 'selected_category'));
+        return view('app.search', compact('results', 'search', 'filters', 'categories', 'selected_category', 'brands', 'selected_brands'));
     }
 }

@@ -1,6 +1,7 @@
 function checkboxHandler(btn) {
    var checkboxId = $(btn).attr('id')
    $('label[for=' + checkboxId + ']').find('span').toggleClass('bg-white bg-red-500')
+   $(btn).attr('checked', !$(btn).attr('checked'))
 }
 
 function toggleFilters() {
@@ -163,6 +164,19 @@ function applySearchFilter() {
    let query = "?";
    let price_start = $("input[name=start-price]").val()
    let price_end = $("input[name=end-price]").val()
+   let brandsObjs = $("input[name='brand[]']")
+   let brands = [];
+
+   brandsObjs.each(function (key, brandObj) {
+      if ($(brandObj).is(':checked')) {
+         brands.push($(brandObj).val())
+      }
+   })
+   
+   if (brands.length > 0) {
+      query += `brands=${brands.toString()}&`      
+   }
+
    let price = `${p2eNumbers(price_start).replace(/[,]/g, "")}-${p2eNumbers(price_end).replace(/[,]/g, "")}`;
    let reg = new RegExp(/(\d{1,20})-(\d{1,20})/g)
    if (reg.test(price)) {
@@ -176,7 +190,7 @@ function applySearchFilter() {
    if (query.at(-1) === "&") {
       query = query.substring(0, query.length - 1);
    }
-   
+
    if (searchedWord) {
       window.location.href = base_url + "/search-filter/" + searchedWord + query;
    }

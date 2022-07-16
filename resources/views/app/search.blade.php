@@ -33,10 +33,10 @@
                 <div id="brand-filter" class="py-2 px-4">
                     <span onclick="toggleBrandFilter()" class="flex justify-between items-center cursor-pointer">
                         <span>فیلتر برند</span>
-                        <i class="fa fa-angle-left"></i>
+                        <i class="fa @if ($filters['brands']) fa-angle-down @else fa-angle-left @endif"></i>
                     </span>
                     <div
-                        class="hidden fixed lg:static top-0 right-0 bottom-0 left-0 bg-white dark:bg-gray-900 lg:bg-transparent lg:dark:bg-transparent z-10 flex flex-col gap-4">
+                        class="@if ($filters['brands']) @else hidden @endif fixed lg:static top-0 right-0 bottom-0 left-0 bg-white dark:bg-gray-900 lg:bg-transparent lg:dark:bg-transparent z-10 flex flex-col gap-4">
                         <div class="flex justify-between items-center lg:hidden">
                             <span class="text-sm mt-4 mr-4">فیلتر برند</span>
                             <button class="ml-4 mt-4 text-xl" onclick="toggleBrandFilter()">
@@ -49,33 +49,35 @@
                                 <i class="fa-light fa-grid-2 text-sm"></i>
                                 <span class="flex justify-between items-center w-full">
                                     <span class="text-xs">همه برند ها</span>
-                                    <i class="fa-solid fa-check text-red-500 text-lg"></i>
+                                    @if ($filters['brands'])
+                                    @else
+                                        <i class="fa-solid fa-check text-red-500 text-lg"></i>
+                                    @endif
+
                                 </span>
                             </a>
 
-
-                            <label class="flex gap-x-2 text-xs" for="brand-checkbox-1">
-                                <input class="appearance-none" type="checkbox" id="brand-checkbox-1" onchange="checkboxHandler(this)">
-                                <span class="flex-center p-1 rounded-sm w-4 h-4 bg-white border border-gray-300 dark:border-none text-white transition-all duration-200">
-                                    <i class="fa-solid fa-check text-sm"></i>
-                                </span>
-                                اپل
-                            </label>
-                            <label class="flex gap-x-2 text-xs" for="brand-checkbox-2">
-                                <input class="appearance-none" type="checkbox" id="brand-checkbox-2" onchange="checkboxHandler(this)">
-                                <span class="flex-center p-1 rounded-sm w-4 h-4 bg-white border border-gray-300 dark:border-none text-white transition-all duration-200">
-                                    <i class="fa-solid fa-check text-sm"></i>
-                                </span>
-                                سامسونگ
-                            </label>
-                            <label class="flex gap-x-2 text-xs" for="brand-checkbox-3">
-                                <input class="appearance-none" type="checkbox" id="brand-checkbox-3" onchange="checkboxHandler(this)">
-                                <span class="flex-center p-1 rounded-sm w-4 h-4 bg-white border border-gray-300 dark:border-none text-white transition-all duration-200">
-                                    <i class="fa-solid fa-check text-sm"></i>
-                                </span>
-                                شیائومی
-                            </label>
-
+                            @foreach ($brands as $brand)
+                                @php
+                                    $isBrandSelected = false;
+                                    if ($filters) {
+                                        if ($filters['brands']) {
+                                            $isBrandSelected = in_array($brand->id, $filters['brands']) ? true : false;
+                                        }
+                                    }
+                                @endphp
+                                <label class="flex gap-x-2 text-xs cursor-pointer" for="brand-checkbox-{{ $brand->id }}">
+                                    <input class="appearance-none" type="checkbox" name="brand[]"
+                                        value="{{ $brand->id }}" id="brand-checkbox-{{ $brand->id }}"
+                                        onchange="checkboxHandler(this)"
+                                        @if ($isBrandSelected) checked="checked" @endif>
+                                    <span
+                                        class="flex-center p-1 rounded-sm w-4 h-4 @if ($isBrandSelected) bg-red-500 @else bg-white @endif border border-gray-300 dark:border-none text-white transition-all duration-200">
+                                        <i class="fa-solid fa-check text-sm"></i>
+                                    </span>
+                                    {{ $brand->persian_name }}
+                                </label>
+                            @endforeach
                         </div>
 
                     </div>
@@ -261,6 +263,13 @@ bg-gray-200 dark:bg-gray-700 @endif rounded-lg p-1 w-12">
                                 <span class="rounded-lg p-2 bg-red-500 text-white">قیمت: از
                                     {{ price_formater($filters['price'][0]) }} تا
                                     {{ price_formater($filters['price'][1]) }}</span>
+                            @endif
+                            @if ($filters['brands'])
+                                <span class="rounded-lg p-2 bg-red-500 text-white">دسته بندی:
+                                    @foreach ($selected_brands as $selected_brand)
+                                        {{ $selected_brand->persian_name }}{{ $loop->last ? '' : '، ' }}
+                                    @endforeach
+                                </span>
                             @endif
                             @if ($filters['cat'] || !$filters['cat'])
                                 <span class="rounded-lg p-2 bg-red-500 text-white">دسته بندی:

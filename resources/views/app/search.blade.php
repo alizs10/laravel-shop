@@ -33,10 +33,15 @@
                 <div id="brand-filter" class="py-2 px-4">
                     <span onclick="toggleBrandFilter()" class="flex justify-between items-center cursor-pointer">
                         <span>فیلتر برند</span>
-                        <i class="fa @if($filters) @if ($filters['brands']) fa-angle-down @else fa-angle-left @endif @else fa-angle-left @endif"></i>
+                        <i
+                            class="fa @if ($filters) @if ($filters['brands']) fa-angle-down @else fa-angle-left @endif
+@else
+fa-angle-left @endif"></i>
                     </span>
                     <div
-                        class="@if($filters) @if ($filters['brands']) @else hidden @endif @else hidden @endif fixed lg:static top-0 right-0 bottom-0 left-0 bg-white dark:bg-gray-900 lg:bg-transparent lg:dark:bg-transparent z-10 flex flex-col gap-4">
+                        class="@if ($filters) @if ($filters['brands']) @else hidden @endif
+@else
+hidden @endif fixed lg:static top-0 right-0 bottom-0 left-0 bg-white dark:bg-gray-900 lg:bg-transparent lg:dark:bg-transparent z-10 flex flex-col gap-4">
                         <div class="flex justify-between items-center lg:hidden">
                             <span class="text-sm mt-4 mr-4">فیلتر برند</span>
                             <button class="ml-4 mt-4 text-xl" onclick="toggleBrandFilter()">
@@ -45,7 +50,7 @@
                         </div>
 
                         <div class="flex flex-col gap-4 mx-4 lg:mt-4">
-                           
+
                             @foreach ($brands as $brand)
                                 @php
                                     $isBrandSelected = false;
@@ -201,12 +206,12 @@ hidden @endif fixed lg:static top-0 right-0 bottom-0 left-0 bg-white dark:bg-gra
                         <span>فقط کالاهای مجود</span>
 
                         <span
-                            class="flex items-center @if ($filters) @if ($filters['exists'] === true) justify-end bg-red-500 @else bg-gray-200 dark:bg-gray-700 @endif
+                            class="flex items-center @if ($filters) @if ($filters['exists'] === true) bg-red-500 @else bg-gray-200 dark:bg-gray-700 @endif
 @else
 bg-gray-200 dark:bg-gray-700 @endif rounded-lg p-1 w-12">
 
-                            <span onclick="toggleProductsExistFilter(this)"
-                                class="w-5 h-5 rounded-full bg-white cursor-pointer"></span>
+                            <span @if ($filters) @if ($filters['exists'] === true) style="margin-right: 1.25rem" @endif @endif onclick="toggleProductsExistFilter(this)"
+                                class="w-5 h-5 rounded-full bg-white cursor-pointer @if ($filters) @if ($filters['exists'] === true) active @endif @endif"></span>
                             <input type="hidden" name="exists"
                                 @if ($filters) @if ($filters['exists'] === true) value="true" @else value="false" @endif
                                 @endif />
@@ -231,10 +236,12 @@ bg-gray-200 dark:bg-gray-700 @endif rounded-lg p-1 w-12">
         <section
             class="col-span-9 lg:col-span-7 h-fit flex flex-col gap-3 rounded-lg bg-gray-100 dark:bg-gray-800 shadow-lg p-3">
             <div class="flex flex-col gap-2 pb-2 border-b border-white">
-                <span class="flex justify-between items-center text-xxs xs:text-xs">
-                    <span>نتایج جستجو برای "<span id="searched-word">{{ $search }}</span>"</span>
-                    <span class="text-red-500">{{ e2p_numbers($results->count()) }} مورد</span>
-                </span>
+                @if ($search)
+                    <span class="flex justify-between items-center text-xxs xs:text-xs">
+                        <span>نتایج جستجو برای "<span id="searched-word">{{ $search }}</span>"</span>
+                        <span class="text-red-500">{{ e2p_numbers($results->count()) }} مورد</span>
+                    </span>
+                @endif
                 <span class="flex flex-col gap-2 text-xxs xs:text-xs">
                     <span class="flex justify-between items-center text-xs xs:text-sm">
                         @if (!empty($filters))

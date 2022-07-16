@@ -172,9 +172,9 @@ function applySearchFilter() {
          brands.push($(brandObj).val())
       }
    })
-   
+
    if (brands.length > 0) {
-      query += `brands=${brands.toString()}&`      
+      query += `brands=${brands.toString()}&`
    }
 
    let price = `${p2eNumbers(price_start).replace(/[,]/g, "")}-${p2eNumbers(price_end).replace(/[,]/g, "")}`;
@@ -183,7 +183,7 @@ function applySearchFilter() {
       query += `price=${price}&`
    }
    let existsValue = $("input[name=exists]").val()
-   console.log(existsValue);
+
    query += `exists=${existsValue}&`;
    let searchedWord = $("#searched-word").html();
 
@@ -191,7 +191,7 @@ function applySearchFilter() {
       query = query.substring(0, query.length - 1);
    }
 
-   if (searchedWord) {
-      window.location.href = base_url + "/search-filter/" + searchedWord + query;
-   }
+
+   window.location.href = base_url + "/search-filter/" + (searchedWord ? searchedWord :  '')  + query;
+
 }

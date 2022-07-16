@@ -33,10 +33,10 @@
                 <div id="brand-filter" class="py-2 px-4">
                     <span onclick="toggleBrandFilter()" class="flex justify-between items-center cursor-pointer">
                         <span>فیلتر برند</span>
-                        <i class="fa @if ($filters['brands']) fa-angle-down @else fa-angle-left @endif"></i>
+                        <i class="fa @if($filters) @if ($filters['brands']) fa-angle-down @else fa-angle-left @endif @else fa-angle-left @endif"></i>
                     </span>
                     <div
-                        class="@if ($filters['brands']) @else hidden @endif fixed lg:static top-0 right-0 bottom-0 left-0 bg-white dark:bg-gray-900 lg:bg-transparent lg:dark:bg-transparent z-10 flex flex-col gap-4">
+                        class="@if($filters) @if ($filters['brands']) @else hidden @endif @else hidden @endif fixed lg:static top-0 right-0 bottom-0 left-0 bg-white dark:bg-gray-900 lg:bg-transparent lg:dark:bg-transparent z-10 flex flex-col gap-4">
                         <div class="flex justify-between items-center lg:hidden">
                             <span class="text-sm mt-4 mr-4">فیلتر برند</span>
                             <button class="ml-4 mt-4 text-xl" onclick="toggleBrandFilter()">
@@ -45,18 +45,7 @@
                         </div>
 
                         <div class="flex flex-col gap-4 mx-4 lg:mt-4">
-                            <a href="" class="flex items-center cursor-pointer gap-2">
-                                <i class="fa-light fa-grid-2 text-sm"></i>
-                                <span class="flex justify-between items-center w-full">
-                                    <span class="text-xs">همه برند ها</span>
-                                    @if ($filters['brands'])
-                                    @else
-                                        <i class="fa-solid fa-check text-red-500 text-lg"></i>
-                                    @endif
-
-                                </span>
-                            </a>
-
+                           
                             @foreach ($brands as $brand)
                                 @php
                                     $isBrandSelected = false;

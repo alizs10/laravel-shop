@@ -95,6 +95,11 @@ class Product extends Model
         return $prices['ultimate_price'];
     }
 
+    public function getSoldAttribute()
+    {
+        return $this->isMarketable([], true);
+    }
+
     public function isFavorite($user_id)
     {
         $user = User::find($user_id);
@@ -119,6 +124,13 @@ class Product extends Model
         $productServices = new ProductServices();
         return $productServices->isMarketable($this, $attributes, $default_attributes);
     }
+
+    public function getSoldNumber($attributes, $default_attributes = false)
+    {
+        $productServices = new ProductServices();
+        return $productServices->getSoldNumber($this, $attributes, $default_attributes);
+    }
+
 
 
     public const CAN_VIEW_ID = 266;

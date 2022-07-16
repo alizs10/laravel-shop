@@ -23,6 +23,11 @@ class Brand extends Model
     protected $casts = ['logo' => 'array'];
 
 
+    public function products()
+    {
+        return $this->hasMany(Product::class, 'brand_id');
+    }
+
     public const CAN_VIEW_ID = 271;
     public const CAN_CREATE_ID = 272;
     public const CAN_UPDATE_ID = 273;

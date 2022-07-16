@@ -129,7 +129,7 @@ class ProductServices
             if ($color) {
                 return $color->marketable_number > 0 ? $color->marketable_number : false;
             }
-            dd($color);
+          
             return false;
         }
         //check for attributes
@@ -138,6 +138,37 @@ class ProductServices
                 $product_property = PropertyValue::find($property_value_id);
                 if ($product_property && $product_property->product_id == $product->id) {
                     return $product_property->marketable_number > 0 ? $product_property->marketable_number : false;
+                }
+
+                return false;
+            }
+        }
+
+        return false;
+    }
+
+    public function getSoldNumber($product, $attributes = [], $has_defaults_attributes = false)
+    {
+        if ($has_defaults_attributes) {
+            $attributes = $this->getDefaultAttributes($product);
+        }
+
+        //check for product color
+        if (!empty($product->colors->toArray())) {
+            $product_colors = $product->colors;
+            $color = $product_colors->where('id', $attributes['color_id'])->first();
+            if ($color) {
+                return $color->sold_number;
+            }
+           
+            return false;
+        }
+        //check for attributes
+        if (!empty($attributes['category_values'])) {
+            foreach ($attributes['category_values'] as $property_value_id) {
+                $product_property = PropertyValue::find($property_value_id);
+                if ($product_property && $product_property->product_id == $product->id) {
+                    return $product_property->sold_number;
                 }
 
                 return false;

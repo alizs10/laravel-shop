@@ -42,6 +42,7 @@ use App\Http\Controllers\app\CompareController;
 use App\Http\Controllers\app\HomeController;
 use App\Http\Controllers\app\PaymentController as AppPaymentController;
 use App\Http\Controllers\app\ProductController as AppProductController;
+use App\Http\Controllers\app\ProductsController;
 use App\Http\Controllers\app\SearchController;
 use App\Http\Controllers\app\ShippingController;
 use App\Http\Controllers\app\UserController;
@@ -117,6 +118,14 @@ Route::namespace('App')->group(function () {
         Route::post('/{product}/send-comment', [AppProductController::class, 'sendComment'])->name('app.product.send-comment');
         Route::post('/{product}/toggle-product', [AppProductController::class, 'toggleProduct'])->name('app.product.toggle-product');
         Route::post('/{product}/get-price', [AppProductController::class, 'getPrice'])->name('app.product.get-price');
+    });
+
+    //products
+    Route::prefix('products')->group(function () {
+        Route::get('/amazing-sales', [ProductsController::class, 'amazingSales'])->name('app.products.amazing-sales');
+        Route::get('/recommended', [ProductsController::class, 'recommended'])->name('app.products.recommended');
+        Route::get('/category/{category}', [ProductsController::class, 'categoryProducts'])->name('app.products.category-products');
+        Route::get('/brand/{brand}', [ProductsController::class, 'brandProducts'])->name('app.products.brand-products');
     });
  
 

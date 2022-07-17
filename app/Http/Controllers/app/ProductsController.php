@@ -17,8 +17,9 @@ class ProductsController extends Controller
             return !empty($product->amazingSale);
         });
 
+        $page = "کالاهای شگفت انگیز";
 
-        dd($products);
+        return view('app.products', compact('page'));
     }
 
     public function recommended()

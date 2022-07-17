@@ -14,6 +14,7 @@ class TicketController extends Controller
         $this->authorize('index', Ticket::class);
         $page = "تمام تیکت ها";
         $tickets = Ticket::simplePaginate(15);
+     
         return view('admin.ticket.index', compact('tickets', 'page'));
     }
 
@@ -48,7 +49,7 @@ class TicketController extends Controller
 
     public function show(Ticket $ticket)
     {
-        $this->authorize('view', Ticket::class);
+        $this->authorize('view', $ticket);
         if (!$ticket->seen) {
             $ticket->seen = 1;
             $result = $ticket->save();

@@ -577,7 +577,7 @@
     <script src="{{ asset('app-assets/js/product-details.js') }}"></script>
     <script src="{{ asset('app-assets/js/product-comment.js') }}"></script>
     <script src="{{ asset('app-assets/js/get-product-price.js') }}"></script>
-    <script src="{{ asset('app-assets/js/js-toast.min.js') }}"></script>
+    
     <script>
         function copyToClipboard(text) {
             navigator.clipboard.writeText(text).then(function() {

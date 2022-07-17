@@ -9,6 +9,9 @@ use App\Models\Address;
 use App\Models\Market\Order;
 use App\Models\Province;
 use App\Models\Ticket\Ticket;
+use App\Models\Ticket\TicketAdmin;
+use App\Models\Ticket\TicketCategory;
+use App\Models\Ticket\TicketPriority;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -130,13 +133,39 @@ class UserController extends Controller
     {
         $user = Auth::user();
         $tickets = $user->tickets;
+        $ticket_categories = TicketCategory::where('status', 1)->get();
+        $ticket_priorities = TicketPriority::where('status', 1)->get();
 
-        return view('app.tickets', compact('tickets'));
+        return view('app.tickets', compact('tickets', 'ticket_categories', 'ticket_priorities'));
     }
+
+    public function storeTicket(Request $request)
+    {
+        $request->validate([
+            'cat_id' => 'required|exists:ticket_categories,id',
+            'priority_id' => 'required|exists:ticket_priorities,id',
+            'subject' => 'required|string|max:199|min:2',
+            'description' => 'required|string|max:500|min:2',
+        ]);
+
+        $inputs = $request->only(['cat_id', 'priority_id', 'subject', 'description']);
+        $inputs['user_id'] = Auth::user()->id;
+        $inputs['reference_id'] = TicketAdmin::first()->id;
+        Ticket::create($inputs);
+
+        return redirect()->route('app.user.tickets')->with('alert', 'تیکت شما با موفقیت ثبت شد');
+    }
+
 
     public function showTicket(Ticket $ticket)
     {
         return view('app.ticket', compact('ticket'));
+    }
+
+    public function destroyTicket(Ticket $ticket)
+    {
+        $ticket->delete();
+        return redirect()->route('app.user.tickets')->with('alert', 'تیکت مورد نظر شما با موفقیت حذف شد');
     }
 
 

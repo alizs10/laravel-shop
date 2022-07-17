@@ -5,3 +5,4 @@
 <script src="{{ asset('app-assets/js/popups.js') }}"></script>
 <script src="{{ asset('app-assets/js/search.js') }}"></script>
 <script src="{{ asset('app-assets/js/products.js') }}"></script>
+<script src="{{ asset('app-assets/js/js-toast.min.js') }}"></script>

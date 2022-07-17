@@ -44,7 +44,8 @@
                             <tr>
 
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $ticket->user->fullName }}</td>
+                              
+                                <td>{{ $ticket->user->fullName === "" ? $ticket->user->fullName : $ticket->user->email }}</td>
                                 <td>{{ $ticket->subject }}</td>
                                 <td>{{ $ticket->category->name }}</td>
                                 <td>{{ $ticket->priority->name }}</td>

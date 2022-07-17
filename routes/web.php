@@ -185,6 +185,8 @@ Route::namespace('App')->group(function () {
         //tickets
         Route::get('tickets', [UserController::class, 'tickets'])->name('app.user.tickets');
         Route::get('tickets/{ticket}', [UserController::class, 'showTicket'])->name('app.user.tickets.show-ticket');
+        Route::post('tickets/store', [UserController::class, 'storeTicket'])->name('app.user.tickets.store-ticket');
+        Route::get('tickets/{ticket}/destroy', [UserController::class, 'destroyTicket'])->name('app.user.tickets.destroy-ticket');
     });
 
     //cities

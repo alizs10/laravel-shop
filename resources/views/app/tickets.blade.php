@@ -101,7 +101,7 @@
                 <div class="flex flex-col gap-2 pb-2">
 
                     @if ($tickets->count() > 0)
-                        @foreach ($tickets as $tikcet)
+                        @foreach ($tickets as $ticket)
                             <div class="rounded-lg border border-gray-300 dark:border-gray-700 p-2 flex flex-col gap-y-3">
                                 <div class="flex justify-between items-center">
                                     <div class="flex gap-x-2 items-center">
@@ -113,13 +113,13 @@
                                             <span class="w-4 h-4 rounded-full bg-gray-500 dark:bg-gray-400"></span>
                                         @endif
 
-                                        <a href="{{ route('app.user.ticket.show-ticket', $ticket->id) }}"
+                                        <a href="{{ route('app.user.tickets.show-ticket', $ticket->id) }}"
                                             class="text-base underline underline-offset-4 text-gray-500 dark:text-gray-400">
                                             {{ $ticket->subject }}
                                         </a>
                                     </div>
 
-                                    <a href=""
+                                    <a href="{{ route('app.user.tickets.destroy-ticket', $ticket->id) }}"
                                         class="text-gray-500 dark:text-gray-400 text-xs xs:text-base md:text-xs">
                                         <i class="fa-regular fa-trash-alt"></i>
                                     </a>
@@ -162,7 +162,8 @@
     <!-- add new ticket modal starts -->
     <div id="new-ticket-backdrop" onclick="toggleAddNewTicket()"
         class="hidden fixed top-0 bottom-0 left-0 right-0 bg-gray-500/70 z-40 transition-all duration-300">
-        <form class="w-full flex-center" action="">
+        <form class="w-full flex-center" action="{{ route('app.user.tickets.store-ticket') }}" method="POST">
+            @csrf
             <div class="w-5/6 md:w-2/3 rounded-lg p-3 shadow-md bg-white dark:bg-gray-700 flex flex-col gap-y-3"
                 onclick="event.stopPropagation()">
                 <div class="flex justify-between">
@@ -173,34 +174,34 @@
                 </div>
                 <div class="w-full max-h-[calc(100vh_-_14rem)] overflow-y-scroll no-scrollbar grid grid-cols-2 gap-2">
                     <div class="col-span-2 md:col-span-1 flex flex-col gap-1 relative mt-4">
-                        <label class="text-xs absolute bg-white dark:bg-gray-700 px-2 -top-2 right-2" for="">انتخاب
+                        <label class="text-xs absolute bg-white dark:bg-gray-700 px-2 -top-2 right-2" for="cat_id">انتخاب
                             دسته</label>
-                        <select class="form-input" name="" id="">
-                            <option class="text-black" value="">مشکل در خرید</option>
-                            <option class="text-black" value="">پیشنهاد</option>
-                            <option class="text-black" value="">سوال</option>
+                        <select class="form-input" name="cat_id" id="cat_id">
+                            @foreach ($ticket_categories as $cat)
+                                <option class="text-black" value="{{ $cat->id }}">{{ $cat->name }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="col-span-2 md:col-span-1 flex flex-col gap-1 relative mt-4">
-                        <label class="text-xs absolute bg-white dark:bg-gray-700 px-2 -top-2 right-2" for="">
+                        <label class="text-xs absolute bg-white dark:bg-gray-700 px-2 -top-2 right-2" for="priority_id">
                             اولویت تیکت
                         </label>
-                        <select class="form-input" name="" id="">
-                            <option class="text-black" value="">مهم</option>
-                            <option class="text-black" value="">متوسط</option>
-                            <option class="text-black" value="">کم اهمیت</option>
+                        <select class="form-input" name="priority_id" id="priority_id">
+                            @foreach ($ticket_priorities as $priority)
+                                <option class="text-black" value="{{ $priority->id }}">{{ $priority->name }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="col-span-2 flex flex-col gap-1 relative mt-4">
-                        <label class="text-xs absolute bg-white dark:bg-gray-700 px-2 -top-2 right-2" for="">موضوع
+                        <label class="text-xs absolute bg-white dark:bg-gray-700 px-2 -top-2 right-2" for="subject">موضوع
                             تیکت</label>
-                        <input type="text" class="form-input" name="" id="" />
+                        <input type="text" class="form-input" name="subject" id="subject" />
                     </div>
                     <div class="col-span-2 flex flex-col gap-1 relative mt-4">
                         <label class="text-xs absolute bg-white dark:bg-gray-700 px-2 -top-2 right-2"
-                            for="">توضیحات
+                            for="description">توضیحات
                             تیکت</label>
-                        <textarea class="form-input" name="" id="" rows="3"
+                        <textarea class="form-input" name="description" id="description" rows="3"
                             placeholder="توضیحات خود را کامل بنویسید"></textarea>
                     </div>
 

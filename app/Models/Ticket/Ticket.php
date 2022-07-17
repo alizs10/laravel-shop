@@ -32,7 +32,7 @@ class Ticket extends Model
 
     public function referencedTo()
     {
-        return $this->belongsTo(TicketAdmin::class, 'reference_id');
+        return $this->belongsTo(TicketAdmin::class, 'reference_id', 'id');
     }
 
     public function parent()

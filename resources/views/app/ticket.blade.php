@@ -25,12 +25,12 @@
                     <i class="fa-solid fa-tag mt-1"></i>
                     <span>{{ $ticket->subject }}</span>
                 </span>
-                <a href="" class="mt-1 text-gray-500 dark:text-gray-400 text-xs xs:text-base md:text-xs">
+                <a href="{{ route('app.user.tickets.destroy-ticket', $ticket->id) }}" class="mt-1 text-gray-500 dark:text-gray-400 text-xs xs:text-base md:text-xs">
                     <i class="fa-regular fa-trash-alt"></i>
                 </a>
             </div>
 
-            <div class="flex flex-wrap gap-2">
+            <div class="flex flex-wrap gap-2 pb-2 border-b border-gray-300 dark:border-gray-700">
                 <span class="text-xxs bg-gray-200 dark:bg-gray-700 p-2 rounded-lg w-fit">
                     {{ e2p_numbers(showPersianDate($ticket->create_at)) }}
                 </span>
@@ -51,7 +51,7 @@
 
             @if ($ticket->children->count() > 0)
                 @foreach ($ticket->children as $ticket_child)
-                    @if ($ticket->reference_id == $ticket_child->author_id)
+                    @if ($ticket->referencedTo->user_id == $ticket_child->user_id)
                         <span class="text-xs bg-red-500 text-white p-2 rounded-lg flex gap-x-2 items-center md:w-fit">
                             <i class="fa-solid fa-reply text-base"></i>
                             <span>پاسخ ادمین</span>
@@ -65,7 +65,7 @@
                     @endif
 
                     <p class="text-xs xs:text-sm text-justify leading-6 xs:leading-7">
-                        {{ $ticket_child->description }}
+                        {!! $ticket_child->description !!}
                     </p>
                 @endforeach
             @endif

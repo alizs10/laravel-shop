@@ -24,7 +24,13 @@ class TicketPolicy
 
     public function view(User $user, Ticket $ticket)
     {
-        return $user->id == $ticket->reference_id;
+        $permissions_ids = [];
+        foreach ($user->roles as $role) {
+            foreach ($role->permissions as $permission) {
+                array_push($permissions_ids, $permission->id);
+            }
+        }
+        return $user->id == $ticket->referencedTo->user_id || in_array(Ticket::CAN_ALL_ID, $permissions_ids);
     }
 
    

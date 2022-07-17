@@ -42,7 +42,7 @@
         <div class="rounded-lg p-2 bg-emerald-300 flex flex-col gap-y-2">
             <span class="flex justify-between items-center text-gray-700">
                 <span class="text-sm">
-                    {{ $ticket->user->fullName . ' - ' . $ticket->subject . ' - ' . $ticket->id }}
+                    {{  $ticket->user->fullName === "" ? $ticket->user->fullName : $ticket->user->email . ' - ' . $ticket->subject . ' - ' . $ticket->id }}
                 </span>
                 <span class="text-xs">{{ showPersianDate($ticket->created_at) }}</span>
             </span>

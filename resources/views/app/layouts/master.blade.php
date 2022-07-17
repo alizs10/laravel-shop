@@ -28,4 +28,6 @@
 </body>
 @include('app.layouts.scripts')
 @yield('scripts')
+@include('app.alerts.simple-alert')
+
 </html>

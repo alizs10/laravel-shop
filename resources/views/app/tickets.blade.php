@@ -79,15 +79,22 @@
             </ul>
 
         </div>
-        <div
+        <div id="tickets-section"
             class="lg:block col-span-9 lg:col-span-7 lg:h-fit flex flex-col gap-2 p-3 bg-gray-100 dark:bg-gray-800 rounded-lg">
-            <span class="flex items-center gap-3">
-                <button onclick="profileBack()" class="lg:hidden text-lg">
-                    <i class="fa fa-arrow-right"></i>
-                </button>
-                <span class="text-sm xs:text-base text-gray-500 dark:text-gray-400">
-                    تیکت های شما
+
+            <span class="flex justify-between items-center">
+                <span class="flex items-center gap-3">
+                    <button onclick="profileBack()" class="lg:hidden text-lg">
+                        <i class="fa fa-arrow-right"></i>
+                    </button>
+                    <span class="text-sm xs:text-base text-gray-500 dark:text-gray-400">
+                        تیکت های شما
+                    </span>
                 </span>
+                <button onclick="toggleAddNewTicket()"
+                    class="px-3 py-2 text-xs flex-center rounded-lg bg-red-500 text-white">
+                    <span>ثبت تیکت</span>
+                </button>
             </span>
 
             <div class="flex flex-col gap-y-2 mt-2">
@@ -150,4 +157,66 @@
 
     </section>
     <!-- profile ends -->
+@endsection
+@section('add-to-body')
+    <!-- add new ticket modal starts -->
+    <div id="new-ticket-backdrop" onclick="toggleAddNewTicket()"
+        class="hidden fixed top-0 bottom-0 left-0 right-0 bg-gray-500/70 z-40 transition-all duration-300">
+        <form class="w-full flex-center" action="">
+            <div class="w-5/6 md:w-2/3 rounded-lg p-3 shadow-md bg-white dark:bg-gray-700 flex flex-col gap-y-3"
+                onclick="event.stopPropagation()">
+                <div class="flex justify-between">
+                    <span class="text-red-500 text-xs xs:text-base md:text-lg">ثبت تیکت جدید</span>
+                    <button type="button" onclick="toggleAddNewTicket()">
+                        <i class="fa-solid fa-xmark text-xl md:text-2xl"></i>
+                    </button>
+                </div>
+                <div class="w-full max-h-[calc(100vh_-_14rem)] overflow-y-scroll no-scrollbar grid grid-cols-2 gap-2">
+                    <div class="col-span-2 md:col-span-1 flex flex-col gap-1 relative mt-4">
+                        <label class="text-xs absolute bg-white dark:bg-gray-700 px-2 -top-2 right-2" for="">انتخاب
+                            دسته</label>
+                        <select class="form-input" name="" id="">
+                            <option class="text-black" value="">مشکل در خرید</option>
+                            <option class="text-black" value="">پیشنهاد</option>
+                            <option class="text-black" value="">سوال</option>
+                        </select>
+                    </div>
+                    <div class="col-span-2 md:col-span-1 flex flex-col gap-1 relative mt-4">
+                        <label class="text-xs absolute bg-white dark:bg-gray-700 px-2 -top-2 right-2" for="">
+                            اولویت تیکت
+                        </label>
+                        <select class="form-input" name="" id="">
+                            <option class="text-black" value="">مهم</option>
+                            <option class="text-black" value="">متوسط</option>
+                            <option class="text-black" value="">کم اهمیت</option>
+                        </select>
+                    </div>
+                    <div class="col-span-2 flex flex-col gap-1 relative mt-4">
+                        <label class="text-xs absolute bg-white dark:bg-gray-700 px-2 -top-2 right-2" for="">موضوع
+                            تیکت</label>
+                        <input type="text" class="form-input" name="" id="" />
+                    </div>
+                    <div class="col-span-2 flex flex-col gap-1 relative mt-4">
+                        <label class="text-xs absolute bg-white dark:bg-gray-700 px-2 -top-2 right-2"
+                            for="">توضیحات
+                            تیکت</label>
+                        <textarea class="form-input" name="" id="" rows="3"
+                            placeholder="توضیحات خود را کامل بنویسید"></textarea>
+                    </div>
+
+
+                </div>
+
+                <button type="submit"
+                    class="w-full bg-red-500 text-white text-sm text-center md:text-base py-3 rounded-lg">ارسال
+                    تیکت</button>
+            </div>
+        </form>
+
+    </div>
+    <!-- add new ticket modal ends -->
+@endsection
+
+@section('scripts')
+    <script type="text/javascript" src="{{ asset('app-assets/js/tickets-page.js') }}"></script>
 @endsection

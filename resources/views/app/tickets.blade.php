@@ -92,72 +92,55 @@
 
             <div class="flex flex-col gap-y-2 mt-2">
                 <div class="flex flex-col gap-2 pb-2">
-                    <div class="rounded-lg border border-gray-300 dark:border-gray-700 p-2 flex flex-col gap-y-3">
-                        <div class="flex justify-between items-center">
-                            <div class="flex gap-x-2 items-center">
-                                <span class="w-4 h-4 rounded-full bg-gray-500 dark:bg-gray-400"></span>
-                                <a href=""
-                                    class="text-base underline underline-offset-4 text-gray-500 dark:text-gray-400">
-                                    مشکل در سبد خرید
-                                </a>
-                            </div>
-                            <a href="" class="text-gray-500 dark:text-gray-400 text-xs xs:text-base md:text-xs">
-                                <i class="fa-regular fa-trash-alt"></i>
-                            </a>
-                        </div>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="text-xxs bg-gray-200 dark:bg-gray-700 p-2 rounded-lg w-fit">۱۲ اسفند
-                                ۱۴۰۰</span>
-                            <span class="text-xxs bg-gray-200 dark:bg-gray-700 p-2 rounded-lg w-fit">مهم</span>
-                            <span class="text-xxs bg-gray-200 dark:bg-gray-700 p-2 rounded-lg w-fit">در انتظار
-                                پاسخ</span>
-                        </div>
-                    </div>
 
-                    <div class="rounded-lg border border-gray-300 dark:border-gray-700 p-2 flex flex-col gap-y-3">
-                        <div class="flex justify-between items-center">
-                            <div class="flex gap-x-2 items-center">
-                                <span class="w-4 h-4 rounded-full bg-emerald-600 flex-center text-white">
-                                    <i class="fa-regular fa-check text-sm"></i>
-                                </span>
-                                <a href="" class="text-base underline underline-offset-4 text-emerald-600">
-                                    مشکل در سبد خرید
-                                </a>
+                    @if ($tickets->count() > 0)
+                        @foreach ($tickets as $tikcet)
+                            <div class="rounded-lg border border-gray-300 dark:border-gray-700 p-2 flex flex-col gap-y-3">
+                                <div class="flex justify-between items-center">
+                                    <div class="flex gap-x-2 items-center">
+                                        @if ($ticket->status == 1)
+                                            <span class="w-4 h-4 rounded-full bg-emerald-600 flex-center text-white">
+                                                <i class="fa-regular fa-check text-sm"></i>
+                                            </span>
+                                        @else
+                                            <span class="w-4 h-4 rounded-full bg-gray-500 dark:bg-gray-400"></span>
+                                        @endif
+
+                                        <a href="{{ route('app.user.ticket.show-ticket', $ticket->id) }}"
+                                            class="text-base underline underline-offset-4 text-gray-500 dark:text-gray-400">
+                                            {{ $ticket->subject }}
+                                        </a>
+                                    </div>
+
+                                    <a href=""
+                                        class="text-gray-500 dark:text-gray-400 text-xs xs:text-base md:text-xs">
+                                        <i class="fa-regular fa-trash-alt"></i>
+                                    </a>
+                                </div>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="text-xxs bg-gray-200 dark:bg-gray-700 p-2 rounded-lg w-fit">
+                                        {{ e2p_numbers(showPersianDate($ticket->create_at)) }}
+                                    </span>
+                                    <span
+                                        class="text-xxs bg-gray-200 dark:bg-gray-700 p-2 rounded-lg w-fit">{{ $ticket->priority->name }}</span>
+                                    <span class="text-xxs bg-gray-200 dark:bg-gray-700 p-2 rounded-lg w-fit">
+                                        @if ($ticket->status == 1)
+                                            بسته شده
+                                        @else
+                                            در انتظار پاسخ
+                                        @endif
+                                    </span>
+                                </div>
                             </div>
-                            <a href="" class="text-gray-500 dark:text-gray-400 text-xs xs:text-base md:text-xs">
-                                <i class="fa-regular fa-trash-alt"></i>
-                            </a>
+                        @endforeach
+                    @else
+                        <div class="flex-center gap-x-2 text-lg text-gray-500 dark:text-gray-400">
+                            <i class="fa-light fa-circle-exclamation text-2xl"></i>
+                            <span>تیکتی برای نمایش وجود ندارد</span>
                         </div>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="text-xxs bg-gray-200 dark:bg-gray-700 p-2 rounded-lg w-fit">۱۲ اسفند
-                                ۱۴۰۰</span>
-                            <span class="text-xxs bg-gray-200 dark:bg-gray-700 p-2 rounded-lg w-fit">مهم</span>
-                            <span class="text-xxs bg-gray-200 dark:bg-gray-700 p-2 rounded-lg w-fit">بسته شده</span>
-                        </div>
-                    </div>
+                    @endif
 
 
-                    <div class="rounded-lg border border-gray-300 dark:border-gray-700 p-2 flex flex-col gap-y-3">
-                        <div class="flex justify-between items-center">
-                            <div class="flex gap-x-2 items-center">
-                                <span class="w-4 h-4 rounded-full bg-gray-500 dark:bg-gray-400"></span>
-                                <a href=""
-                                    class="text-base underline underline-offset-4 text-gray-500 dark:text-gray-400">
-                                    مشکل در سبد خرید
-                                </a>
-                            </div>
-                            <a href="" class="text-gray-500 dark:text-gray-400 text-xs xs:text-base md:text-xs">
-                                <i class="fa-regular fa-trash-alt"></i>
-                            </a>
-                        </div>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="text-xxs bg-gray-200 dark:bg-gray-700 p-2 rounded-lg w-fit">۱۲ اسفند
-                                ۱۴۰۰</span>
-                            <span class="text-xxs bg-gray-200 dark:bg-gray-700 p-2 rounded-lg w-fit">متوسط</span>
-                            <span class="text-xxs bg-gray-200 dark:bg-gray-700 p-2 rounded-lg w-fit">در انتظار
-                                پاسخ</span>
-                        </div>
-                    </div>
                 </div>
 
 

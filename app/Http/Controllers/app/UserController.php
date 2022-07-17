@@ -8,6 +8,7 @@ use App\Http\Requests\app\UserProfileRequest;
 use App\Models\Address;
 use App\Models\Market\Order;
 use App\Models\Province;
+use App\Models\Ticket\Ticket;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -96,8 +97,8 @@ class UserController extends Controller
         if ($request->has('type')) {
             $orders_type = in_array($request->get('type'), $order_types_array) ? $request->get('type') : 0;
         }
-       
-        
+
+
         $user = Auth::user();
         $orders = $user->orders()->where('order_status', $orders_type)->get();
         return view('app.orders', compact('orders', 'orders_type'));
@@ -122,6 +123,23 @@ class UserController extends Controller
         $favorites = $user->favorites;
         return view('app.favorites', compact('favorites'));
     }
+
+    //tickets
+
+    public function tickets()
+    {
+        $user = Auth::user();
+        $tickets = $user->tickets;
+
+        return view('app.tickets', compact('tickets'));
+    }
+
+    public function showTicket(Ticket $ticket)
+    {
+        return view('app.ticket', compact('ticket'));
+    }
+
+
     //provinces and cities
     public function getCities(Province $province)
     {

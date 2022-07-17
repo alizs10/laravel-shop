@@ -7,6 +7,7 @@ use App\Models\Market\CouponUser;
 use App\Models\Market\Favorite;
 use App\Models\Market\Order;
 use App\Models\Market\Product;
+use App\Models\Ticket\Ticket;
 use App\Models\Ticket\TicketAdmin;
 use App\Models\User\Role;
 use App\Models\User\RoleUser;
@@ -85,6 +86,11 @@ class User extends Authenticatable
     public function ticketAdmin()
     {
         return $this->hasOne(TicketAdmin::class, 'user_id');
+    }
+
+    public function tickets()
+    {
+        return $this->hasMany(Ticket::class);
     }
 
     public function roles()

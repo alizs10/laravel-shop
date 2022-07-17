@@ -127,6 +127,11 @@
                                 <i class="fa-light fa-map-location mr-2"></i>
                                 <span class="text-xs">آدرس های شما</span>
                             </a>
+                            <a href="{{ route('app.user.tickets') }}"
+                                class="text-base flex gap-x-1 items-center py-2 hover-transition hover:bg-gray-200 dark:hover:bg-gray-700">
+                                <i class="fa-light fa-ticket mr-2"></i>
+                                <span class="text-xs">تیکت های شما</span>
+                            </a>
                             <a href="{{ route('auth.logout') }}"
                                 class="text-base flex gap-x-1 items-center py-2 hover-transition hover:bg-gray-200 dark:hover:bg-gray-700">
                                 <i class="fa-light fa-right-from-bracket mr-2"></i>

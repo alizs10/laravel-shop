@@ -180,6 +180,11 @@ Route::namespace('App')->group(function () {
         //favorites
         Route::get('favorites', [UserController::class, 'favorites'])->name('app.user.favorites');
         Route::get('favorites/{product}/toggle', [AppProductController::class, 'toggleFavorite'])->name('app.user.favorites.toggle');
+    
+    
+        //tickets
+        Route::get('tickets', [UserController::class, 'tickets'])->name('app.user.tickets');
+        Route::get('tickets/{ticket}', [UserController::class, 'showTicket'])->name('app.user.tickets.show-ticket');
     });
 
     //cities

@@ -30,7 +30,7 @@ class TicketPolicy
                 array_push($permissions_ids, $permission->id);
             }
         }
-        return $user->id == $ticket->referencedTo->user_id || in_array(Ticket::CAN_ALL_ID, $permissions_ids);
+        return $user->id == $ticket->referencedTo->user_id || in_array(Ticket::CAN_ALL_ID, $permissions_ids) || $user->id == $ticket->user_id;
     }
 
    
@@ -68,6 +68,6 @@ class TicketPolicy
             }
         }
 
-        return in_array(Ticket::CAN_DELETE_ID, $permissions_ids) || in_array(Ticket::CAN_ALL_ID, $permissions_ids);
+        return in_array(Ticket::CAN_DELETE_ID, $permissions_ids) || in_array(Ticket::CAN_ALL_ID, $permissions_ids) || $user->id == $ticket->user_id;
     }
 }

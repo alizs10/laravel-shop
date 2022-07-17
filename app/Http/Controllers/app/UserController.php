@@ -159,11 +159,13 @@ class UserController extends Controller
 
     public function showTicket(Ticket $ticket)
     {
+        $this->authorize('view', $ticket);
         return view('app.ticket', compact('ticket'));
     }
 
     public function destroyTicket(Ticket $ticket)
     {
+        $this->authorize('delete', $ticket);
         $ticket->delete();
         return redirect()->route('app.user.tickets')->with('alert', 'تیکت مورد نظر شما با موفقیت حذف شد');
     }

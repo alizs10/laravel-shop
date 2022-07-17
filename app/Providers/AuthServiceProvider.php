@@ -25,6 +25,7 @@ use App\Models\Ticket\TicketCategory;
 use App\Models\Ticket\TicketPriority;
 use App\Models\User;
 use App\Models\User\Role;
+use App\Policies\App\TicketPolicy as AppTicketPolicy;
 use App\Policies\Content\AdvertisementBanerPolicy;
 use App\Policies\Content\CommentPolicy;
 use App\Policies\Content\FaqPolicy;
@@ -95,6 +96,8 @@ class AuthServiceProvider extends ServiceProvider
         Product::class => ProductPolicy::class,
         ProductCategory::class => ProductCategoryPolicy::class,
         Brand::class => BrandPolicy::class,
+
+
     ];
 
     /**

@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Password;
@@ -105,11 +106,11 @@ class AuthController extends Controller
 
         $credentials = $request->only(['email', 'password']);
         $result = Auth::attempt($credentials);
-
         if ($result) {
             $cart_services = new CartServices();
             $cart_services->moveCartItems();
             if (session('back_url')) {
+                // dd('hereee');
                 $back_url = session()->pull('back_url');
                 if (session('move_cart_items')) {
                     $cartServices = new CartServices();
@@ -277,7 +278,8 @@ class AuthController extends Controller
         $opt = Opt::where(["identifier" => $request->email, 'token' => $request->token, 'used' => 0])->first();
         if (empty($opt)) {
             return redirect(route('auth.index'))->with(
-                'message' , 'توکن شما نامعتبر است'
+                'message',
+                'توکن شما نامعتبر است'
             );
         }
         $opt->update(['used' => 1]);
@@ -285,8 +287,8 @@ class AuthController extends Controller
             'email_verified_at' => now(),
             'password' => Hash::make($request->password)
         ]);
-        
-    
+
+
         $result = Auth::loginUsingId($opt->user_id);
         if ($result) {
             if ($result) {
@@ -311,9 +313,9 @@ class AuthController extends Controller
 
     public function logout()
     {
-        if (Auth::user()) {
-            Auth::logout();
-        }
+
+        Auth::logout();
+        Session::flush();
 
         return redirect()->route('app.home');
     }
@@ -383,8 +385,7 @@ class AuthController extends Controller
         ]);
         $user = Auth::user();
 
-        if(!Hash::check($request->old_password, $user->password))
-        {
+        if (!Hash::check($request->old_password, $user->password)) {
             return redirect()->route('auth.change-password-form')->withErrors([
                 'old_password' => 'کلمه عبور فعلی شما صحیح نمی باشد'
             ]);

@@ -127,6 +127,10 @@ Route::namespace('App')->group(function () {
         Route::get('/category/{category}', [ProductsController::class, 'categoryProducts'])->name('app.products.category-products');
         Route::get('/brand/{brand}', [ProductsController::class, 'brandProducts'])->name('app.products.brand-products');
     });
+
+    //brands
+    Route::get('/brands', [HomeController::class, 'brands'])->name('app.brand.index');
+
  
 
     //cart

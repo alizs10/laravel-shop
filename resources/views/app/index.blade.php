@@ -293,7 +293,7 @@
     <section class="flex flex-col gap-y-2 p-2 rounded-lg mt-4 bg-gray-300 dark:bg-gray-700 text-white">
         <div class="flex justify-between items-center text-black dark:text-white text-base">
             <span>بهترین برند ها</span>
-            <a href="" class="flex-center gap-x-2">
+            <a href="{{ route('app.brand.index') }}" class="flex-center gap-x-2">
                 <span>بیشتر</span>
                 <i class="fa-duotone fa-arrow-left text-base"></i>
             </a>

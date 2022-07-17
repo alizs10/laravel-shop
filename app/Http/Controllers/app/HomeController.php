@@ -48,4 +48,11 @@ class HomeController extends Controller
             "products" => $products_results,
         ]);
     }
+
+    public function brands()
+    {
+        $brands = Brand::all();
+
+        return view('app.brands', compact('brands'));
+    }
 }

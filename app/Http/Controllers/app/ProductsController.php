@@ -64,6 +64,8 @@ class ProductsController extends Controller
     {
         $products = $brand->products;
 
-        dd($products);
+        $page = "برند $brand->persian_name";
+
+        return view('app.products', compact('page', 'products'));
     }
 }

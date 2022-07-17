@@ -19,7 +19,7 @@ class ProductsController extends Controller
 
         $page = "کالاهای شگفت انگیز";
 
-        return view('app.products', compact('page'));
+        return view('app.products', compact('page', 'products'));
     }
 
     public function recommended()

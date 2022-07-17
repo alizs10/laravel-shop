@@ -32,14 +32,18 @@
                 @endphp
                 <div class="flex justify-between items-center">
                     <span class="flex flex-col gap-y-1 text-xs">
-                        <span class="flex gap-x-2 items-center">
-                            <span class="line-through">{{ price_formater($product_prices['product_price']) }}</span>
-                            <div class="h-7 w-7 rounded-lg bg-red-600 text-white flex-center text-xs">
-                                {{ e2p_numbers($product->amazingSale->percentage) }}%</div>
-                        </span>
+                        @if ($product->amazingSale)
+                            <span class="flex gap-x-2 items-center">
+                                <span class="line-through">{{ price_formater($product_prices['product_price']) }}</span>
+                                <div class="h-7 w-7 rounded-lg bg-red-600 text-white flex-center text-xs">
+                                    {{ e2p_numbers($product->amazingSale->percentage) }}%</div>
+                            </span>
+                        @endif
+
                         <span
-                            class="text-red-500 font-bold">{{ price_formater($product_prices['ultimate_price']) }}</span>
-                        <span class="text-red-500 font-bold">تومان</span>
+                            class="@if ($product->amazingSale) text-red-500 @endif font-bold">{{ price_formater($product_prices['ultimate_price']) }}</span>
+                        <span class="@if ($product->amazingSale) text-red-500 @endif font-bold">تومان</span>
+
                     </span>
 
                     <div class="flex flex-col items-center gax-y-2">

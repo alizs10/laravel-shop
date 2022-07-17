@@ -26,37 +26,38 @@ class ProductsController extends Controller
     {
         $products = Product::all();
         $products = $products->filter(function ($product) {
-            return $product->getSoldNumber([], true) >= 5 && $product->isMarketable([], true);
+            return $product->getSoldNumber([], true) >= 1 && $product->isMarketable([], true);
         })->sort(function ($a, $b) {
             return $a->getSoldNumber([], true) < $b->getSoldNumber([], true);
         })->values();
 
+        $page = "کالاهای پیشنهادی لاراول به شما";
 
-        dd($products);
+        return view('app.products', compact('page', 'products'));
     }
 
     public function categoryProducts(ProductCategory $category)
     {
-        $allProducts = collect();
-        function getAllChildrenProducts ($cat, $allProducts)
+        $products = collect();
+        function getAllChildrenProducts ($cat, $products)
         {
             $category_products = $cat->products;
             foreach ($category_products as $category_product) {
-                $allProducts->push($category_product);
+                $products->push($category_product);
             }
             if ($cat->children->count() > 0) {
                 foreach ($cat->children as $cat_child) {
-                    getAllChildrenProducts($cat_child, $allProducts);
+                    getAllChildrenProducts($cat_child, $products);
                 }
 
             }
            
             return true;
         };
-        getAllChildrenProducts($category, $allProducts);
-      
+        getAllChildrenProducts($category, $products);
+        $page = "دسته بندی $category->name";
 
-        dd($allProducts);
+        return view('app.products', compact('page', 'products'));
     }
 
     public function brandProducts(Brand $brand)

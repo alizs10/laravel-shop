@@ -38,7 +38,7 @@
     <section class="flex flex-col gap-y-2 p-2 rounded-lg mt-4 bg-red-500 text-white">
         <div class="flex justify-between items-center text-base">
             <span>تخفیف های شگفت انگیز</span>
-            <a href="" class="flex-center gap-x-2">
+            <a href="{{ route('app.products.amazing-sales') }}" class="flex-center gap-x-2">
                 <span>بیشتر</span>
                 <i class="fa-duotone fa-arrow-left text-base"></i>
             </a>

@@ -19,8 +19,12 @@
     <!-- breadcrumb ends -->
 
     <!-- products starts -->
+    @php
+        $is_amazing_sales = false;
+        $is_amazing_sales = (request()->route()->getName() == "app.products.amazing-sales") ?  true : false;
+    @endphp
     <section
-        class="mt-4 p-3 grid grid-cols-1 xs:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2 rounded-lg bg-gray-100 dark:bg-gray-800">
+        class="mt-4 p-3 grid grid-cols-1 xs:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2 rounded-lg @if($is_amazing_sales) bg-red-500 @else bg-gray-100 dark:bg-gray-800 @endif">
 
         @if ($products->count() > 0)
             @foreach ($products as $product)

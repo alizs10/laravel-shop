@@ -172,6 +172,10 @@ class CartController extends Controller
                 $order_item_input['amazing_sale_id'] = $cart_item->product->amazingSale->id;
                 $order_item_input['amazing_sale_object'] = $cart_item->product->amazingSale;
             }
+            if (!empty($cart_item->product->has_public_discount)) {
+                $order_item_input['public_discount_id'] = $cart_item->product->has_public_discount->id;
+                $order_item_input['public_discount_object'] = $cart_item->product->has_public_discount;
+            }
             $order_item_input['number'] = $cart_item->number;
             $item_attributes = $cart_item->itemAttributes();
             $item_prices = $cart_item->product->getPrice($item_attributes);

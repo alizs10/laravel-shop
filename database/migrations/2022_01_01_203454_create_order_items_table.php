@@ -20,6 +20,8 @@ class CreateOrderItemsTable extends Migration
             $table->longText('product_object');
             $table->foreignId('amazing_sale_id')->nullable()->constrained('amazing_sales')->onUpdate('cascade')->onDelete('cascade');
             $table->longText('amazing_sale_object')->nullable();
+            $table->foreignId('public_discount_id')->nullable()->constrained('public_discounts')->onUpdate('cascade')->onDelete('cascade');
+            $table->longText('public_discount_object')->nullable();
             $table->integer('number')->default(1);
             $table->decimal('product_unit_price', 20, 3)->comment("just product price");
             $table->decimal('final_product_price', 20, 3)->nullable()->comment("product price after dicount");

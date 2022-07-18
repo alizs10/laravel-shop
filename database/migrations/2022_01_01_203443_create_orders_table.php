@@ -32,9 +32,6 @@ class CreateOrdersTable extends Migration
             $table->foreignId('coupon_id')->nullable()->constrained('coupons')->onUpdate('cascade')->onDelete('cascade');
             $table->longText('coupon_object')->nullable();
             $table->decimal('order_coupon_discount_amount', 20, 3)->nullable();
-            $table->foreignId('public_discount_id')->nullable()->constrained('public_discounts')->onUpdate('cascade')->onDelete('cascade');
-            $table->longText('public_discount_object')->nullable();
-            $table->decimal('order_public_discount_amount', 20, 3)->nullable();
             $table->decimal('order_total_products_discount_amount', 20, 3)->nullable();
             $table->tinyInteger('order_status')->default(0)->comment('0 => still, 1 => proccessing, 2 => delivered, 3 => canceled, 4 => returned');
             $table->timestamps();

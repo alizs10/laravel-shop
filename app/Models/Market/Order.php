@@ -30,9 +30,6 @@ class Order extends Model
         "coupon_id",
         "coupon_object",
         "order_coupon_discount_amount",
-        "public_discount_id",
-        "public_discount_object",
-        "order_public_discount_amount",
         "order_total_products_discount_amount",
         "order_status",
     ];

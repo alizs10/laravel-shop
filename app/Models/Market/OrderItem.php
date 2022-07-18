@@ -18,6 +18,8 @@ class OrderItem extends Model
         'product_object',
         'amazing_sale_id',
         'amazing_sale_object',
+        "public_discount_id",
+        "public_discount_object",
         'color_id',
         'guaranty_id',
         'number',

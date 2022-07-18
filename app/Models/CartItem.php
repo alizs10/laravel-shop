@@ -55,4 +55,24 @@ class CartItem extends Model
         $cartServices = new CartServices();
         return $cartServices->getAttributes($this);
     }
+
+
+    public function getItemPrice()
+    {
+        $cartServices = new CartServices();
+        return $cartServices->getItemPrice($this);
+    }
+    
+    public function getDiscountAmountAttribute()
+    {
+        $prices = $this->getItemPrice();
+        return $prices['discount_amount'];
+    }
+
+    public function getUltimatePriceAttribute()
+    {
+        $prices = $this->getItemPrice();
+        return $prices['ultimate_price'];
+    }
+
 }

@@ -208,44 +208,17 @@
                             <div id="cart-dropdown-price"
                                 class="flex flex-col gap-3 pt-2 border-t-2 border-gray-100 dark:border-gray-700">
 
-                                @php
-                                    $pay_price = 0;
-                                    $discount_price = 0;
-                                    foreach ($cart_items as $cart_item) {
-                                        $product_price = $cart_item->product->price;
-                                    
-                                        //check for product color price increase
-                                        if (!empty($cart_item->color)) {
-                                            $product_price += $cart_item->color->price_increase;
-                                        }
-                                    
-                                        //check for product attributes price increase
-                                        if (!empty($cart_item->cartItemSelectedAttributes)) {
-                                            foreach ($cart_item->cartItemSelectedAttributes as $selected_attribute) {
-                                                $product_price += json_decode($selected_attribute->value)->price_increase;
-                                            }
-                                        }
-                                    
-                                        $pay_price += $product_price * $cart_item->number;
-                                    
-                                        if (!empty($cart_item->product->amazingSale)) {
-                                            $discount_price = +($cart_item->product->amazingSale->first()->percentage * $product_price * $cart_item->number) / 100;
-                                        }
-                                    }
-                                    
-                                    $total_pay_price = $pay_price - $discount_price;
-                                @endphp
                                 <span class="flex justify-between text-xs mx-2">
                                     <span>جمع سبد خرید شما :</span>
-                                    <span>{{ price_formater($pay_price) }} تومان</span>
+                                    <span>{{ price_formater($cart_calculations['pay_price']) }} تومان</span>
                                 </span>
                                 <span class="flex justify-between text-xs mx-2 text-red-500">
                                     <span>تخفیف ها</span>
-                                    <span>{{ price_formater($discount_price) }} تومان</span>
+                                    <span>{{ price_formater($cart_calculations['discount_price']) }} تومان</span>
                                 </span>
                                 <span class="flex justify-between text-xs mx-2">
                                     <span>مبلغ پرداختی</span>
-                                    <span>{{ price_formater($total_pay_price) }} تومان</span>
+                                    <span>{{ price_formater($cart_calculations['total_pay_price']) }} تومان</span>
                                 </span>
 
                                 <a href="/cart" class="btn text-sm bg-emerald-700 text-white m-2">ثبت سفارش</a>

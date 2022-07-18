@@ -146,42 +146,16 @@
 
 
                                 <span class="mt-4 flex flex-col gap-2">
-                                    @php
-                                        
-                                        $product_price = $cart_item->product->price;
-                                        
-                                        //check for product color price increase
-                                        if (!empty($cart_item->color)) {
-                                            $product_price += $cart_item->color->price_increase;
-                                        }
-                                        
-                                        //check for product attributes price increase
-                                        if (!empty($cart_item->cartItemSelectedAttributes)) {
-                                            foreach ($cart_item->cartItemSelectedAttributes as $selected_attribute) {
-                                                $product_price += json_decode($selected_attribute->value)->price_increase;
-                                            }
-                                        }
-                                        
-                                        $final_product_price = $product_price * $cart_item->number;
-                                        
-                                        if (!empty($cart_item->product->amazingSale)) {
-                                            $discount_amount = ($cart_item->product->amazingSale->percentage * $final_product_price) / 100;
-                                        } else {
-                                            $discount_amount = 0;
-                                        }
-                                        
-                                        $ultimate_price = $final_product_price - $discount_amount;
-                                    @endphp
-                                    @if (!empty($cart_item->product->amazingSale))
+                                    @if (!empty($cart_item->product->amazingSale) || $cart_item->product->has_public_discount)
                                         <span id="discount-amount-{{ $cart_item->id }}"
                                             class="text-red-500 text-xxs xs:text-xs lg:text-sm">
-                                            تخفیف {{ price_formater($discount_amount) }} تومان
+                                            تخفیف {{ price_formater($cart_item->discount_amount) }} تومان
                                         </span>
                                     @endif
 
                                     <span id="ultimate-price-{{ $cart_item->id }}"
                                         class="text-black dark:text-white text-xs xs:text-base">
-                                        {{ price_formater($ultimate_price) }} تومان
+                                        {{ price_formater($cart_item->ultimate_price) }} تومان
                                     </span>
                                 </span>
 
@@ -204,47 +178,15 @@
         @if (count($cart_items) > 0)
             <div
                 class="col-span-9 md:col-span-3 lg:col-span-3 text-xs md:text-xxs lg:text-xs flex flex-col gap-2 h-fit p-3 bg-gray-100 dark:bg-gray-800 rounded-lg">
-
-                @php
-                    $pay_price = 0;
-                    $discount_price = 0;
-                    foreach ($cart_items as $cart_item) {
-                        $cartItemAttributes = $cart_item->itemAttributes();
-                        $is_marketable = $cart_item->product->isMarketable($cartItemAttributes, false);
-                        if ($is_marketable) {
-                            $product_price = $cart_item->product->price;
-                    
-                            //check for product color price increase
-                            if (!empty($cart_item->color)) {
-                                $product_price += $cart_item->color->price_increase;
-                            }
-                    
-                            //check for product attributes price increase
-                            if (!empty($cart_item->cartItemSelectedAttributes)) {
-                                foreach ($cart_item->cartItemSelectedAttributes as $selected_attribute) {
-                                    $product_price += json_decode($selected_attribute->value)->price_increase;
-                                }
-                            }
-                    
-                            $pay_price += $product_price * $cart_item->number;
-                    
-                            if (!empty($cart_item->product->amazingSale)) {
-                                $discount_price = +($cart_item->product->amazingSale->first()->percentage * $product_price * $cart_item->number) / 100;
-                            }
-                        }
-                    }
-                    
-                    $total_pay_price = $pay_price - $discount_price;
-                @endphp
                 <span class="flex justify-between items-center">
                     <span>جمع سبد خرید شما</span>
-                    <span id="pay_price">{{ price_formater($pay_price) }} تومان</span>
+                    <span id="pay_price">{{ price_formater($cart_calculations['pay_price']) }} تومان</span>
                 </span>
-                @if ($discount_price > 0)
+                @if ($cart_calculations['discount_price'] > 0)
                     <span
                         class="text-red-500 flex justify-between items-center md:pb-2 md:border-b-2 border-gray-200 dark:border-gray-700">
                         <span>سود شما از این خرید</span>
-                        <span id="discount_price">{{ price_formater($discount_price) }} تومان</span>
+                        <span id="discount_price">{{ price_formater($cart_calculations['discount_price']) }} تومان</span>
                     </span>
                 @endif
 
@@ -253,7 +195,7 @@
                     <span
                         class="flex flex-col md:flex-row gap-2 md:justify-between items-center text-xxs xs:text-xs md:text-xxs lg:text-xs">
                         <span>مبلغ پرداختی</span>
-                        <span id="total_pay_price">{{ price_formater($total_pay_price) }} تومان</span>
+                        <span id="total_pay_price">{{ price_formater($cart_calculations['total_pay_price']) }} تومان</span>
                     </span>
 
                     <form action="{{ route('app.cart.store-order') }}" method="POST">

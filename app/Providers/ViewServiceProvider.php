@@ -50,9 +50,10 @@ class ViewServiceProvider extends ServiceProvider
             //cart
             $cartServices = new CartServices();
             $cart_items = $cartServices->getCartItems();
-
+            $cart_calculations = $cartServices->calculate();
             $view
                 ->with('cart_items', $cart_items)
+                ->with('cart_calculations', $cart_calculations)
                 ->with('product_categories', $product_categories)
                 ->with('menus', $menus);
         });

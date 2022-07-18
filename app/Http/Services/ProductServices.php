@@ -63,14 +63,13 @@ class ProductServices
             $discount_amount = ($product->amazingSale->percentage * $product_price) / 100;
         }
 
-        // if(!empty($product->amazingSale))
-        // {
-        //     $public_discount = PublicDiscount::where('valid_from', '<', now())->where('valid_until', '>', now())->where('status', '1')->first();
-
-        //     if (!empty($public_discount)) {
-        //         $discount_amount = ($public_discount->percentage * $product_price) / 100;
-        //     }
-        // }
+        if(empty($product->amazingSale))
+        {
+            $public_discount = PublicDiscount::where('valid_from', '<', now())->where('valid_until', '>', now())->where('status', '1')->first();
+            if (!empty($public_discount)) {
+                $discount_amount = ($public_discount->percentage * $product_price) / 100;
+            }
+        }
 
 
         $ultimate_price = $product_price - $discount_amount;
@@ -151,6 +150,19 @@ class ProductServices
                 }
 
                 return false;
+            }
+        }
+
+        return false;
+    }
+
+    public function hasPublicDiscount($product)
+    {
+        if(empty($product->amazingSale))
+        {
+            $public_discount = PublicDiscount::where('valid_from', '<', now())->where('valid_until', '>', now())->where('status', '1')->first();
+            if (!empty($public_discount)) {
+                return $public_discount;
             }
         }
 

@@ -91,33 +91,42 @@
                         <div
                             class="col-span-8 xs:col-span-4 md:col-span-2 flex flex-col gap-y-2 p-2 rounded-lg bg-white text-black">
                             <a href="">
-                                <img
-                                src="{{ asset('storage\\' . $favorite->image['indexArray']['medium']) }}"
-                                alt="">
+                                <img src="{{ asset('storage\\' . $favorite->image['indexArray']['medium']) }}"
+                                    alt="">
                             </a>
                             <div class="flex justify-between items-center">
 
-                                @if (!is_null($favorite->amazingSale))
+
+
+                                @if (!is_null($favorite->amazingSale) || $favorite->has_public_discount)
                                     <span class="flex flex-col gap-y-1 text-xs">
                                         <span class="flex gap-x-2 items-center">
-                                            <span class="line-through">{{ price_formater($favorite->price) }}</span>
-                                            <div class="h-7 w-7 rounded-lg bg-red-600 text-white flex-center text-xs">
-                                                {{ e2p_numbers($favorite->amazingSale->percentage) }}٪</div>
+                                            <span
+                                                class="line-through">{{ price_formater($favorite->product_price) }}</span>
+                                            @if (!is_null($favorite->amazingSale))
+                                                <div class="h-7 w-7 rounded-lg bg-red-600 text-white flex-center text-xs">
+                                                    {{ e2p_numbers($favorite->amazingSale->percentage) }}%</div>
+                                            @else
+                                                <div class="h-7 w-7 rounded-lg bg-red-600 text-white flex-center text-xs">
+                                                    {{ e2p_numbers($favorite->has_public_discount->percentage) }}%</div>
+                                            @endif
+
                                         </span>
                                         <span
-                                            class="text-red-500 font-bold">{{ price_formater($favorite->amazingSale->price) }}</span>
+                                            class="text-red-500 font-bold">{{ price_formater($favorite->ultimate_price) }}</span>
                                         <span class="text-red-500 font-bold">تومان</span>
                                     </span>
                                 @else
                                     <span class="flex flex-col gap-y-1 text-xs">
-                                        <span>{{ price_formater($favorite->price) }}</span>
+                                        <span>{{ price_formater($favorite->ultimate_price) }}</span>
                                         <span class="font-bold">تومان</span>
                                     </span>
                                 @endif
-            
+
+
                                 <div class="flex flex-col items-center gax-y-2">
                                     <button onclick="addToFavorites(this)"
-                                    data-url="{{ route('app.user.favorites.toggle', $favorite->id) }}"
+                                        data-url="{{ route('app.user.favorites.toggle', $favorite->id) }}"
                                         class="text-red-500 w-10 h-10 rounded-lg text-xl hover-transition hover:bg-gray-200">
                                         <i class="fa-regular fa-heart"></i>
                                     </button>
@@ -135,7 +144,7 @@
                                                     }
                                                 }
                                             @endphp
-            
+
                                             @if ($is_item_in_cart)
                                                 <i class="fa-solid fa-cart-circle-check"></i>
                                             @else

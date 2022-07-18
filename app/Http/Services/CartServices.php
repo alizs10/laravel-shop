@@ -3,6 +3,7 @@
 namespace App\Http\Services;
 
 use App\Models\CartItem;
+use App\Models\Market\PublicDiscount;
 use Illuminate\Support\Facades\Auth;
 
 class CartServices
@@ -15,25 +16,9 @@ class CartServices
         $pay_price = 0;
         $discount_price = 0;
         foreach ($cart_items as $cart_item) {
-            $product_price = $cart_item->product->price;
-
-            //check for product color price increase
-            if (!empty($cart_item->color)) {
-                $product_price += $cart_item->color->price_increase;
-            }
-
-            //check for product attributes price increase
-            if (!empty($cart_item->cartItemSelectedAttributes)) {
-                foreach ($cart_item->cartItemSelectedAttributes as $selected_attribute) {
-                    $product_price += json_decode($selected_attribute->value)->price_increase;
-                }
-            }
-
-            $pay_price += $product_price * $cart_item->number;
-
-            if (!empty($cart_item->product->amazingSale)) {
-                $discount_price = + ($cart_item->product->amazingSale->first()->percentage * $product_price * $cart_item->number) / 100;
-            }
+            $item_prices = $this->getItemPrice($cart_item);
+            $pay_price += $item_prices['product_price'];
+            $discount_price += $item_prices['discount_amount'];
         }
 
         $total_pay_price = $pay_price - $discount_price;
@@ -101,7 +86,7 @@ class CartServices
 
     public function isInCart($product, $attributes = [], $has_defaults_attributes = false)
     {
-        
+
         // attributes => category_values, color_id, guaranty_id
         $cart_items = $this->getCartItems();
 
@@ -115,11 +100,11 @@ class CartServices
             return false;
         }
 
-       
+
 
         //set defaults attributes
         if ($has_defaults_attributes) {
-          
+
             $productServices = new ProductServices();
             $attributes = $productServices->getDefaultAttributes($product);
         }
@@ -201,8 +186,8 @@ class CartServices
                     }
                 }
             }
-           
-        
+
+
             if ($is_category_values_match && $is_guaranty_id_match && $is_color_id_match) {
                 return $same_product;
                 exit;
@@ -210,5 +195,48 @@ class CartServices
         }
 
         return false;
+    }
+
+
+    public function getItemPrice($item)
+    {
+
+        //calculate price
+        $product_price = $item->product->price;
+        $discount_amount = 0;
+
+        //check for color price increase
+        if ($item->color) {
+            $product_color_price = $item->color->price_increase;
+            $product_price += $product_color_price;
+        }
+
+        //check for product attributes price increase
+        if ($item->cartItemSelectedAttributes->count() > 0) {
+            foreach ($item->cartItemSelectedAttributes as $selected_attribute) {
+                $product_price += json_decode($selected_attribute->value)->price_increase;
+            }
+        }
+
+        //check for product discount
+        if (!empty($item->product->amazingSale)) {
+            $discount_amount = ($item->product->amazingSale->percentage * $product_price) / 100;
+        }
+
+        if (empty($item->product->amazingSale)) {
+            $public_discount = PublicDiscount::where('valid_from', '<', now())->where('valid_until', '>', now())->where('status', '1')->first();
+            if (!empty($public_discount)) {
+                $discount_amount = ($public_discount->percentage * $product_price) / 100;
+            }
+        }
+
+
+        $ultimate_price = $product_price - $discount_amount;
+
+        return [
+            'product_price' => $product_price,
+            'discount_amount' => $discount_amount,
+            'ultimate_price' => $ultimate_price
+        ];
     }
 }

@@ -61,6 +61,7 @@
                         <th>میزان تخفیف</th>
                         <th>زمان شروع تخفیف</th>
                         <th>زمان پایان تخفیف</th>
+                        <th>وضعیت</th>
                         <th>عملیات</th>
                     </tr>
                 </thead>
@@ -73,6 +74,7 @@
                             <td>{{ $discount->percentage }} %</td>
                             <td>{{ showPersianDate($discount->valid_from) }}</td>
                             <td>{{ showPersianDate($discount->valid_until) }}</td>
+                            <td>{{ $discount->status == 1 ? 'فعال' : 'غیرفعال' }}</td>
                             <td>
                                 <span class="flex items-center gap-x-1">
                                     @can('update', \App\Models\Market\PublicDiscount::class)

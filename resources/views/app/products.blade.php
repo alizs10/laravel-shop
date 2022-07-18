@@ -32,25 +32,33 @@
                     <a href="{{ route('app.product.index', $product->id) }}" class="w-full">
                         <img src="{{ asset('storage\\' . $product->image['indexArray']['medium']) }}" alt="">
                     </a>
-                    @php
-                        $product_prices = $product->getPrice([], true);
-                    @endphp
+                   
                     <div class="flex justify-between items-center">
+                        @if (!is_null($product->amazingSale) || $product->has_public_discount)
                         <span class="flex flex-col gap-y-1 text-xs">
-                            @if ($product->amazingSale)
-                                <span class="flex gap-x-2 items-center">
-                                    <span
-                                        class="line-through">{{ price_formater($product_prices['product_price']) }}</span>
+                            <span class="flex gap-x-2 items-center">
+                                <span class="line-through">{{ price_formater($product->product_price) }}</span>
+                                @if (!is_null($product->amazingSale))
+                                <div class="h-7 w-7 rounded-lg bg-red-600 text-white flex-center text-xs">
+                                    {{ e2p_numbers($product->amazingSale->percentage) }}%</div>
+                                    @else
                                     <div class="h-7 w-7 rounded-lg bg-red-600 text-white flex-center text-xs">
-                                        {{ e2p_numbers($product->amazingSale->percentage) }}%</div>
-                                </span>
-                            @endif
-
+                                        {{ e2p_numbers($product->has_public_discount->percentage) }}%</div>
+                                @endif
+                               
+                            </span>
                             <span
-                                class="@if ($product->amazingSale) text-red-500 @endif font-bold">{{ price_formater($product_prices['ultimate_price']) }}</span>
-                            <span class="@if ($product->amazingSale) text-red-500 @endif font-bold">تومان</span>
-
+                                class="text-red-500 font-bold">{{ price_formater($product->ultimate_price) }}</span>
+                            <span class="text-red-500 font-bold">تومان</span>
                         </span>
+                    @else
+                        <span class="flex flex-col gap-y-1 text-xs">
+                            <span>{{ price_formater($product->ultimate_price) }}</span>
+                            <span class="font-bold">تومان</span>
+                        </span>
+                    @endif
+                     
+                        
 
                         <div class="flex flex-col items-center gax-y-2">
                             <button onclick="addToFavorites(this)"

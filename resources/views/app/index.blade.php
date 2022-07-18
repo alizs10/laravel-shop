@@ -132,12 +132,18 @@
                         alt="">
                     <div class="flex justify-between items-center">
                        
-                        @if (!is_null($leastMarketableProduct->amazingSale))
+                        @if (!is_null($leastMarketableProduct->amazingSale) || $leastMarketableProduct->has_public_discount)
                             <span class="flex flex-col gap-y-1 text-xs">
                                 <span class="flex gap-x-2 items-center">
                                     <span class="line-through">{{ price_formater($leastMarketableProduct->product_price) }}</span>
+                                    @if (!is_null($leastMarketableProduct->amazingSale))
                                     <div class="h-7 w-7 rounded-lg bg-red-600 text-white flex-center text-xs">
                                         {{ e2p_numbers($leastMarketableProduct->amazingSale->percentage) }}%</div>
+                                        @else
+                                        <div class="h-7 w-7 rounded-lg bg-red-600 text-white flex-center text-xs">
+                                            {{ e2p_numbers($leastMarketableProduct->has_public_discount->percentage) }}%</div>
+                                    @endif
+                                   
                                 </span>
                                 <span
                                     class="text-red-500 font-bold">{{ price_formater($leastMarketableProduct->ultimate_price) }}</span>

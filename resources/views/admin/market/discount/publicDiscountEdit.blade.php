@@ -43,8 +43,8 @@
         @endif
 
 
-        <form class="w-full" action="{{ route('admin.market.discount.public.update', $discount->id) }}"
-            method="POST" enctype="multipart/form-data" id="form">
+        <form class="w-full" action="{{ route('admin.market.discount.public.update', $discount->id) }}" method="POST"
+            enctype="multipart/form-data" id="form">
             @csrf
             @method('put')
             <section class="w-full grid grid-cols-2 gap-2">
@@ -52,7 +52,8 @@
                     <label for="title"
                         class="text-xs {{ $errors->has('title') ? 'text-red-600 dark:text-red-400' : '' }}">عنوان کد
                         تخفیف</label>
-                    <input type="text" class="form-input" name="title" id="title" value="{{ old('title', $discount->title) }}">
+                    <input type="text" class="form-input" name="title" id="title"
+                        value="{{ old('title', $discount->title) }}">
                 </div>
 
                 <div class="col-span-2 md:col-span-1 flex flex-col gap-y-1">
@@ -78,7 +79,14 @@
                     <input type="hidden" name="valid_until" id="valid_until">
                     <input type="text" class="form-input" name="valid_until_view" id="valid_until_view" readonly>
                 </div>
-
+                <div class="col-span-2 md:col-span-1 flex flex-col gap-y-1">
+                    <label for="status"
+                        class="text-xs {{ $errors->has('status') ? 'text-red-600 dark:text-red-400' : '' }}">وضعیت</label>
+                    <select name="status" id="status" class="form-select" style="direction: ltr">
+                        <option value="1" @if (old('status', $discount->percentage) == 1) selected @endif>فعال</option>
+                        <option value="0" @if (old('status', $discount->percentage) == 0) selected @endif>غیرفعال</option>
+                    </select>
+                </div>
 
                 <button class="col-span-2 py-2 rounded-lg bg-emerald-600 text-white text-sm md:text-base">ثبت</button>
             </section>

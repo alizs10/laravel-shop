@@ -95,6 +95,12 @@ class Product extends Model
         return $prices['ultimate_price'];
     }
 
+    public function getHasPublicDiscountAttribute()
+    {
+        $productServices = new ProductServices();
+        return $productServices->hasPublicDiscount($this);
+    }
+
     public function getSoldAttribute()
     {
         return $this->isMarketable([], true);

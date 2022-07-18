@@ -28,6 +28,7 @@ class PublicDiscoutRequest extends FormRequest
             'percentage' => 'required|numeric|min:1|max:100',
             'valid_from' => 'required|digits:13',
             'valid_until' => 'required|digits:13',
+            'status' => 'required|in:0,1',
         ];
     }
 }

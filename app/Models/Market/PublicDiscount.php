@@ -18,6 +18,8 @@ class PublicDiscount extends Model
         "valid_until"
     ];
 
+    protected $timestamp = ['valid_from', 'valid_until'];
+
 
     public const CAN_VIEW_ID = 246;
     public const CAN_CREATE_ID = 247;

@@ -11,8 +11,6 @@ class OrderServices
         foreach ($order->items as $order_item) {
             $order_final_amount += $order_item->final_total_price;
         }
-
-
     }
 
     public function getAttributes($order_item)
@@ -50,22 +48,21 @@ class OrderServices
         }
 
         //check for product attributes price increase
-        if ($item->cartItemSelectedAttributes->count() > 0) {
-            foreach ($item->cartItemSelectedAttributes as $selected_attribute) {
+        if ($item->orderItemSelectedAttributes->count() > 0) {
+            foreach ($item->orderItemSelectedAttributes as $selected_attribute) {
                 $product_price += json_decode($selected_attribute->value)->price_increase;
             }
         }
 
         //check for product discount
-        if (!empty($item->product->amazingSale)) {
-            $discount_amount = ($item->product->amazingSale->percentage * $product_price) / 100;
+        if (!empty($item->amazing_sale_id)) {
+            $amazing_sale = json_decode($item->amazing_sale_object);
+            $discount_amount = ($amazing_sale->percentage * $product_price) / 100;
         }
 
-        if (empty($item->product->amazingSale)) {
-            $public_discount = PublicDiscount::where('valid_from', '<', now())->where('valid_until', '>', now())->where('status', '1')->first();
-            if (!empty($public_discount)) {
-                $discount_amount = ($public_discount->percentage * $product_price) / 100;
-            }
+        if (!empty($item->public_discount_id)) {
+            $public_discount = json_decode($item->public_discount_object);
+            $discount_amount = ($public_discount->percentage * $product_price) / 100;
         }
 
 
@@ -77,5 +74,4 @@ class OrderServices
             'ultimate_price' => $ultimate_price
         ];
     }
-
 }

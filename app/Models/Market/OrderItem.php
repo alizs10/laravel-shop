@@ -55,4 +55,23 @@ class OrderItem extends Model
         return $orderServices->getAttributes($this);
     }
 
+
+    public function getItemPrice()
+    {
+        $orderServices = new OrderServices();
+        return $orderServices->getItemPrice($this);
+    }
+    
+    public function getDiscountAmountAttribute()
+    {
+        $prices = $this->getItemPrice();
+        return $prices['discount_amount'];
+    }
+
+    public function getUltimatePriceAttribute()
+    {
+        $prices = $this->getItemPrice();
+        return $prices['ultimate_price'];
+    }
+
 }

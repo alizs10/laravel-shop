@@ -132,42 +132,17 @@
 
 
                             <span class="mt-4 flex flex-col gap-2">
-                                @php
-                                    
-                                    $product_price = $order_item->product->price;
-                                    
-                                    //check for product color price increase
-                                    if (!empty($order_item->color)) {
-                                        $product_price += $order_item->color->price_increase;
-                                    }
-                                    
-                                    //check for product attributes price increase
-                                    if (!empty($order_item->orderItemSelectedAttributes)) {
-                                        foreach ($order_item->orderItemSelectedAttributes as $selected_attribute) {
-                                            $product_price += json_decode($selected_attribute->value)->price_increase;
-                                        }
-                                    }
-                                    
-                                    $final_product_price = $product_price * $order_item->number;
-                                    
-                                    if (!empty($order_item->product->amazingSale)) {
-                                        $discount_amount = ($order_item->product->amazingSale->percentage * $final_product_price) / 100;
-                                    } else {
-                                        $discount_amount = 0;
-                                    }
-                                    
-                                    $ultimate_price = $final_product_price - $discount_amount;
-                                @endphp
-                                @if (!empty($order_item->product->amazingSale))
+                              
+                                @if (!empty($order_item->amazing_sale_id) || !empty($order_item->public_discount_id))
                                     <span id="discount-amount-{{ $order_item->id }}"
                                         class="text-red-500 text-xxs xs:text-xs lg:text-sm">
-                                        تخفیف {{ price_formater($discount_amount) }} تومان
+                                        تخفیف {{ price_formater($order_item->discount_amount) }} تومان
                                     </span>
                                 @endif
 
                                 <span id="ultimate-price-{{ $order_item->id }}"
                                     class="text-black dark:text-white text-xs xs:text-base">
-                                    {{ price_formater($ultimate_price) }} تومان
+                                    {{ price_formater($order_item->ultimate_price) }} تومان
                                 </span>
                             </span>
 

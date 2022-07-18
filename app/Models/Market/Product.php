@@ -137,6 +137,12 @@ class Product extends Model
         return $productServices->getSoldNumber($this, $attributes, $default_attributes);
     }
 
+    public function defaultAttributes()
+    {
+        $productServices = new ProductServices();
+        return $productServices->getDefaultAttributes($this);
+    }
+
 
 
     public const CAN_VIEW_ID = 266;

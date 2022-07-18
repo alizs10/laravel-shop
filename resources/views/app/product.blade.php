@@ -28,8 +28,9 @@
             <span class="text-xs xs:text-base md:text-lg text-red-500">{{ $product->name }}</span>
 
             <div class="flex items-center gap-x-4">
-                <button onclick="addToFavorites(this, 'text-white')" data-url="{{ route('app.user.favorites.toggle', $product->id) }}"
-                    class="text-2xl @if(auth()->check()) @if($product->isFavorite(auth()->user()->id)) text-red-500 @endif @endif">
+                <button onclick="addToFavorites(this, 'text-white')"
+                    data-url="{{ route('app.user.favorites.toggle', $product->id) }}"
+                    class="text-2xl @if (auth()->check()) @if ($product->isFavorite(auth()->user()->id)) text-red-500 @endif @endif">
                     <i class="fa-regular fa-heart"></i>
                 </button>
                 <button class="text-2xl">
@@ -129,6 +130,10 @@
                     <span>ضمانت 7 روزه بازگشت کالا</span>
                 </span>
 
+                @php
+                    $default_attributes = $product->defaultAttributes();
+                @endphp
+
                 @if (count($product_attributes_select_type) > 0)
                     @foreach ($product_attributes_select_type as $attr => $attr_values)
                         <span class="mt-2 flex flex-col gap-2 text-sm">
@@ -147,13 +152,15 @@
                                 }
                                 
                             @endphp
+
                             <select onchange="changeAttributeValue(this)"
                                 data-url="{{ route('app.product.get-price', $product->id) }}"
                                 class="form-input dark:border-gray-700" name="product_attributes[]"
                                 id="product-attribute-{{ $loop->iteration }}">
                                 @foreach ($attr_values as $attr_value)
                                     <option class="text-black" value="{{ $attr_value->id }}"
-                                        @if ($is_product_in_cart && $selected_attr->category_value_id == $attr_value->id) selected @endif>
+                                        @if ($is_product_in_cart && $selected_attr->category_value_id == $attr_value->id) selected
+                                        @elseif($attr_value->id == $default_attributes['category_values'][0]) selected @endif>
                                         {{ json_decode($attr_value->value)->value . ' ' . $attr_value->attribute->unit }}
                                     </option>
                                 @endforeach
@@ -176,15 +183,15 @@
                                 <span onclick="colorSelector(this, {{ $color->id }})"
                                     data-url="{{ route('app.product.get-price', $product->id) }}"
                                     class="cursor-pointer text-xs rounded-lg px-2 py-1 border-2 flex items-center gap-2
-                                    @if ($is_product_in_cart && $cartItem->color_id == $color->id) selected @elseif (!$is_product_in_cart && $product->colors->first()->id == $color->id) selected @endif"
+                                    @if ($is_product_in_cart && $cartItem->color_id == $color->id) selected @elseif ($default_attributes['color_id'] == $color->id) selected @endif"
                                     style="border-color: {{ '#' . $color->color_code }}">
                                     @if ($is_product_in_cart && $cartItem->color_id == $color->id)
                                         <i class="fa-regular fa-check text-lg text-black dark:text-white"></i>
-                                    @elseif (!$is_product_in_cart && $product->colors->first()->id == $color->id)
+                                    @elseif ($default_attributes['color_id'] == $color->id)
                                         <i class="fa-regular fa-check text-lg text-black dark:text-white"></i>
                                     @endif
                                     <div class="rounded-full h-3 w-3 
-                                    @if ($is_product_in_cart && $cartItem->color_id == $color->id) hidden @elseif (!$is_product_in_cart && $product->colors->first()->id == $color->id) hidden @endif"
+                                    @if ($is_product_in_cart && $cartItem->color_id == $color->id) hidden @elseif ($default_attributes['color_id'] == $color->id) hidden @endif"
                                         style="background-color: {{ '#' . $color->color_code }}">
                                     </div>
 
@@ -246,15 +253,20 @@
                             </span>
 
                             <span class="flex flex-col gap-2">
-                                @if (!empty($product->amazingSale))
+                                @if (!empty($product->amazingSale) || $product->has_public_discount)
                                     <span class="flex gap-2">
                                         <span id="product-price"
                                             class="line-through">{{ price_formater($product->product_price) }}</span>
-                                        <span
-                                            class="flex-center rounded-full h-7 w-7 bg-red-500 text-white text-xs">{{ e2p_numbers($product->amazingSale->percentage) }}٪</span>
+                                        @if (!empty($product->amazingSale))
+                                            <span
+                                                class="flex-center rounded-full h-7 w-7 bg-red-500 text-white text-xs">{{ e2p_numbers($product->amazingSale->percentage) }}٪</span>
+                                        @else
+                                            <span
+                                                class="flex-center rounded-full h-7 w-7 bg-red-500 text-white text-xs">{{ e2p_numbers($product->has_public_discount->percentage) }}٪</span>
+                                        @endif
                                     </span>
                                 @endif
-                                @if (!empty($product->amazingSale))
+                                @if (!empty($product->amazingSale) || $product->has_public_discount)
                                     <span id="ultimate-price">{{ price_formater($product->ultimate_price) }}
                                         تومان</span>
                                 @else
@@ -577,7 +589,7 @@
     <script src="{{ asset('app-assets/js/product-details.js') }}"></script>
     <script src="{{ asset('app-assets/js/product-comment.js') }}"></script>
     <script src="{{ asset('app-assets/js/get-product-price.js') }}"></script>
-    
+
     <script>
         function copyToClipboard(text) {
             navigator.clipboard.writeText(text).then(function() {

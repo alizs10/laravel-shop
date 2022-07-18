@@ -197,22 +197,10 @@
                                 </a>
                             @endforeach
 
-                            <div class="col-span-2 lg:col-span-1 rounded-lg overflow-hidden">
-                                <img src="../images/product-2.webp" alt="">
-                            </div>
-                            <div class="col-span-2 lg:col-span-1 rounded-lg overflow-hidden">
-                                <img src="../images/product-2.webp" alt="">
-                            </div>
-                            <div class="col-span-2 lg:col-span-1 rounded-lg overflow-hidden">
-                                <img src="../images/product-2.webp" alt="">
-                            </div>
-                            <div class="col-span-2 lg:col-span-1 rounded-lg overflow-hidden">
-                                <img src="../images/product-2.webp" alt="">
-                            </div>
                         </div>
 
                         <div class="flex justify-between items-center">
-                            <span class="text-xs xs:text-sm">{{ price_formater($order->order_final_amount) }}
+                            <span class="text-xs xs:text-sm">{{ price_formater(($order->order_final_amount + $order->delivery_amount)) }}
                                 تومان</span>
 
                             <div class="flex gap-2">

@@ -89,6 +89,8 @@ class ProductServices
         if (!empty($product->colors->toArray())) {
             $product_colors = $product->colors->filter(function ($color) {
                 return $color->marketable_number > 0;
+            })->sort(function($a, $b){
+                return $a->price_increase > $b->price_increase;
             })->values();
 
             if (empty($product_colors->toArray())) {
@@ -99,7 +101,9 @@ class ProductServices
 
         $properties = $product->properties->filter(function ($property) {
             return $property->marketable_number > 0;
-        })->values();
+        })->sort(function($a, $b){
+                return json_decode($a->value)->price_increase > json_decode($b->value)->price_increase;
+            })->values();
 
         if ($properties->count() > 0) {
             $category_attribute_ids = [];
@@ -130,9 +134,8 @@ class ProductServices
         }
 
 
-
         //check for product color
-        if (!empty($product->colors->toArray())) {
+        if (!empty($product->colors->toArray()) && !is_null($attributes['color_id'])) {
             $product_colors = $product->colors;
             $color = $product_colors->where('id', $attributes['color_id'])->first();
             if ($color) {

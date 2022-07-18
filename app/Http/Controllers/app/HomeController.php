@@ -31,6 +31,7 @@ class HomeController extends Controller
             return $item->product->ultimate_price > 0;
         })->values();
         $products = Product::all();
+
         $leastMarketableProducts = $products->sortBy('marketable_number', SORT_NATURAL)->filter(function ($item) {
             return $item->ultimate_price > 0;
         })->values();

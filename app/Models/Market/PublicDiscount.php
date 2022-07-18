@@ -13,8 +13,6 @@ class PublicDiscount extends Model
     protected $fillable = [
         "title",
         "percentage",
-        "maximum_discount",
-        "minimum_order_amount",
         "status",
         "valid_from",
         "valid_until"

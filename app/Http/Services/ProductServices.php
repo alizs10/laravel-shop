@@ -5,6 +5,7 @@ namespace App\Http\Services;
 use App\Models\Market\Product;
 use App\Models\Market\ProductColor;
 use App\Models\Market\PropertyValue;
+use App\Models\Market\PublicDiscount;
 
 class ProductServices
 {
@@ -61,6 +62,15 @@ class ProductServices
         if (!empty($product->amazingSale)) {
             $discount_amount = ($product->amazingSale->percentage * $product_price) / 100;
         }
+
+        // if(!empty($product->amazingSale))
+        // {
+        //     $public_discount = PublicDiscount::where('valid_from', '<', now())->where('valid_until', '>', now())->where('status', '1')->first();
+
+        //     if (!empty($public_discount)) {
+        //         $discount_amount = ($public_discount->percentage * $product_price) / 100;
+        //     }
+        // }
 
 
         $ultimate_price = $product_price - $discount_amount;

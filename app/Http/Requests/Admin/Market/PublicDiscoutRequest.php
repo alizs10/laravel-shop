@@ -26,8 +26,6 @@ class PublicDiscoutRequest extends FormRequest
         return [
             'title' => 'required|string|max:90',
             'percentage' => 'required|numeric|min:1|max:100',
-            'maximum_discount' => 'required|numeric',
-            'minimum_order_amount' => 'required|numeric',
             'valid_from' => 'required|digits:13',
             'valid_until' => 'required|digits:13',
         ];

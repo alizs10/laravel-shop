@@ -57,10 +57,8 @@
                 <thead class="text-xxs md:text-sm">
                     <tr>
                         <th>#</th>
-                        <th>کد تخفیف</th>
+                        <th>عنوان تخفیف</th>
                         <th>میزان تخفیف</th>
-                        <th>سقف تخفیف</th>
-                        <th>حداقل میزان سفارش</th>
                         <th>زمان شروع تخفیف</th>
                         <th>زمان پایان تخفیف</th>
                         <th>عملیات</th>
@@ -73,8 +71,6 @@
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $discount->title }}</td>
                             <td>{{ $discount->percentage }} %</td>
-                            <td>{{ $discount->maximum_discount }} تومان</td>
-                            <td>{{ $discount->minimum_order_amount }} تومان</td>
                             <td>{{ showPersianDate($discount->valid_from) }}</td>
                             <td>{{ showPersianDate($discount->valid_until) }}</td>
                             <td>

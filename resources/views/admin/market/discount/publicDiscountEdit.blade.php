@@ -63,20 +63,6 @@
                         value="{{ old('percentage', $discount->percentage) }}">
                 </div>
                 <div class="col-span-2 md:col-span-1 flex flex-col gap-y-1">
-                    <label for="maximum_discount"
-                        class="text-xs {{ $errors->has('maximum_discount') ? 'text-red-600 dark:text-red-400' : '' }}">سقف
-                        تخفیف</label>
-                    <input type="text" class="form-input" name="maximum_discount" id="maximum_discount"
-                        value="{{ old('maximum_discount', $discount->maximum_discount) }}">
-                </div>
-                <div class="col-span-2 md:col-span-1 flex flex-col gap-y-1">
-                    <label for="minimum_order_amount"
-                        class="text-xs {{ $errors->has('minimum_order_amount') ? 'text-red-600 dark:text-red-400' : '' }}">حداقل
-                        مبلغ سفارش</label>
-                    <input type="text" class="form-input" name="minimum_order_amount" id="minimum_order_amount"
-                        value="{{ old('minimum_order_amount', $discount->minimum_order_amount) }}">
-                </div>
-                <div class="col-span-2 md:col-span-1 flex flex-col gap-y-1">
                     <label for="valid_from"
                         class="text-xs {{ $errors->has('valid_from') ? 'text-red-600 dark:text-red-400' : '' }}">زمان
                         شروع

@@ -17,8 +17,6 @@ class CreatePublicDiscountsTable extends Migration
             $table->id();
             $table->string('title');
             $table->integer('percentage');
-            $table->unsignedBigInteger('maximum_discount')->nullable();
-            $table->unsignedBigInteger('minimum_order_amount')->nullable();
             $table->tinyInteger('status')->default(0);
             $table->timestamp('valid_from')->useCurrent();
             $table->timestamp('valid_until')->useCurrent();

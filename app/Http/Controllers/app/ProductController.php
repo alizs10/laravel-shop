@@ -20,6 +20,9 @@ class ProductController extends Controller
 {
     public function index(Product $product, CartServices $cartServices)
     {
+        //product visit
+        $product->newVisit();
+
         //comments
         $user_comment_likes_ids = [];
         if (!empty(Auth::user())) {

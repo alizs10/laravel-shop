@@ -6,6 +6,8 @@ use App\Models\Market\Product;
 use App\Models\Market\ProductColor;
 use App\Models\Market\PropertyValue;
 use App\Models\Market\PublicDiscount;
+use App\Models\ProductVisit;
+use Illuminate\Support\Facades\Auth;
 
 class ProductServices
 {
@@ -332,5 +334,22 @@ class ProductServices
 
             return true;
         }
+    }
+
+
+    public function newVisit($product)
+    {
+        $user = Auth::user();
+        if (!$user) {
+            $ip_address = request()->ip();
+            ProductVisit::updateOrCreate([
+                'ip_address' => $ip_address,
+                'product_id' => $product->id
+            ]);
+        } else {
+            $user->productVisits()->updateOrCreate(['product_id' => $product->id]);
+        }
+
+        return true;
     }
 }

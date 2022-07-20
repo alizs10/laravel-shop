@@ -132,6 +132,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Coupon::class)->using(CouponUser::class);
     }
 
+    public function productVisits()
+    {
+        return $this->hasMany(ProductVisit::class, 'user_id');
+    }
+
 
     public const CAN_VIEW_ID = 186;
     public const CAN_CREATE_ID = 187;

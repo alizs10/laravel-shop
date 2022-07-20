@@ -143,6 +143,12 @@ class Product extends Model
         return $productServices->getDefaultAttributes($this);
     }
 
+    public function newVisit()
+    {
+        $productServices = new ProductServices();
+        return $productServices->newVisit($this);
+    }
+
 
 
     public const CAN_VIEW_ID = 266;

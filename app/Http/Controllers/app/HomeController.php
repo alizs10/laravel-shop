@@ -8,12 +8,26 @@ use App\Models\Market\AmazingSale;
 use App\Models\Market\Brand;
 use App\Models\Market\Product;
 use App\Models\Market\ProductCategory;
+use App\Models\Visit;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
     public function index()
     {
+        // visit
+        $ip_address = request()->ip();
+        $customer_exists = Visit::where('ip_address', $ip_address)->first();
+        if ($customer_exists) {
+            $customer_exists->increment('number');
+        } else {
+            Visit::create([
+                'ip_address' => $ip_address,
+                'number' => 1
+            ]);
+        }
+
+
         //slidershow
         $slideshowBaners = AdvertisementBaner::where('position', 0)->take(3)->get();
         // ad-1

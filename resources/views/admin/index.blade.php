@@ -14,10 +14,10 @@
                         <span class="text-xs font-bold md:text-base">بازدید ها</span>
                         <i class="fa fa-eye text-3xl"></i>
                     </div>
-                    <span class="text-2xl text-slate-800 font-bold md:text-3xl">1201</span>
+                    <span class="text-2xl text-slate-800 font-bold md:text-3xl">{{e2p_numbers($data['visitsCount'])}}</span>
                     <span class="text-xxs md:text-xs text-slate-700">
                         <i class="fa-regular fa-clock text-xxs md:text-sm ml-1"></i>
-                        آخرین بروزرسانی 5 دقیقه قبل</span>
+                        آخرین بروزرسانی در {{ e2p_numbers(showPersianDate($data['date'], 'H:i:s')) }}</span>
                 </div>
             </div>
             <div class="col-span-4 md:col-span-2 lg:col-span-1 p-2 rounded-lg text-black bg-red-200">

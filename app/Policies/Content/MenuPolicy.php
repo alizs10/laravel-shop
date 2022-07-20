@@ -2,14 +2,13 @@
 
 namespace App\Policies\Content;
 
-use App\Models\Content\Page;
+use App\Models\Content\Menu;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class PagePolicy
+class MenuPolicy
 {
     use HandlesAuthorization;
-
 
     public function index(User $user)
     {
@@ -20,7 +19,7 @@ class PagePolicy
             }
         }
 
-        return in_array(Page::CAN_VIEW_ID, $permissions_ids) || in_array(Page::CAN_ALL_ID, $permissions_ids);
+        return in_array(Menu::CAN_VIEW_ID, $permissions_ids) || in_array(Menu::CAN_ALL_ID, $permissions_ids);
     }
    
     public function create(User $user)
@@ -32,7 +31,7 @@ class PagePolicy
             }
         }
 
-        return in_array(Page::CAN_CREATE_ID, $permissions_ids) || in_array(Page::CAN_ALL_ID, $permissions_ids);
+        return in_array(Menu::CAN_CREATE_ID, $permissions_ids) || in_array(Menu::CAN_ALL_ID, $permissions_ids);
     }
 
   
@@ -45,7 +44,7 @@ class PagePolicy
             }
         }
 
-        return in_array(Page::CAN_UPDATE_ID, $permissions_ids) || in_array(Page::CAN_ALL_ID, $permissions_ids);
+        return in_array(Menu::CAN_UPDATE_ID, $permissions_ids) || in_array(Menu::CAN_ALL_ID, $permissions_ids);
     }
 
     public function delete(User $user)
@@ -57,6 +56,6 @@ class PagePolicy
             }
         }
 
-        return in_array(Page::CAN_DELETE_ID, $permissions_ids) || in_array(Page::CAN_ALL_ID, $permissions_ids);
+        return in_array(Menu::CAN_DELETE_ID, $permissions_ids) || in_array(Menu::CAN_ALL_ID, $permissions_ids);
     }
 }

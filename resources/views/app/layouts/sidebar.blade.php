@@ -13,7 +13,7 @@
         class="col-span-12 lg:col-span-11 lg:order-last flex flex-col lg:flex-row lg:gap-x-2 lg:p-0 border-b lg:border-none border-gray-100 text-gray-500 dark:text-gray-400 dark:border-gray-700 h-fit">
 
         @foreach ($menus as $menu)
-            <a href="{{ $menu->url }}"
+            <a href="{{ config('app.url') . '/' . $menu->url }}"
                 class="text-sm lg:text-xxs flex items-center gap-x-4 lg:gap-x-2 py-2 lg:p-0 mr-2 lg:pb-1 lg:border-b-2 lg:border-white dark:lg:border-gray-800 lg:hover-transition lg:hover:border-red-500 dark:lg:hover:border-red-500">
                 <i class="{{ $menu->icon }} text-lg lg:text-xs"></i>
                 {{ $menu->name }}</a>

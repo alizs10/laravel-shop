@@ -59,6 +59,11 @@
                         value="{{ old('icon', $menu->icon) }}">
                 </div>
                 <div class="col-span-2 md:col-span-1 flex flex-col gap-y-1">
+                    <label for="url"
+                        class="text-xs {{ $errors->has('url') ? 'text-red-600 dark:text-red-400' : '' }}">آدرس منو</label>
+                    <input type="text" class="form-input" name="url" id="url" value="{{ old('url', $menu->url) }}">
+                </div>
+                <div class="col-span-2 md:col-span-1 flex flex-col gap-y-1">
                     <label for="slug"
                         class="text-xs {{ $errors->has('slug') ? 'text-red-600 dark:text-red-400' : '' }}">اسلاگ</label>
                     <input type="text" class="form-input" name="slug" id="slug"

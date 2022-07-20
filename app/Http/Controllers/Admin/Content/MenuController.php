@@ -44,7 +44,6 @@ class MenuController extends Controller
     {
         $this->authorize('create', Menu::class);
         $inputs = $request->all();
-        $inputs['url'] = Config::get('app.url') . '/' . $inputs['slug'];
         Menu::create($inputs);
         return redirect()->route('admin.content.menu.index')->with('alertify-success', 'منو جدید با موفقیت اضافه شد.');
     }
@@ -88,9 +87,7 @@ class MenuController extends Controller
         if (!isset($inputs['parent_id']) && empty($inputs['parent_id']) && $inputs['parent_id'] === '') {
             $inputs['parent_id'] = '';
         }
-        if (isset($inputs['slug']) && !empty($inputs['slug']) && $inputs['slug'] !== '') {
-            $inputs['url'] = Config::get('app.url') . '/' . $inputs['slug'];
-        }
+
         $menu->update($inputs);
         return redirect()->route('admin.content.menu.index')->with('alertify-warning', 'منو موردنظر با موفقیت ویرایش شد.');
     }

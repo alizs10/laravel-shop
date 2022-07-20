@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Content\AdvertisementBaner;
 use App\Models\Content\Faq;
+use App\Models\Content\Menu;
 use App\Models\Content\Page;
 use App\Models\Content\Post;
 use App\Models\Content\PostCategory;
@@ -25,10 +26,11 @@ use App\Models\Ticket\TicketCategory;
 use App\Models\Ticket\TicketPriority;
 use App\Models\User;
 use App\Models\User\Role;
-use App\Policies\App\TicketPolicy as AppTicketPolicy;
+
 use App\Policies\Content\AdvertisementBanerPolicy;
 use App\Policies\Content\CommentPolicy;
 use App\Policies\Content\FaqPolicy;
+use App\Policies\Content\MenuPolicy;
 use App\Policies\Content\PagePolicy;
 use App\Policies\Content\PostCategoryPolicy;
 use App\Policies\Content\PostPolicy;
@@ -85,6 +87,7 @@ class AuthServiceProvider extends ServiceProvider
         AdvertisementBaner::class => AdvertisementBanerPolicy::class,
         Faq::class => FaqPolicy::class,
         Page::class => PagePolicy::class,
+        Menu::class => MenuPolicy::class,
 
         //market
         Delivery::class => DeliveryPolicy::class,

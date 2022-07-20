@@ -126,6 +126,7 @@ Route::namespace('App')->group(function () {
         Route::get('/recommended', [ProductsController::class, 'recommended'])->name('app.products.recommended');
         Route::get('/category/{category}', [ProductsController::class, 'categoryProducts'])->name('app.products.category-products');
         Route::get('/brand/{brand}', [ProductsController::class, 'brandProducts'])->name('app.products.brand-products');
+        Route::get('/last-visited-products', [ProductsController::class, 'lastVisitedProducts'])->name('app.products.last-visited-products');
     });
 
     //brands

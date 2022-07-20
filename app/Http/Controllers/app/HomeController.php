@@ -8,8 +8,10 @@ use App\Models\Market\AmazingSale;
 use App\Models\Market\Brand;
 use App\Models\Market\Product;
 use App\Models\Market\ProductCategory;
+use App\Models\ProductVisit;
 use App\Models\Visit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -39,6 +41,17 @@ class HomeController extends Controller
 
         $brands = Brand::all();
 
+        //get last visited products
+
+        $user = Auth::user();
+        if (!$user) {
+            $lastVisitedProducts = ProductVisit::where('ip_address', $ip_address)->get();
+        } else {
+            $lastVisitedProducts = $user->productVisits;
+        }
+        $lastVisitedProducts->filter(function ($item) {
+            return $item->product->ultimate_price > 0;
+        })->values();
 
         $amazingSaleProducts = AmazingSale::all();
         $amazingSaleProducts = $amazingSaleProducts->filter(function ($item) {
@@ -49,7 +62,7 @@ class HomeController extends Controller
         $leastMarketableProducts = $products->sortBy('marketable_number', SORT_NATURAL)->filter(function ($item) {
             return $item->ultimate_price > 0;
         })->values();
-        return view('app.index', compact('amazingSaleProducts', 'leastMarketableProducts', 'products', 'slideshowBaners', 'banerTwo', 'banerOne', 'banerThree', 'brands'));
+        return view('app.index', compact('amazingSaleProducts', 'leastMarketableProducts', 'products', 'lastVisitedProducts','slideshowBaners', 'banerTwo', 'banerOne', 'banerThree', 'brands'));
     }
 
     public function search(Request $request)

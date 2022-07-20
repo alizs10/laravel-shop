@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Market\Brand;
 use App\Models\Market\Product;
 use App\Models\Market\ProductCategory;
+use App\Models\ProductVisit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductsController extends Controller
 {
@@ -66,6 +68,29 @@ class ProductsController extends Controller
 
         $page = "برند $brand->persian_name";
 
+        return view('app.products', compact('page', 'products'));
+    }
+
+
+    public function lastVisitedProducts()
+    {
+        $user = Auth::user();
+        if (!$user) {
+            $ip_address = request()->ip();
+            $lastVisitedProducts = ProductVisit::where('ip_address', $ip_address)->get();
+        } else {
+            $lastVisitedProducts = $user->productVisits;
+        }
+        $lastVisitedProducts->filter(function ($item) {
+            return $item->product->ultimate_price > 0;
+        })->values();
+
+        $products = collect();
+        foreach ($lastVisitedProducts as $lastVisitedProduct) {
+            $products->push($lastVisitedProduct->product);
+        }
+        $page = "بازدیدهای اخیر شما";
+ 
         return view('app.products', compact('page', 'products'));
     }
 }

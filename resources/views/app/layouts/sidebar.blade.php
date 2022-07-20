@@ -18,6 +18,7 @@
                 <i class="{{ $menu->icon }} text-lg lg:text-xs"></i>
                 {{ $menu->name }}</a>
         @endforeach
+       
 
     </ul>
 

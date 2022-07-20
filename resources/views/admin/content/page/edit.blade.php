@@ -56,6 +56,11 @@
                         value="{{ old('title', $page->title) }}">
                 </div>
                 <div class="col-span-2 md:col-span-1 flex flex-col gap-y-1">
+                    <label for="slug"
+                        class="text-xs {{ $errors->has('slug') ? 'text-red-600 dark:text-red-400' : '' }}">اسلاگ</label>
+                    <input type="text" class="form-input" name="slug" id="slug" value="{{ old('slug', $page->slug) }}">
+                </div>
+                <div class="col-span-2 flex flex-col gap-y-1">
                     <label for="status"
                         class="text-xs {{ $errors->has('status') ? 'text-red-600 dark:text-red-400' : '' }}">وضعیت</label>
                     <select name="status" id="status" class="form-select" style="direction: ltr">

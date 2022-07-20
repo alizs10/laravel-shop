@@ -40,6 +40,7 @@ use App\Http\Controllers\Admin\User\RoleController;
 use App\Http\Controllers\app\CartController;
 use App\Http\Controllers\app\CompareController;
 use App\Http\Controllers\app\HomeController;
+use App\Http\Controllers\app\PageController as AppPageController;
 use App\Http\Controllers\app\PaymentController as AppPaymentController;
 use App\Http\Controllers\app\ProductController as AppProductController;
 use App\Http\Controllers\app\ProductsController;
@@ -129,10 +130,14 @@ Route::namespace('App')->group(function () {
         Route::get('/last-visited-products', [ProductsController::class, 'lastVisitedProducts'])->name('app.products.last-visited-products');
     });
 
+    //pages
+    Route::get('page/{page:slug}', [AppPageController::class, 'index'])->name('app.pages.index');
+
+
     //brands
     Route::get('/brands', [HomeController::class, 'brands'])->name('app.brand.index');
 
- 
+
 
     //cart
     Route::prefix('cart')->group(function () {
@@ -181,8 +186,8 @@ Route::namespace('App')->group(function () {
         //favorites
         Route::get('favorites', [UserController::class, 'favorites'])->name('app.user.favorites');
         Route::get('favorites/{product}/toggle', [AppProductController::class, 'toggleFavorite'])->name('app.user.favorites.toggle');
-    
-    
+
+
         //tickets
         Route::get('tickets', [UserController::class, 'tickets'])->name('app.user.tickets');
         Route::get('tickets/{ticket}', [UserController::class, 'showTicket'])->name('app.user.tickets.show-ticket');

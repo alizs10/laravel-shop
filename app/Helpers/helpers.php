@@ -27,7 +27,7 @@ function sidebarDropdownActiver($base, array $routes)
             return [
                 'btn' => "sidebar-active",
                 'rotate' => 'rotate-sidebar-btn',
-                'hidden' => '',
+                'hidden' => 'flex',
             ];
         }
     }

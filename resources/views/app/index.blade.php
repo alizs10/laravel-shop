@@ -6,9 +6,9 @@
 
 @section('content')
     <!-- slidershow starts -->
-    <section class="grid grid-cols-12 gap-2 md:h-2/3 h-1/3">
+    <section class="grid grid-cols-12 gap-2">
 
-        <section class="relative z-0 col-span-12 bg-white rounded-lg ltr overflow-hidden">
+        <section class="relative col-span-12 bg-white h-fit rounded-lg ltr overflow-hidden">
 
             <div id="slidershow-imgs" class="w-full flex flex-wrap overflow-hidden">
                 @foreach ($slideshowBaners as $key => $slideshow)
@@ -20,7 +20,7 @@
 
             </div>
 
-            <div id="s-btns" class="absolute bottom-4 z-0 right-0 left-0 py-3 flex-center gap-x-2">
+            <div id="s-btns" class="absolute bottom-4 right-0 left-0 py-3 flex-center gap-x-2">
                 @foreach ($slideshowBaners as $key => $slideshow)
                     <span id="s-btn-{{ $key + 1 }}"
                         class="transition-all duration-300 shadow-lg @if ($key == 0) bg-red-500 @else bg-white @endif w-4 h-3 rounded-lg cursor-pointer"></span>

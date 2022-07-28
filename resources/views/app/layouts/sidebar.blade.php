@@ -25,7 +25,7 @@
 
     <div class="col-span-12 lg:col-span-1 mt-3 lg:m-0">
         <span id="toggleCategories"
-            class="col-span-12 lg:col-span-1 lg:block lg:pt-1 lg:flex-center lg:pb-2 lg:text-center text-xxs font-bold lg:cursor-pointer lg:self-center lg:border-l-2 lg:border-b-2 border-gray-100 dark:border-gray-800">دسته
+            class="col-span-12 lg:col-span-1 mr-2 lg:m-0 lg:block lg:pt-1 lg:flex-center lg:pb-2 lg:text-center text-xxs font-bold lg:cursor-pointer lg:self-center lg:border-l-2 lg:border-b-2 border-gray-100 dark:border-gray-800">دسته
             بندی ها</span>
 
 

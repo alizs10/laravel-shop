@@ -1,5 +1,5 @@
 <header
-    class="fixed lg:z-40 top-0 right-0 left-0 bg-white dark:bg-gray-800 p-2 flex flex-col gap-y-2 shadow-md lg:shadow-none">
+    class="fixed z-20 lg:z-40 top-0 right-0 left-0 bg-white dark:bg-gray-800 p-2 flex flex-col gap-y-2 shadow-md lg:shadow-none">
 
     <section class="grid grid-cols-8 md:grid-cols-10 items-center">
         <div class="col-span-1 lg:hidden flex justify-start items-center">
@@ -99,7 +99,7 @@
                                 class="text-xs hidden sm:inline">{{ auth()->user()->fullName === ' ' ? Str::limit(auth()->user()->email, 15, '...') : Str::limit(auth()->user()->fullName, 15, '...') }}</span>
                         </span>
                         <div
-                            class="hidden flex-col absolute top-12 left-0 w-48 bg-gray-100 dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden">
+                            class="hidden z-50 flex-col absolute top-12 left-0 w-48 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
                             @if (auth()->user()->user_type == 1)
                                 <a href="{{ route('admin.home') }}"
                                     class="text-base flex gap-x-1 items-center py-2 hover-transition hover:bg-gray-200 dark:hover:bg-gray-700">

@@ -1,5 +1,5 @@
 <a href="{{ route('auth.redirect-to-google') }}"
-    class="btn mt-4 bg-white dark:bg-gray-600 dark:text-gray-100 w-3/4 lg:w-2/5 flex self-center justify-between items-center">
+    class="btn mt-4 bg-gray-200 dark:bg-gray-600 dark:text-gray-100 w-3/4 lg:w-2/5 flex self-center justify-between items-center">
     <span class="text-xs lg:text-sm">ورود با گوگل</span>
     <img src="{{ asset('app-assets/images/google.svg') }}" class="w-6" alt="">
 </a>

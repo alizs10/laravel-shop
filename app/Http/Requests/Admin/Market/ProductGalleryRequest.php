@@ -25,7 +25,7 @@ class ProductGalleryRequest extends FormRequest
     {
         return [
             'image' => 'required|array',
-            'image.*' => 'required|image|mimes:png,jpg,jpeg|max:2000'
+            'image.*' => 'required|image|mimes:png,jpg,jpeg,webp|max:2000'
         ];
     }
 }

@@ -20,7 +20,7 @@ class ImageService extends ImageToolsService
         $this->provider();
 
         //save image
-        $result = Image::make($image->getRealPath())->save(storage_path('app\public\\' . $this->getImageAddress()), null, $this->getImageFormat());
+        $result = Image::make($image->getRealPath())->save(storage_path('app' . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . $this->getImageAddress()), null, $this->getImageFormat());
         return $result ? $this->getImageAddress() : false;
     }
 

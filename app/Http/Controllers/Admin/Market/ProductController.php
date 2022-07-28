@@ -129,61 +129,60 @@ class ProductController extends Controller
 
         $inputs = $request->all();
         $inputs['published_at'] = date('Y-m-d', intval(substr($request->published_at, 0, 10)));
+      
         if ($request->hasFile('image')) {
 
             $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'product');
             $result = $imageService->createIndexAndSave($request->file('image'));
-            $inputs['image'] = $result;
-            $inputs['image']['currentImage'] = $request->currentImage;
-            unset($inputs['currentImage']);
             if ($result === false) {
                 return redirect()->route('admin.market.product.index')->with('alertify-error', 'آپلود تصویر با خطا مواجه شد');
             }
         }
-
-        $meta_keys = $request->meta_key;
-        $meta_values = $request->meta_value;
-        $metas = array_combine($meta_keys, $meta_values);
-
-
-        $oldMetas = $product->metas->toArray();
-        $newMetas = $metas;
+        $inputs['image'] = $result;
+        $product->update($inputs);
+        // $meta_keys = $request->meta_key;
+        // $meta_values = $request->meta_value;
+        // $metas = array_combine($meta_keys, $meta_values);
 
 
-        foreach ($newMetas as $key => $value) {
-
-            foreach ($oldMetas as $num => $oldMeta) {
-
-                if ($oldMeta['meta_key'] == $key && $oldMeta['meta_value'] == $value) {
-                    print_r($key . '-' . $num . '<br>');
-                    unset($oldMetas[$num]);
-                    unset($newMetas[$key]);
-                }
-            }
-        }
+        // $oldMetas = $product->metas->toArray();
+        // $newMetas = $metas;
 
 
+        // foreach ($newMetas as $key => $value) {
 
-        DB::transaction(function () use ($inputs, $product, $newMetas, $oldMetas) {
+        //     foreach ($oldMetas as $num => $oldMeta) {
 
-            $product->update($inputs);
+        //         if ($oldMeta['meta_key'] == $key && $oldMeta['meta_value'] == $value) {
+        //             print_r($key . '-' . $num . '<br>');
+        //             unset($oldMetas[$num]);
+        //             unset($newMetas[$key]);
+        //         }
+        //     }
+        // }
 
-            if (count($oldMetas) > 0) {
-                foreach ($oldMetas as $oldMeta) {
-                    ProductMeta::where(['meta_key' => $oldMeta['meta_key'], 'meta_value' => $oldMeta['meta_value'], 'product_id' => $oldMeta['product_id']])->delete();
-                }
-            }
 
-            if (count($newMetas) > 0) {
-                foreach ($newMetas as $new_meta_key => $new_meta_value) {
-                    ProductMeta::create([
-                        'meta_key' => $new_meta_key,
-                        'meta_value' => $new_meta_value,
-                        'product_id' => $product->id
-                    ]);
-                }
-            }
-        });
+
+        // DB::transaction(function () use ($inputs, $product, $newMetas, $oldMetas) {
+
+        //     $product->update($inputs);
+
+        //     if (count($oldMetas) > 0) {
+        //         foreach ($oldMetas as $oldMeta) {
+        //             ProductMeta::where(['meta_key' => $oldMeta['meta_key'], 'meta_value' => $oldMeta['meta_value'], 'product_id' => $oldMeta['product_id']])->delete();
+        //         }
+        //     }
+
+        //     if (count($newMetas) > 0) {
+        //         foreach ($newMetas as $new_meta_key => $new_meta_value) {
+        //             ProductMeta::create([
+        //                 'meta_key' => $new_meta_key,
+        //                 'meta_value' => $new_meta_value,
+        //                 'product_id' => $product->id
+        //             ]);
+        //         }
+        //     }
+        // });
 
 
         return redirect()->route('admin.market.product.index')->with('alertify-warning', 'محصول جدید با موفقیت ویرایش شد');

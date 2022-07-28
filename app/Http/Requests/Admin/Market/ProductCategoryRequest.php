@@ -30,7 +30,7 @@ class ProductCategoryRequest extends FormRequest
                 'status' => 'required|numeric|in:0,1',
                 'show_in_menu' => 'required|numeric|in:0,1',
                 'tags' => 'required|max:255|min:2',
-                'image' => 'required|mimes:png,jpg,jpeg|max:1000',
+                'image' => 'required|mimes:png,jpg,jpeg,webp|max:1000',
                 'parent_id' => 'nullable|numeric|exists:product_categories,id',
             ];
         }
@@ -41,7 +41,7 @@ class ProductCategoryRequest extends FormRequest
                 'status' => 'required|numeric|in:0,1',
                 'show_in_menu' => 'required|numeric|in:0,1',
                 'tags' => 'required|max:255|min:2',
-                'image' => 'nullable|mimes:png,jpg,jpeg|max:1000',
+                'image' => 'nullable|mimes:png,jpg,jpeg,webp|max:1000',
                 'parent_id' => 'nullable|numeric|exists:product_categories,id',
             ];
         }

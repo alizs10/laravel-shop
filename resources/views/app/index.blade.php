@@ -128,7 +128,7 @@
 
                 @foreach ($leastMarketableProducts as $leastMarketableProduct)
                     <div class="flex flex-col gap-y-2 p-2 rounded-lg bg-white text-black">
-                        <a href="{{ route('app.product.index', $amazingSale->product_id) }}" class="w-32">
+                        <a href="{{ route('app.product.index', $leastMarketableProduct->id) }}" class="w-32">
                             <img src="{{ asset('storage\\' . $leastMarketableProduct->image['indexArray']['medium']) }}"
                                 alt="">
                         </a>
@@ -311,7 +311,7 @@
 
             @foreach ($brands as $brand)
                 <a href="{{ route('app.products.brand-products', $brand->id) }}"
-                    class="rounded-lg bg-white text-black p-2 hover-transition hover:scale-110 overflow-hidden">
+                    class="flex-center rounded-lg bg-white text-black p-2 hover-transition hover:scale-110 overflow-hidden">
                     <img class="w-32" src="{{ asset('storage\\' . $brand->logo['indexArray']['small']) }}"
                         alt="brand">
                 </a>

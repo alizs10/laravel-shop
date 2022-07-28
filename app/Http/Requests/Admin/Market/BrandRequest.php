@@ -29,7 +29,7 @@ class BrandRequest extends FormRequest
                 'original_name' => 'required|max:255|min:2',
                 'status' => 'required|numeric|in:0,1',
                 'tags' => 'required|max:255|min:2',
-                'logo' => 'required|mimes:png,jpg,jpeg|max:1000',
+                'logo' => 'required|mimes:png,jpg,jpeg,webp|max:1000',
             ];
         }
         else {
@@ -38,7 +38,7 @@ class BrandRequest extends FormRequest
                 'original_name' => 'required|max:255|min:2',
                 'status' => 'required|numeric|in:0,1',
                 'tags' => 'required|max:255|min:2',
-                'logo' => 'nullable|mimes:png,jpg,jpeg|max:1000',
+                'logo' => 'nullable|mimes:png,jpg,jpeg,webp|max:1000',
             ];
         }
     }

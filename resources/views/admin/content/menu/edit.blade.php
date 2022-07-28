@@ -89,7 +89,11 @@
                         <option value="0" @if (old('status', $menu->status) == 0) selected @endif>غیرفعال</option>
                     </select>
                 </div>
-
+                <div class="col-span-2 md:col-span-1 flex flex-col gap-y-1">
+                    <label for="order_number"
+                        class="text-xs {{ $errors->has('order_number') ? 'text-red-600 dark:text-red-400' : '' }}">اولویت</label>
+                    <input type="text" class="form-input" name="order_number" id="order_number" value="{{ old('order_number', $menu->order_number) }}">
+                </div>
                 <button class="col-span-2 py-2 rounded-lg bg-emerald-600 text-white text-sm md:text-base">ثبت</button>
             </section>
         </form>

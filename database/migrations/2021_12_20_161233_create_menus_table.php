@@ -20,6 +20,7 @@ class CreateMenusTable extends Migration
             $table->string('url');
             $table->tinyInteger('status')->default(0);
             $table->foreignId('parent_id')->nullable()->constrained('menus')->onUpdate('cascade')->onDelete('cascade');
+            $table->bigInteger('order_number')->default(999);
             $table->timestamps();
             $table->softDeletes();
         });

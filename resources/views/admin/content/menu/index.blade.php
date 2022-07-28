@@ -34,6 +34,7 @@
                         <th>منو</th>
                         <th>منو والد</th>
                         <th>آدرس</th>
+                        <th>اولویت</th>
                         <th>وضعیت</th>
                         <th>عملیات</th>
                     </tr>
@@ -59,6 +60,7 @@
                                         @if ($menu->status === 1) checked @endif>
                                 </td>
                             @endcan
+                            <td>{{ e2p_numbers($menu->order_number) }}</td>
                             <td>
                                 <span class="flex items-center gap-x-1">
                                     @can('update', \App\Models\Content\Menu::class)

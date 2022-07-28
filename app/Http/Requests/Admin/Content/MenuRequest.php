@@ -29,14 +29,16 @@ class MenuRequest extends FormRequest
                 'icon' => 'nullable|max:255|min:2',
                 'slug' => 'required|string|max:50|min:1',
                 'parent_id' => 'nullable|exists:App\Models\Content\Menu,id',
-                'status' => 'required|numeric|in:0,1'
+                'status' => 'required|numeric|in:0,1',
+                'order_number' => 'required|integer|min:1|max:999'
             ];
         } else {
             return [
                 'name' => 'required|max:255|min:2',
                 'slug' => 'string|max:50|nullable',
                 'parent_id' => 'nullable|exists:App\Models\Content\Menu,id',
-                'status' => 'required|numeric|in:0,1'
+                'status' => 'required|numeric|in:0,1',
+                'order_number' => 'required|integer|min:1|max:999'
             ];
         }
     }

@@ -11,7 +11,7 @@ class Menu extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['name', 'icon', 'parent_id', 'url', 'status'];
+    protected $fillable = ['name', 'icon', 'parent_id', 'url', 'status', 'order_number'];
 
     public function url()
     {

@@ -14,8 +14,8 @@
 
         @foreach ($menus as $menu)
             <a href="{{ config('app.url') . '/' . $menu->url }}"
-                class="text-sm lg:text-xxs flex items-center gap-x-4 lg:gap-x-2 py-2 lg:p-0 mr-2 lg:pb-1 lg:border-b-2 lg:border-white dark:lg:border-gray-800 lg:hover-transition lg:hover:border-red-500 dark:lg:hover:border-red-500">
-                <i class="{{ $menu->icon }} text-lg lg:text-xs"></i>
+                class="text-sm lg:text-xs flex items-center gap-x-4 lg:gap-x-2 py-2 lg:p-0 mr-2 lg:pt-1 lg:pb-2 lg:border-b-2 lg:border-white dark:lg:border-gray-800 lg:hover-transition lg:hover:border-red-500 dark:lg:hover:border-red-500">
+                <i class="{{ $menu->icon }} text-lg lg:text-sm"></i>
                 {{ $menu->name }}</a>
         @endforeach
        
@@ -25,7 +25,7 @@
 
     <div class="col-span-12 lg:col-span-1 mt-3 lg:m-0">
         <span id="toggleCategories"
-            class="col-span-12 lg:col-span-1 mr-2 lg:m-0 lg:block lg:pt-1 lg:flex-center lg:pb-2 lg:text-center text-xxs font-bold lg:cursor-pointer lg:self-center lg:border-l-2 lg:border-b-2 border-gray-100 dark:border-gray-800">دسته
+            class="col-span-12 lg:col-span-1 mr-2 lg:m-0 lg:block lg:pt-1 lg:flex-center lg:pb-2 lg:text-center text-xxs lg:text-xs font-bold lg:cursor-pointer lg:self-center lg:border-l-2 lg:border-b-2 border-gray-100 dark:border-gray-800">دسته
             بندی ها</span>
 
 

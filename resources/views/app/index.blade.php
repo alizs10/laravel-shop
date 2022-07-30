@@ -220,7 +220,7 @@
 
                 @foreach ($lastVisitedProducts as $lastVisitedProduct)
                     <div class="flex flex-col gap-y-2 p-2 rounded-lg bg-white text-black">
-                        <a href="{{ route('app.product.index', $lastVisitedProduct->id) }}" class="w-32">
+                        <a href="{{ route('app.product.index', $lastVisitedProduct->product->id) }}" class="w-32">
                             <img src="{{ asset('storage\\' . $lastVisitedProduct->product->image['indexArray']['medium']) }}"
                                 alt="">
                         </a>

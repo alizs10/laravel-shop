@@ -74,10 +74,18 @@ class CartServices
 
         if (!empty($ip_address_cart_items)) {
             foreach ($ip_address_cart_items as $cart_item) {
-                $cart_item->update([
-                    'user_id' => $user->id,
-                    'ip_address' => null,
-                ]);
+                if($this->isInCart($cart_item->product, $this->getAttributes($cart_item)))
+                {
+                    $existing_cart_item = $this->isInCart($cart_item->product, $this->getAttributes($cart_item));
+                    $existing_cart_item->increment('number');
+                    $cart_item->delete();
+                } else {
+                    $cart_item->update([
+                        'user_id' => $user->id,
+                        'ip_address' => null,
+                    ]);
+                }
+                    
             }
         }
 

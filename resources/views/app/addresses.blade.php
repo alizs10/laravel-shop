@@ -61,6 +61,14 @@
                     </button>
                 </li>
                 <li>
+                    <a href="{{ route('app.user.tickets') }}" class="flex items-center gap-3 py-2">
+                        <i class="fa-light fa-ticket text-sm xs:text-2xl"></i>
+                        <span class="text-xs xs:text-base">
+                            تیکت های شما
+                        </span>
+                    </a>
+                </li>
+                <li>
                     <a href="{{ route('auth.logout') }}" class="flex items-center gap-3 py-2">
                         <i class="fa-light fa-right-from-bracket text-sm xs:text-2xl"></i>
                         <span class="text-xs xs:text-base">

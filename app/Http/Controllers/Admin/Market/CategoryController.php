@@ -18,7 +18,7 @@ class CategoryController extends Controller
     public function index()
     {
         $this->authorize('index', ProductCategory::class);
-        $productCategories = ProductCategory::orderBy('created_at', 'desc')->simplePaginate(10);
+        $productCategories = ProductCategory::orderBy('created_at', 'desc')->get();
         return view('admin.market.category.index', compact('productCategories'));
         
     }
@@ -53,9 +53,9 @@ class CategoryController extends Controller
             if ($result === false) {
                 return redirect()->route('admin.content.category.index')->with('alertify-error', 'آپلود تصویر با خطا مواجه شد');    
             }
+            $inputs['image'] = $result;
         }
         
-        $inputs['image'] = $result;
         ProductCategory::create($inputs);
         return redirect()->route('admin.market.category.index')->with('alertify-success', 'دسته بندی جدید با موفقیت اضافه شد');
     }

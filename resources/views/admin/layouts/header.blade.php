@@ -8,7 +8,7 @@
             <button id="user-popup-btn" onclick="userPopupToggle()"
                 class="relative flex flex-col gap-y-2 btn hover:bg-slate-200 dark:hover:bg-slate-700 hover-transition">
                 <span class="text-xs xs:text-sm">
-                    علی سلیمانی
+                    {{ auth()->user()->fullName }}
                     <span>
                         <i class="fa fa-angle-down text-xxs xs:text-xs"></i>
                     </span>
@@ -125,7 +125,7 @@
                     <ul class="w-full">
                         @foreach ($unseenComments as $unseenComment)
                             <li>
-                                <a href="{{ route('admin.market.comment.show', $unseenComment->id)}}"
+                                <a href="{{ route('admin.market.comment.show', $unseenComment->id) }}"
                                     class="flex flex-col gap-y-2 py-2 bg-slate-100 dark:bg-slate-900 hover:bg-slate-200 dark:hover:bg-slate-700 hover-transition">
                                     <div class="flex justify-between mx-2">
                                         <span class="flex gap-x-2">

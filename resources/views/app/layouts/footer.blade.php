@@ -9,7 +9,7 @@
         <div class="col-span-12 md:col-span-6 lg:col-span-3 flex flex-col gap-y-2">
             <span class="text-sm md:text-lg text-red-500"">درباره فروشگاه</span>
 
-            <span class=" text-justify leading-5 text-xs md:text-base">
+            <span class="text-justify leading-5 text-xs">
                 لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است،
                 چاپگرها و
                 متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و
@@ -19,7 +19,7 @@
             </span>
         </div>
 
-        <div class="col-span-12 md:col-span-6 lg:col-span-3 flex flex-col md:mt-7 gap-y-2 text-xs md:text-base">
+        <div class="col-span-12 md:col-span-6 lg:col-span-3 flex flex-col md:mt-7 gap-y-2 text-xs">
             <span class="">
                 <i class="fa-solid fa-location-dot text-lg text-gray-700 dark:text-gray-400"></i>
                 تهران بزرگ، تهران، شهرک صنعتی لاراول
@@ -36,8 +36,8 @@
 
         <div class="col-span-12 lg:col-span-6 grid grid-cols-12 items-end sm:items-start gap-4 mt-2">
 
-            <div class="col-span-6 flex flex-col justify-start gap-y-4 text-2xl md:text-4xl">
-                <span class="text-xxs md:text-base">لاراول در شبکه های اجتماعی</span>
+            <div class="col-span-6 flex flex-col justify-start gap-y-4 text-2xl">
+                <span class="text-xxs">لاراول در شبکه های اجتماعی</span>
 
                 <div class="flex gap-x-6">
                     <a href="" class="text-sky-400">

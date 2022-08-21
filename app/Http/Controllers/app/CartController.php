@@ -156,8 +156,8 @@ class CartController extends Controller
         $default_address = $user->addresses()->where('status', 1)->first();
         $default_delivery = Delivery::where('status', 1)->first();
 
-        $order_input['address_id'] = $default_address->id;
-        $order_input['address_object'] = $default_address;
+        $order_input['address_id'] = $default_address->id ?? null;
+        $order_input['address_object'] = $default_address ?? null;
         $order_input['delivery_id'] = $default_delivery->id;
         $order_input['delivery_object'] = $default_delivery;
         $order_input['delivery_amount'] = $default_delivery->amount;

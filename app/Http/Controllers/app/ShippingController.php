@@ -69,12 +69,17 @@ class ShippingController extends Controller
     }
 
 
+
     public function storePayment(Order $order)
     {
+        if (!$order->address_id || !$order->address_object) {
+            return redirect()->back()->with('address-error', "لطفا آدرس خود را انتخاب کنید");
+        }
+
         $paymentInputs['amount'] = $order->order_final_amount;
         $paymentInputs['user_id'] = $order->user_id;
         $paymentInputs['type'] = 0;
-        
+
         $payment = Payment::create($paymentInputs);
         $order->update(['payment_id' => $payment->id]);
 

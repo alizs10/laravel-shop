@@ -8,7 +8,7 @@ const alertsPopupToggle = () => {
         closePopups('alerts')
         $('#alerts-popup-btn div').removeClass('hidden');
         document.addEventListener('click', outsideClick);
-        if ($('#new-notifications-badge').length > 0) {
+        if ($('#new-alerts-badge').length > 0) {
             readNotifications();
         }
     } else {

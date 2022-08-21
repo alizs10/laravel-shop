@@ -40,46 +40,59 @@
                 </button>
             </span>
 
+            @if (session('address-error'))
+                <div
+                    class="p-3 shadow-md flex items-center text-red-500 gap-x-2 bg-white dark:bg-gray-800 rounded-lg text-xs">
+                    <i class="fa-light fa-triangle-exclamation text-lg"></i>
+                    <span>{{ session('address-error') }}</span>
+                </div>
+            @endif
+
             <div class="flex flex-col gap-2 mt-2">
 
-                @foreach ($user->addresses as $user_address)
-                    <div class="w-full flex flex-col gap-2 leading-6 rounded-lg bg-white dark:bg-gray-700 shadow-md p-3">
-                        <span class="text-sm">
-                            <i class="fa-light fa-city"></i>
-                            {{ $user_address->city->province->name }}، {{ $user_address->city->name }}</span>
-                        <span class="flex gap-2 text-sm">
-                            <i class="fa-light fa-map-pin"></i>
-                            <span>{{ $user_address->address . ($user_address->unit ? ' واحد ' . e2p_numbers($user_address->unit) : '') . ' پلاک ' . e2p_numbers($user_address->no) }}</span>
-                        </span>
-                        <span class="text-sm">
-                            <i class="fa-light fa-mailbox"></i>
-                            کدپستی: {{ e2p_numbers($user_address->postal_code) }}
-                        </span>
-                        <span class="text-sm">
-                            <i class="fa-light fa-user"></i>
-                            نام تحویل گیرنده: {{ $user_address->receiver_name }}
-                        </span>
-                        <span class="text-sm">
-                            <i class="fa-light fa-mobile"></i>
-                            موبایل تحویل گیرنده: {{ e2p_numbers($user_address->receiver_mobile) }}</span>
+                @if ($user->Addresses->count() > 0)
+                    @foreach ($user->addresses as $user_address)
+                        <div
+                            class="w-full flex flex-col gap-2 leading-6 rounded-lg bg-white dark:bg-gray-700 shadow-md p-3">
+                            <span class="text-sm">
+                                <i class="fa-light fa-city"></i>
+                                {{ $user_address->city->province->name }}، {{ $user_address->city->name }}</span>
+                            <span class="flex gap-2 text-sm">
+                                <i class="fa-light fa-map-pin"></i>
+                                <span>{{ $user_address->address . ($user_address->unit ? ' واحد ' . e2p_numbers($user_address->unit) : '') . ' پلاک ' . e2p_numbers($user_address->no) }}</span>
+                            </span>
+                            <span class="text-sm">
+                                <i class="fa-light fa-mailbox"></i>
+                                کدپستی: {{ e2p_numbers($user_address->postal_code) }}
+                            </span>
+                            <span class="text-sm">
+                                <i class="fa-light fa-user"></i>
+                                نام تحویل گیرنده: {{ $user_address->receiver_name }}
+                            </span>
+                            <span class="text-sm">
+                                <i class="fa-light fa-mobile"></i>
+                                موبایل تحویل گیرنده: {{ e2p_numbers($user_address->receiver_mobile) }}</span>
 
-                        <div class="flex justify-end">
-                            <div class="flex items-center gap-x-3">
+                            <div class="flex justify-end">
+                                <div class="flex items-center gap-x-3">
 
-                                <button onclick="selectAddress(this, {{ $user_address->id }})"
-                                    data-url="{{ route('app.shipping.select-address', [$order->id, $user_address->id]) }}"
-                                    class="px-3 py-2 border-2 flex-center gap-2 text-xs rounded-lg text-red-500 border-red-500 @if ($user_address->id == $order->address_id) selected-address @endif">
-                                    @if ($user_address->id == $order->address_id)
-                                        <i class="fa-regular fa-check"></i>
-                                        انتخاب شده
-                                    @else
-                                        انتخاب
-                                    @endif
-                                </button>
+                                    <button onclick="selectAddress(this, {{ $user_address->id }})"
+                                        data-url="{{ route('app.shipping.select-address', [$order->id, $user_address->id]) }}"
+                                        class="px-3 py-2 border-2 flex-center gap-2 text-xs rounded-lg text-red-500 border-red-500 @if ($user_address->id == $order->address_id) selected-address @endif">
+                                        @if ($user_address->id == $order->address_id)
+                                            <i class="fa-regular fa-check"></i>
+                                            انتخاب شده
+                                        @else
+                                            انتخاب
+                                        @endif
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                @endforeach
+                    @endforeach
+                @else
+                    <span class="text-xs text-red-500 text-center">آدرس خود را ثبت کنید</span>
+                @endif
 
 
             </div>
@@ -93,7 +106,7 @@
 
                 @foreach ($delivery_methods as $delivery_method)
                     <div onclick="selectDelivery(this)"
-                    data-url="{{ route('app.shipping.select-delivery', [$order->id, $delivery_method->id]) }}"
+                        data-url="{{ route('app.shipping.select-delivery', [$order->id, $delivery_method->id]) }}"
                         class="col-span-1 rounded-lg cursor-pointer shadow-md p-3 @if ($delivery_method->id == $order->delivery_id) selected-delivery bg-red-500 text-white @else bg-gray-200 dark:bg-gray-700 @endif flex flex-col gap-2">
                         <span class="flex gap-2">
                             <i class="fa-light fa-truck-bolt text-base"></i>
@@ -125,14 +138,16 @@
 
             <div
                 class="fixed right-0 bottom-0 left-0 z-30 md:z-0 flex justify-between items-center md:block md:static bg-gray-200 dark:bg-gray-800 md:bg-transparent p-3 md:p-0">
-                
+
                 <span
                     class="flex flex-col md:flex-row gap-2 md:justify-between items-center text-xxs xs:text-xs md:text-xxs lg:text-xs">
                     <span>مبلغ پرداختی</span>
-                    <span id="pay_price" >{{ price_formater($order->order_final_amount + $order->delivery_amount) }} تومان</span>
+                    <span id="pay_price">{{ price_formater($order->order_final_amount + $order->delivery_amount) }}
+                        تومان</span>
                 </span>
 
-                <a href="{{ route('app.shipping.store-payment', $order->id)}}" class="md:block text-center px-4 py-2 bg-red-500 text-xxs xs:text-sm rounded-lg mt-2 text-white">
+                <a href="{{ route('app.shipping.store-payment', $order->id) }}"
+                    class="md:block text-center px-4 py-2 bg-red-500 text-xxs xs:text-sm rounded-lg mt-2 text-white">
                     پرداخت
                 </a>
             </div>

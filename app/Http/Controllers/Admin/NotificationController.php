@@ -10,7 +10,7 @@ class NotificationController extends Controller
 {
     public function readAll()
     {
-        $unreadNotifications = Notification::where(['read_at' => null, 'type' => 'App\Notifications\Admin\PostCreated'])->get();
+        $unreadNotifications = Notification::all();
         foreach ($unreadNotifications as $notification) {
             $notification->update([
                 'read_at' => now()

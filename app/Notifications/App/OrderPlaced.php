@@ -1,24 +1,26 @@
 <?php
 
-namespace App\Notifications\Admin;
+namespace App\Notifications\App;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class ProductCreated extends Notification
+class OrderPlaced extends Notification
 {
     use Queueable;
+
+    protected $details;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($details)
     {
-        //
+        $this->details = $details;
     }
 
     /**
@@ -55,7 +57,9 @@ class ProductCreated extends Notification
     public function toArray($notifiable)
     {
         return [
-            //
+            'message' => $this->details['message'],
+            'username' => $this->details['username'],
+            'amount' => $this->details['amount'],
         ];
     }
 }

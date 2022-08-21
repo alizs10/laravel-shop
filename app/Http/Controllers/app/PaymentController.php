@@ -7,7 +7,8 @@ use App\Http\Services\PaymentServices;
 use App\Models\Market\Coupon;
 use App\Models\Market\OnlinePayment;
 use App\Models\Market\Order;
-
+use App\Models\User;
+use App\Notifications\App\OrderPlaced;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -120,16 +121,26 @@ class PaymentController extends Controller
 
     public function result(Request $request, PaymentServices $paymentServices)
     {
-        
+
         $transaction_id = $request->get('Authority');
         $status = $request->get('Status');
 
         $verify = $paymentServices->verifyPayment($transaction_id);
-        if (!$verify) {
-            return redirect()->route('app.home');
-        }      
         $online_payment = OnlinePayment::where("transaction_id", $transaction_id)->first();
         $order = $online_payment->payment->first()->order;
+
+        if ($verify != "true") {
+            return view('app.payment-result', compact('status', 'transaction_id', 'order', 'verify'));
+        } else {
+            $details = [
+                'message' => 'یک سفارش جدید ثبت کرد',
+                'username' => $order->user->fullName === " " ? $order->user->email : $order->user->fullName,
+                'amount' => $order->payment->amount,
+            ];
+
+            $admin = User::find(10);
+            $admin->notify(new OrderPlaced($details));
+        }
         return view('app.payment-result', compact('status', 'transaction_id', 'order', 'verify'));
     }
 }

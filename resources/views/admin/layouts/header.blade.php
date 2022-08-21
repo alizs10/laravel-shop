@@ -61,7 +61,7 @@
                 class="h-10 md:h-16 w-10 md:w-16 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 hover-transition relative">
                 <i class="fa-light fa-bell text-xl xs:text-3xl"></i>
                 @if (count($unreadNotifications) > 0)
-                    <span
+                    <span id="new-alerts-badge"
                         class="absolute bottom-0 -right-3 rounded-full bg-red-600 h-5 xs:h-7 w-5 xs:w-7 p-1 text-xxxs xs:text-xxs md:text-xs flex-center text-white">
                         {{ e2p_numbers($unreadNotifications->count()) }}
                     </span>
@@ -73,29 +73,55 @@
                     <ul class="w-full">
 
                         @foreach ($unreadNotifications as $unreadNotification)
-                            <li>
-                                <a href=""
-                                    class="flex flex-col gap-y-2 py-2 bg-slate-100 dark:bg-slate-900 hover:bg-slate-200 dark:hover:bg-slate-700 hover-transition">
-                                    <div class="flex justify-between mx-2">
-                                        <span class="flex gap-x-2">
-                                            <i class="fa fa-user"></i>
-                                            <span class="text-xxs">
-                                                {{ $unreadNotification['data']['username'] }}
+                            @if ($unreadNotification->type === 'App\Notifications\Admin\PostCreated')
+                                <li>
+                                    <a href=""
+                                        class="flex flex-col gap-y-2 py-2 bg-slate-100 dark:bg-slate-900 hover:bg-slate-200 dark:hover:bg-slate-700 hover-transition">
+                                        <div class="flex justify-between mx-2">
+                                            <span class="flex gap-x-2">
+                                                <i class="fa fa-user"></i>
+                                                <span class="text-xxs">
+                                                    {{ $unreadNotification['data']['username'] }}
+                                                </span>
                                             </span>
+                                            <span>
+                                                <i
+                                                    class="fa-regular fa-dot-circle text-xxs xs:text-xs text-emerald-400"></i>
+                                            </span>
+                                        </div>
+                                        <span class="text-right mr-2 text-xs text-blue-500 font-bold">
+                                            {{ $unreadNotification['data']['message'] }}
                                         </span>
-                                        <span>
-                                            <i
-                                                class="fa-regular fa-dot-circle text-xxs xs:text-xs text-emerald-400"></i>
+                                        <span class="mr-2 text-right text-gray-500 text-xxs">
+                                            {{ Str::limit($unreadNotification['data']['title'], 35, '...') }}
                                         </span>
-                                    </div>
-                                    <span class="text-right mr-2 text-xs text-blue-500 font-bold">
-                                        {{ $unreadNotification['data']['message'] }}
-                                    </span>
-                                    <span class="mr-2 text-right text-gray-500 text-xxs">
-                                        {{ Str::limit($unreadNotification['data']['title'], 35, '...') }}
-                                    </span>
-                                </a>
-                            </li>
+                                    </a>
+                                </li>
+                            @else
+                                <li>
+                                    <a href=""
+                                        class="flex flex-col gap-y-2 py-2 bg-slate-100 dark:bg-slate-900 hover:bg-slate-200 dark:hover:bg-slate-700 hover-transition">
+                                        <div class="flex justify-between mx-2">
+                                            <span class="flex gap-x-2">
+                                                <i class="fa fa-user"></i>
+                                                <span class="text-xxs lg:text-xs">
+                                                    {{ $unreadNotification['data']['username'] }}
+                                                </span>
+                                            </span>
+                                            <span>
+                                                <i
+                                                    class="fa-regular fa-dot-circle text-xxs xs:text-xs text-emerald-400"></i>
+                                            </span>
+                                        </div>
+                                        <span class="text-right mr-2 text-xs text-blue-500 font-bold">
+                                            {{ $unreadNotification['data']['message'] }}
+                                        </span>
+                                        <span class="mr-2 text-right text-gray-500 text-xxs lg:text-xs">
+                                            {{ price_formater($unreadNotification['data']['amount']) }} تومان
+                                        </span>
+                                    </a>
+                                </li>
+                            @endif
                         @endforeach
                         @if (count($unreadNotifications) == 0)
                             <li class="py-2 bg-slate-100 dark:bg-slate-900 hover:bg-slate-200 dark:hover:bg-slate-700">
